@@ -1,4 +1,4 @@
-package com.example.wefaq
+package com.swe444.wefaq
 
 import io.flutter.embedding.android.FlutterActivity
 
