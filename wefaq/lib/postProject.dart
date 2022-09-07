@@ -10,6 +10,8 @@ import 'package:google_place/google_place.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wefaq/projectsScreen.dart';
 
+import 'bottom_bar_custom.dart';
+
 class PostProject extends StatefulWidget {
   const PostProject({Key? key}) : super(key: key);
 
@@ -54,6 +56,10 @@ class _PostProjectState extends State<PostProject> {
               style: TextStyle(
                   color: Color.fromARGB(144, 64, 7, 87),
                   fontWeight: FontWeight.bold))),
+      bottomNavigationBar: CustomNavigationBar(
+        currentHomeScreen: 4,
+        updatePage: () {},
+      ),
       body: Container(
         child: Form(
           key: _formKey,
