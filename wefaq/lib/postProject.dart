@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:async';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:multiselect/multiselect.dart';
 import 'package:get/get.dart';
 import 'package:google_place/google_place.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wefaq/projectsScreen.dart';
 
 class PostProject extends StatefulWidget {
   const PostProject({Key? key}) : super(key: key);
@@ -32,143 +35,151 @@ class _PostProjectState extends State<PostProject> {
   Rx<List<String>> selectedOptionList = Rx<List<String>>([]);
   var selectedOption = ''.obs;
 
+  //Project looking for lis
+  List<String> options2 = [
+    "Developers",
+    "Testers",
+    "Designers",
+    "Managers",
+  ];
+  Rx<List<String>> selectedOptionList2 = Rx<List<String>>([]);
+  var selectedOption2 = ''.obs;
+
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Post Project"),
-      ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
-          children: <Widget>[
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: "Project name",
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.black87,
-                    width: 2.0,
+          title: Text('Post project',
+              style: TextStyle(
+                  color: Color.fromARGB(144, 64, 7, 87),
+                  fontWeight: FontWeight.bold))),
+      body: Container(
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
+            children: <Widget>[
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: "Project name",
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.black87,
+                      width: 2.0,
+                    ),
                   ),
                 ),
+                controller: _nameEditingController,
               ),
-              controller: _nameEditingController,
-            ),
-            SizedBox(height: 20.0),
-            Padding(
-              padding: const EdgeInsets.all(0),
-              child: SearchScreen(),
-            ),
-            TextFormField(
-              maxLines: 3,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black87, width: 2.0),
+              SizedBox(height: 25.0),
+              Align(
+                child: SearchScreen(),
+              ),
+              TextFormField(
+                maxLines: 3,
+                decoration: InputDecoration(
+                  suffixIcon: _descriptionEditingController.text.isNotEmpty
+                      ? IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _descriptionEditingController.clear();
+                            });
+                          },
+                          icon: Icon(Icons.clear_outlined),
+                        )
+                      : null,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black87, width: 2.0),
+                  ),
+                  labelText: "Project description",
                 ),
-                hintText: "Project description",
+                controller: _descriptionEditingController,
               ),
-              controller: _descriptionEditingController,
-            ),
-            SizedBox(height: 20.0),
-            DropDownMultiSelect(
-              options: options,
-              whenEmpty: 'Select project catogery',
-              onChanged: (Value) {
-                selectedOptionList.value = Value;
-                selectedOption.value = '';
-                selectedOptionList.value.forEach((element) {
-                  selectedOption.value = selectedOption.value + " " + element;
-                });
-              },
-              selectedValues: selectedOptionList.value,
-            ),
-            SizedBox(height: 20.0),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Looking for',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold),
-                ),
+              SizedBox(height: 25.0),
+              DropDownMultiSelect(
+                options: options,
+                whenEmpty: 'Select project catogery',
+                onChanged: (Value) {
+                  selectedOptionList.value = Value;
+                  selectedOption.value = '';
+                  selectedOptionList.value.forEach((element) {
+                    selectedOption.value = selectedOption.value + " " + element;
+                  });
+                },
+                selectedValues: selectedOptionList.value,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Wrap(
-                  spacing: 5.0,
-                  runSpacing: 3.0,
-                  children: const <Widget>[
-                    filterChipWidget(chipName: 'Developers'),
-                    filterChipWidget(chipName: 'Testers'),
-                    filterChipWidget(chipName: 'Designers'),
-                    filterChipWidget(chipName: 'Managers'),
-                  ],
-                ),
+              SizedBox(height: 25.0),
+              DropDownMultiSelect(
+                options: options2,
+                whenEmpty: 'Looking for',
+                onChanged: (Value) {
+                  selectedOptionList2.value = Value;
+                  selectedOption2.value = '';
+                  selectedOptionList2.value.forEach((element) {
+                    selectedOption2.value =
+                        selectedOption2.value + " " + element;
+                  });
+                },
+                selectedValues: selectedOptionList2.value,
               ),
-            ),
-            SizedBox(height: 20.0),
-            SizedBox(
-              width: double.infinity,
-              height: 50.0,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 215, 189, 226)),
-                  child: Text('Post',
-                      style: TextStyle(color: Colors.white, fontSize: 16.0)),
-                  onPressed: () {
-                    _firestore.collection('projects').add({
-                      'name': _nameEditingController.text,
-                      'description': _descriptionEditingController.text,
-                    });
-                  }),
-            ),
-          ],
+              SizedBox(height: 40.0),
+              SizedBox(
+                width: 50,
+                height: 50.0,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Color.fromARGB(144, 64, 7, 87),
+                    ),
+                    child: Text('Post',
+                        style: TextStyle(color: Colors.white, fontSize: 16.0)),
+                    onPressed: () {
+                      if (_nameEditingController.text == "" ||
+                          _SearchScreenState._startSearchFieldController.text ==
+                              "" ||
+                          _descriptionEditingController.text == "" ||
+                          selectedOptionList.value.length == 0 ||
+                          selectedOptionList2.value.length == 0) {
+                        CoolAlert.show(
+                          context: context,
+                          title: "Missing fields!",
+                          confirmBtnColor: Color.fromARGB(255, 201, 166, 216),
+                          type: CoolAlertType.info,
+                          backgroundColor: Color.fromARGB(255, 222, 201, 231),
+                          text: "Please fill out all fields",
+                        );
+                      } else {
+                        _firestore.collection('projects').add({
+                          'name': _nameEditingController.text,
+                          'location': _SearchScreenState
+                              ._startSearchFieldController.text,
+                          'description': _descriptionEditingController.text,
+                          'category': selectedOptionList.value,
+                          'lookingFor': selectedOptionList2.value
+                        });
+                        //Clear
+                        _nameEditingController.clear();
+                        _SearchScreenState._startSearchFieldController.clear();
+                        _descriptionEditingController.clear();
+                        selectedOptionList.value.clear();
+                        selectedOptionList2.value.clear();
+                        //sucess message
+                        CoolAlert.show(
+                            context: context,
+                            title: "Success!",
+                            confirmBtnColor: Color.fromARGB(255, 201, 166, 216),
+                            type: CoolAlertType.success,
+                            backgroundColor: Color.fromARGB(255, 222, 201, 231),
+                            text: "Project posted successfuly");
+                        //Show the projects screen
+
+                      }
+                    }),
+              ),
+            ],
+          ),
         ),
       ),
-    );
-  }
-}
-
-//Catogray ChipWidget
-class filterChipWidget extends StatefulWidget {
-  final String chipName;
-
-  const filterChipWidget({Key? key, required this.chipName}) : super(key: key);
-
-  @override
-  _filterChipWidgetState createState() => _filterChipWidgetState();
-}
-
-class _filterChipWidgetState extends State<filterChipWidget> {
-  var _isSelected = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return FilterChip(
-      label: Text(widget.chipName),
-      labelStyle: TextStyle(
-          color: Color(0xff6200ee),
-          fontSize: 14.0,
-          fontWeight: FontWeight.normal),
-      selected: _isSelected,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30.0),
-      ),
-      backgroundColor: Color(0xffededed),
-      onSelected: (isSelected) {
-        setState(() {
-          _isSelected = isSelected;
-        });
-      },
-      selectedColor: Color(0xffeadffd),
     );
   }
 }
@@ -180,7 +191,8 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final _startSearchFieldController = TextEditingController();
+  static final TextEditingController _startSearchFieldController =
+      TextEditingController();
 
   DetailsResult? startPosition;
 
@@ -220,7 +232,7 @@ class _SearchScreenState extends State<SearchScreen> {
           controller: _startSearchFieldController,
           style: TextStyle(fontSize: 14),
           decoration: InputDecoration(
-              hintText: 'Project location',
+              labelText: 'Project location',
               hintStyle:
                   const TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
               border: OutlineInputBorder(
@@ -260,7 +272,7 @@ class _SearchScreenState extends State<SearchScreen> {
             itemBuilder: (context, index) {
               return ListTile(
                 leading: CircleAvatar(
-                  backgroundColor: Color.fromARGB(255, 215, 189, 226),
+                  backgroundColor: Color.fromARGB(255, 202, 186, 232),
                   child: Icon(
                     Icons.pin_drop,
                     color: Colors.white,
