@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:wefaq/profile.dart';
+import 'package:wefaq/projectsScreen.dart';
+import 'package:wefaq/selectionScreen.dart';
 
 class CustomNavigationBar extends StatefulWidget {
   const CustomNavigationBar(
@@ -66,7 +69,10 @@ class BottomBarMiddleButton extends StatelessWidget {
       width: 55,
       height: 55,
       child: TextButton(
-        onPressed: () => updatePage(2),
+        onPressed: () => {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => selectionScreen()))
+        },
         style: ButtonStyle(
           padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
           elevation: MaterialStateProperty.all(8),
@@ -117,7 +123,22 @@ class BottomBarButton extends StatelessWidget {
           splashColor: Color.fromARGB(0, 207, 6, 6),
           highlightColor: Color.fromARGB(0, 201, 25, 25),
           padding: const EdgeInsets.all(0),
-          onPressed: () => updatePage(index),
+          onPressed: () => {
+                if (index == 0)
+                  {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProjectsListViewPage()))
+                  }
+                else if (index == 4)
+                  {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => profileScreen()))
+                  }
+              },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 500),
             child: Icon(

@@ -1,11 +1,11 @@
 import 'dart:developer';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:wefaq/postEvent.dart';
 import 'package:wefaq/postProject.dart';
 import 'package:wefaq/profile.dart';
 import 'package:wefaq/projectsScreen.dart';
+import 'package:wefaq/selectionScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,11 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-          colorSchemeSeed: const Color.fromARGB(255, 215, 189, 226),
-          useMaterial3: true,
-          brightness: Brightness.light),
-      home: profileScreen(),
+      home: ProjectsListViewPage(),
     );
   }
 }

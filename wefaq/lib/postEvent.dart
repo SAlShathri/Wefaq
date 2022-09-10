@@ -36,6 +36,12 @@ class _PostEventState extends State<PostEvent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+            backgroundColor: Color.fromARGB(221, 137, 171, 187),
+            title: Text('Post event',
+                style: TextStyle(
+                    color: Color.fromARGB(144, 64, 7, 87),
+                    fontWeight: FontWeight.bold))),
         bottomNavigationBar: CustomNavigationBar(
           currentHomeScreen: 2,
           updatePage: () {},
@@ -54,19 +60,6 @@ class _PostEventState extends State<PostEvent> {
                       EdgeInsets.symmetric(horizontal: 30.0, vertical: 40.0),
                   children: <Widget>[
                     SizedBox(height: 50.0),
-
-                    Container(
-                      child: Text(
-                        'Post Event',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 72, 27, 151),
-                          fontSize: 25,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
 
                     TextFormField(
                       decoration: InputDecoration(
@@ -207,7 +200,6 @@ class _SearchScreenState extends State<SearchScreen> {
   void autoCompleteSearch(String value) async {
     var result = await googlePlace.autocomplete.get(value);
     if (result != null && result.predictions != null && mounted) {
-      print(result.predictions!.first.description);
       setState(() {
         predictions = result.predictions!;
       });
