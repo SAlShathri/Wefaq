@@ -4,12 +4,12 @@ import 'package:wefaq/bottom_bar_custom.dart';
 import 'package:wefaq/models/project.dart';
 
 // Main Stateful Widget Start
-class ProjectsListViewPage extends StatefulWidget {
+class EventsListViewPage extends StatefulWidget {
   @override
   _ListViewPageState createState() => _ListViewPageState();
 }
 
-class _ListViewPageState extends State<ProjectsListViewPage> {
+class _ListViewPageState extends State<EventsListViewPage> {
   @override
   void initState() {
     // TODO: implement initState
@@ -29,16 +29,19 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
   // location list
   var locList = [];
 
-  //Looking for list
-  var lookingForList = [];
+  //url list
+  var urlList = [];
 
   //category list
   var categoryList = [];
 
+  //category list
+  var dateTimeList = [];
+
 //get all projects
   Future getProjects() async {
     await for (var snapshot in _firestore
-        .collection('projects')
+        .collection('events')
         .orderBy('created', descending: true)
         .snapshots())
       for (var project in snapshot.docs) {
@@ -46,8 +49,9 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
           nameList.add(project['name']);
           descList.add(project['description']);
           locList.add(project['location']);
-          lookingForList.add(project['lookingFor']);
+          urlList.add(project['regstretion url ']);
           categoryList.add(project['category']);
+          //  dateTimeList.add(project['dateTime ']);
         });
       }
   }
@@ -72,7 +76,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
           actions: <Widget>[
             IconButton(
               icon: Icon(
-                Icons.menu,
+                Icons.logout,
                 color: Colors.white,
               ),
               onPressed: () {
@@ -99,7 +103,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                 },
                 // Card Which Holds Layout Of ListView Item
                 child: SizedBox(
-                  height: 170,
+                  height: 150,
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
@@ -148,44 +152,37 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                                 ],
                               ),
                               SizedBox(
+                                height: 0,
+                              ),
+                              /* Row(
+                                children: <Widget>[
+                                  const Icon(Icons.timelapse_rounded,
+                                      color: Color.fromARGB(248, 170, 167, 8)),
+                                  Text(dateTimeList[index],
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color:
+                                              Color.fromARGB(221, 81, 122, 140),
+                                          fontWeight: FontWeight.bold))
+                                ],
+                              ),*/
+                              SizedBox(
                                 height: 10,
                               ),
                               Row(
                                 children: <Widget>[
                                   const Icon(
-                                    Icons.search,
+                                    Icons.add_link_outlined,
                                     color: Color.fromARGB(248, 170, 167, 8),
                                     size: 28,
                                   ),
-                                  Text("Looking For: ",
+                                  Text("  " + urlList[index],
                                       style: TextStyle(
-                                          fontSize: 18,
+                                          fontSize: 16,
                                           color:
-                                              Color.fromARGB(221, 81, 122, 140),
-                                          fontWeight: FontWeight.bold)),
+                                              Color.fromARGB(221, 79, 128, 151),
+                                          fontWeight: FontWeight.normal)),
                                 ],
-                              ),
-                              Expanded(
-                                child: Text("  " + lookingForList[index],
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color:
-                                            Color.fromARGB(221, 79, 128, 151),
-                                        fontWeight: FontWeight.normal)),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 290),
-                                  child: ElevatedButton(
-                                    onPressed: () => {},
-                                    child: Text('Join',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 15)),
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Color.fromARGB(144, 64, 7, 87),
-                                    ),
-                                  ),
-                                ),
                               ),
                             ],
                           ),

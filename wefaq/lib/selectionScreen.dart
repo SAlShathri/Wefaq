@@ -20,7 +20,7 @@ class selectionScreen extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/postProjectScreen.JPG"),
+            image: AssetImage("assets/images/post.png"),
             fit: BoxFit.cover,
           ),
         ),
