@@ -298,7 +298,7 @@ class _PostProjectState extends State<PostProject> {
                       return null;
                     }),
               ),
-              SizedBox(height: 40.0),
+              SizedBox(height: 15),
               SizedBox(
                 width: 50,
                 height: 50.0,

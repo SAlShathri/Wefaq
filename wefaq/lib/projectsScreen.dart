@@ -60,6 +60,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+            automaticallyImplyLeading: false,
             backgroundColor: Color.fromARGB(221, 137, 171, 187),
             bottom: const TabBar(
               tabs: [
