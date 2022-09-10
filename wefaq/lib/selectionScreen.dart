@@ -13,6 +13,20 @@ class selectionScreen extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Post', style: TextStyle(color: Colors.white)),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
+              onPressed: () {
+//log out
+              }),
+        ],
+        backgroundColor: Color.fromARGB(255, 161, 155, 207),
+      ),
       bottomNavigationBar: CustomNavigationBar(
         currentHomeScreen: 2,
         updatePage: () {},

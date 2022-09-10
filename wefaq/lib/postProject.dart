@@ -78,6 +78,16 @@ class _PostProjectState extends State<PostProject> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(
+                  Icons.logout,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
+                onPressed: () {
+                  // do something
+                }),
+          ],
           backgroundColor: Color.fromARGB(221, 137, 171, 187),
           title: Text('Post project',
               style: TextStyle(
@@ -304,7 +314,7 @@ class _PostProjectState extends State<PostProject> {
                 height: 50.0,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(144, 64, 7, 87),
+                      shadowColor: Color.fromARGB(144, 64, 7, 87),
                     ),
                     child: Text('Post',
                         style: TextStyle(color: Colors.white, fontSize: 16.0)),

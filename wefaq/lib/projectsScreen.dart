@@ -62,6 +62,16 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
         appBar: AppBar(
             automaticallyImplyLeading: false,
             backgroundColor: Color.fromARGB(221, 137, 171, 187),
+            actions: <Widget>[
+              IconButton(
+                  icon: Icon(
+                    Icons.logout,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  ),
+                  onPressed: () {
+                    // Log out
+                  }),
+            ],
             bottom: const TabBar(
               tabs: [
                 Tab(text: 'Projects'),
@@ -226,6 +236,23 @@ showDialogFunc(context, title, desc) {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 40,
+                ),
+                Container(
+                  width: 170,
+                  alignment: Alignment.center,
+                  child: Expanded(
+                    child: ElevatedButton(
+                      onPressed: () => {},
+                      child:
+                          Text('Join', style: TextStyle(color: Colors.white)),
+                      style: ElevatedButton.styleFrom(
+                        primary: Color.fromARGB(144, 64, 7, 87),
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
