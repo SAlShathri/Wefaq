@@ -1,11 +1,16 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:intl/intl.dart';
+import 'package:wefaq/bottom_bar_custom.dart';
 import 'dart:async';
+import 'package:cool_alert/cool_alert.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:multiselect/multiselect.dart';
 import 'package:get/get.dart';
-import 'package:wefaq/bottom_bar_custom.dart';
-import 'package:flutter/material.dart';
 import 'package:google_place/google_place.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wefaq/projectsScreen.dart';
 
 class PostEvent extends StatefulWidget {
   const PostEvent({Key? key}) : super(key: key);
@@ -15,24 +20,66 @@ class PostEvent extends StatefulWidget {
 }
 
 class _PostEventState extends State<PostEvent> {
+  final _firestore = FirebaseFirestore.instance;
   final TextEditingController _nameEditingController = TextEditingController();
   final TextEditingController _descriptionEditingController =
       TextEditingController();
-  List<String> options = [
-    "AI",
-    "Web",
-    "iOS",
-    "Android",
-    "Flutter",
-    "React Native",
-    "UI/UX"
-  ];
-  Rx<List<String>> selectedOptionList = Rx<List<String>>([]);
-  var selectedOption = ''.obs;
-
-  late String _chosenValue;
+  final TextEditingController _lookingForEditingController =
+      TextEditingController();
+  static final TextEditingController _startSearchFieldController =
+      TextEditingController();
   DateTime dateTime = DateTime.now();
+
+  final TextEditingController _urlEditingController = TextEditingController();
+
+  DetailsResult? startPosition;
+
+  late GooglePlace googlePlace;
+  List<AutocompletePrediction> predictions = [];
+  Timer? _debounce;
+
+  // Project category list
+  List<String> options = [];
+
+  String? selectedCat;
+
+  @override
+  void initState() {
+    // call the methods to fetch the data from the DB
+    getCategoryList();
+
+    super.initState();
+    String apiKey = 'AIzaSyCkRaPfvVejBlQIAWEjc9klnkqk6olnhuc';
+    googlePlace = GooglePlace(apiKey);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void autoCompleteSearch(String value) async {
+    var result = await googlePlace.autocomplete.get(value);
+    if (result != null && result.predictions != null && mounted) {
+      setState(() {
+        predictions = result.predictions!;
+      });
+    }
+  }
+
+  void getCategoryList() async {
+    final categories = await _firestore.collection('categories').get();
+    for (var category in categories.docs) {
+      for (var element in category['categories']) {
+        setState(() {
+          options.add(element);
+        });
+      }
+    }
+  }
+
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,19 +95,16 @@ class _PostEventState extends State<PostEvent> {
                   }),
             ],
             backgroundColor: Color.fromARGB(221, 137, 171, 187),
-            title: Text('Post event',
+            title: Text('Post Event',
                 style: TextStyle(
-                    color: Color.fromARGB(144, 64, 7, 87),
-                    fontWeight: FontWeight.bold))),
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(144, 64, 7, 87),
+                ))),
         bottomNavigationBar: CustomNavigationBar(
           currentHomeScreen: 2,
           updatePage: () {},
         ),
-        body: Container(
-          // decoration: BoxDecoration(
-          //     image: DecorationImage(
-          //         image: AssetImage('images/backgroundPost.png'),
-          //         fit: BoxFit.cover)),
+        body: Scrollbar(
           child: Stack(
             children: [
               Form(
@@ -69,57 +113,172 @@ class _PostEventState extends State<PostEvent> {
                   padding:
                       EdgeInsets.symmetric(horizontal: 30.0, vertical: 40.0),
                   children: <Widget>[
-                    SizedBox(height: 50.0),
-
                     TextFormField(
-                      decoration: InputDecoration(
-                        labelText: "Event Name",
-                        border: OutlineInputBorder(
+                        maxLength: 20,
+                        decoration: InputDecoration(
+                          labelText: "Event Name",
+                          labelStyle: TextStyle(
+                              fontSize: 18,
+                              color: Color.fromARGB(144, 64, 7, 87)),
+                          border: OutlineInputBorder(
                             borderSide: BorderSide(
-                                color: Color.fromARGB(221, 87, 170, 194),
-                                width: 2.0)),
-                      ),
-                      controller: _nameEditingController,
-                    ),
+                              color: Color.fromARGB(144, 64, 7, 87),
+                              width: 2.0,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color.fromARGB(144, 64, 7, 87),
+                              width: 2.0,
+                            ),
+                          ),
+                        ),
+                        controller: _nameEditingController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the Event Name';
+                          }
+                        }),
                     SizedBox(height: 20.0),
                     TextFormField(
-                      maxLines: 3,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color.fromARGB(221, 163, 20, 20),
-                                width: 2.0)),
-                        labelText: "Event Description",
-                      ),
-                      controller: _descriptionEditingController,
+                        controller: _startSearchFieldController,
+                        decoration: InputDecoration(
+                            labelText: 'Event Location',
+                            labelStyle: TextStyle(
+                                fontSize: 18,
+                                color: Color.fromARGB(144, 64, 7, 87)),
+                            border: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.black87, width: 2.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color.fromARGB(144, 64, 7, 87),
+                                width: 2.0,
+                              ),
+                            ),
+                            suffixIcon: _startSearchFieldController
+                                    .text.isNotEmpty
+                                ? IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        predictions = [];
+                                        _startSearchFieldController.clear();
+                                      });
+                                    },
+                                    icon: Icon(Icons.clear_outlined),
+                                  )
+                                : Icon(Icons.location_searching,
+                                    color: Color.fromARGB(221, 137, 171, 187))),
+                        onChanged: (value) {
+                          if (_debounce?.isActive ?? false) _debounce!.cancel();
+                          _debounce =
+                              Timer(const Duration(milliseconds: 1000), () {
+                            if (value.isNotEmpty) {
+                              //places api
+                              autoCompleteSearch(value);
+                            } else {
+                              //clear out the results
+                              setState(() {
+                                predictions = [];
+                                startPosition = null;
+                              });
+                            }
+                          });
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the Event location.';
+                          }
+                        }),
+                    Scrollbar(
+                      thumbVisibility: true,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: predictions.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor:
+                                    Color.fromARGB(221, 137, 171, 187),
+                                child: Icon(
+                                  Icons.pin_drop,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              title: Text(
+                                predictions[index].description.toString(),
+                              ),
+                              onTap: () async {
+                                final placeId = predictions[index].placeId!;
+                                final details =
+                                    await googlePlace.details.get(placeId);
+                                if (details != null &&
+                                    details.result != null &&
+                                    mounted) {
+                                  setState(() {
+                                    startPosition = details.result;
+                                    _startSearchFieldController.text =
+                                        details.result!.name!;
+
+                                    predictions = [];
+                                  });
+                                }
+                              },
+                            );
+                          }),
                     ),
-                    /*
-                const SizedBox(height: 20.0),
-                Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: SearchScreen(),
-                ),*/
 
                     SizedBox(height: 20.0),
 
-                    DropDownMultiSelect(
-                      options: options,
-                      whenEmpty: 'Select project catogery',
-                      onChanged: (Value) {
-                        selectedOptionList.value = Value;
-                        selectedOption.value = '';
-                        selectedOptionList.value.forEach((element) {
-                          selectedOption.value =
-                              selectedOption.value + " " + element;
+                    DropdownButtonFormField(
+                      hint: Text(
+                        "Select event catogory",
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Color.fromARGB(167, 73, 1, 102)),
+                      ),
+                      items: options
+                          .map((e) => DropdownMenuItem(
+                                value: e,
+                                child: Text(e),
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedCat = value as String?;
                         });
                       },
-                      selectedValues: selectedOptionList.value,
+                      icon: Icon(
+                        Icons.arrow_drop_down_circle,
+                        color: Color.fromARGB(221, 137, 171, 187),
+                      ),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromARGB(144, 64, 7, 87),
+                            width: 2.0,
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value == "") {
+                          return 'Please select the event catogory.';
+                        }
+                      },
                     ),
                     const SizedBox(height: 15.0),
-                    /* Text(
-                  '${dateTime.day}/${dateTime.month}/${dateTime.year}-${dateTime.hour}:${dateTime.minute}',
-                  style: const TextStyle(fontSize: 20),
-                ), //Date and Time8*/
+
+                    Text(
+                      '${dateTime.day}/${dateTime.month}/${dateTime.year} - ${dateTime.hour}:${dateTime.minute}',
+                      style: const TextStyle(
+                          fontSize: 18, color: Color.fromARGB(255, 58, 86, 96)),
+                    ),
+                    //Date and Time8
+                    //Date and Time
                     const SizedBox(height: 10.0),
                     ElevatedButton(
                       child: const Text('Select Date and Time',
@@ -144,30 +303,120 @@ class _PostEventState extends State<PostEvent> {
                         });
                       },
                     ), //URL
-
                     const SizedBox(height: 20.0),
                     TextFormField(
-                      decoration: InputDecoration(
-                        labelText: "Registration url",
-                        border: OutlineInputBorder(
+                        decoration: InputDecoration(
+                          labelText: "Regstrition URL",
+                          labelStyle: TextStyle(
+                              fontSize: 18,
+                              color: Color.fromARGB(144, 64, 7, 87)),
+                          border: OutlineInputBorder(
                             borderSide: BorderSide(
-                                color: Color.fromARGB(221, 87, 170, 194),
-                                width: 2.0)),
-                      ),
-                      controller: _nameEditingController,
+                              color: Color.fromARGB(144, 64, 7, 87),
+                              width: 2.0,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color.fromARGB(144, 64, 7, 87),
+                              width: 2.0,
+                            ),
+                          ),
+                        ),
+                        controller: _urlEditingController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the Regstrition URL';
+                          }
+                        }),
+
+                    SizedBox(height: 25.0),
+                    Scrollbar(
+                      thumbVisibility: true,
+                      child: TextFormField(
+                          maxLength: 500,
+                          maxLines: 3,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(width: 2.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color.fromARGB(144, 64, 7, 87),
+                                width: 2.0,
+                              ),
+                            ),
+                            labelText: "Event description",
+                            labelStyle: TextStyle(
+                                fontSize: 18,
+                                color: Color.fromARGB(144, 64, 7, 87)),
+                          ),
+                          controller: _descriptionEditingController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter the Event description.';
+                            }
+
+                            return null;
+                          }),
                     ),
-                    SizedBox(height: 20.0),
+
                     SizedBox(
-                      width: double.infinity,
+                      width: 50,
                       height: 50.0,
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              primary: Color.fromARGB(255, 113, 43, 143)),
+                            backgroundColor: Color.fromARGB(144, 64, 7, 87),
+                          ),
                           child: Text('Post',
                               style: TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 20.0)),
-                          onPressed: () {}),
+                                  color: Colors.white, fontSize: 16.0)),
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              // If the form is valid, display a snackbar. In the real world,
+                              // you'd often call a server or save the information in a database.
+                              // for sorting purpose
+                              var now = new DateTime.now();
+                              var formatter = new DateFormat('yyyy-MM-dd');
+                              String formattedDate = formatter.format(now);
+
+                              _firestore.collection('events').add({
+                                'name': _nameEditingController.text,
+                                'location': _startSearchFieldController.text,
+                                'description':
+                                    _descriptionEditingController.text,
+                                'category': selectedCat,
+                                'regstretion url ': _urlEditingController.text,
+                                'date and time': dateTime.toString(),
+                                'created': formattedDate,
+                              });
+                              //Clear
+
+                              _nameEditingController.clear();
+                              _startSearchFieldController.clear();
+                              _descriptionEditingController.clear();
+                              _lookingForEditingController.clear();
+                              selectedCat = "";
+
+                              //sucess message
+                              CoolAlert.show(
+                                context: context,
+                                title: "Success!",
+                                confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+                                onConfirmBtnTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProjectsListViewPage()));
+                                },
+                                type: CoolAlertType.success,
+                                backgroundColor:
+                                    Color.fromARGB(221, 137, 171, 187),
+                                text: "Event posted successfuly",
+                              );
+                            }
+                          }),
                     ),
                   ],
                 ),
@@ -175,118 +424,5 @@ class _PostEventState extends State<PostEvent> {
             ],
           ),
         ));
-  }
-}
-
-//location search widget
-class SearchScreen extends StatefulWidget {
-  @override
-  _SearchScreenState createState() => _SearchScreenState();
-}
-
-class _SearchScreenState extends State<SearchScreen> {
-  final _startSearchFieldController = TextEditingController();
-
-  DetailsResult? startPosition;
-
-  late GooglePlace googlePlace;
-  List<AutocompletePrediction> predictions = [];
-  Timer? _debounce;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    String apiKey = 'AIzaSyCkRaPfvVejBlQIAWEjc9klnkqk6olnhuc';
-    googlePlace = GooglePlace(apiKey);
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
-
-  void autoCompleteSearch(String value) async {
-    var result = await googlePlace.autocomplete.get(value);
-    if (result != null && result.predictions != null && mounted) {
-      setState(() {
-        predictions = result.predictions!;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          controller: _startSearchFieldController,
-          style: TextStyle(fontSize: 16),
-          decoration: InputDecoration(
-              hintText: 'Project location',
-              hintStyle:
-                  const TextStyle(fontWeight: FontWeight.normal, fontSize: 16),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black87, width: 2.0),
-              ),
-              suffixIcon: _startSearchFieldController.text.isNotEmpty
-                  ? IconButton(
-                      onPressed: () {
-                        setState(() {
-                          predictions = [];
-                          _startSearchFieldController.clear();
-                        });
-                      },
-                      icon: Icon(Icons.clear_outlined),
-                    )
-                  : null),
-          onChanged: (value) {
-            if (_debounce?.isActive ?? false) _debounce!.cancel();
-            _debounce = Timer(const Duration(milliseconds: 1000), () {
-              if (value.isNotEmpty) {
-                //places api
-                autoCompleteSearch(value);
-              } else {
-                //clear out the results
-                setState(() {
-                  predictions = [];
-                  startPosition = null;
-                });
-              }
-            });
-          },
-        ),
-        SizedBox(height: 10),
-        ListView.builder(
-            shrinkWrap: true,
-            itemCount: predictions.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Color.fromARGB(255, 215, 189, 226),
-                  child: Icon(
-                    Icons.pin_drop,
-                    color: Colors.white,
-                  ),
-                ),
-                title: Text(
-                  predictions[index].description.toString(),
-                ),
-                onTap: () async {
-                  final placeId = predictions[index].placeId!;
-                  final details = await googlePlace.details.get(placeId);
-                  if (details != null && details.result != null && mounted) {
-                    setState(() {
-                      startPosition = details.result;
-                      _startSearchFieldController.text = details.result!.name!;
-                      predictions = [];
-                    });
-                  }
-                },
-              );
-            })
-      ],
-    );
   }
 }
