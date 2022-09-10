@@ -35,6 +35,8 @@ class _UserRegistratin extends State<UserRegistratin> {
   bool hasspecial = false;
   final ucasereg = RegExp('[A-Z]');
   final digit = RegExp('[1-9]');
+  final _passcontroller = TextEditingController();
+  final _confirmpasscontroller = TextEditingController();
 //<<<<<<< HEAD
   // final controller = TextEditingController();
 
@@ -79,7 +81,7 @@ class _UserRegistratin extends State<UserRegistratin> {
     return Scaffold(
       body: Background(
         child: Form(
-          autovalidateMode: AutovalidateMode.always,
+          //  autovalidateMode: AutovalidateMode.always,
           key: _FormKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -154,7 +156,7 @@ class _UserRegistratin extends State<UserRegistratin> {
 
                   onChanged: (value) {
                     final form = _FormKey.currentState!;
-                    // email = value;
+                    email = value;
                     form.validate();
                   },
                   decoration: InputDecoration(
@@ -295,9 +297,13 @@ class _UserRegistratin extends State<UserRegistratin> {
                 alignment: Alignment.center,
                 margin: EdgeInsets.symmetric(horizontal: 40),
                 child: TextFormField(
+                  controller: _confirmpasscontroller,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "required";
+                    }
+                    if (value != passcontroller.value.text) {
+                      return 'passwords do not match ! ';
                     }
                   },
                   onChanged: (value) {

@@ -88,11 +88,11 @@ class _PostProjectState extends State<PostProject> {
                   // do something
                 }),
           ],
-          backgroundColor: Color.fromARGB(221, 137, 171, 187),
-          title: Text('Post project',
+          backgroundColor: Color.fromARGB(255, 182, 168, 203),
+          title: Text('Post Project',
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(144, 64, 7, 87),
+                fontWeight: FontWeight.normal,
+                color: Colors.white,
               ))),
       bottomNavigationBar: CustomNavigationBar(
         currentHomeScreen: 2,
