@@ -56,7 +56,13 @@ class profileMenuItem extends StatelessWidget {
     return Container(
         alignment: Alignment.topCenter,
         margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-        child: RaisedButton(
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(80.0)),
+            textStyle: TextStyle(color: Colors.white),
+            padding: const EdgeInsets.all(0),
+          ),
           onPressed: () {
             if (text == 'Post Project')
               Navigator.push(context,
@@ -65,10 +71,6 @@ class profileMenuItem extends StatelessWidget {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => PostEvent()));
           },
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
-          textColor: Colors.white,
-          padding: const EdgeInsets.all(0),
           child: Container(
               decoration: new BoxDecoration(
                   borderRadius: BorderRadius.circular(80.0),

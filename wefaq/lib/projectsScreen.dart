@@ -37,7 +37,10 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 
 //get all projects
   Future getProjects() async {
-    await for (var snapshot in _firestore.collection('projects').snapshots())
+    await for (var snapshot in _firestore
+        .collection('projects')
+        .orderBy('created', descending: true)
+        .snapshots())
       for (var project in snapshot.docs) {
         setState(() {
           nameList.add(project['name']);
@@ -53,8 +56,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
   Widget build(BuildContext context) {
     // MediaQuery to get Device Width
     double width = MediaQuery.of(context).size.width * 0.6;
-    return MaterialApp(
-        home: DefaultTabController(
+    return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
@@ -176,7 +178,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
           ),
         ),
       ),
-    ));
+    );
   }
 }
 

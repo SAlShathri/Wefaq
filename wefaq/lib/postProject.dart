@@ -5,6 +5,7 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:google_place/google_place.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'bottom_bar_custom.dart';
 
@@ -303,7 +304,7 @@ class _PostProjectState extends State<PostProject> {
                 height: 50.0,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(144, 64, 7, 87),
+                      backgroundColor: Color.fromARGB(144, 64, 7, 87),
                     ),
                     child: Text('Post',
                         style: TextStyle(color: Colors.white, fontSize: 16.0)),
@@ -311,13 +312,18 @@ class _PostProjectState extends State<PostProject> {
                       if (_formKey.currentState!.validate()) {
                         // If the form is valid, display a snackbar. In the real world,
                         // you'd often call a server or save the information in a database.
+                        // for sorting purpose
+                        var now = new DateTime.now();
+                        var formatter = new DateFormat('yyyy-MM-dd');
+                        String formattedDate = formatter.format(now);
 
                         _firestore.collection('projects').add({
                           'name': _nameEditingController.text,
                           'location': _startSearchFieldController.text,
                           'description': _descriptionEditingController.text,
                           'category': selectedCat,
-                          'lookingFor': _lookingForEditingController.text
+                          'lookingFor': _lookingForEditingController.text,
+                          'created': formattedDate,
                         });
                         //Clear
 
