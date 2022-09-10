@@ -60,7 +60,8 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(221, 137, 171, 187),
+          automaticallyImplyLeading: false,
+          backgroundColor: Color.fromARGB(255, 182, 168, 203),
           bottom: const TabBar(
             tabs: [
               Tab(text: 'Projects'),
@@ -99,7 +100,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                 },
                 // Card Which Holds Layout Of ListView Item
                 child: SizedBox(
-                  height: 170,
+                  height: 190,
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
@@ -182,7 +183,8 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 15)),
                                     style: ElevatedButton.styleFrom(
-                                      primary: Color.fromARGB(144, 64, 7, 87),
+                                      backgroundColor:
+                                          Color.fromARGB(144, 64, 7, 87),
                                     ),
                                   ),
                                 ),

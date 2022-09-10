@@ -55,6 +55,7 @@ class _profileScreenState extends State<profileScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Profile', style: TextStyle(color: Colors.white)),
         actions: <Widget>[
           IconButton(
@@ -121,7 +122,6 @@ class _profileScreenState extends State<profileScreen> {
                                 color: Color.fromARGB(255, 93, 89, 104),
                                 fontSize: 19),
                             textAlign: TextAlign.left),
-                        SizedBox(width: 260),
                         Expanded(
                           child: IconButton(
                               icon: Icon(
@@ -205,7 +205,6 @@ class _profileScreenState extends State<profileScreen> {
                                 color: Color.fromRGBO(118, 117, 121, 1),
                                 fontSize: 19),
                             textAlign: TextAlign.left),
-                        SizedBox(width: 260),
                         Expanded(
                           child: IconButton(
                               icon: Icon(
