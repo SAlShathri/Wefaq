@@ -133,7 +133,7 @@ class _PostEventState extends State<PostEvent> {
                     TextFormField(
                         controller: _startSearchFieldController,
                         decoration: InputDecoration(
-                            labelText: 'Event location',
+                            labelText: 'Event Location',
                             labelStyle: TextStyle(
                                 fontSize: 18,
                                 color: Color.fromARGB(144, 64, 7, 87)),
@@ -226,7 +226,7 @@ class _PostEventState extends State<PostEvent> {
                         "Select event catogory",
                         style: TextStyle(
                             fontSize: 18,
-                            color: Color.fromARGB(144, 64, 7, 87)),
+                            color: Color.fromARGB(167, 73, 1, 102)),
                       ),
                       items: options
                           .map((e) => DropdownMenuItem(
