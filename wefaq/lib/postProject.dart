@@ -314,7 +314,7 @@ class _PostProjectState extends State<PostProject> {
                 height: 50.0,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      shadowColor: Color.fromARGB(144, 64, 7, 87),
+                      backgroundColor: Color.fromARGB(144, 64, 7, 87),
                     ),
                     child: Text('Post',
                         style: TextStyle(color: Colors.white, fontSize: 16.0)),

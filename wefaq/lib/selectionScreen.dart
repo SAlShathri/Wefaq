@@ -14,6 +14,7 @@ class selectionScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 182, 168, 203),
         title: Text('Post', style: TextStyle(color: Colors.white)),
         actions: <Widget>[
           IconButton(
@@ -25,7 +26,6 @@ class selectionScreen extends StatelessWidget {
 //log out
               }),
         ],
-        backgroundColor: Color.fromARGB(255, 161, 155, 207),
       ),
       bottomNavigationBar: CustomNavigationBar(
         currentHomeScreen: 2,
@@ -34,7 +34,7 @@ class selectionScreen extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/postProjectScreen.JPG"),
+            image: AssetImage("assets/images/Profile.png"),
             fit: BoxFit.cover,
           ),
         ),

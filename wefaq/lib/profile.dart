@@ -121,8 +121,8 @@ class _profileScreenState extends State<profileScreen> {
                                 color: Color.fromARGB(255, 93, 89, 104),
                                 fontSize: 19),
                             textAlign: TextAlign.left),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 5, left: 244),
+                        SizedBox(width: 260),
+                        Expanded(
                           child: IconButton(
                               icon: Icon(
                                 Icons.edit,
@@ -163,8 +163,8 @@ class _profileScreenState extends State<profileScreen> {
                                 color: Color.fromRGBO(118, 117, 121, 1),
                                 fontSize: 19),
                             textAlign: TextAlign.left),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 5, left: 285),
+                        SizedBox(width: 260),
+                        Expanded(
                           child: IconButton(
                               icon: Icon(
                                 Icons.edit,
@@ -205,8 +205,8 @@ class _profileScreenState extends State<profileScreen> {
                                 color: Color.fromRGBO(118, 117, 121, 1),
                                 fontSize: 19),
                             textAlign: TextAlign.left),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 5, left: 160),
+                        SizedBox(width: 260),
+                        Expanded(
                           child: IconButton(
                               icon: Icon(
                                 Icons.edit,

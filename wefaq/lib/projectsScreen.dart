@@ -61,7 +61,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
       child: Scaffold(
         appBar: AppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: Color.fromARGB(221, 137, 171, 187),
+            backgroundColor: Color.fromARGB(255, 182, 168, 203),
             actions: <Widget>[
               IconButton(
                   icon: Icon(
