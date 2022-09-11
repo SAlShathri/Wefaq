@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/background.dart';
 import 'bottom_bar_custom.dart';
 import 'package:wefaq/models/user.dart';
@@ -64,7 +65,8 @@ class _profileScreenState extends State<profileScreen> {
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
               onPressed: () {
-                // Log out
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => UserLogin()));
               }),
         ],
         backgroundColor: Color.fromARGB(255, 182, 168, 203),
