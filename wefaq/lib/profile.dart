@@ -98,6 +98,21 @@ class _profileScreenState extends State<profileScreen> {
                     ),
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 20, left: 290),
+                  child: CircleAvatar(
+                    backgroundColor: Color.fromARGB(255, 159, 185, 185),
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        //sprint two :)
+                      },
+                    ),
+                  ),
+                )
               ],
             ),
             Column(
@@ -124,16 +139,6 @@ class _profileScreenState extends State<profileScreen> {
                                 color: Color.fromARGB(255, 93, 89, 104),
                                 fontSize: 19),
                             textAlign: TextAlign.left),
-                        Expanded(
-                          child: IconButton(
-                              icon: Icon(
-                                Icons.edit,
-                                color: Color.fromARGB(255, 156, 183, 184),
-                              ),
-                              onPressed: () {
-                                // EDIT change field to editable field
-                              }),
-                        ),
                       ],
                     ),
                     decoration: BoxDecoration(
@@ -166,16 +171,6 @@ class _profileScreenState extends State<profileScreen> {
                                 fontSize: 19),
                             textAlign: TextAlign.left),
                         SizedBox(width: 260),
-                        Expanded(
-                          child: IconButton(
-                              icon: Icon(
-                                Icons.edit,
-                                color: Color.fromARGB(255, 156, 183, 184),
-                              ),
-                              onPressed: () {
-                                // EDIT change field to editable field
-                              }),
-                        ),
                       ],
                     ),
                     decoration: BoxDecoration(
@@ -207,16 +202,6 @@ class _profileScreenState extends State<profileScreen> {
                                 color: Color.fromRGBO(118, 117, 121, 1),
                                 fontSize: 19),
                             textAlign: TextAlign.left),
-                        Expanded(
-                          child: IconButton(
-                              icon: Icon(
-                                Icons.edit,
-                                color: Color.fromARGB(255, 156, 183, 184),
-                              ),
-                              onPressed: () {
-                                // EDIT change field to editable field
-                              }),
-                        ),
                       ],
                     ),
                     decoration: BoxDecoration(

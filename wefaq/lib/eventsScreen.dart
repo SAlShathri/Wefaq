@@ -44,13 +44,13 @@ class _ListViewPageState extends State<EventsListViewPage> {
         .collection('events')
         .orderBy('created', descending: true)
         .snapshots())
-      for (var project in snapshot.docs) {
+      for (var events in snapshot.docs) {
         setState(() {
-          nameList.add(project['name']);
-          descList.add(project['description']);
-          locList.add(project['location']);
-          urlList.add(project['regstretion url ']);
-          categoryList.add(project['category']);
+          nameList.add(events['name']);
+          descList.add(events['description']);
+          locList.add(events['location']);
+          urlList.add(events['regstretion url ']);
+          categoryList.add(events['category']);
           //  dateTimeList.add(project['dateTime ']);
         });
       }
@@ -63,33 +63,6 @@ class _ListViewPageState extends State<EventsListViewPage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color.fromARGB(221, 137, 171, 187),
-          bottom: const TabBar(
-            tabs: [
-              Tab(text: 'Projects'),
-              Tab(
-                text: 'Events',
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.logout,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                // do something
-              },
-            )
-          ],
-        ),
-        bottomNavigationBar: CustomNavigationBar(
-          currentHomeScreen: 0,
-          updatePage: () {},
-        ),
-
         // Main List View With Builder
         body: Scrollbar(
           thumbVisibility: true,
@@ -154,11 +127,11 @@ class _ListViewPageState extends State<EventsListViewPage> {
                               SizedBox(
                                 height: 0,
                               ),
-                              /* Row(
+                              /*Row(
                                 children: <Widget>[
                                   const Icon(Icons.timelapse_rounded,
                                       color: Color.fromARGB(248, 170, 167, 8)),
-                                  Text(dateTimeList[index],
+                                  Text(dateTimeList[index].toDate().toString(),
                                       style: TextStyle(
                                           fontSize: 16,
                                           color:

@@ -59,34 +59,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Color.fromARGB(255, 182, 168, 203),
-          bottom: const TabBar(
-            tabs: [
-              Tab(text: 'Projects'),
-              Tab(
-                text: 'Events',
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.menu,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                // do something
-              },
-            )
-          ],
-        ),
-        bottomNavigationBar: CustomNavigationBar(
-          currentHomeScreen: 0,
-          updatePage: () {},
-        ),
-
         // Main List View With Builder
         body: Scrollbar(
           thumbVisibility: true,

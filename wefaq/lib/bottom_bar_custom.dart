@@ -4,6 +4,7 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:wefaq/profile.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'package:wefaq/selectionScreen.dart';
+import 'package:wefaq/TabScreen.dart';
 
 class CustomNavigationBar extends StatefulWidget {
   const CustomNavigationBar(
@@ -33,7 +34,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
               children: [
                 BottomBarButton(widget.currentHomeScreen, 0, Icons.home_filled,
                     widget.updatePage),
-                BottomBarButton(widget.currentHomeScreen, 1, Icons.favorite,
+                BottomBarButton(widget.currentHomeScreen, 1, Icons.group_add,
                     widget.updatePage),
                 const SizedBox(
                   width: 50,
@@ -126,10 +127,8 @@ class BottomBarButton extends StatelessWidget {
           onPressed: () => {
                 if (index == 0)
                   {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ProjectsListViewPage()))
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Tabs()))
                   }
                 else if (index == 4)
                   {

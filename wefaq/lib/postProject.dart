@@ -349,11 +349,8 @@ class _PostProjectState extends State<PostProject> {
                           title: "Success!",
                           confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
                           onConfirmBtnTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ProjectsListViewPage()));
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => Tab()));
                           },
                           type: CoolAlertType.success,
                           backgroundColor: Color.fromARGB(221, 137, 171, 187),

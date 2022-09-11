@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wefaq/TabScreen.dart';
 import 'package:wefaq/UserRegisteration.dart';
 import 'package:wefaq/background.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -128,10 +129,8 @@ class _UserLogin extends State<UserLogin> {
                       final user = await _auth.signInWithEmailAndPassword(
                           email: email, password: password);
                       if (user != null) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ProjectsListViewPage()));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Tabs()));
                         print("Logged in Succesfully");
                       }
                     } catch (e) {

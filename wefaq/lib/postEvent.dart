@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:intl/intl.dart';
+import 'package:wefaq/TabScreen.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'dart:async';
 import 'package:cool_alert/cool_alert.dart';
@@ -407,8 +408,7 @@ class _PostEventState extends State<PostEvent> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProjectsListViewPage()));
+                                          builder: (context) => Tabs()));
                                 },
                                 type: CoolAlertType.success,
                                 backgroundColor:
