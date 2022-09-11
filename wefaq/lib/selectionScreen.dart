@@ -1,9 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:full_screen_menu/full_screen_menu.dart';
 import 'package:wefaq/postEvent.dart';
 import 'package:wefaq/postProject.dart';
-
+import 'userLogin.dart';
 import 'background.dart';
 import 'bottom_bar_custom.dart';
 
@@ -23,7 +24,8 @@ class selectionScreen extends StatelessWidget {
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
               onPressed: () {
-//log out
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => UserLogin()));
               }),
         ],
         backgroundColor: Color.fromARGB(255, 182, 168, 203),

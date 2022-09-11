@@ -40,6 +40,8 @@ dependencies:
   intl: ^0.17.0
   form_field_validator: ^1.1.0
   email_validator: ^2.0.1
+  full_screen_menu: ^1.0.0
+  hawk_fab_menu: ^1.2.0
 
 
   

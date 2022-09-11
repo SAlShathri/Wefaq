@@ -1,6 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:full_screen_menu/full_screen_menu.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:wefaq/postEvent.dart';
+import 'package:wefaq/postProject.dart';
 import 'package:wefaq/profile.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'package:wefaq/selectionScreen.dart';
@@ -71,8 +76,47 @@ class BottomBarMiddleButton extends StatelessWidget {
       height: 55,
       child: TextButton(
         onPressed: () => {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => selectionScreen()))
+          FullScreenMenu.show(
+            context,
+            items: [
+              FSMenuItem(
+                  icon: Icon(Icons.lightbulb, color: Colors.white),
+                  text: Text(
+                    'Post project',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Color.fromARGB(144, 64, 7, 87),
+                        fontWeight: FontWeight.bold),
+                  ),
+                  gradient: new LinearGradient(colors: [
+                    Color.fromARGB(144, 64, 7, 87),
+                    Color.fromARGB(221, 137, 171, 187),
+                  ]),
+                  onTap: () {
+                    FullScreenMenu.hide();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => PostProject()));
+                  }),
+              FSMenuItem(
+                  icon: Icon(Icons.post_add, color: Colors.white),
+                  text: Text(
+                    'Post event',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Color.fromARGB(144, 64, 7, 87),
+                        fontWeight: FontWeight.bold),
+                  ),
+                  gradient: new LinearGradient(colors: [
+                    Color.fromARGB(144, 64, 7, 87),
+                    Color.fromARGB(221, 137, 171, 187),
+                  ]),
+                  onTap: () {
+                    FullScreenMenu.hide();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => PostEvent()));
+                  }),
+            ],
+          ),
         },
         style: ButtonStyle(
           padding: MaterialStateProperty.all(const EdgeInsets.all(0)),

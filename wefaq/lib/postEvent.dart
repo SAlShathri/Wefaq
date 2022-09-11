@@ -85,6 +85,7 @@ class _PostEventState extends State<PostEvent> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            automaticallyImplyLeading: false,
             actions: <Widget>[
               IconButton(
                   icon: Icon(
