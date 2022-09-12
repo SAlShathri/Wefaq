@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
@@ -13,12 +14,16 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
   @override
   void initState() {
     // TODO: implement initState
+    getCurrentUser();
     getProjects();
     super.initState();
   }
 
+  final auth = FirebaseAuth.instance;
+  late User signedInUser;
+
   final _firestore = FirebaseFirestore.instance;
-  @override
+  String? Email;
 
   // Title list
   var nameList = [];
@@ -34,22 +39,39 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 
   //category list
   var categoryList = [];
-
-//get all projects
-  Future getProjects() async {
-    await for (var snapshot in _firestore
-        .collection('projects')
-        .orderBy('created', descending: true)
-        .snapshots())
-      for (var project in snapshot.docs) {
-        setState(() {
-          nameList.add(project['name']);
-          descList.add(project['description']);
-          locList.add(project['location']);
-          lookingForList.add(project['lookingFor']);
-          categoryList.add(project['category']);
-        });
+  void getCurrentUser() {
+    try {
+      final user = auth.currentUser;
+      if (user != null) {
+        signedInUser = user;
+        Email = signedInUser.email;
+        print(signedInUser.email);
       }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  //get all projects
+  Future getProjects() async {
+    if (Email != null) {
+      var fillterd = _firestore
+          .collection('projects')
+          .orderBy('email', descending: true)
+          .where('email', isNotEqualTo: Email)
+          .orderBy('created', descending: true)
+          .snapshots();
+      await for (var snapshot in fillterd)
+        for (var project in snapshot.docs) {
+          setState(() {
+            nameList.add(project['name']);
+            descList.add(project['description']);
+            locList.add(project['location']);
+            lookingForList.add(project['lookingFor']);
+            categoryList.add(project['category']);
+          });
+        }
+    }
   }
 
   @override

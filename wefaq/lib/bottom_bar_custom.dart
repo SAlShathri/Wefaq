@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:full_screen_menu/full_screen_menu.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:wefaq/myProjects.dart';
 import 'package:wefaq/postEvent.dart';
 import 'package:wefaq/postProject.dart';
 import 'package:wefaq/profile.dart';
@@ -180,6 +181,11 @@ class BottomBarButton extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => profileScreen()))
+                  }
+                else if (index == 1)
+                  {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => myProjects()))
                   }
               },
           child: AnimatedContainer(
