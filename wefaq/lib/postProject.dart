@@ -380,8 +380,6 @@ class _PostProjectState extends State<PostProject> {
                         // you'd often call a server or save the information in a database.
                         // for sorting purpose
                         var now = new DateTime.now();
-                        var formatter = new DateFormat('yyyy-MM-dd');
-                        String formattedDate = formatter.format(now);
 
                         _firestore.collection('projects').add({
                           'name': _nameEditingController.text,
@@ -389,7 +387,7 @@ class _PostProjectState extends State<PostProject> {
                           'description': _descriptionEditingController.text,
                           'category': selectedCat,
                           'lookingFor': _lookingForEditingController.text,
-                          'created': formattedDate,
+                          'created': now,
                         });
                         //Clear
 

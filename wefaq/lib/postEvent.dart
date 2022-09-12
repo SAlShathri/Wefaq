@@ -107,6 +107,7 @@ class _PostEventState extends State<PostEvent> {
           updatePage: () {},
         ),
         body: Scrollbar(
+          thumbVisibility: true,
           child: Stack(
             children: [
               Form(
@@ -118,10 +119,20 @@ class _PostEventState extends State<PostEvent> {
                     TextFormField(
                         maxLength: 20,
                         decoration: InputDecoration(
-                          labelText: "Event Name",
-                          labelStyle: TextStyle(
-                              fontSize: 18,
-                              color: Color.fromARGB(144, 64, 7, 87)),
+                          label: RichText(
+                            text: TextSpan(
+                                text: "Event name",
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(144, 64, 7, 87)),
+                                children: [
+                                  TextSpan(
+                                      text: ' *',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                      ))
+                                ]),
+                          ),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: Color.fromARGB(144, 64, 7, 87),
@@ -138,17 +149,27 @@ class _PostEventState extends State<PostEvent> {
                         controller: _nameEditingController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter the Event Name';
+                            return 'Please enter the event name.';
                           }
                         }),
                     SizedBox(height: 20.0),
                     TextFormField(
                         controller: _startSearchFieldController,
                         decoration: InputDecoration(
-                            labelText: 'Event Location',
-                            labelStyle: TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(144, 64, 7, 87)),
+                            label: RichText(
+                              text: TextSpan(
+                                  text: 'Event location',
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      color: Color.fromARGB(144, 64, 7, 87)),
+                                  children: [
+                                    TextSpan(
+                                        text: ' *',
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                        ))
+                                  ]),
+                            ),
                             border: OutlineInputBorder(
                               borderSide:
                                   BorderSide(color: Colors.black87, width: 2.0),
@@ -190,7 +211,7 @@ class _PostEventState extends State<PostEvent> {
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter the Event location.';
+                            return 'Please enter the event location.';
                           }
                         }),
                     Scrollbar(
@@ -234,11 +255,19 @@ class _PostEventState extends State<PostEvent> {
                     SizedBox(height: 20.0),
 
                     DropdownButtonFormField(
-                      hint: Text(
-                        "Select event catogory",
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Color.fromARGB(167, 73, 1, 102)),
+                      hint: RichText(
+                        text: TextSpan(
+                            text: 'Event catogory',
+                            style: const TextStyle(
+                                fontSize: 18,
+                                color: Color.fromARGB(144, 64, 7, 87)),
+                            children: [
+                              TextSpan(
+                                  text: ' *',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                  ))
+                            ]),
                       ),
                       items: options
                           .map((e) => DropdownMenuItem(
@@ -283,8 +312,20 @@ class _PostEventState extends State<PostEvent> {
                     //Date and Time
                     const SizedBox(height: 10.0),
                     ElevatedButton(
-                      child: const Text('Select Date and Time',
-                          style: TextStyle(fontSize: 16)),
+                      child: RichText(
+                        text: TextSpan(
+                            text: 'Select Date and Time',
+                            style: const TextStyle(
+                                fontSize: 18,
+                                color: Color.fromARGB(144, 64, 7, 87)),
+                            children: [
+                              TextSpan(
+                                  text: ' *',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                  ))
+                            ]),
+                      ),
                       onPressed: () async {
                         DateTime? newDate = await showDatePicker(
                             context: context,
@@ -308,10 +349,20 @@ class _PostEventState extends State<PostEvent> {
                     const SizedBox(height: 20.0),
                     TextFormField(
                         decoration: InputDecoration(
-                          labelText: "Regstrition URL",
-                          labelStyle: TextStyle(
-                              fontSize: 18,
-                              color: Color.fromARGB(144, 64, 7, 87)),
+                          label: RichText(
+                            text: TextSpan(
+                                text: "Regstrition URL",
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(144, 64, 7, 87)),
+                                children: [
+                                  TextSpan(
+                                      text: ' *',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                      ))
+                                ]),
+                          ),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: Color.fromARGB(144, 64, 7, 87),
@@ -328,7 +379,7 @@ class _PostEventState extends State<PostEvent> {
                         controller: _urlEditingController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter the Regstrition URL';
+                            return 'Please enter the regstrition URL.';
                           }
                         }),
 
@@ -348,19 +399,32 @@ class _PostEventState extends State<PostEvent> {
                                 width: 2.0,
                               ),
                             ),
-                            labelText: "Event description",
-                            labelStyle: TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(144, 64, 7, 87)),
+                            label: RichText(
+                              text: TextSpan(
+                                  text: "Event description",
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      color: Color.fromARGB(144, 64, 7, 87)),
+                                  children: [
+                                    TextSpan(
+                                        text: ' *',
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                        ))
+                                  ]),
+                            ),
                           ),
                           controller: _descriptionEditingController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter the Event description.';
+                              return 'Please enter the event description.';
                             }
 
                             return null;
                           }),
+                    ),
+                    SizedBox(
+                      height: 15,
                     ),
 
                     SizedBox(
@@ -389,8 +453,11 @@ class _PostEventState extends State<PostEvent> {
                                     _descriptionEditingController.text,
                                 'category': selectedCat,
                                 'regstretion url ': _urlEditingController.text,
-                                'date and time': dateTime.toString(),
-                                'created': formattedDate,
+                                'date': formatter.format(dateTime),
+                                'time': dateTime.minute.toString() +
+                                    ":" +
+                                    dateTime.hour.toString(),
+                                'created': now,
                               });
                               //Clear
 

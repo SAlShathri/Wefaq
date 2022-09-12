@@ -116,7 +116,7 @@ class BottomBarMiddleButton extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => PostEvent()));
                   }),
             ],
-          ),
+          )
         },
         style: ButtonStyle(
           padding: MaterialStateProperty.all(const EdgeInsets.all(0)),

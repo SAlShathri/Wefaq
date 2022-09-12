@@ -38,6 +38,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
   //category list
   var dateTimeList = [];
 
+  var TimeList = [];
 //get all projects
   Future getProjects() async {
     await for (var snapshot in _firestore
@@ -51,6 +52,9 @@ class _ListViewPageState extends State<EventsListViewPage> {
           locList.add(events['location']);
           urlList.add(events['regstretion url ']);
           categoryList.add(events['category']);
+          dateTimeList.add(events['date']);
+          TimeList.add(events['time']);
+
           //  dateTimeList.add(project['dateTime ']);
         });
       }
@@ -76,7 +80,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
                 },
                 // Card Which Holds Layout Of ListView Item
                 child: SizedBox(
-                  height: 150,
+                  height: 200,
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
@@ -155,6 +159,30 @@ class _ListViewPageState extends State<EventsListViewPage> {
                                           color:
                                               Color.fromARGB(221, 79, 128, 151),
                                           fontWeight: FontWeight.normal)),
+                                ],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  const Icon(Icons.date_range,
+                                      color: Color.fromARGB(144, 64, 7, 87)),
+                                  Text(dateTimeList[index],
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color:
+                                              Color.fromARGB(221, 81, 122, 140),
+                                          fontWeight: FontWeight.bold))
+                                ],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  const Icon(Icons.timelapse,
+                                      color: Color.fromARGB(144, 64, 7, 87)),
+                                  Text(TimeList[index],
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color:
+                                              Color.fromARGB(221, 81, 122, 140),
+                                          fontWeight: FontWeight.bold))
                                 ],
                               ),
                             ],
