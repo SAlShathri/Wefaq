@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'bottom_bar_custom.dart';
+import 'TabScreen.dart';
 
 class PostProject extends StatefulWidget {
   const PostProject({Key? key}) : super(key: key);
@@ -134,7 +135,7 @@ class _PostProjectState extends State<PostProject> {
               TextFormField(
                   controller: _startSearchFieldController,
                   decoration: InputDecoration(
-                      labelText: 'Project location',
+                      labelText: 'Search Project location',
                       labelStyle: TextStyle(
                           fontSize: 18, color: Color.fromARGB(144, 64, 7, 87)),
                       border: OutlineInputBorder(
@@ -349,8 +350,10 @@ class _PostProjectState extends State<PostProject> {
                           title: "Success!",
                           confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
                           onConfirmBtnTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => Tab()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Tabs()));
                           },
                           type: CoolAlertType.success,
                           backgroundColor: Color.fromARGB(221, 137, 171, 187),

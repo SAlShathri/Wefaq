@@ -144,7 +144,7 @@ class _PostEventState extends State<PostEvent> {
                     TextFormField(
                         controller: _startSearchFieldController,
                         decoration: InputDecoration(
-                            labelText: 'Event Location',
+                            labelText: 'Search Event Location',
                             labelStyle: TextStyle(
                                 fontSize: 18,
                                 color: Color.fromARGB(144, 64, 7, 87)),
