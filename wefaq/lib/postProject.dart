@@ -79,7 +79,6 @@ class _PostProjectState extends State<PostProject> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          automaticallyImplyLeading: false,
           actions: <Widget>[
             IconButton(
                 icon: Icon(
@@ -110,20 +109,7 @@ class _PostProjectState extends State<PostProject> {
               TextFormField(
                   maxLength: 20,
                   decoration: InputDecoration(
-                    label: RichText(
-                      text: TextSpan(
-                          text: 'Project title',
-                          style: const TextStyle(
-                              fontSize: 18,
-                              color: Color.fromARGB(144, 64, 7, 87)),
-                          children: [
-                            TextSpan(
-                                text: ' *',
-                                style: TextStyle(
-                                  color: Colors.red,
-                                ))
-                          ]),
-                    ),
+                    labelText: "Project title",
                     labelStyle: TextStyle(
                         fontSize: 18, color: Color.fromARGB(144, 64, 7, 87)),
                     border: OutlineInputBorder(
@@ -149,20 +135,9 @@ class _PostProjectState extends State<PostProject> {
               TextFormField(
                   controller: _startSearchFieldController,
                   decoration: InputDecoration(
-                      label: RichText(
-                        text: TextSpan(
-                            text: 'Project location',
-                            style: const TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(144, 64, 7, 87)),
-                            children: [
-                              TextSpan(
-                                  text: ' *',
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                  ))
-                            ]),
-                      ),
+                      labelText: 'Search Project location',
+                      labelStyle: TextStyle(
+                          fontSize: 18, color: Color.fromARGB(144, 64, 7, 87)),
                       border: OutlineInputBorder(
                         borderSide:
                             BorderSide(color: Colors.black87, width: 2.0),
@@ -243,18 +218,10 @@ class _PostProjectState extends State<PostProject> {
               ),
               SizedBox(height: 25.0),
               DropdownButtonFormField(
-                hint: RichText(
-                  text: TextSpan(
-                      text: 'Project category ',
-                      style: const TextStyle(
-                          fontSize: 18, color: Color.fromARGB(144, 64, 7, 87)),
-                      children: [
-                        TextSpan(
-                            text: ' *',
-                            style: TextStyle(
-                              color: Colors.red,
-                            ))
-                      ]),
+                hint: Text(
+                  "Select project catogory",
+                  style: TextStyle(
+                      fontSize: 18, color: Color.fromARGB(144, 64, 7, 87)),
                 ),
                 items: options
                     .map((e) => DropdownMenuItem(
@@ -292,20 +259,9 @@ class _PostProjectState extends State<PostProject> {
               TextFormField(
                   maxLength: 40,
                   decoration: InputDecoration(
-                    label: RichText(
-                      text: TextSpan(
-                          text: 'Looking for',
-                          style: const TextStyle(
-                              fontSize: 18,
-                              color: Color.fromARGB(144, 64, 7, 87)),
-                          children: [
-                            TextSpan(
-                                text: ' *',
-                                style: TextStyle(
-                                  color: Colors.red,
-                                ))
-                          ]),
-                    ),
+                    labelText: "Looking for",
+                    labelStyle: TextStyle(
+                        fontSize: 18, color: Color.fromARGB(144, 64, 7, 87)),
                     border: OutlineInputBorder(
                       borderSide: BorderSide(
                         width: 2.0,
@@ -331,20 +287,6 @@ class _PostProjectState extends State<PostProject> {
                     maxLength: 500,
                     maxLines: 3,
                     decoration: InputDecoration(
-                      label: RichText(
-                        text: TextSpan(
-                            text: 'Project description',
-                            style: const TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(144, 64, 7, 87)),
-                            children: [
-                              TextSpan(
-                                  text: ' *',
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                  ))
-                            ]),
-                      ),
                       border: OutlineInputBorder(
                         borderSide: BorderSide(width: 2.0),
                       ),
@@ -354,6 +296,9 @@ class _PostProjectState extends State<PostProject> {
                           width: 2.0,
                         ),
                       ),
+                      labelText: "Project description",
+                      labelStyle: TextStyle(
+                          fontSize: 18, color: Color.fromARGB(144, 64, 7, 87)),
                     ),
                     controller: _descriptionEditingController,
                     validator: (value) {
