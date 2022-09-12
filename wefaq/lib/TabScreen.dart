@@ -27,6 +27,41 @@ class _ListViewTabsState extends State<Tabs> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
+            leading: PopupMenuButton(
+              tooltip: "Filter by",
+              icon: Icon(
+                Icons.filter_list,
+                color: Colors.white,
+              ),
+              itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                const PopupMenuItem(
+                  child: ListTile(
+                    leading: Icon(Icons.date_range,
+                        color: Color.fromARGB(144, 64, 7, 87)),
+                    title: Text(
+                      'Created date',
+                      style: TextStyle(
+                        color: Color.fromARGB(221, 81, 122, 140),
+                      ),
+                    ),
+                    selected: true,
+                    selectedTileColor: Color.fromARGB(255, 252, 243, 243),
+                  ),
+                ),
+                const PopupMenuItem(
+                  child: ListTile(
+                    leading: Icon(Icons.location_on,
+                        color: Color.fromARGB(144, 64, 7, 87)),
+                    title: Text(
+                      'Nearest',
+                      style: TextStyle(
+                        color: Color.fromARGB(221, 81, 122, 140),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
             actions: <Widget>[
               IconButton(
                   icon: Icon(
@@ -34,8 +69,7 @@ class _ListViewTabsState extends State<Tabs> {
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => UserLogin()));
+                    // do something
                   }),
             ],
             automaticallyImplyLeading: false,
