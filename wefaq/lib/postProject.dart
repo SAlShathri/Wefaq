@@ -2,10 +2,12 @@
 
 import 'dart:async';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_place/google_place.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:wefaq/myProjects.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'bottom_bar_custom.dart';
 import 'TabScreen.dart';
@@ -37,7 +39,9 @@ class _PostProjectState extends State<PostProject> {
   List<String> options = [];
 
   String? selectedCat;
-
+  final auth = FirebaseAuth.instance;
+  late User signedInUser;
+  var Email;
   @override
   void initState() {
     // call the methods to fetch the data from the DB
@@ -46,6 +50,8 @@ class _PostProjectState extends State<PostProject> {
     super.initState();
     String apiKey = 'AIzaSyCkRaPfvVejBlQIAWEjc9klnkqk6olnhuc';
     googlePlace = GooglePlace(apiKey);
+    getCurrentUser();
+    getUser();
   }
 
   @override
@@ -71,6 +77,30 @@ class _PostProjectState extends State<PostProject> {
         });
       }
     }
+  }
+
+  void getCurrentUser() {
+    try {
+      final user = auth.currentUser;
+      if (user != null) {
+        signedInUser = user;
+        print(signedInUser.uid);
+        print(signedInUser.email);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future getUser() async {
+    await for (var snapshot
+        in FirebaseFirestore.instance.collection('users').snapshots())
+      for (var user in snapshot.docs) {
+        if (user.data()['Email'] == signedInUser.email)
+          setState(() {
+            Email = (user.data()['Email']);
+          });
+      }
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -388,6 +418,7 @@ class _PostProjectState extends State<PostProject> {
                           'category': selectedCat,
                           'lookingFor': _lookingForEditingController.text,
                           'created': now,
+                          'email': Email.toString(),
                         });
                         //Clear
 
@@ -406,7 +437,7 @@ class _PostProjectState extends State<PostProject> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Tabs()));
+                                    builder: (context) => myProjects()));
                           },
                           type: CoolAlertType.success,
                           backgroundColor: Color.fromARGB(221, 137, 171, 187),
