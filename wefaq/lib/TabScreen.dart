@@ -84,7 +84,7 @@ class _ListViewTabsState extends State<Tabs> {
             ),
           ),
           body: TabBarView(
-            children: [ProjectsListViewPage(), EventsListViewPage()],
+            children: [ProjectsListViewPage(), ProjectsListViewPage()],
           ),
           bottomNavigationBar: CustomNavigationBar(
             currentHomeScreen: 0,
