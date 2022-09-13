@@ -1,8 +1,13 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'package:wefaq/models/project.dart';
+<<<<<<< HEAD
 import 'package:wefaq/profile.dart';
+=======
+import 'package:url_launcher/url_launcher.dart';
+>>>>>>> 590c2bf8a5e67a5aa45a5bed763f8ff0816b65f5
 
 // Main Stateful Widget Start
 class EventsListViewPage extends StatefulWidget {
@@ -20,7 +25,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
 
   final _firestore = FirebaseFirestore.instance;
   @override
-
+  var u;
   // Title list
   var nameList = [];
 
@@ -163,9 +168,113 @@ class _ListViewPageState extends State<EventsListViewPage> {
                                   color: Color.fromARGB(173, 64, 7, 87)),
                               Text(locList[index],
                                   style: TextStyle(
+<<<<<<< HEAD
                                     fontSize: 16,
                                     color: Color.fromARGB(221, 81, 122, 140),
                                   ))
+=======
+                                    fontSize: 23,
+                                    color: Color.fromARGB(144, 64, 7, 87),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  categoryList[index],
+                                  style: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    fontSize: 23,
+                                    color: Color.fromARGB(144, 64, 7, 87),
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ]),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  const Icon(Icons.location_pin,
+                                      color: Color.fromARGB(144, 64, 7, 87)),
+                                  Text(locList[index],
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color:
+                                              Color.fromARGB(221, 81, 122, 140),
+                                          fontWeight: FontWeight.bold))
+                                ],
+                              ),
+                              SizedBox(
+                                height: 0,
+                              ),
+                              /*Row(
+                                children: <Widget>[
+                                  const Icon(Icons.timelapse_rounded,
+                                      color: Color.fromARGB(248, 170, 167, 8)),
+                                  Text(dateTimeList[index].toDate().toString(),
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color:
+                                              Color.fromARGB(221, 81, 122, 140),
+                                          fontWeight: FontWeight.bold))
+                                ],
+                              ),*/
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  const Icon(
+                                    Icons.add_link_outlined,
+                                    color: Color.fromARGB(248, 170, 167, 8),
+                                    size: 28,
+                                  ),
+                                  RichText(
+                                    text: TextSpan(children: [
+                                      TextSpan(
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Color.fromARGB(
+                                                  221, 79, 128, 151),
+                                              fontWeight: FontWeight.normal),
+                                          text: "  " + urlList[index],
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () async {
+                                              u = urlList[index];
+                                              if (await canLaunchUrl(u)) {
+                                                await launch(u);
+                                              } else {
+                                                throw 'can not load URL';
+                                              }
+                                            }),
+                                    ]),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  const Icon(Icons.date_range,
+                                      color: Color.fromARGB(144, 64, 7, 87)),
+                                  Text(dateTimeList[index],
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color:
+                                              Color.fromARGB(221, 81, 122, 140),
+                                          fontWeight: FontWeight.bold))
+                                ],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  const Icon(Icons.timelapse,
+                                      color: Color.fromARGB(144, 64, 7, 87)),
+                                  Text(TimeList[index],
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color:
+                                              Color.fromARGB(221, 81, 122, 140),
+                                          fontWeight: FontWeight.bold))
+                                ],
+                              ),
+>>>>>>> 590c2bf8a5e67a5aa45a5bed763f8ff0816b65f5
                             ],
                           ),
                           Row(
