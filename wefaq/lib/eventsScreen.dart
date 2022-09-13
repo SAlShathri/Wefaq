@@ -1,7 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'package:wefaq/models/project.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Main Stateful Widget Start
 class EventsListViewPage extends StatefulWidget {
@@ -19,7 +21,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
 
   final _firestore = FirebaseFirestore.instance;
   @override
-
+  var u;
   // Title list
   var nameList = [];
 
@@ -153,12 +155,26 @@ class _ListViewPageState extends State<EventsListViewPage> {
                                     color: Color.fromARGB(248, 170, 167, 8),
                                     size: 28,
                                   ),
-                                  Text("  " + urlList[index],
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color:
-                                              Color.fromARGB(221, 79, 128, 151),
-                                          fontWeight: FontWeight.normal)),
+                                  RichText(
+                                    text: TextSpan(children: [
+                                      TextSpan(
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Color.fromARGB(
+                                                  221, 79, 128, 151),
+                                              fontWeight: FontWeight.normal),
+                                          text: "  " + urlList[index],
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () async {
+                                              u = urlList[index];
+                                              if (await canLaunchUrl(u)) {
+                                                await launch(u);
+                                              } else {
+                                                throw 'can not load URL';
+                                              }
+                                            }),
+                                    ]),
+                                  ),
                                 ],
                               ),
                               Row(

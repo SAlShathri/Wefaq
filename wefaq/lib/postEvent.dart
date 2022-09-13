@@ -304,7 +304,7 @@ class _PostEventState extends State<PostEvent> {
                     const SizedBox(height: 15.0),
 
                     Text(
-                      '${dateTime.day}/${dateTime.month}/${dateTime.year} - ${dateTime.hour}:${dateTime.minute}',
+                      '${dateTime.day}-${dateTime.month}-${dateTime.year} | ${dateTime.hour}:${dateTime.minute}',
                       style: const TextStyle(
                           fontSize: 18, color: Color.fromARGB(255, 58, 86, 96)),
                     ),
@@ -341,8 +341,15 @@ class _PostEventState extends State<PostEvent> {
                         );
                         if (newTime == null) return;
 
+                        final newDateTime = DateTime(
+                          newDate.year,
+                          newDate.month,
+                          newDate.day,
+                          newTime.hour,
+                          newTime.minute,
+                        );
                         setState(() {
-                          dateTime = newDate;
+                          dateTime = newDateTime;
                         });
                       },
                     ), //URL
@@ -454,9 +461,9 @@ class _PostEventState extends State<PostEvent> {
                                 'category': selectedCat,
                                 'regstretion url ': _urlEditingController.text,
                                 'date': formatter.format(dateTime),
-                                'time': dateTime.minute.toString() +
+                                'time': dateTime.hour.toString() +
                                     ":" +
-                                    dateTime.hour.toString(),
+                                    dateTime.minute.toString(),
                                 'created': now,
                               });
                               //Clear
