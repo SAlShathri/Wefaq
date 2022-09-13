@@ -96,7 +96,6 @@ class _myProjectState extends State<myProjects> {
         child: ListView.builder(
           itemCount: nameList.length,
           itemBuilder: (context, index) {
-<<<<<<< Updated upstream
             // Card Which Holds Layout Of ListView Item
             return SizedBox(
               height: 180,
@@ -188,82 +187,6 @@ class _myProjectState extends State<myProjects> {
                         },
                       ))
                     ],
-=======
-            return GestureDetector(
-              onTap: () {
-                // This Will Call When User Click On ListView Item
-                showDialogFunc(context, nameList[index], descList[index]);
-              },
-              // Card Which Holds Layout Of ListView Item
-              child: SizedBox(
-                height: 200,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  shadowColor: Color.fromARGB(255, 0, 0, 0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(children: <Widget>[
-                          Text(
-                            " " + nameList[index] + " | ",
-                            style: TextStyle(
-                              fontSize: 23,
-                              color: Color.fromARGB(144, 64, 7, 87),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            categoryList[index],
-                            style: TextStyle(
-                              fontStyle: FontStyle.italic,
-                              fontSize: 23,
-                              color: Color.fromARGB(144, 64, 7, 87),
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                        ]),
-                        new Divider(
-                          color: Colors.red,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            const Icon(Icons.location_pin,
-                                color: Color.fromARGB(144, 64, 7, 87)),
-                            Text(locList[index],
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Color.fromARGB(221, 81, 122, 140),
-                                    fontWeight: FontWeight.bold))
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 290),
-                          child: IconButton(
-                            onPressed: () => {},
-                            icon: Icon(
-                              Icons.done_rounded,
-                              color: Colors.lightGreen,
-                              size: 30,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
->>>>>>> Stashed changes
                   ),
                 ),
               ),

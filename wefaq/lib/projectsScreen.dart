@@ -279,7 +279,7 @@ showDialogFunc(context, title, desc, category, loc, lookingFor) {
                   child: const Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "About Project ",
+                      "About Project",
                       style: TextStyle(
                         fontSize: 16,
                         color: Color.fromARGB(230, 64, 7, 87),
