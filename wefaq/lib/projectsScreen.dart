@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'package:wefaq/models/project.dart';
-import 'package:wefaq/project_Screen.dart';
 
 // Main Stateful Widget Start
 class ProjectsListViewPage extends StatefulWidget {
@@ -14,12 +14,14 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
   @override
   void initState() {
     // TODO: implement initState
+    getCurrentUser();
     getProjects();
     super.initState();
   }
 
+  final auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
-  @override
+  late User signedInUser;
 
   // Title list
   var nameList = [];
@@ -35,24 +37,41 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 
   //category list
   var categoryList = [];
-  var TimeList = [];
 
-//get all projects
-  Future getProjects() async {
-    await for (var snapshot in _firestore
-        .collection('projects')
-        .orderBy('created', descending: true)
-        .snapshots())
-      for (var project in snapshot.docs) {
-        setState(() {
-          nameList.add(project['name']);
-          descList.add(project['description']);
-          locList.add(project['location']);
-          lookingForList.add(project['lookingFor']);
-          categoryList.add(project['category']);
-          TimeList.add(project['created']);
-        });
+  String? Email;
+  void getCurrentUser() {
+    try {
+      final user = auth.currentUser;
+      if (user != null) {
+        signedInUser = user;
+        Email = signedInUser.email;
+        print(signedInUser.email);
       }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  //get all projects
+  Future getProjects() async {
+    if (Email != null) {
+      var fillterd = _firestore
+          .collection('projects')
+          .orderBy('email')
+          .where('email', isNotEqualTo: Email)
+          .orderBy('created', descending: true)
+          .snapshots();
+      await for (var snapshot in fillterd)
+        for (var project in snapshot.docs) {
+          setState(() {
+            nameList.add(project['name']);
+            descList.add(project['description']);
+            locList.add(project['location']);
+            lookingForList.add(project['lookingFor']);
+            categoryList.add(project['category']);
+          });
+        }
+    }
   }
 
   @override
@@ -62,166 +81,114 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          //automaticallyImplyLeading: false,
-          backgroundColor: Color.fromARGB(255, 145, 124, 178),
-          elevation: 30,
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.menu,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                // do something
-              },
-            ),
-          ],
-          title: Text(
-            'Projects',
-            style: TextStyle(color: Colors.white),
-          ),
-          leading: Icon(
-            Icons.account_circle,
-            color: Colors.white,
-            size: 35,
-          ),
-        ),
-        bottomNavigationBar: CustomNavigationBar(
-          currentHomeScreen: 0,
-          updatePage: () {},
-        ),
-
         // Main List View With Builder
         body: Scrollbar(
           thumbVisibility: true,
           child: ListView.builder(
             itemCount: nameList.length,
             itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  // This Will Call When User Click On ListView Item
-                  showDialogFunc(
-                      context,
-                      nameList[index],
-                      descList[index],
-                      categoryList[index],
-                      locList[index],
-                      lookingForList[index]);
-                },
-                // Card Which Holds Layout Of ListView Item
-                child: SizedBox(
-                  height: 185,
-                  child: Card(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    //shadowColor: Color.fromARGB(255, 255, 255, 255),
-                    //  elevation: 7,
+              // Card Which Holds Layout Of ListView Item
+              return SizedBox(
+                height: 185,
+                child: Card(
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  //shadowColor: Color.fromARGB(255, 255, 255, 255),
+                  //  elevation: 7,
 
-                    child: Row(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Row(children: <Widget>[
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.account_circle,
-                                    color: Color.fromARGB(255, 112, 82, 149),
-                                    size: 52,
-                                  ),
-                                  onPressed: () {
-                                    // do something
-                                  },
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.only(left: 0),
-                                    child: TextButton(
-                                      child: Text(
-                                        'Layan Alwadie ',
-                                        style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 126, 134, 135)),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ProjectsListViewPage()));
-                                      },
-                                    ))
-                              ]),
-                              Row(children: <Widget>[
-                                Text(
-                                  "      " + nameList[index] + " ",
+                        Row(children: <Widget>[
+                          IconButton(
+                            icon: const Icon(
+                              Icons.account_circle,
+                              color: Color.fromARGB(255, 112, 82, 149),
+                              size: 52,
+                            ),
+                            onPressed: () {
+                              // do something
+                            },
+                          ),
+                          Padding(
+                              padding: const EdgeInsets.only(left: 0),
+                              child: TextButton(
+                                child: const Text(
+                                  'Layan Alwadie ',
                                   style: TextStyle(
-                                    fontSize: 17,
-                                    color: Color.fromARGB(159, 64, 7, 87),
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                      color:
+                                          Color.fromARGB(255, 126, 134, 135)),
                                 ),
-                              ]),
-                              Row(
-                                children: <Widget>[
-                                  Text("     "),
-                                  const Icon(Icons.location_pin,
-                                      color: Color.fromARGB(173, 64, 7, 87)),
-                                  Text(locList[index],
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color:
-                                            Color.fromARGB(221, 81, 122, 140),
-                                      ))
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Text("     "),
-                                  const Icon(
-                                    Icons.search,
-                                    color: Color.fromARGB(248, 170, 167, 8),
-                                    size: 28,
-                                  ),
-                                  Text(lookingForList[index],
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color:
-                                              Color.fromARGB(221, 79, 128, 151),
-                                          fontWeight: FontWeight.normal),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.clip),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 0,
-                              ),
-                              Expanded(
-                                  child: //Text("                              "),
-                                      /*const Icon(
+                                onPressed: () {},
+                              ))
+                        ]),
+                        Row(children: <Widget>[
+                          Text(
+                            "      " + nameList[index] + " ",
+                            style: const TextStyle(
+                              fontSize: 17,
+                              color: Color.fromARGB(159, 64, 7, 87),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ]),
+                        Row(
+                          children: <Widget>[
+                            const Text("     "),
+                            const Icon(Icons.location_pin,
+                                color: Color.fromARGB(173, 64, 7, 87)),
+                            Text(locList[index],
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromARGB(221, 81, 122, 140),
+                                ))
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            const Text("     "),
+                            const Icon(
+                              Icons.search,
+                              color: Color.fromARGB(248, 170, 167, 8),
+                              size: 28,
+                            ),
+                            Text(lookingForList[index],
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromARGB(221, 79, 128, 151),
+                                    fontWeight: FontWeight.normal),
+                                maxLines: 2,
+                                overflow: TextOverflow.clip),
+                          ],
+                        ),
+                        Expanded(
+                            child: //Text("                              "),
+                                /*const Icon(
                                     Icons.arrow_downward,
                                     color: Color.fromARGB(255, 58, 44, 130),
                                     size: 28,
                                   ),*/
-                                      TextButton(
-                                child: Text(
-                                  '                                     View More ',
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 90, 46, 144),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProjectsListViewPage()));
-                                },
-                              ))
-                            ],
+                                TextButton(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'View More',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 90, 46, 144),
+                              ),
+                            ),
                           ),
-                        )
+                          onPressed: () {
+                            showDialogFunc(
+                                context,
+                                nameList[index],
+                                descList[index],
+                                categoryList[index],
+                                locList[index],
+                                lookingForList[index]);
+                          },
+                        ))
                       ],
                     ),
                   ),
@@ -246,9 +213,9 @@ showDialogFunc(context, title, desc, category, loc, lookingFor) {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Color.fromARGB(255, 255, 255, 255),
+              color: const Color.fromARGB(255, 255, 255, 255),
             ),
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             height: 400,
             width: MediaQuery.of(context).size.width * 0.9,
             child: Column(
@@ -256,16 +223,16 @@ showDialogFunc(context, title, desc, category, loc, lookingFor) {
               children: <Widget>[
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     color: Color.fromARGB(230, 64, 7, 87),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
-                Divider(
+                const Divider(
                   color: Color.fromARGB(255, 74, 74, 74),
                 ),
                 Row(
@@ -273,16 +240,16 @@ showDialogFunc(context, title, desc, category, loc, lookingFor) {
                     const Icon(Icons.location_pin,
                         color: Color.fromARGB(173, 64, 7, 87)),
                     Text(loc,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Color.fromARGB(230, 64, 7, 87),
                         ))
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
-                Divider(
+                const Divider(
                   color: Color.fromARGB(255, 102, 102, 102),
                 ),
                 Row(
@@ -293,7 +260,7 @@ showDialogFunc(context, title, desc, category, loc, lookingFor) {
                       size: 25,
                     ),
                     Text(lookingFor,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16,
                             color: Color.fromARGB(230, 64, 7, 87),
                             fontWeight: FontWeight.normal),
@@ -301,15 +268,15 @@ showDialogFunc(context, title, desc, category, loc, lookingFor) {
                         overflow: TextOverflow.clip),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
-                Divider(
+                const Divider(
                   color: Color.fromARGB(255, 102, 102, 102),
                 ),
                 Container(
                   // width: 200,
-                  child: Align(
+                  child: const Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       "About Project ",
@@ -328,21 +295,21 @@ showDialogFunc(context, title, desc, category, loc, lookingFor) {
                     child: Text(
                       desc,
                       maxLines: 3,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 16, color: Color.fromARGB(144, 64, 7, 87)),
                       textAlign: TextAlign.left,
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
-                Divider(
+                const Divider(
                   color: Color.fromARGB(255, 102, 102, 102),
                 ),
                 Container(
                   // width: 200,
-                  child: Align(
+                  child: const Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       "Category",
@@ -360,7 +327,7 @@ showDialogFunc(context, title, desc, category, loc, lookingFor) {
                     alignment: Alignment.topLeft,
                     child: Text(
                       category,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 16, color: Color.fromARGB(144, 64, 7, 87)),
                       textAlign: TextAlign.left,
                     ),
@@ -370,17 +337,17 @@ showDialogFunc(context, title, desc, category, loc, lookingFor) {
                   alignment: Alignment.center,
                   height: 40.0,
                   width: 100,
-                  margin: EdgeInsets.only(top: 10),
+                  margin: const EdgeInsets.only(top: 10),
 
                   // width: size.width * 0.5,
                   decoration: new BoxDecoration(
                       borderRadius: BorderRadius.circular(80.0),
                       gradient: new LinearGradient(colors: [
-                        Color.fromARGB(197, 67, 7, 87),
-                        Color.fromARGB(195, 117, 45, 141),
+                        const Color.fromARGB(197, 67, 7, 87),
+                        const Color.fromARGB(195, 117, 45, 141),
                       ])),
                   padding: const EdgeInsets.all(0),
-                  child: Text(
+                  child: const Text(
                     "Join",
                     style: TextStyle(
                         fontSize: 16,

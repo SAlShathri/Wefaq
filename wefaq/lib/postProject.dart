@@ -171,7 +171,7 @@ class _PostProjectState extends State<PostProject> {
                   ),
                   controller: _nameEditingController,
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
+                    if (value == null || value.isEmpty || value.trim() == '') {
                       return 'Please enter the project title.';
                     }
                   }),
@@ -350,7 +350,7 @@ class _PostProjectState extends State<PostProject> {
                   ),
                   controller: _lookingForEditingController,
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
+                    if (value == null || value.isEmpty || value.trim() == '') {
                       return 'Please enter the project team members neded.';
                     }
                   }),
@@ -387,7 +387,9 @@ class _PostProjectState extends State<PostProject> {
                     ),
                     controller: _descriptionEditingController,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      if (value == null ||
+                          value.isEmpty ||
+                          value.trim() == '') {
                         return 'Please enter the project description.';
                       }
 
