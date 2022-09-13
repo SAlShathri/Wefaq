@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'package:wefaq/models/project.dart';
+import 'package:wefaq/project_Screen.dart';
 
 // Main Stateful Widget Start
 class ProjectsListViewPage extends StatefulWidget {
@@ -34,6 +35,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 
   //category list
   var categoryList = [];
+  var TimeList = [];
 
 //get all projects
   Future getProjects() async {
@@ -48,6 +50,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
           locList.add(project['location']);
           lookingForList.add(project['lookingFor']);
           categoryList.add(project['category']);
+          TimeList.add(project['created']);
         });
       }
   }
@@ -59,6 +62,36 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        appBar: AppBar(
+          //automaticallyImplyLeading: false,
+          backgroundColor: Color.fromARGB(255, 145, 124, 178),
+          elevation: 30,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.menu,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                // do something
+              },
+            ),
+          ],
+          title: Text(
+            'Projects',
+            style: TextStyle(color: Colors.white),
+          ),
+          leading: Icon(
+            Icons.account_circle,
+            color: Colors.white,
+            size: 35,
+          ),
+        ),
+        bottomNavigationBar: CustomNavigationBar(
+          currentHomeScreen: 0,
+          updatePage: () {},
+        ),
+
         // Main List View With Builder
         body: Scrollbar(
           thumbVisibility: true,
@@ -72,95 +105,114 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                 },
                 // Card Which Holds Layout Of ListView Item
                 child: SizedBox(
-                  height: 190,
+                  height: 185,
                   child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
                     color: Color.fromARGB(255, 255, 255, 255),
-                    shadowColor: Color.fromARGB(255, 0, 0, 0),
+                    //shadowColor: Color.fromARGB(255, 255, 255, 255),
+                    //  elevation: 7,
+
                     child: Row(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Row(children: <Widget>[
-                                Text(
-                                  " " + nameList[index] + " | ",
-                                  style: TextStyle(
-                                    fontSize: 23,
-                                    color: Color.fromARGB(144, 64, 7, 87),
-                                    fontWeight: FontWeight.bold,
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.account_circle,
+                                    color: Color.fromARGB(255, 112, 82, 149),
+                                    size: 52,
                                   ),
+                                  onPressed: () {
+                                    // do something
+                                  },
                                 ),
+                                Padding(
+                                    padding: EdgeInsets.only(left: 0),
+                                    child: TextButton(
+                                      child: Text(
+                                        'Layan Alwadie ',
+                                        style: TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 126, 134, 135)),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ProjectsListViewPage()));
+                                      },
+                                    ))
+                              ]),
+                              Row(children: <Widget>[
                                 Text(
-                                  categoryList[index],
+                                  "      " + nameList[index] + " ",
                                   style: TextStyle(
-                                    fontStyle: FontStyle.italic,
-                                    fontSize: 23,
-                                    color: Color.fromARGB(144, 64, 7, 87),
-                                    fontWeight: FontWeight.normal,
+                                    fontSize: 17,
+                                    color: Color.fromARGB(159, 64, 7, 87),
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ]),
-                              SizedBox(
-                                height: 10,
-                              ),
                               Row(
                                 children: <Widget>[
+                                  Text("     "),
                                   const Icon(Icons.location_pin,
-                                      color: Color.fromARGB(144, 64, 7, 87)),
+                                      color: Color.fromARGB(173, 64, 7, 87)),
                                   Text(locList[index],
                                       style: TextStyle(
-                                          fontSize: 16,
-                                          color:
-                                              Color.fromARGB(221, 81, 122, 140),
-                                          fontWeight: FontWeight.bold))
+                                        fontSize: 16,
+                                        color:
+                                            Color.fromARGB(221, 81, 122, 140),
+                                      ))
                                 ],
-                              ),
-                              SizedBox(
-                                height: 10,
                               ),
                               Row(
                                 children: <Widget>[
+                                  Text("     "),
                                   const Icon(
                                     Icons.search,
                                     color: Color.fromARGB(248, 170, 167, 8),
                                     size: 28,
                                   ),
-                                  Text("Looking For: ",
+                                  Text(lookingForList[index],
                                       style: TextStyle(
-                                          fontSize: 18,
+                                          fontSize: 16,
                                           color:
-                                              Color.fromARGB(221, 81, 122, 140),
-                                          fontWeight: FontWeight.bold)),
+                                              Color.fromARGB(221, 79, 128, 151),
+                                          fontWeight: FontWeight.normal),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.clip),
                                 ],
                               ),
-                              Expanded(
-                                child: Text("  " + lookingForList[index],
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color:
-                                            Color.fromARGB(221, 79, 128, 151),
-                                        fontWeight: FontWeight.normal)),
+                              SizedBox(
+                                height: 0,
                               ),
                               Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 290),
-                                  child: ElevatedButton(
-                                    onPressed: () => {},
-                                    child: Text('Join',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 15)),
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          Color.fromARGB(144, 64, 7, 87),
-                                    ),
+                                  child: //Text("                              "),
+                                      /*const Icon(
+                                    Icons.arrow_downward,
+                                    color: Color.fromARGB(255, 58, 44, 130),
+                                    size: 28,
+                                  ),*/
+                                      TextButton(
+                                child: Text(
+                                  '                                     View More ',
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 90, 46, 144),
                                   ),
                                 ),
-                              ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProjectsListViewPage()));
+                                },
+                              ))
                             ],
                           ),
                         )
