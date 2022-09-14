@@ -86,9 +86,9 @@ class _ListViewTabsState extends State<Tabs> {
                   fontSize: 15.0,
                   fontFamily: 'Family Name'), //For Un-selected Tabs
               tabs: [
-                Tab(text: 'Projects'),
+                Tab(text: 'Upcoming Projects'),
                 Tab(
-                  text: 'Events',
+                  text: 'Upcoming Events',
                 ),
               ],
             ),

@@ -42,8 +42,8 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
               children: [
                 BottomBarButton(widget.currentHomeScreen, 0, Icons.home_filled,
                     widget.updatePage),
-                BottomBarButton(widget.currentHomeScreen, 1, Icons.group_add,
-                    widget.updatePage),
+                BottomBarButton(widget.currentHomeScreen, 1,
+                    Icons.list_alt_outlined, widget.updatePage),
                 const SizedBox(
                   width: 50,
                 ),
@@ -187,7 +187,7 @@ class BottomBarButton extends StatelessWidget {
                 else if (index == 1)
                   {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => myProjects()))
+                        MaterialPageRoute(builder: (context) => Tabs()))
                   }
               },
           child: AnimatedContainer(

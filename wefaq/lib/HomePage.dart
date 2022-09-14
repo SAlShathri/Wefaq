@@ -62,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text(
             'Home',
             style: TextStyle(
@@ -75,6 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: BackgroundHome(
             child: Container(
+                margin: EdgeInsets.only(top: 250),
                 height: 200,
                 child: ListView(scrollDirection: Axis.horizontal, children: [
                   Padding(
@@ -140,7 +142,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(
                       onTap: () {
-                        MaterialPageRoute(builder: (context) => myProjects());
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => myProjects()));
                       },
                       child: Container(
                         decoration: BoxDecoration(

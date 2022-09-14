@@ -95,111 +95,100 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                   //shadowColor: Color.fromARGB(255, 255, 255, 255),
                   //  elevation: 7,
 
-                    child: Row(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Row(children: <Widget>[
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.account_circle,
-                                    color: Color.fromARGB(255, 112, 82, 149),
-                                    size: 52,
-                                  ),
-                                  onPressed: () {
-                                    // do something
-                                  },
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.only(left: 0),
-                                    child: TextButton(
-                                      child: Text(
-                                        'Layan Alwadie ',
-                                        style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 126, 134, 135)),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ProjectsListViewPage()));
-                                      },
-                                    ))
-                              ]),
-                              Row(children: <Widget>[
-                                Text(
-                                  "      " + nameList[index] + " ",
+                        Row(children: <Widget>[
+                          IconButton(
+                            icon: const Icon(
+                              Icons.account_circle,
+                              color: Color.fromARGB(255, 112, 82, 149),
+                              size: 52,
+                            ),
+                            onPressed: () {
+                              // do something
+                            },
+                          ),
+                          Padding(
+                              padding: const EdgeInsets.only(left: 0),
+                              child: TextButton(
+                                child: const Text(
+                                  'Layan Alwadie ',
                                   style: TextStyle(
-                                    fontSize: 17,
-                                    color: Color.fromARGB(159, 64, 7, 87),
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                      color:
+                                          Color.fromARGB(255, 126, 134, 135)),
                                 ),
-                              ]),
-                              Row(
-                                children: <Widget>[
-                                  Text("     "),
-                                  const Icon(Icons.location_pin,
-                                      color: Color.fromARGB(173, 64, 7, 87)),
-                                  Text(locList[index],
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color:
-                                            Color.fromARGB(221, 81, 122, 140),
-                                      ))
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Text("     "),
-                                  const Icon(
-                                    Icons.search,
-                                    color: Color.fromARGB(248, 170, 167, 8),
-                                    size: 28,
-                                  ),
-                                  Text(lookingForList[index],
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color:
-                                              Color.fromARGB(221, 79, 128, 151),
-                                          fontWeight: FontWeight.normal),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.clip),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 0,
-                              ),
-                              Expanded(
-                                  child: //Text("                              "),
-                                      /*const Icon(
+                                onPressed: () {},
+                              ))
+                        ]),
+                        Row(children: <Widget>[
+                          Text(
+                            "      " + nameList[index] + " ",
+                            style: const TextStyle(
+                              fontSize: 17,
+                              color: Color.fromARGB(159, 64, 7, 87),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ]),
+                        Row(
+                          children: <Widget>[
+                            const Text("     "),
+                            const Icon(Icons.location_pin,
+                                color: Color.fromARGB(173, 64, 7, 87)),
+                            Text(locList[index],
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromARGB(221, 81, 122, 140),
+                                ))
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            const Text("     "),
+                            const Icon(
+                              Icons.search,
+                              color: Color.fromARGB(248, 170, 167, 8),
+                              size: 28,
+                            ),
+                            Text(lookingForList[index],
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromARGB(221, 79, 128, 151),
+                                    fontWeight: FontWeight.normal),
+                                maxLines: 2,
+                                overflow: TextOverflow.clip),
+                          ],
+                        ),
+                        Expanded(
+                            child: //Text("                              "),
+                                /*const Icon(
                                     Icons.arrow_downward,
                                     color: Color.fromARGB(255, 58, 44, 130),
                                     size: 28,
                                   ),*/
-                                      TextButton(
-                                child: Text(
-                                  '                                     View More ',
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 90, 46, 144),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProjectsListViewPage()));
-                                },
-                              ))
-                            ],
+                                TextButton(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'View More',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 90, 46, 144),
+                              ),
+                            ),
                           ),
-                        )
+                          onPressed: () {
+                            showDialogFunc(
+                                context,
+                                nameList[index],
+                                descList[index],
+                                categoryList[index],
+                                locList[index],
+                                lookingForList[index]);
+                          },
+                        ))
                       ],
                     ),
                   ),
