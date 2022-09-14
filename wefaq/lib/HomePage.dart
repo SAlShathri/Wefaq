@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 textAlign: TextAlign.left),
           ),
           Container(
-              margin: EdgeInsets.only(top: 270),
+              margin: EdgeInsets.only(top: 170),
               height: 200,
               child: ListView(scrollDirection: Axis.horizontal, children: [
                 Padding(
@@ -93,10 +93,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Color.fromARGB(255, 255, 255, 255),
                         boxShadow: [
                           BoxShadow(
-                            offset: Offset(0, 17),
-                            blurRadius: 17,
+                            offset: Offset(20, 17),
+                            blurRadius: 30,
                             spreadRadius: -23,
-                            color: Color.fromARGB(255, 186, 160, 190),
+                            color: Color.fromARGB(255, 176, 146, 189),
                           ),
                         ],
                         image: new DecorationImage(
@@ -122,10 +122,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Color.fromARGB(255, 255, 255, 255),
                         boxShadow: [
                           BoxShadow(
-                            offset: Offset(0, 17),
-                            blurRadius: 17,
+                            offset: Offset(20, 17),
+                            blurRadius: 30,
                             spreadRadius: -23,
-                            color: Color.fromARGB(255, 186, 160, 190),
+                            color: Color.fromARGB(255, 176, 146, 189),
                           ),
                         ],
                         image: new DecorationImage(
@@ -155,10 +155,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Color.fromARGB(255, 255, 255, 255),
                         boxShadow: [
                           BoxShadow(
-                            offset: Offset(0, 17),
-                            blurRadius: 17,
+                            offset: Offset(20, 17),
+                            blurRadius: 30,
                             spreadRadius: -23,
-                            color: Color.fromARGB(255, 186, 160, 190),
+                            color: Color.fromARGB(255, 176, 146, 189),
                           ),
                         ],
                         image: new DecorationImage(

@@ -79,7 +79,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
             itemCount: nameList.length,
             itemBuilder: (context, index) {
               return SizedBox(
-                height: 150,
+                height: 160,
                 child: Card(
                   color: Color.fromARGB(255, 255, 255, 255),
                   //shadowColor: Color.fromARGB(255, 255, 255, 255),

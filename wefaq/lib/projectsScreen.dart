@@ -93,7 +93,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
             itemBuilder: (context, index) {
               // Card Which Holds Layout Of ListView Item
               return SizedBox(
-                height: 185,
+                height: 195,
                 child: Card(
                   color: const Color.fromARGB(255, 255, 255, 255),
                   //shadowColor: Color.fromARGB(255, 255, 255, 255),
