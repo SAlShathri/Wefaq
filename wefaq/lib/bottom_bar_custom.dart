@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:full_screen_menu/full_screen_menu.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:wefaq/HomePage.dart';
 import 'package:wefaq/myProjects.dart';
 import 'package:wefaq/postEvent.dart';
 import 'package:wefaq/postProject.dart';
@@ -11,6 +12,7 @@ import 'package:wefaq/profile.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'package:wefaq/selectionScreen.dart';
 import 'package:wefaq/TabScreen.dart';
+import 'package:wefaq/HomePage.dart';
 
 class CustomNavigationBar extends StatefulWidget {
   const CustomNavigationBar(
@@ -173,7 +175,7 @@ class BottomBarButton extends StatelessWidget {
                 if (index == 0)
                   {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Tabs()))
+                        MaterialPageRoute(builder: (context) => HomeScreen()))
                   }
                 else if (index == 4)
                   {
