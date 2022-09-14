@@ -73,8 +73,15 @@ class _ListViewTabsState extends State<Tabs> {
                   }),
             ],
             automaticallyImplyLeading: false,
-            backgroundColor: Color.fromARGB(255, 182, 168, 203),
+            backgroundColor: Color.fromARGB(255, 145, 124, 178),
             bottom: const TabBar(
+              indicatorColor: Color.fromARGB(255, 84, 53, 134),
+              indicatorWeight: 6,
+              labelStyle: TextStyle(
+                  fontSize: 18.0, fontFamily: 'Family Name'), //For Selected tab
+              unselectedLabelStyle: TextStyle(
+                  fontSize: 15.0,
+                  fontFamily: 'Family Name'), //For Un-selected Tabs
               tabs: [
                 Tab(text: 'Projects'),
                 Tab(
@@ -84,7 +91,7 @@ class _ListViewTabsState extends State<Tabs> {
             ),
           ),
           body: TabBarView(
-            children: [ProjectsListViewPage(), ProjectsListViewPage()],
+            children: [ProjectsListViewPage(), EventsListViewPage()],
           ),
           bottomNavigationBar: CustomNavigationBar(
             currentHomeScreen: 0,
