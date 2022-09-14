@@ -94,6 +94,8 @@ class _myProjectState extends State<myProjects> {
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
               onPressed: () {
+                //-----------------------------------------------
+                _signOut();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => UserLogin()));
               }),
@@ -207,6 +209,10 @@ class _myProjectState extends State<myProjects> {
         ),
       ), // sc
     );
+  }
+
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }
 
