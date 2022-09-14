@@ -11,6 +11,8 @@ import 'package:wefaq/projectsScreen.dart';
 import 'package:wefaq/selectionScreen.dart';
 import 'package:wefaq/TabScreen.dart';
 import 'package:wefaq/splash.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/link.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +31,7 @@ class MyApp extends StatelessWidget {
           colorSchemeSeed: const Color.fromARGB(255, 215, 189, 226),
           useMaterial3: true,
           brightness: Brightness.light),
-      home: splash(),
+      home: EventsListViewPage(),
     );
   }
 }

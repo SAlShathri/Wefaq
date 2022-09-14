@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'package:wefaq/models/project.dart';
 import 'package:wefaq/profile.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/link.dart';
 
 // Main Stateful Widget Start
 class EventsListViewPage extends StatefulWidget {
@@ -31,7 +35,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
   var locList = [];
 
   //url list
-  //var urlList = [];
+  var urlList = [];
 
   //category list
   var categoryList = [];
@@ -51,7 +55,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
           nameList.add(events['name']);
           descList.add(events['description']);
           locList.add(events['location']);
-          // urlList.add(events['regstretion url ']);
+          urlList.add(events['regstretion url ']);
           categoryList.add(events['category']);
           dateTimeList.add(events['date']);
           TimeList.add(events['time']);
@@ -149,18 +153,18 @@ class _ListViewPageState extends State<EventsListViewPage> {
                             ),
                             onPressed: () {
                               showDialogFunc(
-                                context,
-                                nameList[index],
-                                descList[index],
-                                categoryList[index],
-                                locList[index],
-                                dateTimeList[index],
-                                TimeList[index],
-                              );
+                                  context,
+                                  nameList[index],
+                                  descList[index],
+                                  categoryList[index],
+                                  locList[index],
+                                  dateTimeList[index],
+                                  TimeList[index],
+                                  urlList[index]);
                             },
                           ),
                           SizedBox(
-                            width: 100,
+                            width: 80,
                           ),
                           IconButton(
                               onPressed: () {}, icon: Icon(Icons.star_border))
@@ -179,7 +183,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
 }
 
 // This is a block of Model Dialog
-showDialogFunc(context, title, desc, category, loc, date, time) {
+showDialogFunc(context, title, desc, category, loc, date, time, urlregstrtion) {
   return showDialog(
     context: context,
     builder: (context) {
@@ -235,7 +239,7 @@ showDialogFunc(context, title, desc, category, loc, date, time) {
                       color: Color.fromARGB(248, 170, 167, 8),
                       size: 28,
                     ),
-                    Text(date,
+                    Text(date + ' ' + time,
                         style: TextStyle(
                             fontSize: 16,
                             color: Color.fromARGB(221, 79, 128, 151),
@@ -309,6 +313,22 @@ showDialogFunc(context, title, desc, category, loc, date, time) {
                       textAlign: TextAlign.left,
                     ),
                   ),
+                ),
+                Center(
+                  child: Link(
+                      target: LinkTarget.blank,
+                      uri: Uri.parse(urlregstrtion),
+                      builder: (context, followLink) => ElevatedButton(
+                          onPressed: followLink,
+                          child: Text(
+                            'Registration link',
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255)),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(195, 117, 45, 141),
+                          ))),
                 ),
 
                 /* Container(
