@@ -146,6 +146,7 @@ class _PostProjectState extends State<PostProject> {
             padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
             children: <Widget>[
               TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   maxLength: 20,
                   decoration: InputDecoration(
                     label: RichText(
@@ -180,11 +181,12 @@ class _PostProjectState extends State<PostProject> {
                   controller: _nameEditingController,
                   validator: (value) {
                     if (value == null || value.isEmpty || value.trim() == '') {
-                      return 'Please enter the project title.';
+                      return 'required';
                     }
                   }),
               SizedBox(height: 25.0),
               TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   controller: _startSearchFieldController,
                   decoration: InputDecoration(
                       label: RichText(
@@ -240,7 +242,7 @@ class _PostProjectState extends State<PostProject> {
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter the project location.';
+                      return 'required';
                     }
                   }),
               Scrollbar(
@@ -281,6 +283,7 @@ class _PostProjectState extends State<PostProject> {
               ),
               SizedBox(height: 25.0),
               DropdownButtonFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 hint: RichText(
                   text: TextSpan(
                       text: 'Project category ',
@@ -322,12 +325,13 @@ class _PostProjectState extends State<PostProject> {
                 ),
                 validator: (value) {
                   if (value == null || value == "") {
-                    return 'Please select the project catogory.';
+                    return 'required';
                   }
                 },
               ),
               SizedBox(height: 25.0),
               TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   maxLength: 40,
                   decoration: InputDecoration(
                     label: RichText(
@@ -359,13 +363,14 @@ class _PostProjectState extends State<PostProject> {
                   controller: _lookingForEditingController,
                   validator: (value) {
                     if (value == null || value.isEmpty || value.trim() == '') {
-                      return 'Please enter the project team members neded.';
+                      return 'required';
                     }
                   }),
               SizedBox(height: 25.0),
               Scrollbar(
                 thumbVisibility: true,
                 child: TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     maxLength: 500,
                     maxLines: 3,
                     decoration: InputDecoration(
@@ -398,7 +403,7 @@ class _PostProjectState extends State<PostProject> {
                       if (value == null ||
                           value.isEmpty ||
                           value.trim() == '') {
-                        return 'Please enter the project description.';
+                        return 'required';
                       }
 
                       return null;
