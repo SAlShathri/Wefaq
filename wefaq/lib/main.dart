@@ -10,6 +10,7 @@ import 'package:wefaq/profile.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'package:wefaq/selectionScreen.dart';
 import 'package:wefaq/TabScreen.dart';
+import 'package:wefaq/splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
           colorSchemeSeed: const Color.fromARGB(255, 215, 189, 226),
           useMaterial3: true,
           brightness: Brightness.light),
-      home: EventsListViewPage(),
+      home: ProjectsListViewPage(),
     );
   }
 }

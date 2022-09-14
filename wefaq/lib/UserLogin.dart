@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:wefaq/TabScreen.dart';
 import 'package:wefaq/UserRegisteration.dart';
-import 'package:wefaq/background.dart';
+import 'package:wefaq/backgroundLogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wefaq/postProject.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:wefaq/projectsScreen.dart';
+import 'package:cool_alert/cool_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'main.dart';
 
@@ -19,8 +19,24 @@ class UserLogin extends StatefulWidget {
 }
 
 class _UserLogin extends State<UserLogin> {
-  GlobalKey<FormState> _FormKey = GlobalKey<FormState>();
+  //token
+  read() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'token';
+    final value = prefs.get(key) ?? 0;
+    if (value != '0') {
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new PostProject()));
+    }
+  }
 
+  @override
+  initState() {
+    read();
+  }
+
+  GlobalKey<FormState> _FormKey = GlobalKey<FormState>();
+  bool showpass = true;
   final _auth = FirebaseAuth.instance;
 
   late String email;
@@ -72,12 +88,18 @@ class _UserLogin extends State<UserLogin> {
                       //         BorderSide(color: Color.fromARGB(255, 110, 19, 201)),
                       //    ),
                       //border: InputBorder.,
+
+                      labelText: "Email",
+                      hintText: "example@email.com",
+                      hintStyle:
+                          TextStyle(color: Color.fromARGB(255, 202, 198, 198)),
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
                       labelStyle: TextStyle(
-                          //color: Color.fromARGB(255, 16, 16, 17),
-                          ),
-                      labelText: "Email"),
+                        fontSize: 19,
+                        color: Color.fromARGB(199, 66, 23, 139),
+                      )),
                   validator: MultiValidator(
-                      [RequiredValidator(errorText: 'Email is required')]),
+                      [RequiredValidator(errorText: 'required')]),
                 ),
               ),
 
@@ -86,13 +108,43 @@ class _UserLogin extends State<UserLogin> {
               Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.symmetric(horizontal: 40),
-                child: TextField(
+                child: TextFormField(
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "required";
+                    }
+                  },
                   //autovalidateMode: AutovalidateMode.onUserInteraction,
                   onChanged: (value) {
                     password = value;
                   },
-                  decoration: InputDecoration(labelText: "Password"),
-                  obscureText: true,
+                  obscureText: showpass,
+                  decoration: InputDecoration(
+                    labelText: "Password",
+                    hintText: "********",
+                    hintStyle:
+                        TextStyle(color: Color.fromARGB(255, 202, 198, 198)),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    labelStyle: TextStyle(
+                      fontSize: 19,
+                      color: Color.fromARGB(199, 66, 23, 139),
+                    ),
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          showpass = !showpass;
+                        });
+                      },
+                      child: showpass
+                          ? const Icon(
+                              Icons.visibility_off,
+                            )
+                          : Icon(
+                              Icons.visibility,
+                            ),
+                    ),
+                  ),
+                  //  obscureText: true,
                   //validator: MultiValidator(
                   //  [RequiredValidator(errorText: 'Email is required')]),
                 ),
@@ -125,23 +177,35 @@ class _UserLogin extends State<UserLogin> {
                         builder: ((context) =>
                             Center(child: CircularProgressIndicator())));
         */
-                    try {
-                      final user = await _auth.signInWithEmailAndPassword(
-                          email: email, password: password);
-                      if (user != null) {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Tabs()));
-                        print("Logged in Succesfully");
-                      }
-                    } catch (e) {
-                      print(e);
-                      validator:
+                    if (_FormKey.currentState!.validate()) {
+                      try {
+                        final user = await _auth.signInWithEmailAndPassword(
+                            email: email, password: password);
+                        if (user != null) {
+                          print("Logged in Succesfully");
+                        }
+                      } catch (e) {
+                        print(e);
+                        /*   validator:
                       MultiValidator([
                         RequiredValidator(
                             errorText: 'Incorrect username or password')
-                      ]);
+                      ]);*/
+                        CoolAlert.show(
+                          context: context,
+                          title: "Failed",
+                          confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
+                          //cancelBtnColor: Color.fromARGB(144, 64, 6, 87),
+                          type: CoolAlertType.error,
+                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                          text: "Incorrect username or password",
+                          confirmBtnText: 'Try again',
+                          onConfirmBtnTap: () {
+                            Navigator.of(context).pop();
+                          },
+                        );
+                      }
                     }
-
                     // hide the loding indicator
                     // navigatorKey.currentState!.popUntil((route) => route.isFirst);
                   },

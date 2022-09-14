@@ -148,7 +148,9 @@ class _PostEventState extends State<PostEvent> {
                         ),
                         controller: _nameEditingController,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.trim() == '') {
                             return 'Please enter the event name.';
                           }
                         }),
@@ -210,7 +212,9 @@ class _PostEventState extends State<PostEvent> {
                           });
                         },
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.trim() == '') {
                             return 'Please enter the event location.';
                           }
                         }),
@@ -385,7 +389,9 @@ class _PostEventState extends State<PostEvent> {
                         ),
                         controller: _urlEditingController,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.trim() == '') {
                             return 'Please enter the regstrition URL.';
                           }
                         }),
@@ -423,7 +429,9 @@ class _PostEventState extends State<PostEvent> {
                           ),
                           controller: _descriptionEditingController,
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
+                            if (value == null ||
+                                value.isEmpty ||
+                                value.trim() == '') {
                               return 'Please enter the event description.';
                             }
 
