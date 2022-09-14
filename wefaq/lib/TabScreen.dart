@@ -97,7 +97,7 @@ class _ListViewTabsState extends State<Tabs> {
             children: [ProjectsListViewPage(), EventsListViewPage()],
           ),
           bottomNavigationBar: CustomNavigationBar(
-            currentHomeScreen: 0,
+            currentHomeScreen: 1,
             updatePage: () {},
           ),
         ));

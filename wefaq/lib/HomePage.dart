@@ -49,129 +49,133 @@ class _HomeScreenState extends State<HomeScreen> {
       }
   }
 
-//    Text("$FName",
-//         style: TextStyle(
-//             fontWeight: FontWeight.bold,
-//             color: Color.fromARGB(255, 255, 255, 255),
-//             fontSize: 30),
-//         textAlign: TextAlign.left),
-//   ],
-// ),
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text(
-            'Home',
-            style: TextStyle(
-                color: Color.fromARGB(255, 138, 123, 161),
-                fontWeight: FontWeight.bold),
-          ),
-        ),
+        // appBar: AppBar(
+        //   automaticallyImplyLeading: false,
+        //   title: Text(
+        //     'Home',
+        //     style: TextStyle(
+        //         color: Color.fromARGB(255, 138, 123, 161),
+        //         fontWeight: FontWeight.bold),
+        //   ),
+        // ),
         bottomNavigationBar: CustomNavigationBar(
           currentHomeScreen: 0,
           updatePage: () {},
         ),
         body: BackgroundHome(
-            child: Container(
-                margin: EdgeInsets.only(top: 250),
-                height: 200,
-                child: ListView(scrollDirection: Axis.horizontal, children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () {},
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          boxShadow: [
-                            BoxShadow(
-                              offset: Offset(0, 17),
-                              blurRadius: 17,
-                              spreadRadius: -23,
-                              color: Color.fromARGB(255, 186, 160, 190),
-                            ),
-                          ],
-                          image: new DecorationImage(
-                              image: new AssetImage(
-                                  "assets/images/MyFavorites.png")),
-                        ),
-                        child: Text("   My favourites   ",
-                            style: TextStyle(
-                                fontSize: 24,
-                                color: Color.fromARGB(221, 81, 122, 140),
-                                fontWeight: FontWeight.bold)),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () {
-                        //next sprint :)
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          boxShadow: [
-                            BoxShadow(
-                              offset: Offset(0, 17),
-                              blurRadius: 17,
-                              spreadRadius: -23,
-                              color: Color.fromARGB(255, 186, 160, 190),
-                            ),
-                          ],
-                          image: new DecorationImage(
-                            image:
-                                new AssetImage("assets/images/MyProjects.png"),
+            child: Column(children: [
+          SizedBox(
+            height: 100,
+          ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text("   Hello $FName!",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 35),
+                textAlign: TextAlign.left),
+          ),
+          Container(
+              margin: EdgeInsets.only(top: 350),
+              height: 200,
+              child: ListView(scrollDirection: Axis.horizontal, children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: () {},
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(0, 17),
+                            blurRadius: 17,
+                            spreadRadius: -23,
+                            color: Color.fromARGB(255, 186, 160, 190),
                           ),
-                        ),
-                        child: Text("   My Requests   ",
-                            style: TextStyle(
-                                fontSize: 24,
-                                color: Color.fromARGB(221, 81, 122, 140),
-                                fontWeight: FontWeight.bold)),
+                        ],
+                        image: new DecorationImage(
+                            image: new AssetImage(
+                                "assets/images/MyFavorites.png")),
                       ),
+                      child: Text("   My favourites   ",
+                          style: TextStyle(
+                              fontSize: 24,
+                              color: Color.fromARGB(221, 81, 122, 140),
+                              fontWeight: FontWeight.bold)),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => myProjects()));
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          boxShadow: [
-                            BoxShadow(
-                              offset: Offset(0, 17),
-                              blurRadius: 17,
-                              spreadRadius: -23,
-                              color: Color.fromARGB(255, 186, 160, 190),
-                            ),
-                          ],
-                          image: new DecorationImage(
-                            image: new AssetImage("assets/images/MyP.png"),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: () {
+                      //next sprint :)
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(0, 17),
+                            blurRadius: 17,
+                            spreadRadius: -23,
+                            color: Color.fromARGB(255, 186, 160, 190),
                           ),
+                        ],
+                        image: new DecorationImage(
+                          image: new AssetImage("assets/images/MyRequest.png"),
                         ),
-                        child: Text("   My Projects   ",
-                            style: TextStyle(
-                                fontSize: 24,
-                                color: Color.fromARGB(221, 81, 122, 140),
-                                fontWeight: FontWeight.bold)),
                       ),
+                      child: Text("   My Requests   ",
+                          style: TextStyle(
+                              fontSize: 24,
+                              color: Color.fromARGB(221, 81, 122, 140),
+                              fontWeight: FontWeight.bold)),
                     ),
                   ),
-                ]))
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => myProjects()));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(0, 17),
+                            blurRadius: 17,
+                            spreadRadius: -23,
+                            color: Color.fromARGB(255, 186, 160, 190),
+                          ),
+                        ],
+                        image: new DecorationImage(
+                          image: new AssetImage("assets/images/MyP.png"),
+                        ),
+                      ),
+                      child: Text("   My Projects   ",
+                          style: TextStyle(
+                              fontSize: 24,
+                              color: Color.fromARGB(221, 81, 122, 140),
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                ),
+              ]))
+        ])
 
             // This trailing comma makes auto-formatting nicer for build methods.
             ));

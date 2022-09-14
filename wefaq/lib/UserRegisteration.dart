@@ -53,207 +53,54 @@ class _UserRegistratin extends State<UserRegistratin> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(
-        // padding: const EdgeInsets.all(8.0),
-        child: Background(
-          //resizeToAvoidBottomInset: false,
-          child: Form(
-            //autovalidateMode: AutovalidateMode.onUserInteraction,
-            key: _FormKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.symmetric(horizontal: 35),
-                  child: Text(
-                    "Register",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(199, 66, 23, 139),
-                        fontSize: 36),
-                    textAlign: TextAlign.left,
-                  ),
+      body: Background(
+        child: Form(
+          //  autovalidateMode: AutovalidateMode.always,
+          key: _FormKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.symmetric(horizontal: 35),
+                child: Text(
+                  "Register",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(199, 66, 23, 139),
+                      fontSize: 36),
+                  textAlign: TextAlign.left,
                 ),
-                SizedBox(height: size.height * 0.00),
-                Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.symmetric(horizontal: 40),
-                  child: TextFormField(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    maxLength: 15,
-                    onChanged: (value) {
-                      FirstName = value;
-                    },
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "required";
-                      } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
-                          !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
-                        return "Only English or Arabic letters";
-                      }
-                      //if( !(value.contains(eng)) &&  !(value.contains(ara)) ) {
-                      //   return "Only English or Arabic letters";
-                      //  }
-                      //   },
-                      //  !(value.contains(ucasereg))
-                    },
-                    //controller: controller,
-                    decoration: InputDecoration(
-                        hintText: "John",
-                        hintStyle: TextStyle(
-                            color: Color.fromARGB(255, 202, 198, 198)),
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        label: RichText(
-                          text: TextSpan(
-                              text: 'First Name',
-                              style: const TextStyle(
-                                  fontSize: 19,
-                                  color: Color.fromARGB(199, 66, 23, 139)),
-                              children: [
-                                TextSpan(
-                                    text: ' *',
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 20,
-                                    ))
-                              ]),
-                        )),
-                  ),
-                ),
-                SizedBox(height: size.height * 0.00),
-                Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.symmetric(horizontal: 40),
-                  child: TextFormField(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    maxLength: 15,
-                    onChanged: (value) {
-                      LastName = value;
-                    },
-                    decoration: InputDecoration(
-                        hintText: "Doe",
-                        hintStyle: TextStyle(
-                            color: Color.fromARGB(255, 202, 198, 198)),
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        label: RichText(
-                          text: TextSpan(
-                              text: 'Last Name',
-                              style: const TextStyle(
-                                  fontSize: 19,
-                                  color: Color.fromARGB(199, 66, 23, 139)),
-                              children: [
-                                TextSpan(
-                                    text: ' *',
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 20,
-                                    ))
-                              ]),
-                        )),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "required";
-                      } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
-                          !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
-                        return "Only English or Arabic letters";
-                      }
-                    },
-                  ),
-                ),
-                SizedBox(height: size.height * 0.0),
-                Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.symmetric(horizontal: 40),
-                  child: TextFormField(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    controller: emailcontroller,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: "required"),
-                      EmailValidator(errorText: "not valid email"),
-                    ]),
-                    onChanged: (value) {
-                      email = value;
-                      //form.validate();
-                    },
-                    decoration: InputDecoration(
-                        hintText: "example@email.com",
-                        hintStyle: TextStyle(
-                            color: Color.fromARGB(255, 202, 198, 198)),
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        label: RichText(
-                          text: TextSpan(
-                              text: 'Email',
-                              style: const TextStyle(
-                                  fontSize: 19,
-                                  color: Color.fromARGB(199, 66, 23, 139)),
-                              children: [
-                                TextSpan(
-                                    text: ' *',
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 20,
-                                    ))
-                              ]),
-                        )),
-                    keyboardType: TextInputType.emailAddress,
-                    autofillHints: [AutofillHints.email],
-                  ),
-                ),
-                SizedBox(height: size.height * 0.02),
-                Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.symmetric(horizontal: 40),
-                  child: TextFormField(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    controller: passcontroller,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "required";
-                      }
-                      if (!(value.characters.length >= 8) ||
-                          !(value.contains(ucasereg)) ||
-                          !(value.contains(digit))) {
-                        return "";
-                      }
-                    },
-                    onChanged: (value) {
-                      if (value.characters.length >= 8) {
-                        setState(() {
-                          has8char = true;
-                        });
-                      } else {
-                        has8char = false;
-                      }
+              ),
+              SizedBox(height: size.height * 0.00),
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 40),
 
-                      ///  password = value;
-                      if (value.contains(ucasereg)) {
-                        setState(() {
-                          hasuppercase = true;
-                        });
-                      } else {
-                        hasuppercase = false;
-                      }
-                      if (value.contains(digit)) {
-                        setState(() {
-                          hasdigit = true;
-                        });
-                      } else {
-                        hasdigit = false;
-                      }
-
-                      password = value;
-                    },
-                    obscureText: showpass,
-                    decoration: InputDecoration(
-                      hintText: "********",
+                child: TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  maxLength: 15,
+                  onChanged: (value) {
+                    FirstName = value;
+                  },
+                  validator: (value) {
+                    if (value!.isEmpty || value.trim() == '') {
+                      return "required";
+                    } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
+                        !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
+                      return "Only English or Arabic letters";
+                    }
+                  },
+                  // },
+                  //controller: controller,
+                  decoration: InputDecoration(
+                      hintText: "John",
                       hintStyle:
                           TextStyle(color: Color.fromARGB(255, 202, 198, 198)),
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       label: RichText(
                         text: TextSpan(
-                            text: 'Password',
+                            text: 'First Name',
                             style: const TextStyle(
                                 fontSize: 19,
                                 color: Color.fromARGB(199, 66, 23, 139)),
@@ -265,118 +112,37 @@ class _UserRegistratin extends State<UserRegistratin> {
                                     fontSize: 20,
                                   ))
                             ]),
+                      )
+                      //floatingLabelBehavior:FloatingLabelBehavior.never,
+                      //      hintText: "John" ,
+                      //      hintStyle: TextStyle( color: Color.fromARGB(255, 202, 198, 198)),
+                      //   floatingLabelBehavior: FloatingLabelBehavior.always,
+                      //   labelStyle: TextStyle( fontSize: 19,
+                      //  color: Color.fromARGB(199, 66, 23, 139),)
+                      //errorText: _errorText ,
                       ),
-                      suffixIcon: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            showpass = !showpass;
-                          });
-                        },
-                        child: !showpass
-                            ? const Icon(
-                                Icons.visibility,
-                              )
-                            : Icon(
-                                Icons.visibility_off,
-                              ),
-                      ),
-                    ),
+                ),
 
-                    //obscureText: true,
-                  ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                ),
-                SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.65,
-                    child: Row(
-                      children: [
-                        const Text('at least 8 characters'),
-                        Spacer(),
-                        has8char
-                            ? const Icon(
-                                Icons.check_circle,
-                                color: Colors.green,
-                              )
-                            : Icon(
-                                Icons.error,
-                                color: Colors.red,
-                              )
-                      ],
-                    )),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.65,
-                  child: Divider(color: Color.fromARGB(255, 126, 123, 123)),
-                ),
-                SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.65,
-                    child: Row(
-                      children: [
-                        const Text('1 numeric character'),
-                        Spacer(),
-                        hasdigit
-                            ? const Icon(
-                                Icons.check_circle,
-                                color: Colors.green,
-                              )
-                            : Icon(
-                                Icons.error,
-                                color: Colors.red,
-                              )
-                      ],
-                    )),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.65,
-                  child: Divider(color: Color.fromARGB(255, 126, 123, 123)),
-                ),
-                SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.65,
-                    child: Row(
-                      children: [
-                        const Text('1 uppercase letter'),
-                        Spacer(),
-                        hasuppercase
-                            ? const Icon(
-                                Icons.check_circle,
-                                color: Colors.green,
-                              )
-                            : Icon(
-                                Icons.error,
-                                color: Colors.red,
-                              )
-                      ],
-                    )),
-                SizedBox(height: size.height * 0.02),
-                Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.symmetric(horizontal: 40),
-                  child: TextFormField(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    controller: _confirmpasscontroller,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "required";
-                      }
-                      if (value != passcontroller.value.text) {
-                        return 'passwords do not match ! ';
-                      }
-                    },
-                    onChanged: (value) {
-                      password = value;
-                    },
-                    obscureText: showpass1,
-                    decoration: InputDecoration(
-                      hintText: "********",
+                //  onChanged: (text) => setState(() => text),
+              ),
+              SizedBox(height: size.height * 0.00),
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 40),
+                child: TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  maxLength: 15,
+                  onChanged: (value) {
+                    LastName = value;
+                  },
+                  decoration: InputDecoration(
+                      hintText: "Doe",
                       hintStyle:
                           TextStyle(color: Color.fromARGB(255, 202, 198, 198)),
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       label: RichText(
                         text: TextSpan(
-                            text: 'Confirm Password',
+                            text: 'Last Name',
                             style: const TextStyle(
                                 fontSize: 19,
                                 color: Color.fromARGB(199, 66, 23, 139)),
@@ -388,127 +154,416 @@ class _UserRegistratin extends State<UserRegistratin> {
                                     fontSize: 20,
                                   ))
                             ]),
-                      ),
-                      suffixIcon: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            showpass1 = !showpass1;
-                          });
-                        },
-                        child: !showpass1
-                            ? const Icon(
-                                Icons.visibility,
-                              )
-                            : Icon(
-                                Icons.visibility_off,
-                              ),
-                      ),
+                      )),
+                  validator: (value) {
+                    if (value!.isEmpty || value.trim() == '') {
+                      return "required";
+                    } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
+                        !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
+                      return "Only English or Arabic letters";
+                    }
+                  },
+                ),
+              ),
+              SizedBox(height: size.height * 0.0),
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 40),
+                child: TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  controller: emailcontroller,
+                  //  validator: (email) => email != null && !EmailValidator.validate(email!)? 'invalid email': null ,
+
+                  validator: MultiValidator([
+                    RequiredValidator(errorText: "required"),
+                    EmailValidator(errorText: "not valid email"),
+                  ]),
+
+                  onChanged: (value) {
+                    final form = _FormKey.currentState!;
+                    email = value;
+                    // form.validate();
+                  },
+                  decoration: InputDecoration(
+                      hintText: "example@email.com",
+                      hintStyle:
+                          TextStyle(color: Color.fromARGB(255, 202, 198, 198)),
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      label: RichText(
+                        text: TextSpan(
+                            text: 'Email',
+                            style: const TextStyle(
+                                fontSize: 19,
+                                color: Color.fromARGB(199, 66, 23, 139)),
+                            children: [
+                              TextSpan(
+                                  text: ' *',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 20,
+                                  ))
+                            ]),
+                      )),
+                  keyboardType: TextInputType.emailAddress,
+                  autofillHints: [AutofillHints.email],
+                ),
+              ),
+              SizedBox(height: size.height * 0.02),
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 40),
+                child: TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  controller: passcontroller,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "required";
+                    }
+                    if (!(value.characters.length >= 8) ||
+                        !(value.contains(ucasereg)) ||
+                        !(value.contains(digit))) {
+                      return "";
+                    }
+                  },
+                  onChanged: (value) {
+                    if (value.characters.length >= 8) {
+                      setState(() {
+                        has8char = true;
+                      });
+                    } else {
+                      has8char = false;
+                    }
+
+                    ///  password = value;
+                    if (value.contains(ucasereg)) {
+                      setState(() {
+                        hasuppercase = true;
+                      });
+                    } else {
+                      hasuppercase = false;
+                    }
+                    if (value.contains(digit)) {
+                      setState(() {
+                        hasdigit = true;
+                      });
+                    } else {
+                      hasdigit = false;
+                    }
+
+                    password = value;
+                  },
+                  obscureText: showpass,
+                  decoration: InputDecoration(
+                    hintText: "********",
+                    hintStyle:
+                        TextStyle(color: Color.fromARGB(255, 202, 198, 198)),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    label: RichText(
+                      text: TextSpan(
+                          text: 'Password',
+                          style: const TextStyle(
+                              fontSize: 19,
+                              color: Color.fromARGB(199, 66, 23, 139)),
+                          children: [
+                            TextSpan(
+                                text: ' *',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 20,
+                                ))
+                          ]),
+                    ),
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          showpass = !showpass;
+                        });
+                      },
+                      child: showpass
+                          ? const Icon(
+                              Icons.visibility_off,
+                            )
+                          : Icon(
+                              Icons.visibility,
+                            ),
                     ),
                   ),
+
+                  //obscureText: true,
                 ),
-                SizedBox(height: size.height * 0.03),
-                Container(
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      if (_FormKey.currentState!.validate()) {
-                        try {
-                          final newUser =
-                              await _auth.createUserWithEmailAndPassword(
-                                  email: email, password: password);
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                //  child: Divider(
+                //  color: Color.fromARGB(255, 224, 30, 195)
+                //),
+              ),
+              SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.65,
+                  child: Row(
+                    children: [
+                      const Text('at least 8 characters'),
+                      Spacer(),
+                      has8char
+                          ? const Icon(
+                              Icons.check_circle,
+                              color: Colors.green,
+                            )
+                          : Icon(
+                              Icons.error,
+                              color: Colors.red,
+                            )
+                    ],
+                  )),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.65,
+                child: Divider(color: Color.fromARGB(255, 126, 123, 123)),
+              ),
+              SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.65,
+                  child: Row(
+                    children: [
+                      const Text('1 numeric character'),
+                      Spacer(),
+                      hasdigit
+                          ? const Icon(
+                              Icons.check_circle,
+                              color: Colors.green,
+                            )
+                          : Icon(
+                              Icons.error,
+                              color: Colors.red,
+                            )
+                    ],
+                  )),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.65,
+                child: Divider(color: Color.fromARGB(255, 126, 123, 123)),
+              ),
+              SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.65,
+                  child: Row(
+                    children: [
+                      const Text('1 uppercase letter'),
+                      Spacer(),
+                      hasuppercase
+                          ? const Icon(
+                              Icons.check_circle,
+                              color: Colors.green,
+                            )
+                          : Icon(
+                              Icons.error,
+                              color: Colors.red,
+                            )
+                    ],
+                  )),
+              SizedBox(height: size.height * 0.02),
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 40),
+                child: TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  controller: _confirmpasscontroller,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "required";
+                    }
+                    if (value != passcontroller.value.text) {
+                      return 'passwords do not match ! ';
+                    }
+                  },
+                  onChanged: (value) {
+                    password = value;
+                  },
+                  obscureText: showpass1,
+                  decoration: InputDecoration(
+                    hintText: "********",
+                    hintStyle:
+                        TextStyle(color: Color.fromARGB(255, 202, 198, 198)),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    label: RichText(
+                      text: TextSpan(
+                          text: 'Confirm Password',
+                          style: const TextStyle(
+                              fontSize: 19,
+                              color: Color.fromARGB(199, 66, 23, 139)),
+                          children: [
+                            TextSpan(
+                                text: ' *',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 20,
+                                ))
+                          ]),
+                    ),
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          showpass1 = !showpass1;
+                        });
+                      },
+                      child: showpass1
+                          ? const Icon(
+                              Icons.visibility_off,
+                            )
+                          : Icon(
+                              Icons.visibility,
+                            ),
+                    ),
+                  ),
+                  //obscureText: true,
+                ),
+              ),
+              SizedBox(height: size.height * 0.03),
+              Container(
+                //alignment: Alignment.centerRight,
+                //margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    //print(FisrtName);
+                    //print(LastName);
+                    //print(email);
+                    //print(password);
 
-                          print("Account Created Successfully");
+                    if (_FormKey.currentState!.validate()) {
+                      try {
+                        final newUser =
+                            await _auth.createUserWithEmailAndPassword(
+                                email: email, password: password);
 
-                          _firestore.collection('users').add({
-                            'FirstName': FirstName,
-                            'LastName': LastName,
-                            'Email': email,
-                            'password': password,
-                          });
+                        print("Account Created Successfully");
 
-                          print("user is stored Successfully");
+                        _firestore.collection('users').add({
+                          'FirstName': FirstName,
+                          'LastName': LastName,
+                          'Email': email,
+                          'password': password,
+                        });
 
-                          CoolAlert.show(
-                            context: context,
-                            title: "Success!",
-                            confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
-                            type: CoolAlertType.success,
-                            backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                            text: "Created account successfully",
-                            confirmBtnText: 'Log in',
-                            onConfirmBtnTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => UserLogin()));
-                            },
-                          );
-                        } catch (e) {
-                          print("Error ${e.toString()}");
-                          CoolAlert.show(
-                            context: context,
-                            title: "Failed",
-                            confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
-                            type: CoolAlertType.error,
-                            backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                            text:
-                                "This Email address is already used by another account!",
-                            confirmBtnText: 'Try again',
-                            onConfirmBtnTap: () {
-                              Navigator.of(context).pop();
-                            },
-                          );
-                        }
+                        print("user is stored Successfully");
+
+                        CoolAlert.show(
+                          context: context,
+                          title: "Success!",
+                          confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
+                          type: CoolAlertType.success,
+                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                          text: "Created account successfully",
+                          confirmBtnText: 'Log in',
+                          onConfirmBtnTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => UserLogin()));
+                          },
+                        );
+                        //openDialog();
+                      } catch (e) {
+                        print(
+                            "Error ${e.toString()}"); //printing the error massege----------edit this later
+
+                        /*ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          "This Email address is already used on another account!"))); */
+                        CoolAlert.show(
+                          context: context,
+                          title: "Failed",
+                          confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
+                          //cancelBtnColor: Color.fromARGB(144, 64, 6, 87),
+                          type: CoolAlertType.error,
+                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                          text:
+                              "This Email address is already used by another account!",
+                          confirmBtnText: 'Try again',
+                          onConfirmBtnTap: () {
+                            Navigator.of(context).pop();
+                          },
+                        );
                       }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      surfaceTintColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(80.0)),
-                      padding: const EdgeInsets.all(0),
-                    ),
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 50.0,
-                      width: size.width * 0.5,
-                      decoration: new BoxDecoration(
-                          borderRadius: BorderRadius.circular(80.0),
-                          gradient: new LinearGradient(colors: [
-                            Color.fromARGB(144, 67, 7, 87),
-                            Color.fromARGB(221, 137, 171, 187)
-                          ])),
-                      padding: const EdgeInsets.all(0),
-                      child: Text(
-                        "REGISTER",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 255, 255, 255)),
-                      ),
-                    ),
+
+                      //controller.value.text.isNotEmpty
+                      //? _submit
+                      //: null ;
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    surfaceTintColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(80.0)),
+                    padding: const EdgeInsets.all(0),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                  child: GestureDetector(
-                    onTap: () => {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => UserLogin()))
-                    },
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 50.0,
+                    width: size.width * 0.5,
+                    decoration: new BoxDecoration(
+                        borderRadius: BorderRadius.circular(80.0),
+                        gradient: new LinearGradient(colors: [
+                          Color.fromARGB(144, 67, 7, 87),
+                          Color.fromARGB(221, 137, 171, 187)
+                        ])),
+                    padding: const EdgeInsets.all(0),
                     child: Text(
-                      "Already Have an Account? Log in",
+                      "REGISTER",
                       style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontSize: 12,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(123, 11, 13, 18)),
+                          color: Color.fromARGB(255, 255, 255, 255)),
+                      //style: Theme.of(context).textTheme.bodyLarge,
+
+                      //  style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                )
-              ],
-            ),
+                ),
+              ),
+              Container(
+                //alignment: Alignment.centerRight,
+                margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                child: GestureDetector(
+                  onTap: () => {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => UserLogin()))
+                  },
+                  child: Text(
+                    "Already Have an Account? Log in",
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(123, 11, 13, 18)),
+                  ),
+                ),
+              )
+            ],
           ),
         ),
       ),
     );
   }
+/*
+  Future openDialog() => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('You have created an account successfully'),
+          actions: [
+            TextButton(
+              child: Text('Log in'),
+              onPressed: submit,
+            ),
+          ],
+        ),
+      );
+
+  void submit() {
+    Navigator.of(context).pop();
+
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => UserLogin()));
+  }
+
+*/
 }

@@ -75,46 +75,17 @@ class _ListViewPageState extends State<EventsListViewPage> {
             itemCount: nameList.length,
             itemBuilder: (context, index) {
               return SizedBox(
-                height: 185,
+                height: 150,
                 child: Card(
                   color: Color.fromARGB(255, 255, 255, 255),
                   //shadowColor: Color.fromARGB(255, 255, 255, 255),
                   //  elevation: 7,
 
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Row(children: <Widget>[
-                          IconButton(
-                            icon: Icon(
-                              Icons.account_circle,
-                              color: Color.fromARGB(255, 112, 82, 149),
-                              size: 52,
-                            ),
-                            onPressed: () {
-                              // do something
-                            },
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(left: 0),
-                              child: TextButton(
-                                child: Text(
-                                  'Layan Alwadie ',
-                                  style: TextStyle(
-                                      color:
-                                          Color.fromARGB(255, 126, 134, 135)),
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              profileScreen()));
-                                },
-                              ))
-                        ]),
                         Row(children: <Widget>[
                           Text(
                             "      " + nameList[index] + " ",
@@ -125,6 +96,9 @@ class _ListViewPageState extends State<EventsListViewPage> {
                             ),
                           ),
                         ]),
+                        SizedBox(
+                          height: 6,
+                        ),
                         Row(
                           children: <Widget>[
                             Text("     "),
@@ -154,38 +128,43 @@ class _ListViewPageState extends State<EventsListViewPage> {
                                 overflow: TextOverflow.clip),
                           ],
                         ),
-                        SizedBox(
-                          height: 0,
-                        ),
-                        Expanded(
-                            child: //Text("                              "),
-                                /*const Icon(
+                        Row(children: <Widget>[
+                          SizedBox(
+                            width: 160,
+                          ),
+                          /*const Icon(
                                     Icons.arrow_downward,
                                     color: Color.fromARGB(255, 58, 44, 130),
                                     size: 28,
                                   ),*/
-                                TextButton(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              'View More',
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 90, 46, 144),
+                          TextButton(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'View More',
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 90, 46, 144),
+                                ),
                               ),
                             ),
+                            onPressed: () {
+                              showDialogFunc(
+                                context,
+                                nameList[index],
+                                descList[index],
+                                categoryList[index],
+                                locList[index],
+                                dateTimeList[index],
+                                TimeList[index],
+                              );
+                            },
                           ),
-                          onPressed: () {
-                            showDialogFunc(
-                              context,
-                              nameList[index],
-                              descList[index],
-                              categoryList[index],
-                              locList[index],
-                              dateTimeList[index],
-                              TimeList[index],
-                            );
-                          },
-                        ))
+                          SizedBox(
+                            width: 100,
+                          ),
+                          IconButton(
+                              onPressed: () {}, icon: Icon(Icons.star_border))
+                        ])
                       ],
                     ),
                   ),
