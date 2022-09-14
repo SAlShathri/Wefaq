@@ -67,9 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: BackgroundHome(
             child: Column(children: [
-          SizedBox(
-            height: 140,
-          ),
           Align(
             alignment: Alignment.topLeft,
             child: Text("   Hello $FName!",
@@ -79,8 +76,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: 35),
                 textAlign: TextAlign.left),
           ),
+          SizedBox(
+            height: 140,
+          ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text("Swipe left to view more <--",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 42, 39, 39),
+                    fontSize: 20),
+                textAlign: TextAlign.left),
+          ),
           Container(
-              margin: EdgeInsets.only(top: 170),
+              margin: EdgeInsets.only(top: 40),
               height: 200,
               child: ListView(scrollDirection: Axis.horizontal, children: [
                 Padding(

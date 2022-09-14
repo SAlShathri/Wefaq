@@ -95,7 +95,7 @@ class _profileScreenState extends State<profileScreen> {
                     color: Color.fromARGB(255, 255, 255, 255),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: AssetImage('assets/images/Fem.jpg'),
+                      image: AssetImage('assets/images/PlaceHolder.png'),
                     ),
                   ),
                 ),

@@ -121,6 +121,7 @@ class _PostEventState extends State<PostEvent> {
                       EdgeInsets.symmetric(horizontal: 30.0, vertical: 40.0),
                   children: <Widget>[
                     TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         maxLength: 20,
                         decoration: InputDecoration(
                           label: RichText(
@@ -155,11 +156,12 @@ class _PostEventState extends State<PostEvent> {
                           if (value == null ||
                               value.isEmpty ||
                               value.trim() == '') {
-                            return 'Please enter the event name.';
+                            return 'required';
                           }
                         }),
                     SizedBox(height: 20.0),
                     TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: _startSearchFieldController,
                         decoration: InputDecoration(
                             label: RichText(
@@ -219,7 +221,7 @@ class _PostEventState extends State<PostEvent> {
                           if (value == null ||
                               value.isEmpty ||
                               value.trim() == '') {
-                            return 'Please enter the event location.';
+                            return 'required';
                           }
                         }),
                     Scrollbar(
@@ -363,6 +365,7 @@ class _PostEventState extends State<PostEvent> {
                     ), //URL
                     const SizedBox(height: 20.0),
                     TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
                           label: RichText(
                             text: TextSpan(
@@ -396,7 +399,7 @@ class _PostEventState extends State<PostEvent> {
                           if (value == null ||
                               value.isEmpty ||
                               value.trim() == '') {
-                            return 'Please enter the regstrition URL.';
+                            return 'required';
                           }
                         }),
 
@@ -404,6 +407,7 @@ class _PostEventState extends State<PostEvent> {
                     Scrollbar(
                       thumbVisibility: true,
                       child: TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           maxLength: 500,
                           maxLines: 3,
                           decoration: InputDecoration(
@@ -436,10 +440,8 @@ class _PostEventState extends State<PostEvent> {
                             if (value == null ||
                                 value.isEmpty ||
                                 value.trim() == '') {
-                              return 'Please enter the event description.';
+                              return 'required';
                             }
-
-                            return null;
                           }),
                     ),
                     SizedBox(
