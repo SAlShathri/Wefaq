@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'package:wefaq/models/project.dart';
 import 'package:wefaq/profile.dart';
+import 'package:favorite_button/favorite_button.dart';
 
 // Main Stateful Widget Start
 class EventsListViewPage extends StatefulWidget {
@@ -68,36 +69,6 @@ class _ListViewPageState extends State<EventsListViewPage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          //automaticallyImplyLeading: false,
-          backgroundColor: Color.fromARGB(255, 145, 124, 178),
-          elevation: 30,
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.menu,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                // do something
-              },
-            ),
-          ],
-          title: Text(
-            'Events',
-            style: TextStyle(color: Colors.white),
-          ),
-          leading: Icon(
-            Icons.account_circle,
-            color: Colors.white,
-            size: 35,
-          ),
-        ),
-        bottomNavigationBar: CustomNavigationBar(
-          currentHomeScreen: 0,
-          updatePage: () {},
-        ),
-
         // Main List View With Builder
         body: Scrollbar(
           thumbVisibility: true,
@@ -111,12 +82,17 @@ class _ListViewPageState extends State<EventsListViewPage> {
                 },
                 // Card Which Holds Layout Of ListView Item
                 child: SizedBox(
+<<<<<<< Updated upstream
                   height: 200,
+=======
+                  height: 150,
+>>>>>>> Stashed changes
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                     color: Color.fromARGB(255, 255, 255, 255),
+<<<<<<< Updated upstream
                     shadowColor: Color.fromARGB(255, 0, 0, 0),
                     child: Row(
                       children: <Widget>[
@@ -229,11 +205,99 @@ class _ListViewPageState extends State<EventsListViewPage> {
                                               Color.fromARGB(221, 81, 122, 140),
                                           fontWeight: FontWeight.bold))
                                 ],
+=======
+                    //shadowColor: Color.fromARGB(255, 255, 255, 255),
+                    //  elevation: 7,
+
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(children: <Widget>[
+                            Text(
+                              "      " + nameList[index] + " ",
+                              style: TextStyle(
+                                fontSize: 17,
+                                color: Color.fromARGB(159, 64, 7, 87),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ]),
+                          SizedBox(
+                            height: 7,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text("     "),
+                              const Icon(Icons.location_pin,
+                                  color: Color.fromARGB(173, 64, 7, 87)),
+                              Text(locList[index],
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromARGB(221, 81, 122, 140),
+                                  ))
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text("     "),
+                              const Icon(
+                                Icons.timelapse_outlined,
+                                color: Color.fromARGB(248, 170, 167, 8),
+                                size: 21,
+>>>>>>> Stashed changes
                               ),
                             ],
                           ),
+<<<<<<< Updated upstream
                         )
                       ],
+=======
+                          SizedBox(
+                            height: 0,
+                          ),
+                          Row(children: <Widget>[
+                            //Text("                              "),
+                            /*const Icon(
+                                    Icons.arrow_downward,
+                                    color: Color.fromARGB(255, 58, 44, 130),
+                                    size: 28,
+                                  ),*/
+                            TextButton(
+                              child: Text(
+                                '                                     View More ',
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 90, 46, 144),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => showDialogFunc(
+                                              context,
+                                              nameList[index],
+                                              descList[index],
+                                              categoryList[index],
+                                              locList[index],
+                                              dateTimeList[index],
+                                              TimeList[index],
+                                            )));
+                              },
+                            ),
+                            Text('                  '),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.star_border),
+                            )
+                          ])
+                        ],
+                      ),
+>>>>>>> Stashed changes
                     ),
                   ),
                 ),
