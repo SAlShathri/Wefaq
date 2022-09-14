@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:wefaq/UserLogin.dart';
-import 'package:wefaq/background.dart';
+import 'package:wefaq/backgroundLogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -24,55 +24,29 @@ class UserRegistratin extends StatefulWidget {
 
 class _UserRegistratin extends State<UserRegistratin> {
   GlobalKey<FormState> _FormKey = GlobalKey<FormState>();
-
+  late String FirstName;
+  late String LastName;
+  late String email;
+  late String password;
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
   final emailcontroller = TextEditingController();
   TextEditingController passcontroller = TextEditingController();
   bool showpass = true;
-  bool has12char = false;
+  bool showpass1 = true;
+  bool has8char = false;
   bool hasuppercase = false;
-  bool hasspecial = false;
+  bool hasdigit = false;
   final ucasereg = RegExp('[A-Z]');
   final digit = RegExp('[1-9]');
   final _passcontroller = TextEditingController();
   final _confirmpasscontroller = TextEditingController();
-//<<<<<<< HEAD
-  // final controller = TextEditingController();
-
-//String? get _errorText {
-  // at any time, we can get the text from _controller.value.text
-  //final text = controller.value.text;
-  // Note: you can do your own custom validation here
-  // Move this logic this outside the widget for more testable code
-  // if (text.isEmpty) {
-//    return 'Can\'t be empty';
-  // }
-  // if (text.length < 4) {
-  //   return 'Too short';
-  // }
-  // return null if the text is valid
-  // return null;
-//}
 
   @override
   void dispose() {
     emailcontroller.dispose();
     super.dispose();
   }
-
-  late String FirstName;
-  late String LastName;
-  late String email;
-  late String password;
-
-  // void _submit() {
-  // if there is no error text
-  // if (_errorText == null) {
-  // notify the parent widget via the onSubmit callback
-  //   widget.onSubmit( controller.value.text);
-  // }
-//}
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +62,7 @@ class _UserRegistratin extends State<UserRegistratin> {
             children: <Widget>[
               Container(
                 alignment: Alignment.centerLeft,
-                padding: EdgeInsets.symmetric(horizontal: 40),
+                padding: EdgeInsets.symmetric(horizontal: 35),
                 child: Text(
                   "Register",
                   style: TextStyle(
@@ -104,22 +78,49 @@ class _UserRegistratin extends State<UserRegistratin> {
                 margin: EdgeInsets.symmetric(horizontal: 40),
 
                 child: TextFormField(
-                  maxLength: 10,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  maxLength: 15,
                   onChanged: (value) {
                     FirstName = value;
                   },
                   validator: (value) {
-                    if (value!.isEmpty ||
-                        !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
-                      return "Name must contain only English letters";
+                    if (value!.isEmpty || value.trim() == '') {
+                      return "required";
+                    } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
+                        !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
+                      return "Only English or Arabic letters";
                     }
                   },
                   // },
                   //controller: controller,
                   decoration: InputDecoration(
-                    labelText: "First name",
-                    //errorText: _errorText ,
-                  ),
+                      hintText: "John",
+                      hintStyle:
+                          TextStyle(color: Color.fromARGB(255, 202, 198, 198)),
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      label: RichText(
+                        text: TextSpan(
+                            text: 'First Name',
+                            style: const TextStyle(
+                                fontSize: 19,
+                                color: Color.fromARGB(199, 66, 23, 139)),
+                            children: [
+                              TextSpan(
+                                  text: ' *',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 20,
+                                  ))
+                            ]),
+                      )
+                      //floatingLabelBehavior:FloatingLabelBehavior.never,
+                      //      hintText: "John" ,
+                      //      hintStyle: TextStyle( color: Color.fromARGB(255, 202, 198, 198)),
+                      //   floatingLabelBehavior: FloatingLabelBehavior.always,
+                      //   labelStyle: TextStyle( fontSize: 19,
+                      //  color: Color.fromARGB(199, 66, 23, 139),)
+                      //errorText: _errorText ,
+                      ),
                 ),
 
                 //  onChanged: (text) => setState(() => text),
@@ -129,26 +130,50 @@ class _UserRegistratin extends State<UserRegistratin> {
                 alignment: Alignment.center,
                 margin: EdgeInsets.symmetric(horizontal: 40),
                 child: TextFormField(
-                  maxLength: 10,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  maxLength: 15,
                   onChanged: (value) {
                     LastName = value;
                   },
-                  decoration: InputDecoration(labelText: "Last name"),
+                  decoration: InputDecoration(
+                      hintText: "Doe",
+                      hintStyle:
+                          TextStyle(color: Color.fromARGB(255, 202, 198, 198)),
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      label: RichText(
+                        text: TextSpan(
+                            text: 'Last Name',
+                            style: const TextStyle(
+                                fontSize: 19,
+                                color: Color.fromARGB(199, 66, 23, 139)),
+                            children: [
+                              TextSpan(
+                                  text: ' *',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 20,
+                                  ))
+                            ]),
+                      )),
                   validator: (value) {
-                    if (value!.isEmpty ||
-                        !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
-                      return "Name must contain only English letters";
+                    if (value!.isEmpty || value.trim() == '') {
+                      return "required";
+                    } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
+                        !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
+                      return "Only English or Arabic letters";
                     }
                   },
                 ),
               ),
-              SizedBox(height: size.height * 0.00),
+              SizedBox(height: size.height * 0.0),
               Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.symmetric(horizontal: 40),
                 child: TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   controller: emailcontroller,
                   //  validator: (email) => email != null && !EmailValidator.validate(email!)? 'invalid email': null ,
+
                   validator: MultiValidator([
                     RequiredValidator(errorText: "required"),
                     EmailValidator(errorText: "not valid email"),
@@ -157,33 +182,56 @@ class _UserRegistratin extends State<UserRegistratin> {
                   onChanged: (value) {
                     final form = _FormKey.currentState!;
                     email = value;
-                    form.validate();
+                    // form.validate();
                   },
                   decoration: InputDecoration(
-                    labelText: "Email",
-                  ),
+                      hintText: "example@email.com",
+                      hintStyle:
+                          TextStyle(color: Color.fromARGB(255, 202, 198, 198)),
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      label: RichText(
+                        text: TextSpan(
+                            text: 'Email',
+                            style: const TextStyle(
+                                fontSize: 19,
+                                color: Color.fromARGB(199, 66, 23, 139)),
+                            children: [
+                              TextSpan(
+                                  text: ' *',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 20,
+                                  ))
+                            ]),
+                      )),
                   keyboardType: TextInputType.emailAddress,
                   autofillHints: [AutofillHints.email],
                 ),
               ),
-              SizedBox(height: size.height * 0.00),
+              SizedBox(height: size.height * 0.02),
               Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.symmetric(horizontal: 40),
                 child: TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   controller: passcontroller,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "required";
                     }
+                    if (!(value.characters.length >= 8) ||
+                        !(value.contains(ucasereg)) ||
+                        !(value.contains(digit))) {
+                      return "";
+                    }
                   },
                   onChanged: (value) {
                     if (value.characters.length >= 8) {
                       setState(() {
-                        has12char = true;
+                        has8char = true;
                       });
                     } else {
-                      has12char = false;
+                      has8char = false;
                     }
 
                     ///  password = value;
@@ -196,22 +244,42 @@ class _UserRegistratin extends State<UserRegistratin> {
                     }
                     if (value.contains(digit)) {
                       setState(() {
-                        hasspecial = true;
+                        hasdigit = true;
                       });
                     } else {
-                      hasspecial = false;
+                      hasdigit = false;
                     }
+
+                    password = value;
                   },
                   obscureText: showpass,
                   decoration: InputDecoration(
-                    labelText: "Password",
+                    hintText: "********",
+                    hintStyle:
+                        TextStyle(color: Color.fromARGB(255, 202, 198, 198)),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    label: RichText(
+                      text: TextSpan(
+                          text: 'Password',
+                          style: const TextStyle(
+                              fontSize: 19,
+                              color: Color.fromARGB(199, 66, 23, 139)),
+                          children: [
+                            TextSpan(
+                                text: ' *',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 20,
+                                ))
+                          ]),
+                    ),
                     suffixIcon: GestureDetector(
                       onTap: () {
                         setState(() {
                           showpass = !showpass;
                         });
                       },
-                      child: !showpass
+                      child: showpass
                           ? const Icon(
                               Icons.visibility_off,
                             )
@@ -234,12 +302,12 @@ class _UserRegistratin extends State<UserRegistratin> {
                 //),
               ),
               SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.7,
+                  width: MediaQuery.of(context).size.width * 0.65,
                   child: Row(
                     children: [
                       const Text('at least 8 characters'),
                       Spacer(),
-                      has12char
+                      has8char
                           ? const Icon(
                               Icons.check_circle,
                               color: Colors.green,
@@ -251,16 +319,16 @@ class _UserRegistratin extends State<UserRegistratin> {
                     ],
                   )),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.7,
+                width: MediaQuery.of(context).size.width * 0.65,
                 child: Divider(color: Color.fromARGB(255, 126, 123, 123)),
               ),
               SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.7,
+                  width: MediaQuery.of(context).size.width * 0.65,
                   child: Row(
                     children: [
-                      const Text('1 numeric characters'),
+                      const Text('1 numeric character'),
                       Spacer(),
-                      hasspecial
+                      hasdigit
                           ? const Icon(
                               Icons.check_circle,
                               color: Colors.green,
@@ -272,11 +340,11 @@ class _UserRegistratin extends State<UserRegistratin> {
                     ],
                   )),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.7,
+                width: MediaQuery.of(context).size.width * 0.65,
                 child: Divider(color: Color.fromARGB(255, 126, 123, 123)),
               ),
               SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.7,
+                  width: MediaQuery.of(context).size.width * 0.65,
                   child: Row(
                     children: [
                       const Text('1 uppercase letter'),
@@ -292,11 +360,12 @@ class _UserRegistratin extends State<UserRegistratin> {
                             )
                     ],
                   )),
-              SizedBox(height: size.height * 0.01),
+              SizedBox(height: size.height * 0.02),
               Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.symmetric(horizontal: 40),
                 child: TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   controller: _confirmpasscontroller,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -309,14 +378,49 @@ class _UserRegistratin extends State<UserRegistratin> {
                   onChanged: (value) {
                     password = value;
                   },
-                  decoration: InputDecoration(labelText: "Confirm Password"),
-                  obscureText: true,
+                  obscureText: showpass1,
+                  decoration: InputDecoration(
+                    hintText: "********",
+                    hintStyle:
+                        TextStyle(color: Color.fromARGB(255, 202, 198, 198)),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    label: RichText(
+                      text: TextSpan(
+                          text: 'Confirm Password',
+                          style: const TextStyle(
+                              fontSize: 19,
+                              color: Color.fromARGB(199, 66, 23, 139)),
+                          children: [
+                            TextSpan(
+                                text: ' *',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 20,
+                                ))
+                          ]),
+                    ),
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          showpass1 = !showpass1;
+                        });
+                      },
+                      child: showpass1
+                          ? const Icon(
+                              Icons.visibility_off,
+                            )
+                          : Icon(
+                              Icons.visibility,
+                            ),
+                    ),
+                  ),
+                  //obscureText: true,
                 ),
               ),
               SizedBox(height: size.height * 0.03),
               Container(
                 //alignment: Alignment.centerRight,
-                margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                //margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 child: ElevatedButton(
                   onPressed: () async {
                     //print(FisrtName);
@@ -360,6 +464,25 @@ class _UserRegistratin extends State<UserRegistratin> {
                       } catch (e) {
                         print(
                             "Error ${e.toString()}"); //printing the error massege----------edit this later
+
+                        /*ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          "This Email address is already used on another account!"))); */
+                        CoolAlert.show(
+                          context: context,
+                          title: "Failed",
+                          confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
+                          //cancelBtnColor: Color.fromARGB(144, 64, 6, 87),
+                          type: CoolAlertType.error,
+                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                          text:
+                              "This Email address is already used by another account!",
+                          confirmBtnText: 'Try again',
+                          onConfirmBtnTap: () {
+                            Navigator.of(context).pop();
+                          },
+                        );
                       }
 
                       //controller.value.text.isNotEmpty

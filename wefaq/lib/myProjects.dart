@@ -80,13 +80,25 @@ class _myProjectState extends State<myProjects> {
 
     return Scaffold(
       appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Color.fromARGB(255, 182, 168, 203),
-          title: Text('My projects',
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-                color: Colors.white,
-              ))),
+        automaticallyImplyLeading: false,
+        backgroundColor: Color.fromARGB(255, 182, 168, 203),
+        title: Text('My projects',
+            style: TextStyle(
+              fontWeight: FontWeight.normal,
+              color: Colors.white,
+            )),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => UserLogin()));
+              }),
+        ],
+      ),
       bottomNavigationBar: CustomNavigationBar(
         currentHomeScreen: 1,
         updatePage: () {},
