@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wefaq/TabScreen.dart';
+import 'package:wefaq/HomePage.dart';
 import 'package:wefaq/UserRegisteration.dart';
 import 'package:wefaq/backgroundLogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -169,10 +169,8 @@ class _UserLogin extends State<UserLogin> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PostProject()));
+                                  builder: (context) => HomeScreen()));
                           print("Logged in Succesfully");
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Tabs()));
                         }
                       } catch (e) {
                         print(e);
