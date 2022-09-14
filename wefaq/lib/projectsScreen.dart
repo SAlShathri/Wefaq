@@ -37,6 +37,8 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 
   //category list
   var categoryList = [];
+  var fname = [];
+  var lname = [];
 
   String? Email;
   void getCurrentUser() {
@@ -69,6 +71,8 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
             locList.add(project['location']);
             lookingForList.add(project['lookingFor']);
             categoryList.add(project['category']);
+            fname.add(project['fname']);
+            lname.add(project['lname']);
           });
         }
     }
@@ -112,16 +116,13 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                             },
                           ),
                           Padding(
-                              padding: const EdgeInsets.only(left: 0),
-                              child: TextButton(
-                                child: const Text(
-                                  'Layan Alwadie ',
-                                  style: TextStyle(
-                                      color:
-                                          Color.fromARGB(255, 126, 134, 135)),
-                                ),
-                                onPressed: () {},
-                              ))
+                            padding: const EdgeInsets.only(left: 0),
+                            child: Text(
+                              fname[index] + " " + lname[index],
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 126, 134, 135)),
+                            ),
+                          )
                         ]),
                         Row(children: <Widget>[
                           Text(
@@ -210,154 +211,159 @@ showDialogFunc(context, title, desc, category, loc, lookingFor) {
       return Center(
         child: Material(
           type: MaterialType.transparency,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: const Color.fromARGB(255, 255, 255, 255),
-            ),
-            padding: const EdgeInsets.all(15),
-            height: 400,
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: Color.fromARGB(230, 64, 7, 87),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Divider(
-                  color: Color.fromARGB(255, 74, 74, 74),
-                ),
-                Row(
-                  children: <Widget>[
-                    const Icon(Icons.location_pin,
-                        color: Color.fromARGB(173, 64, 7, 87)),
-                    Text(loc,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Color.fromARGB(230, 64, 7, 87),
-                        ))
-                  ],
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                const Divider(
-                  color: Color.fromARGB(255, 102, 102, 102),
-                ),
-                Row(
-                  children: <Widget>[
-                    const Icon(
-                      Icons.search,
-                      color: Color.fromARGB(248, 170, 167, 8),
-                      size: 25,
+          child: Scrollbar(
+            thumbVisibility: true,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: const Color.fromARGB(255, 255, 255, 255),
+              ),
+              padding: const EdgeInsets.all(15),
+              height: 400,
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Color.fromARGB(230, 64, 7, 87),
+                      fontWeight: FontWeight.bold,
                     ),
-                    Text(lookingFor,
-                        style: const TextStyle(
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Divider(
+                    color: Color.fromARGB(255, 74, 74, 74),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      const Icon(Icons.location_pin,
+                          color: Color.fromARGB(173, 64, 7, 87)),
+                      Text(loc,
+                          style: const TextStyle(
                             fontSize: 16,
                             color: Color.fromARGB(230, 64, 7, 87),
-                            fontWeight: FontWeight.normal),
-                        maxLines: 2,
-                        overflow: TextOverflow.clip),
-                  ],
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                const Divider(
-                  color: Color.fromARGB(255, 102, 102, 102),
-                ),
-                Container(
-                  // width: 200,
-                  child: const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "About Project",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color.fromARGB(230, 64, 7, 87),
-                        fontWeight: FontWeight.bold,
+                          ))
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  const Divider(
+                    color: Color.fromARGB(255, 102, 102, 102),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      const Icon(
+                        Icons.search,
+                        color: Color.fromARGB(248, 170, 167, 8),
+                        size: 25,
+                      ),
+                      Text(lookingFor,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              color: Color.fromARGB(230, 64, 7, 87),
+                              fontWeight: FontWeight.normal),
+                          maxLines: 2,
+                          overflow: TextOverflow.clip),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  const Divider(
+                    color: Color.fromARGB(255, 102, 102, 102),
+                  ),
+                  Container(
+                    // width: 200,
+                    child: const Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "About Project",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(230, 64, 7, 87),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Container(
-                  // width: 200,
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      desc,
-                      maxLines: 3,
-                      style: const TextStyle(
-                          fontSize: 16, color: Color.fromARGB(144, 64, 7, 87)),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                const Divider(
-                  color: Color.fromARGB(255, 102, 102, 102),
-                ),
-                Container(
-                  // width: 200,
-                  child: const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Category",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color.fromARGB(230, 64, 7, 87),
-                        fontWeight: FontWeight.bold,
+                  Container(
+                    // width: 200,
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        desc,
+                        maxLines: 3,
+                        style: const TextStyle(
+                            fontSize: 16,
+                            color: Color.fromARGB(144, 64, 7, 87)),
+                        textAlign: TextAlign.left,
                       ),
                     ),
                   ),
-                ),
-                Container(
-                  // width: 200,
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      category,
-                      style: const TextStyle(
-                          fontSize: 16, color: Color.fromARGB(144, 64, 7, 87)),
-                      textAlign: TextAlign.left,
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  const Divider(
+                    color: Color.fromARGB(255, 102, 102, 102),
+                  ),
+                  Container(
+                    // width: 200,
+                    child: const Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Category",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(230, 64, 7, 87),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  height: 40.0,
-                  width: 100,
-                  margin: const EdgeInsets.only(top: 10),
+                  Container(
+                    // width: 200,
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        category,
+                        style: const TextStyle(
+                            fontSize: 16,
+                            color: Color.fromARGB(144, 64, 7, 87)),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    height: 40.0,
+                    width: 100,
+                    margin: const EdgeInsets.only(top: 10),
 
-                  // width: size.width * 0.5,
-                  decoration: new BoxDecoration(
-                      borderRadius: BorderRadius.circular(80.0),
-                      gradient: new LinearGradient(colors: [
-                        const Color.fromARGB(197, 67, 7, 87),
-                        const Color.fromARGB(195, 117, 45, 141),
-                      ])),
-                  padding: const EdgeInsets.all(0),
-                  child: const Text(
-                    "Join",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 255, 255, 255)),
-                    //     textAlign: TextAlign.center,
-                    //     style: TextStyle(fontWeight: FontWeight.bold ),
+                    // width: size.width * 0.5,
+                    decoration: new BoxDecoration(
+                        borderRadius: BorderRadius.circular(80.0),
+                        gradient: new LinearGradient(colors: [
+                          const Color.fromARGB(197, 67, 7, 87),
+                          const Color.fromARGB(195, 117, 45, 141),
+                        ])),
+                    padding: const EdgeInsets.all(0),
+                    child: const Text(
+                      "Join",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 255, 255, 255)),
+                      //     textAlign: TextAlign.center,
+                      //     style: TextStyle(fontWeight: FontWeight.bold ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

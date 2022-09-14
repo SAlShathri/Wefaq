@@ -499,7 +499,7 @@ class _PostEventState extends State<PostEvent> {
                                 },
                                 type: CoolAlertType.success,
                                 backgroundColor:
-                                    Color.fromARGB(221, 137, 171, 187),
+                                    Color.fromARGB(221, 212, 189, 227),
                                 text: "Event posted successfuly",
                               );
                             }

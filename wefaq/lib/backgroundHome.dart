@@ -20,7 +20,7 @@ class BackgroundHome extends StatelessWidget {
         children: <Widget>[
           Positioned(
             child: Image.asset(
-              "assets/images/bg.png",
+              "assets/images/bg.jpeg",
             ),
           ),
           child

@@ -43,6 +43,9 @@ class _PostProjectState extends State<PostProject> {
   final auth = FirebaseAuth.instance;
   late User signedInUser;
   var Email;
+  var fname;
+  var lname;
+
   @override
   void initState() {
     // call the methods to fetch the data from the DB
@@ -100,6 +103,8 @@ class _PostProjectState extends State<PostProject> {
         if (user.data()['Email'] == signedInUser.email)
           setState(() {
             Email = (user.data()['Email']);
+            lname = (user.data()['FirstName']);
+            fname = (user.data()['LastName']);
           });
       }
   }
@@ -424,6 +429,8 @@ class _PostProjectState extends State<PostProject> {
                           'lookingFor': _lookingForEditingController.text,
                           'created': now,
                           'email': Email.toString(),
+                          'lname': lname,
+                          'fanme': fname
                         });
                         //Clear
 
@@ -445,7 +452,7 @@ class _PostProjectState extends State<PostProject> {
                                     builder: (context) => myProjects()));
                           },
                           type: CoolAlertType.success,
-                          backgroundColor: Color.fromARGB(221, 137, 171, 187),
+                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
                           text: "Project posted successfuly",
                         );
                       }

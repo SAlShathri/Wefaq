@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: BackgroundHome(
             child: Column(children: [
           SizedBox(
-            height: 100,
+            height: 140,
           ),
           Align(
             alignment: Alignment.topLeft,
@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 textAlign: TextAlign.left),
           ),
           Container(
-              margin: EdgeInsets.only(top: 350),
+              margin: EdgeInsets.only(top: 270),
               height: 200,
               child: ListView(scrollDirection: Axis.horizontal, children: [
                 Padding(
@@ -100,8 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                         image: new DecorationImage(
-                            image: new AssetImage(
-                                "assets/images/MyFavorites.png")),
+                            image: new AssetImage("assets/images/3.png")),
                       ),
                       child: Text("   My favourites   ",
                           style: TextStyle(
@@ -130,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                         image: new DecorationImage(
-                          image: new AssetImage("assets/images/MyRequest.png"),
+                          image: new AssetImage("assets/images/1.png"),
                         ),
                       ),
                       child: Text("   My Requests   ",
@@ -163,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                         image: new DecorationImage(
-                          image: new AssetImage("assets/images/MyP.png"),
+                          image: new AssetImage("assets/images/2.png"),
                         ),
                       ),
                       child: Text("   My Projects   ",

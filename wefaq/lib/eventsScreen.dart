@@ -190,172 +190,177 @@ showDialogFunc(context, title, desc, category, loc, date, time, urlregstrtion) {
       return Center(
         child: Material(
           type: MaterialType.transparency,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Color.fromARGB(255, 255, 255, 255),
-            ),
-            padding: EdgeInsets.all(15),
-            height: 400,
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Color.fromARGB(230, 64, 7, 87),
-                    fontWeight: FontWeight.bold,
+          child: Scrollbar(
+            thumbVisibility: true,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
+              padding: EdgeInsets.all(15),
+              height: 400,
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Color.fromARGB(230, 64, 7, 87),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Divider(
-                  color: Color.fromARGB(255, 74, 74, 74),
-                ),
-                Row(
-                  children: <Widget>[
-                    const Icon(Icons.location_pin,
-                        color: Color.fromARGB(173, 64, 7, 87)),
-                    Text(loc,
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Divider(
+                    color: Color.fromARGB(255, 74, 74, 74),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      const Icon(Icons.location_pin,
+                          color: Color.fromARGB(173, 64, 7, 87)),
+                      Text(loc,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Color.fromARGB(230, 64, 7, 87),
+                          ))
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Divider(
+                    color: Color.fromARGB(255, 102, 102, 102),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      const Icon(
+                        Icons.timelapse_outlined,
+                        color: Color.fromARGB(248, 170, 167, 8),
+                        size: 28,
+                      ),
+                      Text(date,
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Color.fromARGB(221, 79, 128, 151),
+                              fontWeight: FontWeight.normal),
+                          maxLines: 2,
+                          overflow: TextOverflow.clip),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Divider(
+                    color: Color.fromARGB(255, 102, 102, 102),
+                  ),
+                  Container(
+                    // width: 200,
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "About Event ",
                         style: TextStyle(
                           fontSize: 16,
                           color: Color.fromARGB(230, 64, 7, 87),
-                        ))
-                  ],
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Divider(
-                  color: Color.fromARGB(255, 102, 102, 102),
-                ),
-                Row(
-                  children: <Widget>[
-                    const Icon(
-                      Icons.timelapse_outlined,
-                      color: Color.fromARGB(248, 170, 167, 8),
-                      size: 28,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                    Text(date + ' ' + time,
+                  ),
+                  Container(
+                    // width: 200,
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        desc,
+                        maxLines: 3,
                         style: TextStyle(
                             fontSize: 16,
-                            color: Color.fromARGB(221, 79, 128, 151),
-                            fontWeight: FontWeight.normal),
-                        maxLines: 2,
-                        overflow: TextOverflow.clip),
-                  ],
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Divider(
-                  color: Color.fromARGB(255, 102, 102, 102),
-                ),
-                Container(
-                  // width: 200,
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "About Event ",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color.fromARGB(230, 64, 7, 87),
-                        fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(144, 64, 7, 87)),
+                        textAlign: TextAlign.left,
                       ),
                     ),
                   ),
-                ),
-                Container(
-                  // width: 200,
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      desc,
-                      maxLines: 3,
-                      style: TextStyle(
-                          fontSize: 16, color: Color.fromARGB(144, 64, 7, 87)),
-                      textAlign: TextAlign.left,
-                    ),
+                  SizedBox(
+                    height: 5,
                   ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Divider(
-                  color: Color.fromARGB(255, 102, 102, 102),
-                ),
-                Container(
-                  // width: 200,
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Category",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color.fromARGB(230, 64, 7, 87),
-                        fontWeight: FontWeight.bold,
+                  Divider(
+                    color: Color.fromARGB(255, 102, 102, 102),
+                  ),
+                  Container(
+                    // width: 200,
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Category",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(230, 64, 7, 87),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Container(
-                  // width: 200,
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      category,
-                      maxLines: 3,
-                      style: TextStyle(
-                          fontSize: 16, color: Color.fromARGB(144, 64, 7, 87)),
-                      textAlign: TextAlign.left,
+                  Container(
+                    // width: 200,
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        category,
+                        maxLines: 3,
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Color.fromARGB(144, 64, 7, 87)),
+                        textAlign: TextAlign.left,
+                      ),
                     ),
                   ),
-                ),
-                Center(
-                  child: Link(
-                      target: LinkTarget.blank,
-                      uri: Uri.parse(urlregstrtion),
-                      builder: (context, followLink) => ElevatedButton(
-                          onPressed: followLink,
-                          child: Text(
-                            'Registration link',
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255)),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromARGB(195, 117, 45, 141),
-                          ))),
-                ),
-
-                /* Container(
-                  alignment: Alignment.center,
-                  height: 40.0,
-                  width: 200,
-                  margin: EdgeInsets.only(top: 20),
-
-                  // width: size.width * 0.5,
-                  decoration: new BoxDecoration(
-                      borderRadius: BorderRadius.circular(80.0),
-                      gradient: new LinearGradient(colors: [
-                        Color.fromARGB(197, 67, 7, 87),
-                        Color.fromARGB(195, 117, 45, 141),
-                      ])),
-                  padding: const EdgeInsets.all(0),
-                  child: Text(
-                    "Regstrition Link",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 255, 255, 255)),
-                    //     textAlign: TextAlign.center,
-                    //     style: TextStyle(fontWeight: FontWeight.bold ),
+                  Center(
+                    child: Link(
+                        target: LinkTarget.blank,
+                        uri: Uri.parse(urlregstrtion),
+                        builder: (context, followLink) => ElevatedButton(
+                            onPressed: followLink,
+                            child: Text(
+                              'Registration link',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 255, 255, 255)),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(195, 117, 45, 141),
+                            ))),
                   ),
-                ),*/
-              ],
+
+                  /* Container(
+                    alignment: Alignment.center,
+                    height: 40.0,
+                    width: 200,
+                    margin: EdgeInsets.only(top: 20),
+          
+                    // width: size.width * 0.5,
+                    decoration: new BoxDecoration(
+                        borderRadius: BorderRadius.circular(80.0),
+                        gradient: new LinearGradient(colors: [
+                          Color.fromARGB(197, 67, 7, 87),
+                          Color.fromARGB(195, 117, 45, 141),
+                        ])),
+                    padding: const EdgeInsets.all(0),
+                    child: Text(
+                      "Regstrition Link",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 255, 255, 255)),
+                      //     textAlign: TextAlign.center,
+                      //     style: TextStyle(fontWeight: FontWeight.bold ),
+                    ),
+                  ),*/
+                ],
+              ),
             ),
           ),
         ),
