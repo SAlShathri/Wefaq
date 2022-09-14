@@ -65,6 +65,7 @@ class _profileScreenState extends State<profileScreen> {
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
               onPressed: () {
+                _signOut();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => UserLogin()));
               }),
@@ -217,5 +218,9 @@ class _profileScreenState extends State<profileScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

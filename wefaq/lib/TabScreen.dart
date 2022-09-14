@@ -5,6 +5,7 @@ import 'package:wefaq/eventsScreen.dart';
 import 'package:wefaq/models/project.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'package:wefaq/userLogin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // Main Stateful Widget Start
 class Tabs extends StatefulWidget {
@@ -69,7 +70,9 @@ class _ListViewTabsState extends State<Tabs> {
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   onPressed: () {
-                    // do something
+                    _signOut();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => UserLogin()));
                   }),
             ],
             automaticallyImplyLeading: false,
@@ -98,5 +101,9 @@ class _ListViewTabsState extends State<Tabs> {
             updatePage: () {},
           ),
         ));
+  }
+
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

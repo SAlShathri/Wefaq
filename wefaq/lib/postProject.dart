@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_place/google_place.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/myProjects.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'bottom_bar_custom.dart';
@@ -117,7 +118,9 @@ class _PostProjectState extends State<PostProject> {
                   color: Color.fromARGB(255, 255, 255, 255),
                 ),
                 onPressed: () {
-                  // do something
+                  _signOut();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => UserLogin()));
                 }),
           ],
           backgroundColor: Color.fromARGB(255, 182, 168, 203),
@@ -453,5 +456,9 @@ class _PostProjectState extends State<PostProject> {
         ),
       ),
     );
+  }
+
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

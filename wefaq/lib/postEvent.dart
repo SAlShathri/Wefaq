@@ -2,6 +2,7 @@
 
 import 'package:intl/intl.dart';
 import 'package:wefaq/TabScreen.dart';
+import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'dart:async';
 import 'package:cool_alert/cool_alert.dart';
@@ -12,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:google_place/google_place.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wefaq/projectsScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class PostEvent extends StatefulWidget {
   const PostEvent({Key? key}) : super(key: key);
@@ -93,7 +95,9 @@ class _PostEventState extends State<PostEvent> {
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   onPressed: () {
-                    // Log out
+                    _signOut();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => UserLogin()));
                   }),
             ],
             backgroundColor: Color.fromARGB(255, 182, 168, 203),
@@ -507,5 +511,9 @@ class _PostEventState extends State<PostEvent> {
             ],
           ),
         ));
+  }
+
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

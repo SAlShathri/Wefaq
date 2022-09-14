@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wefaq/postProject.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:cool_alert/cool_alert.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'main.dart';
 
@@ -19,22 +18,6 @@ class UserLogin extends StatefulWidget {
 }
 
 class _UserLogin extends State<UserLogin> {
-  //token
-  read() async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'token';
-    final value = prefs.get(key) ?? 0;
-    if (value != '0') {
-      Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new PostProject()));
-    }
-  }
-
-  @override
-  initState() {
-    read();
-  }
-
   GlobalKey<FormState> _FormKey = GlobalKey<FormState>();
   bool showpass = true;
   final _auth = FirebaseAuth.instance;
@@ -182,6 +165,10 @@ class _UserLogin extends State<UserLogin> {
                         final user = await _auth.signInWithEmailAndPassword(
                             email: email, password: password);
                         if (user != null) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PostProject()));
                           print("Logged in Succesfully");
                         }
                       } catch (e) {
