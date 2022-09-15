@@ -61,18 +61,8 @@ class _UserLogin extends State<UserLogin> {
                     email = value;
                   },
                   keyboardType: TextInputType.emailAddress,
-                  //   cursorColor: Color.fromARGB(255, 75, 3, 174),
-                  decoration: InputDecoration(
-                      //      enabledBorder: UnderlineInputBorder(
-                      //        borderSide:
-                      //           BorderSide(color: Color.fromARGB(255, 151, 134, 183)),
-                      //     ),
-                      //   focusedBorder: UnderlineInputBorder(
-                      //      borderSide:
-                      //         BorderSide(color: Color.fromARGB(255, 110, 19, 201)),
-                      //    ),
-                      //border: InputBorder.,
-
+                  
+                  decoration: InputDecoration(                 
                       labelText: "Email",
                       hintText: "example@email.com",
                       hintStyle:
@@ -98,7 +88,7 @@ class _UserLogin extends State<UserLogin> {
                       return "required";
                     }
                   },
-                  //autovalidateMode: AutovalidateMode.onUserInteraction,
+                  
                   onChanged: (value) {
                     password = value;
                   },
@@ -128,28 +118,15 @@ class _UserLogin extends State<UserLogin> {
                             ),
                     ),
                   ),
-                  //  obscureText: true,
-                  //validator: MultiValidator(
-                  //  [RequiredValidator(errorText: 'Email is required')]),
+                 
                 ),
               ),
 
-              //  Container(
-              //   alignment: Alignment.centerRight,
-              //margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-              //    child: Text(
-              //       "Forgot your password?",
-              //       style: TextStyle(
-              //          fontSize: 12,
-              //          color: Color(0XFF2661FA)
-              //        ),
-              //      ),
-              //    ),
-
+              
               SizedBox(height: size.height * 0.05),
 
               Container(
-                //alignment: Alignment.centerRight,
+                
                 margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 child: ElevatedButton(
                   onPressed: () async {
@@ -220,15 +197,14 @@ class _UserLogin extends State<UserLogin> {
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: Color.fromARGB(255, 255, 255, 255)),
-                      //     textAlign: TextAlign.center,
-                      //     style: TextStyle(fontWeight: FontWeight.bold ),
+                      
                     ),
                   ),
                 ),
               ),
 
               Container(
-                //alignment: Alignment.centerRight,
+                
                 margin: EdgeInsets.symmetric(horizontal: 70, vertical: 0),
                 child: GestureDetector(
                   onTap: () => {

@@ -463,7 +463,7 @@ class _PostProjectState extends State<PostProject> {
                       ),
                     ),
                   ),
-                  controller: _lookingForEditingController,
+                  controller: _DurationEditingController,
                   validator: (value) {
                     if (value == null || value.isEmpty || value.trim() == '') {
                       return 'required';
