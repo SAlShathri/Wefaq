@@ -49,9 +49,7 @@ class _UserLogin extends State<UserLogin> {
                   textAlign: TextAlign.left,
                 ),
               ),
-
               SizedBox(height: size.height * 0.02),
-
               Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.symmetric(horizontal: 40),
@@ -61,8 +59,7 @@ class _UserLogin extends State<UserLogin> {
                     email = value;
                   },
                   keyboardType: TextInputType.emailAddress,
-                  
-                  decoration: InputDecoration(                 
+                  decoration: InputDecoration(
                       labelText: "Email",
                       hintText: "example@email.com",
                       hintStyle:
@@ -76,9 +73,7 @@ class _UserLogin extends State<UserLogin> {
                       [RequiredValidator(errorText: 'required')]),
                 ),
               ),
-
               SizedBox(height: size.height * 0.03),
-
               Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.symmetric(horizontal: 40),
@@ -88,7 +83,6 @@ class _UserLogin extends State<UserLogin> {
                       return "required";
                     }
                   },
-                  
                   onChanged: (value) {
                     password = value;
                   },
@@ -118,15 +112,10 @@ class _UserLogin extends State<UserLogin> {
                             ),
                     ),
                   ),
-                 
                 ),
               ),
-
-              
               SizedBox(height: size.height * 0.05),
-
               Container(
-                
                 margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 child: ElevatedButton(
                   onPressed: () async {
@@ -158,7 +147,7 @@ class _UserLogin extends State<UserLogin> {
                       ]);*/
                         CoolAlert.show(
                           context: context,
-                          title: "Failed",
+                          title: "Sorry",
                           confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
                           //cancelBtnColor: Color.fromARGB(144, 64, 6, 87),
                           type: CoolAlertType.error,
@@ -197,14 +186,11 @@ class _UserLogin extends State<UserLogin> {
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: Color.fromARGB(255, 255, 255, 255)),
-                      
                     ),
                   ),
                 ),
               ),
-
               Container(
-                
                 margin: EdgeInsets.symmetric(horizontal: 70, vertical: 0),
                 child: GestureDetector(
                   onTap: () => {
