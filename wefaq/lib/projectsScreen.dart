@@ -39,8 +39,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 
   //category list
   var categoryList = [];
-  var fname = [];
-  var lname = [];
 
   String? Email;
   void getCurrentUser() {
@@ -73,9 +71,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
             locList.add(project['location']);
             lookingForList.add(project['lookingFor']);
             categoryList.add(project['category']);
-            Duration.add(project['Duration']);
-            fname.add(project['fname']);
-            lname.add(project['lname']);
           });
         }
     }
@@ -121,7 +116,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                           Padding(
                             padding: const EdgeInsets.only(left: 0),
                             child: Text(
-                              fname[index] + " " + lname[index],
+                              "",
                               style: TextStyle(
                                   color: Color.fromARGB(255, 126, 134, 135)),
                             ),
@@ -185,13 +180,13 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                           ),
                           onPressed: () {
                             showDialogFunc(
-                                context,
-                                nameList[index],
-                                descList[index],
-                                categoryList[index],
-                                locList[index],
-                                lookingForList[index],
-                                Duration[index]);
+                              context,
+                              nameList[index],
+                              descList[index],
+                              categoryList[index],
+                              locList[index],
+                              lookingForList[index],
+                            );
                           },
                         ))
                       ],
@@ -208,7 +203,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 }
 
 // This is a block of Model Dialog
-showDialogFunc(context, title, desc, category, loc, lookingFor, Duration) {
+showDialogFunc(context, title, desc, category, loc, lookingFor) {
   return showDialog(
     context: context,
     builder: (context) {
@@ -333,7 +328,7 @@ showDialogFunc(context, title, desc, category, loc, lookingFor, Duration) {
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        Duration,
+                        "",
                         style: const TextStyle(
                             fontSize: 14,
                             color: Color.fromARGB(144, 64, 7, 87)),
