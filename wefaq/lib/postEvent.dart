@@ -71,9 +71,9 @@ class _PostEventState extends State<PostEvent> {
   }
 
   void getCategoryList() async {
-    final categories = await _firestore.collection('categories').get();
-    for (var category in categories.docs) {
-      for (var element in category['categories']) {
+    final categoriesE = await _firestore.collection('categoriesE').get();
+    for (var category in categoriesE.docs) {
+      for (var element in category['catE']) {
         setState(() {
           options.add(element);
         });
@@ -124,6 +124,10 @@ class _PostEventState extends State<PostEvent> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         maxLength: 20,
                         decoration: InputDecoration(
+                          hintText: 'AI dilemma',
+                          hintStyle: TextStyle(
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 202, 198, 198)),
                           label: RichText(
                             text: TextSpan(
                                 text: "Event name",
@@ -164,6 +168,10 @@ class _PostEventState extends State<PostEvent> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: _startSearchFieldController,
                         decoration: InputDecoration(
+                            hintText: 'Ksu..auto complete',
+                            hintStyle: TextStyle(
+                                fontSize: 16,
+                                color: Color.fromARGB(255, 202, 198, 198)),
                             label: RichText(
                               text: TextSpan(
                                   text: 'Event location',
@@ -265,6 +273,7 @@ class _PostEventState extends State<PostEvent> {
                     SizedBox(height: 20.0),
 
                     DropdownButtonFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       hint: RichText(
                         text: TextSpan(
                             text: 'Event catogory',
@@ -307,7 +316,7 @@ class _PostEventState extends State<PostEvent> {
                       ),
                       validator: (value) {
                         if (value == null || value == "") {
-                          return 'Please select the event catogory.';
+                          return 'Required ';
                         }
                       },
                     ),
@@ -367,6 +376,10 @@ class _PostEventState extends State<PostEvent> {
                     TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
+                          hintText: 'https://ksu.edu.sa/',
+                          hintStyle: TextStyle(
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 202, 198, 198)),
                           label: RichText(
                             text: TextSpan(
                                 text: "Regstrition URL",
@@ -411,6 +424,10 @@ class _PostEventState extends State<PostEvent> {
                           maxLength: 500,
                           maxLines: 3,
                           decoration: InputDecoration(
+                            hintText: 'the event will be talking about...',
+                            hintStyle: TextStyle(
+                                fontSize: 16,
+                                color: Color.fromARGB(255, 202, 198, 198)),
                             border: OutlineInputBorder(
                               borderSide: BorderSide(width: 2.0),
                             ),

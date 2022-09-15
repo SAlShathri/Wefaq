@@ -35,6 +35,8 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
   //Looking for list
   var lookingForList = [];
 
+  var Duration = [];
+
   //category list
   var categoryList = [];
   var fname = [];
@@ -71,6 +73,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
             locList.add(project['location']);
             lookingForList.add(project['lookingFor']);
             categoryList.add(project['category']);
+            Duration.add(project['Duration']);
             fname.add(project['fname']);
             lname.add(project['lname']);
           });
@@ -187,7 +190,8 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                                 descList[index],
                                 categoryList[index],
                                 locList[index],
-                                lookingForList[index]);
+                                lookingForList[index],
+                                Duration[index]);
                           },
                         ))
                       ],
@@ -204,7 +208,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 }
 
 // This is a block of Model Dialog
-showDialogFunc(context, title, desc, category, loc, lookingFor) {
+showDialogFunc(context, title, desc, category, loc, lookingFor, Duration) {
   return showDialog(
     context: context,
     builder: (context) {
@@ -219,7 +223,7 @@ showDialogFunc(context, title, desc, category, loc, lookingFor) {
                 color: const Color.fromARGB(255, 255, 255, 255),
               ),
               padding: const EdgeInsets.all(15),
-              height: 400,
+              height: 500,
               width: MediaQuery.of(context).size.width * 0.9,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -297,9 +301,41 @@ showDialogFunc(context, title, desc, category, loc, lookingFor) {
                       alignment: Alignment.topLeft,
                       child: Text(
                         desc,
-                        maxLines: 3,
                         style: const TextStyle(
                             fontSize: 16,
+                            color: Color.fromARGB(144, 64, 7, 87)),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  const Divider(
+                    color: Color.fromARGB(255, 102, 102, 102),
+                  ),
+                  Container(
+                    // width: 200,
+                    child: const Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Project Duration",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(230, 64, 7, 87),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    // width: 200,
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        Duration,
+                        style: const TextStyle(
+                            fontSize: 14,
                             color: Color.fromARGB(144, 64, 7, 87)),
                         textAlign: TextAlign.left,
                       ),

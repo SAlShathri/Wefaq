@@ -14,7 +14,7 @@ class events {
         'name': name
       };
   events.fromsanpshot(sanpshot)
-      : category = sanpshot.data()['category'],
+      : category = sanpshot.data()['categoryE'],
         name = sanpshot.data()['name'],
         location = sanpshot.data()['location'],
         regstretionUrl = sanpshot.data()['regstretion url'],

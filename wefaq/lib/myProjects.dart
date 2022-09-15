@@ -229,7 +229,7 @@ showDialogFunc(context, title, desc, category, loc, lookingFor) {
               color: const Color.fromARGB(255, 255, 255, 255),
             ),
             padding: const EdgeInsets.all(15),
-            height: 400,
+            height: 500,
             width: MediaQuery.of(context).size.width * 0.9,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -272,13 +272,25 @@ showDialogFunc(context, title, desc, category, loc, lookingFor) {
                       color: Color.fromARGB(248, 170, 167, 8),
                       size: 25,
                     ),
-                    Text(lookingFor,
-                        style: const TextStyle(
-                            fontSize: 16,
-                            color: Color.fromARGB(230, 64, 7, 87),
-                            fontWeight: FontWeight.normal),
-                        maxLines: 2,
-                        overflow: TextOverflow.clip),
+                    // Text(lookingFor,
+                    //     style: const TextStyle(
+                    //         fontSize: 16,
+                    //         color: Color.fromARGB(230, 64, 7, 87),
+                    //         fontWeight: FontWeight.normal),
+                    //     overflow: TextOverflow.clip),
+                    Container(
+                      // width: 200,
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          lookingFor,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              color: Color.fromARGB(144, 64, 7, 87)),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -307,7 +319,6 @@ showDialogFunc(context, title, desc, category, loc, lookingFor) {
                     alignment: Alignment.topLeft,
                     child: Text(
                       desc,
-                      maxLines: 3,
                       style: const TextStyle(
                           fontSize: 16, color: Color.fromARGB(144, 64, 7, 87)),
                       textAlign: TextAlign.left,
@@ -344,6 +355,30 @@ showDialogFunc(context, title, desc, category, loc, lookingFor) {
                           fontSize: 16, color: Color.fromARGB(144, 64, 7, 87)),
                       textAlign: TextAlign.left,
                     ),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  height: 40.0,
+                  width: 100,
+                  margin: const EdgeInsets.only(top: 10),
+
+                  // width: size.width * 0.5,
+                  decoration: new BoxDecoration(
+                      borderRadius: BorderRadius.circular(80.0),
+                      gradient: new LinearGradient(colors: [
+                        const Color.fromARGB(197, 67, 7, 87),
+                        const Color.fromARGB(195, 117, 45, 141),
+                      ])),
+                  padding: const EdgeInsets.all(0),
+                  child: const Text(
+                    "End Post",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 255, 255, 255)),
+                    //     textAlign: TextAlign.center,
+                    //     style: TextStyle(fontWeight: FontWeight.bold ),
                   ),
                 ),
               ],

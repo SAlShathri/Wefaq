@@ -198,7 +198,7 @@ showDialogFunc(context, title, desc, category, loc, date, time, urlregstrtion) {
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
               padding: EdgeInsets.all(15),
-              height: 400,
+              height: 500,
               width: MediaQuery.of(context).size.width * 0.9,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -276,9 +276,8 @@ showDialogFunc(context, title, desc, category, loc, date, time, urlregstrtion) {
                       alignment: Alignment.topLeft,
                       child: Text(
                         desc,
-                        maxLines: 3,
                         style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 14,
                             color: Color.fromARGB(144, 64, 7, 87)),
                         textAlign: TextAlign.left,
                       ),

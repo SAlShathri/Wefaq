@@ -448,7 +448,7 @@ class _UserRegistratin extends State<UserRegistratin> {
                           print("Error ${e.toString()}");
                           CoolAlert.show(
                             context: context,
-                            title: "Failed",
+                            title: "Sorry",
                             confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
                             type: CoolAlertType.error,
                             backgroundColor: Color.fromARGB(221, 212, 189, 227),
