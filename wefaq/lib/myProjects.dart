@@ -22,8 +22,6 @@ class _myProjectState extends State<myProjects> {
   // Description list
   var descList = [];
 
-  var Duration = [];
-
   // location list
   var locList = [];
 
@@ -75,7 +73,6 @@ class _myProjectState extends State<myProjects> {
             locList.add(project['location']);
             lookingForList.add(project['lookingFor']);
             categoryList.add(project['category']);
-            Duration.add(project['Duration']);
           });
         }
     }
@@ -203,8 +200,7 @@ class _myProjectState extends State<myProjects> {
                               descList[index],
                               categoryList[index],
                               locList[index],
-                              lookingForList[index],
-                              Duration[index]);
+                              lookingForList[index]);
                         },
                       ))
                     ],
@@ -220,7 +216,14 @@ class _myProjectState extends State<myProjects> {
 }
 
 // This is a block of Model Dialog
-showDialogFunc(context, title, desc, category, loc, lookingFor, Duration) {
+showDialogFunc(
+  context,
+  title,
+  desc,
+  category,
+  loc,
+  lookingFor,
+) {
   return showDialog(
     context: context,
     builder: (context) {
@@ -325,38 +328,6 @@ showDialogFunc(context, title, desc, category, loc, lookingFor, Duration) {
                       desc,
                       style: const TextStyle(
                           fontSize: 16, color: Color.fromARGB(144, 64, 7, 87)),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                const Divider(
-                  color: Color.fromARGB(255, 102, 102, 102),
-                ),
-                Container(
-                  // width: 200,
-                  child: const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Project Duration",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color.fromARGB(230, 64, 7, 87),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  // width: 200,
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      Duration,
-                      style: const TextStyle(
-                          fontSize: 14, color: Color.fromARGB(144, 64, 7, 87)),
                       textAlign: TextAlign.left,
                     ),
                   ),
