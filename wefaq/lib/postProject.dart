@@ -1,11 +1,17 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:async';
+import 'package:cool_alert/cool_alert.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:multiselect/multiselect.dart';
-import 'package:get/get.dart';
 import 'package:google_place/google_place.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+import 'package:wefaq/UserLogin.dart';
+import 'package:wefaq/myProjects.dart';
+import 'package:wefaq/projectsScreen.dart';
+import 'bottom_bar_custom.dart';
+import 'TabScreen.dart';
 
 class PostProject extends StatefulWidget {
   const PostProject({Key? key}) : super(key: key);
@@ -19,168 +25,10 @@ class _PostProjectState extends State<PostProject> {
   final TextEditingController _nameEditingController = TextEditingController();
   final TextEditingController _descriptionEditingController =
       TextEditingController();
-
-  // Project catogery list
-  List<String> options = [
-    "AI",
-    "Web",
-    "iOS",
-    "Android",
-    "Flutter",
-    "React Native"
-  ];
-  Rx<List<String>> selectedOptionList = Rx<List<String>>([]);
-  var selectedOption = ''.obs;
-
-  final _formKey = GlobalKey<FormState>();
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Post Project"),
-      ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
-          children: <Widget>[
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: "Project name",
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.black87,
-                    width: 2.0,
-                  ),
-                ),
-              ),
-              controller: _nameEditingController,
-            ),
-            SizedBox(height: 20.0),
-            Padding(
-              padding: const EdgeInsets.all(0),
-              child: SearchScreen(),
-            ),
-            TextFormField(
-              maxLines: 3,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black87, width: 2.0),
-                ),
-                hintText: "Project description",
-              ),
-              controller: _descriptionEditingController,
-            ),
-            SizedBox(height: 20.0),
-            DropDownMultiSelect(
-              options: options,
-              whenEmpty: 'Select project catogery',
-              onChanged: (Value) {
-                selectedOptionList.value = Value;
-                selectedOption.value = '';
-                selectedOptionList.value.forEach((element) {
-                  selectedOption.value = selectedOption.value + " " + element;
-                });
-              },
-              selectedValues: selectedOptionList.value,
-            ),
-            SizedBox(height: 20.0),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Looking for',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Wrap(
-                  spacing: 5.0,
-                  runSpacing: 3.0,
-                  children: const <Widget>[
-                    filterChipWidget(chipName: 'Developers'),
-                    filterChipWidget(chipName: 'Testers'),
-                    filterChipWidget(chipName: 'Designers'),
-                    filterChipWidget(chipName: 'Managers'),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 20.0),
-            SizedBox(
-              width: double.infinity,
-              height: 50.0,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 215, 189, 226)),
-                  child: Text('Post',
-                      style: TextStyle(color: Colors.white, fontSize: 16.0)),
-                  onPressed: () {
-                    _firestore.collection('projects').add({
-                      'name': _nameEditingController.text,
-                      'description': _descriptionEditingController.text,
-                    });
-                  }),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-//Catogray ChipWidget
-class filterChipWidget extends StatefulWidget {
-  final String chipName;
-
-  const filterChipWidget({Key? key, required this.chipName}) : super(key: key);
-
-  @override
-  _filterChipWidgetState createState() => _filterChipWidgetState();
-}
-
-class _filterChipWidgetState extends State<filterChipWidget> {
-  var _isSelected = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return FilterChip(
-      label: Text(widget.chipName),
-      labelStyle: TextStyle(
-          color: Color(0xff6200ee),
-          fontSize: 14.0,
-          fontWeight: FontWeight.normal),
-      selected: _isSelected,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30.0),
-      ),
-      backgroundColor: Color(0xffededed),
-      onSelected: (isSelected) {
-        setState(() {
-          _isSelected = isSelected;
-        });
-      },
-      selectedColor: Color(0xffeadffd),
-    );
-  }
-}
-
-//location search widget
-class SearchScreen extends StatefulWidget {
-  @override
-  _SearchScreenState createState() => _SearchScreenState();
-}
-
-class _SearchScreenState extends State<SearchScreen> {
-  final _startSearchFieldController = TextEditingController();
+  final TextEditingController _lookingForEditingController =
+      TextEditingController();
+  static final TextEditingController _startSearchFieldController =
+      TextEditingController();
 
   DetailsResult? startPosition;
 
@@ -188,101 +36,454 @@ class _SearchScreenState extends State<SearchScreen> {
   List<AutocompletePrediction> predictions = [];
   Timer? _debounce;
 
+  // Project category list
+  List<String> options = [];
+
+  String? selectedCat;
+  final auth = FirebaseAuth.instance;
+  late User signedInUser;
+  var Email;
+  var fname;
+  var lname;
+
   @override
   void initState() {
-    // TODO: implement initState
+    // call the methods to fetch the data from the DB
+    getCategoryList();
+
     super.initState();
     String apiKey = 'AIzaSyCkRaPfvVejBlQIAWEjc9klnkqk6olnhuc';
     googlePlace = GooglePlace(apiKey);
+    getCurrentUser();
+    getUser();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
   void autoCompleteSearch(String value) async {
     var result = await googlePlace.autocomplete.get(value);
     if (result != null && result.predictions != null && mounted) {
-      print(result.predictions!.first.description);
       setState(() {
         predictions = result.predictions!;
       });
     }
   }
 
+  void getCategoryList() async {
+    final categories = await _firestore.collection('categories').get();
+    for (var category in categories.docs) {
+      for (var element in category['categories']) {
+        setState(() {
+          options.add(element);
+        });
+      }
+    }
+  }
+
+  void getCurrentUser() {
+    try {
+      final user = auth.currentUser;
+      if (user != null) {
+        signedInUser = user;
+        print(signedInUser.uid);
+        print(signedInUser.email);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future getUser() async {
+    await for (var snapshot
+        in FirebaseFirestore.instance.collection('users').snapshots())
+      for (var user in snapshot.docs) {
+        if (user.data()['Email'] == signedInUser.email)
+          setState(() {
+            Email = (user.data()['Email']);
+            lname = (user.data()['FirstName']);
+            fname = (user.data()['LastName']);
+          });
+      }
+  }
+
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          controller: _startSearchFieldController,
-          style: TextStyle(fontSize: 14),
-          decoration: InputDecoration(
-              hintText: 'Project location',
-              hintStyle:
-                  const TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black87, width: 2.0),
-              ),
-              suffixIcon: _startSearchFieldController.text.isNotEmpty
-                  ? IconButton(
-                      onPressed: () {
+    return Scaffold(
+      appBar: AppBar(
+          automaticallyImplyLeading: false,
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(
+                  Icons.logout,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
+                onPressed: () {
+                  _signOut();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => UserLogin()));
+                }),
+          ],
+          backgroundColor: Color.fromARGB(255, 182, 168, 203),
+          title: Text('Post Project',
+              style: TextStyle(
+                fontWeight: FontWeight.normal,
+                color: Colors.white,
+              ))),
+      bottomNavigationBar: CustomNavigationBar(
+        currentHomeScreen: 2,
+        updatePage: () {},
+      ),
+      body: Scrollbar(
+        thumbVisibility: true,
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
+            children: <Widget>[
+              TextFormField(
+                  maxLength: 20,
+                  decoration: InputDecoration(
+                    hintText: 'Bloom...',
+                    hintStyle: TextStyle(
+                        fontSize: 16,
+                        color: Color.fromARGB(255, 202, 198, 198)),
+                    label: RichText(
+                      text: TextSpan(
+                          text: 'Project title',
+                          style: const TextStyle(
+                              fontSize: 18,
+                              color: Color.fromARGB(144, 64, 7, 87)),
+                          children: [
+                            TextSpan(
+                                text: ' *',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ))
+                          ]),
+                    ),
+                    labelStyle: TextStyle(
+                        fontSize: 18, color: Color.fromARGB(144, 64, 7, 87)),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color.fromARGB(144, 64, 7, 87),
+                        width: 2.0,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color.fromARGB(144, 64, 7, 87),
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                  controller: _nameEditingController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty || value.trim() == '') {
+                      return 'required';
+                    }
+                  }),
+              SizedBox(height: 25.0),
+              TextFormField(
+                  controller: _startSearchFieldController,
+                  decoration: InputDecoration(
+                      hintText: 'Ksu..auto complete',
+                      hintStyle: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 202, 198, 198)),
+                      label: RichText(
+                        text: TextSpan(
+                            text: 'Project location',
+                            style: const TextStyle(
+                                fontSize: 18,
+                                color: Color.fromARGB(144, 64, 7, 87)),
+                            children: [
+                              TextSpan(
+                                  text: ' *',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                  ))
+                            ]),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.black87, width: 2.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color.fromARGB(144, 64, 7, 87),
+                          width: 2.0,
+                        ),
+                      ),
+                      suffixIcon: _startSearchFieldController.text.isNotEmpty
+                          ? IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  predictions = [];
+                                  _startSearchFieldController.clear();
+                                });
+                              },
+                              icon: Icon(Icons.clear_outlined),
+                            )
+                          : Icon(Icons.location_searching,
+                              color: Color.fromARGB(221, 137, 171, 187))),
+                  onChanged: (value) {
+                    if (_debounce?.isActive ?? false) _debounce!.cancel();
+                    _debounce = Timer(const Duration(milliseconds: 1000), () {
+                      if (value.isNotEmpty) {
+                        //places api
+                        autoCompleteSearch(value);
+                      } else {
+                        //clear out the results
                         setState(() {
                           predictions = [];
-                          _startSearchFieldController.clear();
+                          startPosition = null;
                         });
-                      },
-                      icon: Icon(Icons.clear_outlined),
-                    )
-                  : null),
-          onChanged: (value) {
-            if (_debounce?.isActive ?? false) _debounce!.cancel();
-            _debounce = Timer(const Duration(milliseconds: 1000), () {
-              if (value.isNotEmpty) {
-                //places api
-                autoCompleteSearch(value);
-              } else {
-                //clear out the results
-                setState(() {
-                  predictions = [];
-                  startPosition = null;
-                });
-              }
-            });
-          },
-        ),
-        SizedBox(height: 10),
-        ListView.builder(
-            shrinkWrap: true,
-            itemCount: predictions.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Color.fromARGB(255, 215, 189, 226),
-                  child: Icon(
-                    Icons.pin_drop,
-                    color: Colors.white,
+                      }
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'required';
+                    }
+                  }),
+              Scrollbar(
+                thumbVisibility: true,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: predictions.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Color.fromARGB(221, 137, 171, 187),
+                          child: Icon(
+                            Icons.pin_drop,
+                            color: Colors.white,
+                          ),
+                        ),
+                        title: Text(
+                          predictions[index].description.toString(),
+                        ),
+                        onTap: () async {
+                          final placeId = predictions[index].placeId!;
+                          final details =
+                              await googlePlace.details.get(placeId);
+                          if (details != null &&
+                              details.result != null &&
+                              mounted) {
+                            setState(() {
+                              startPosition = details.result;
+                              _startSearchFieldController.text =
+                                  details.result!.name!;
+
+                              predictions = [];
+                            });
+                          }
+                        },
+                      );
+                    }),
+              ),
+              SizedBox(height: 25.0),
+              DropdownButtonFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                hint: RichText(
+                  text: TextSpan(
+                      text: 'Project category ',
+                      style: const TextStyle(
+                          fontSize: 18, color: Color.fromARGB(144, 64, 7, 87)),
+                      children: [
+                        TextSpan(
+                            text: ' *',
+                            style: TextStyle(
+                              color: Colors.red,
+                            ))
+                      ]),
+                ),
+                items: options
+                    .map((e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(e),
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedCat = value as String?;
+                  });
+                },
+                icon: Icon(
+                  Icons.arrow_drop_down_circle,
+                  color: Color.fromARGB(221, 137, 171, 187),
+                ),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(width: 2.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(144, 64, 7, 87),
+                      width: 2.0,
+                    ),
                   ),
                 ),
-                title: Text(
-                  predictions[index].description.toString(),
-                ),
-                onTap: () async {
-                  final placeId = predictions[index].placeId!;
-                  final details = await googlePlace.details.get(placeId);
-                  if (details != null && details.result != null && mounted) {
-                    setState(() {
-                      startPosition = details.result;
-                      _startSearchFieldController.text = details.result!.name!;
-                      predictions = [];
-                    });
+                validator: (value) {
+                  if (value == null || value == "") {
+                    return 'required';
                   }
                 },
-              );
-            })
-      ],
+              ),
+              SizedBox(height: 25.0),
+              SizedBox(height: 4.0),
+              TextFormField(
+                  maxLength: 60,
+                  decoration: InputDecoration(
+                    hintText: 'Designer, Developer,..',
+                    hintStyle: TextStyle(
+                        fontSize: 16,
+                        color: Color.fromARGB(255, 202, 198, 198)),
+                    label: RichText(
+                      text: TextSpan(
+                          text: 'Looking for',
+                          style: const TextStyle(
+                              fontSize: 18,
+                              color: Color.fromARGB(144, 64, 7, 87)),
+                          children: [
+                            TextSpan(
+                                text: ' *',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ))
+                          ]),
+                    ),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2.0,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color.fromARGB(144, 64, 7, 87),
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                  controller: _lookingForEditingController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty || value.trim() == '') {
+                      return 'required';
+                    }
+                  }),
+              SizedBox(height: 25.0),
+              Scrollbar(
+                thumbVisibility: true,
+                child: TextFormField(
+                    maxLength: 500,
+                    maxLines: 3,
+                    decoration: InputDecoration(
+                      hintText: 'This project aims to...',
+                      hintStyle: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 202, 198, 198)),
+                      label: RichText(
+                        text: TextSpan(
+                            text: 'Project description',
+                            style: const TextStyle(
+                                fontSize: 18,
+                                color: Color.fromARGB(144, 64, 7, 87)),
+                            children: [
+                              TextSpan(
+                                  text: ' *',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                  ))
+                            ]),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(width: 2.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color.fromARGB(144, 64, 7, 87),
+                          width: 2.0,
+                        ),
+                      ),
+                    ),
+                    controller: _descriptionEditingController,
+                    validator: (value) {
+                      if (value == null ||
+                          value.isEmpty ||
+                          value.trim() == '') {
+                        return 'required';
+                      }
+
+                      return null;
+                    }),
+              ),
+              SizedBox(height: 15),
+              SizedBox(
+                width: 50,
+                height: 50.0,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(144, 64, 7, 87),
+                    ),
+                    child: Text('Post',
+                        style: TextStyle(color: Colors.white, fontSize: 16.0)),
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        // If the form is valid, display a snackbar. In the real world,
+                        // you'd often call a server or save the information in a database.
+                        // for sorting purpose
+                        var now = new DateTime.now();
+
+                        _firestore.collection('projects').add({
+                          'name': _nameEditingController.text,
+                          'location': _startSearchFieldController.text,
+                          'description': _descriptionEditingController.text,
+                          'category': selectedCat,
+                          'lookingFor': _lookingForEditingController.text,
+                          'created': now,
+                          'email': Email.toString(),
+                          'lname': lname,
+                          'fanme': fname
+                        });
+                        //Clear
+
+                        _nameEditingController.clear();
+                        _startSearchFieldController.clear();
+                        _descriptionEditingController.clear();
+                        _lookingForEditingController.clear();
+                        selectedCat = "";
+
+                        //sucess message
+                        CoolAlert.show(
+                          context: context,
+                          title: "Success!",
+                          confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+                          onConfirmBtnTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => myProjects()));
+                          },
+                          type: CoolAlertType.success,
+                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                          text: "Project posted successfuly",
+                        );
+                      }
+                    }),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
+  }
+
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }
