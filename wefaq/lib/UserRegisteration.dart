@@ -59,9 +59,9 @@ class _UserRegistratin extends State<UserRegistratin> {
       body: SingleChildScrollView(
         // padding: const EdgeInsets.all(8.0),
         child: Background(
-          //resizeToAvoidBottomInset: false,
+          
           child: Form(
-            //autovalidateMode: AutovalidateMode.onUserInteraction,
+            
             key: _FormKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -95,13 +95,9 @@ class _UserRegistratin extends State<UserRegistratin> {
                           !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
                         return "Only English or Arabic letters";
                       }
-                      //if( !(value.contains(eng)) &&  !(value.contains(ara)) ) {
-                      //   return "Only English or Arabic letters";
-                      //  }
-                      //   },
-                      //  !(value.contains(ucasereg))
+                      
                     },
-                    //controller: controller,
+                    
                     decoration: InputDecoration(
                         hintText: "John",
                         hintStyle: TextStyle(
