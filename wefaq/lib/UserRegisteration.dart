@@ -213,7 +213,7 @@ class _UserRegistratin extends State<UserRegistratin> {
                       if (!(value.characters.length >= 8) ||
                           !(value.contains(ucasereg)) ||
                           !(value.contains(digit))) {
-                        return "";
+                        return "password must contain: ";
                       }
                     },
                     onChanged: (value) {
