@@ -30,8 +30,6 @@ class _PostProjectState extends State<PostProject> {
       TextEditingController();
   static final TextEditingController _startSearchFieldController =
       TextEditingController();
-  static final TextEditingController _DurationEditingController =
-      TextEditingController();
 
   DetailsResult? startPosition;
 
@@ -149,7 +147,6 @@ class _PostProjectState extends State<PostProject> {
             padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
             children: <Widget>[
               TextFormField(
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   maxLength: 20,
                   decoration: InputDecoration(
                     hintText: 'Bloom...',
@@ -193,7 +190,6 @@ class _PostProjectState extends State<PostProject> {
                   }),
               SizedBox(height: 25.0),
               TextFormField(
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   controller: _startSearchFieldController,
                   decoration: InputDecoration(
                       hintText: 'Ksu..auto complete',
@@ -343,7 +339,6 @@ class _PostProjectState extends State<PostProject> {
               SizedBox(height: 25.0),
               SizedBox(height: 4.0),
               TextFormField(
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   maxLength: 60,
                   decoration: InputDecoration(
                     hintText: 'Designer, Developer,..',
@@ -386,7 +381,6 @@ class _PostProjectState extends State<PostProject> {
               Scrollbar(
                 thumbVisibility: true,
                 child: TextFormField(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     maxLength: 500,
                     maxLines: 3,
                     decoration: InputDecoration(
@@ -429,47 +423,6 @@ class _PostProjectState extends State<PostProject> {
                       return null;
                     }),
               ),
-              SizedBox(height: 15.0),
-              TextFormField(
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  maxLength: 40,
-                  decoration: InputDecoration(
-                    hintText: '4 months...',
-                    hintStyle: TextStyle(
-                        fontSize: 16,
-                        color: Color.fromARGB(255, 202, 198, 198)),
-                    label: RichText(
-                      text: TextSpan(
-                          text: 'Project Duration',
-                          style: const TextStyle(
-                              fontSize: 18,
-                              color: Color.fromARGB(144, 64, 7, 87)),
-                          children: [
-                            TextSpan(
-                                text: ' *',
-                                style: TextStyle(
-                                  color: Colors.red,
-                                ))
-                          ]),
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 2.0,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color.fromARGB(144, 64, 7, 87),
-                        width: 2.0,
-                      ),
-                    ),
-                  ),
-                  controller: _DurationEditingController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty || value.trim() == '') {
-                      return 'required';
-                    }
-                  }),
               SizedBox(height: 15),
               SizedBox(
                 width: 50,
@@ -494,7 +447,6 @@ class _PostProjectState extends State<PostProject> {
                           'description': _descriptionEditingController.text,
                           'category': selectedCat,
                           'lookingFor': _lookingForEditingController.text,
-                          'Duration': _DurationEditingController.text,
                           'created': now,
                           'email': Email.toString(),
                           'lname': lname,
