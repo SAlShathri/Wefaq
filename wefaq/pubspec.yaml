@@ -43,6 +43,9 @@ dependencies:
   full_screen_menu: ^1.0.0
   hawk_fab_menu: ^1.2.0
   url_launcher: ^6.1.5
+  flutter_local_notifications: ^11.0.0
+  firebase_messaging: ^13.0.2
+  http:
 
 
   

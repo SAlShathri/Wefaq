@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:async';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -59,9 +60,7 @@ class _UserRegistratin extends State<UserRegistratin> {
       body: SingleChildScrollView(
         // padding: const EdgeInsets.all(8.0),
         child: Background(
-          
           child: Form(
-            
             key: _FormKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -95,9 +94,7 @@ class _UserRegistratin extends State<UserRegistratin> {
                           !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
                         return "Only English or Arabic letters";
                       }
-                      
                     },
-                    
                     decoration: InputDecoration(
                         hintText: "John",
                         hintStyle: TextStyle(

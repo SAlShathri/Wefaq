@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_place/google_place.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -485,7 +486,8 @@ class _PostProjectState extends State<PostProject> {
                         // you'd often call a server or save the information in a database.
                         // for sorting purpose
                         var now = new DateTime.now();
-
+                        String? token =
+                            await FirebaseMessaging.instance.getToken();
                         _firestore.collection('projects').add({
                           'name': _nameEditingController.text,
                           'location': _startSearchFieldController.text,
@@ -496,7 +498,8 @@ class _PostProjectState extends State<PostProject> {
                           'created': now,
                           'email': Email.toString(),
                           'lname': lname,
-                          'fanme': fname
+                          'fanme': fname,
+                          'token': token,
                         });
                         //Clear
 

@@ -10,6 +10,7 @@ import 'package:wefaq/profile.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'package:wefaq/selectionScreen.dart';
 import 'package:wefaq/TabScreen.dart';
+import 'package:wefaq/service/local_push_notification.dart';
 import 'package:wefaq/splash.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/link.dart';
@@ -17,6 +18,8 @@ import 'package:url_launcher/link.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  //
+  LocalNotificationService.initialize();
   runApp(const MyApp());
 }
 

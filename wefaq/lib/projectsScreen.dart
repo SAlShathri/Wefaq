@@ -1,8 +1,16 @@
+import 'dart:convert';
+
+import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wefaq/TabScreen.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'package:wefaq/models/project.dart';
+import 'package:wefaq/models/user.dart';
+import 'package:wefaq/service/local_push_notification.dart';
+import 'package:http/http.dart' as http;
 
 // Main Stateful Widget Start
 class ProjectsListViewPage extends StatefulWidget {
@@ -14,8 +22,15 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
   @override
   void initState() {
     // TODO: implement initState
+
     getCurrentUser();
     getProjects();
+
+    FirebaseMessaging.instance.getInitialMessage();
+    FirebaseMessaging.onMessage.listen((event) {
+      LocalNotificationService.display(event);
+    });
+
     super.initState();
   }
 
@@ -40,6 +55,12 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
   //category list
   var categoryList = [];
 
+  //notification tokens
+  var tokens = [];
+
+  //project owners emails
+  var ownerEmail = [];
+
   String? Email;
   void getCurrentUser() {
     try {
@@ -59,8 +80,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
     if (Email != null) {
       var fillterd = _firestore
           .collection('projects')
-          .orderBy('email')
-          .where('email', isNotEqualTo: Email)
           .orderBy('created', descending: true)
           .snapshots();
       await for (var snapshot in fillterd)
@@ -71,6 +90,8 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
             locList.add(project['location']);
             lookingForList.add(project['lookingFor']);
             categoryList.add(project['category']);
+            tokens.add(project['token']);
+            ownerEmail.add(project['email']);
           });
         }
     }
@@ -116,7 +137,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                           Padding(
                             padding: const EdgeInsets.only(left: 0),
                             child: Text(
-                              "",
+                              '',
                               style: TextStyle(
                                   color: Color.fromARGB(255, 126, 134, 135)),
                             ),
@@ -180,13 +201,15 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                           ),
                           onPressed: () {
                             showDialogFunc(
-                              context,
-                              nameList[index],
-                              descList[index],
-                              categoryList[index],
-                              locList[index],
-                              lookingForList[index],
-                            );
+                                context,
+                                nameList[index],
+                                descList[index],
+                                categoryList[index],
+                                locList[index],
+                                lookingForList[index],
+                                tokens[index],
+                                ownerEmail[index],
+                                signedInUser);
                           },
                         ))
                       ],
@@ -196,14 +219,15 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
               );
             },
           ),
-        ), // sc
+        ),
       ),
     );
   }
 }
 
 // This is a block of Model Dialog
-showDialogFunc(context, title, desc, category, loc, lookingFor) {
+showDialogFunc(context, title, desc, category, loc, lookingFor, token,
+    ownerEmail, signedInUser) {
   return showDialog(
     context: context,
     builder: (context) {
@@ -383,14 +407,49 @@ showDialogFunc(context, title, desc, category, loc, lookingFor) {
                           const Color.fromARGB(195, 117, 45, 141),
                         ])),
                     padding: const EdgeInsets.all(0),
-                    child: const Text(
-                      "Join",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 255, 255, 255)),
-                      //     textAlign: TextAlign.center,
-                      //     style: TextStyle(fontWeight: FontWeight.bold ),
+                    child: TextButton(
+                      child: const Text(
+                        "Join",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 255, 255, 255)),
+                        //     textAlign: TextAlign.center,
+                        //     style: TextStyle(fontWeight: FontWeight.bold ),
+                      ),
+                      onPressed: () async {
+                        //send a notification to the one who posted the project
+                        sendNotification(
+                            "You received a join request on your project!",
+                            token);
+                        //sucess message
+                        CoolAlert.show(
+                          context: context,
+                          title: "Success!",
+                          confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+                          onConfirmBtnTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Tabs()));
+                          },
+                          type: CoolAlertType.success,
+                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                          text: "Your join request is sent successfuly",
+                        );
+
+                        //saving the request in join request collection
+                        String? token_Participant =
+                            await FirebaseMessaging.instance.getToken();
+                        FirebaseFirestore.instance
+                            .collection('joinRequests')
+                            .add({
+                          'project_title': title,
+                          'participant_email': signedInUser.email,
+                          'owner_email': ownerEmail,
+                          'participant_token': token_Participant,
+                        });
+                      },
                     ),
                   ),
                 ],
@@ -401,4 +460,40 @@ showDialogFunc(context, title, desc, category, loc, lookingFor) {
       );
     },
   );
+}
+
+//Notification
+
+void sendNotification(String title, String token) async {
+  final data = {
+    'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+    'id': '1',
+    'status': 'done',
+    'message': title,
+  };
+
+  try {
+    http.Response response =
+        await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+            headers: <String, String>{
+              'Content-Type': 'application/json',
+              'Authorization':
+                  'key=AAAAshcbmas:APA91bGwyZZKhGUguFmek5aalqcySgs3oKgJmra4oloSpk715ijWkf4itCOuGZbeWbPBmHWKBpMkddsr1KyEq6uOzZqIubl2eDs7lB815xPnQmXIEErtyG9wpR9Q4rXdzvk4w6BvGQdJ'
+            },
+            body: jsonEncode(<String, dynamic>{
+              'notification': <String, dynamic>{
+                'title': title,
+                'body': 'You received a join request on your project!'
+              },
+              'priority': 'high',
+              'data': data,
+              'to': '$token'
+            }));
+
+    if (response.statusCode == 200) {
+      print("Yeh notificatin is sended");
+    } else {
+      print("Error");
+    }
+  } catch (e) {}
 }
