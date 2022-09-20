@@ -444,6 +444,8 @@ class _PostProjectState extends State<PostProject> {
                         _firestore.collection('projects').add({
                           'name': _nameEditingController.text,
                           'location': _startSearchFieldController.text,
+                          'lng': startPosition?.geometry?.location?.lng,
+                          'lat': startPosition?.geometry?.location?.lat,
                           'description': _descriptionEditingController.text,
                           'category': selectedCat,
                           'lookingFor': _lookingForEditingController.text,
