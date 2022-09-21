@@ -31,41 +31,12 @@ class _HomeScreenState extends State<HomeScreen> {
   final auth = FirebaseAuth.instance;
   late User signedInUser;
   @override
-  void initState() {
-    super.initState();
-    getUser();
-    getCurrentUser();
-  }
-
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
   }
 
-  void getCurrentUser() {
-    try {
-      final user = auth.currentUser;
-      if (user != null) {
-        signedInUser = user;
-        print(signedInUser.uid);
-        print(signedInUser.email);
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  var FName;
-  Future getUser() async {
-    await for (var snapshot
-        in FirebaseFirestore.instance.collection('users').snapshots())
-      for (var user in snapshot.docs) {
-        if (user.data()['Email'] == signedInUser.email) {
-          setState(() {
-            FName = (user.data()['FirstName']);
-          });
-        }
-      }
-  }
+  var name = '${FirebaseAuth.instance.currentUser!.displayName}'.split(' ');
+  get FName => name.first;
 
   @override
   Widget build(BuildContext context) {

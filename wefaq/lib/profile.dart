@@ -15,41 +15,11 @@ class _profileScreenState extends State<profileScreen> {
   final auth = FirebaseAuth.instance;
   late User signedInUser;
   @override
-  void initState() {
-    super.initState();
-    getUser();
-    getCurrentUser();
-  }
+  var name = '${FirebaseAuth.instance.currentUser!.displayName}'.split(' ');
+  get FName => name.first;
+  get LName => name.last;
 
-  void getCurrentUser() {
-    try {
-      final user = auth.currentUser;
-      if (user != null) {
-        signedInUser = user;
-        print(signedInUser.uid);
-        print(signedInUser.email);
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  var FName;
-  var LName;
-  var Email;
-  Future getUser() async {
-    await for (var snapshot
-        in FirebaseFirestore.instance.collection('users').snapshots())
-      for (var user in snapshot.docs) {
-        if (user.data()['Email'] == signedInUser.email)
-          setState(() {
-            FName = (user.data()['FirstName']);
-            LName = (user.data()['LastName']);
-            Email = (user.data()['Email']);
-          });
-      }
-  }
-
+  // String Lname = name[1];
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -197,7 +167,7 @@ class _profileScreenState extends State<profileScreen> {
                     alignment: Alignment.topRight,
                     child: Row(
                       children: [
-                        Text("$Email",
+                        Text('${FirebaseAuth.instance.currentUser!.email}',
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Color.fromRGBO(118, 117, 121, 1),

@@ -23,16 +23,20 @@ class UserRegistratin extends StatefulWidget {
   void onSubmit(String text) {}
 }
 
+bool isLoading = false;
+
 class _UserRegistratin extends State<UserRegistratin> {
-  GlobalKey<FormState> _FormKey = GlobalKey<FormState>();
-  late String FirstName;
-  late String LastName;
-  late String email;
-  late String password;
+  final _firstnameController = TextEditingController();
+  final _lastnameController = TextEditingController();
+  final emailcontroller = TextEditingController();
+  final passcontroller = TextEditingController();
+  String get email => emailcontroller.text.trim();
+  String get password => passcontroller.text.trim();
+  String get FirstName => _firstnameController.text.trim();
+  String get LastName => _lastnameController.text.trim();
+  final _FormKey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
-  final emailcontroller = TextEditingController();
-  TextEditingController passcontroller = TextEditingController();
   bool showpass = true;
   bool showpass1 = true;
   bool has8char = false;
@@ -42,7 +46,6 @@ class _UserRegistratin extends State<UserRegistratin> {
   final ara = RegExp(r'^[a-zA-Z]+$');
   final eng = RegExp(r'^[أ-ي]+$');
   final digit = RegExp('[1-9]');
-  final _passcontroller = TextEditingController();
   final _confirmpasscontroller = TextEditingController();
 
   @override
@@ -84,9 +87,7 @@ class _UserRegistratin extends State<UserRegistratin> {
                   child: TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     maxLength: 15,
-                    onChanged: (value) {
-                      FirstName = value;
-                    },
+                    controller: _firstnameController,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "required";
@@ -124,9 +125,6 @@ class _UserRegistratin extends State<UserRegistratin> {
                   child: TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     maxLength: 15,
-                    onChanged: (value) {
-                      LastName = value;
-                    },
                     decoration: InputDecoration(
                         hintText: "Doe",
                         hintStyle: TextStyle(
@@ -147,6 +145,7 @@ class _UserRegistratin extends State<UserRegistratin> {
                                     ))
                               ]),
                         )),
+                    controller: _lastnameController,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "required";
@@ -168,10 +167,6 @@ class _UserRegistratin extends State<UserRegistratin> {
                       RequiredValidator(errorText: "required"),
                       EmailValidator(errorText: "not valid email"),
                     ]),
-                    onChanged: (value) {
-                      email = value;
-                      //form.validate();
-                    },
                     decoration: InputDecoration(
                         hintText: "example@email.com",
                         hintStyle: TextStyle(
@@ -237,8 +232,6 @@ class _UserRegistratin extends State<UserRegistratin> {
                       } else {
                         hasdigit = false;
                       }
-
-                      password = value;
                     },
                     obscureText: showpass,
                     decoration: InputDecoration(
@@ -360,9 +353,6 @@ class _UserRegistratin extends State<UserRegistratin> {
                         return 'passwords do not match ! ';
                       }
                     },
-                    onChanged: (value) {
-                      password = value;
-                    },
                     obscureText: showpass1,
                     decoration: InputDecoration(
                       hintText: "********",
@@ -407,18 +397,10 @@ class _UserRegistratin extends State<UserRegistratin> {
                     onPressed: () async {
                       if (_FormKey.currentState!.validate()) {
                         try {
-                          final newUser =
-                              await _auth.createUserWithEmailAndPassword(
-                                  email: email, password: password);
+                          registerWithEmailAndPassword(
+                              FirstName, LastName, email, password);
 
                           print("Account Created Successfully");
-
-                          _firestore.collection('users').add({
-                            'FirstName': FirstName,
-                            'LastName': LastName,
-                            'Email': email,
-                            'password': password,
-                          });
 
                           print("user is stored Successfully");
 
@@ -505,5 +487,37 @@ class _UserRegistratin extends State<UserRegistratin> {
         ),
       ),
     );
+  }
+
+  Future<void> registerWithEmailAndPassword(
+    String FirstName,
+    String LastName,
+    String email,
+    String Password,
+  ) async {
+    var isLoading = true;
+    setState(() {});
+    try {
+      final userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      final Fullname = "$FirstName $LastName";
+      await userCredential.user!.updateDisplayName(Fullname);
+      final uid = userCredential.user!.uid;
+      final userData = {
+        'Email': email,
+        'FirstName': FirstName,
+        'LastName': LastName,
+        'password': password
+      };
+      final docRef = FirebaseFirestore.instance.collection('users').doc(uid);
+      await docRef.set(userData, SetOptions(merge: true));
+      isLoading = false;
+      setState(() {});
+    } catch (e) {
+      print(e);
+    }
   }
 }
