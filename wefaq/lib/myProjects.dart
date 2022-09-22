@@ -61,7 +61,7 @@ class _myProjectState extends State<myProjects> {
   Future getProjects() async {
     if (Email != null) {
       var fillterd = _firestore
-          .collection('projects')
+          .collection('projects2')
           .where('email', isEqualTo: Email)
           .orderBy('created', descending: true)
           .snapshots();

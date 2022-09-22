@@ -414,7 +414,7 @@ class _PostProjectState extends State<PostProject> {
                         var now = new DateTime.now();
                         String? token =
                             await FirebaseMessaging.instance.getToken();
-                        _firestore.collection('projects').add({
+                        _firestore.collection('projects2').add({
                           'name': _nameEditingController.text,
                           'location': _startSearchFieldController.text,
                           'lng': startPosition?.geometry?.location?.lng,

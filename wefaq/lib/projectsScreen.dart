@@ -90,11 +90,10 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
       ownerEmail = [];
     });
 
-    var fillterd = _firestore
-        .collection('projects')
+    await for (var snapshot in _firestore
+        .collection('projects2')
         .orderBy('created', descending: true)
-        .snapshots();
-    await for (var snapshot in fillterd)
+        .snapshots())
       for (var project in snapshot.docs) {
         setState(() {
           nameList.add(project['name']);
