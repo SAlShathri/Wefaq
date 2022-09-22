@@ -43,11 +43,12 @@ class _PostProjectState extends State<PostProject> {
   String? selectedCat;
   final auth = FirebaseAuth.instance;
   late User signedInUser;
-  var Email;
-  var fname;
-  var lname;
 
-  @override
+  var name = '${FirebaseAuth.instance.currentUser!.displayName}'.split(' ');
+  get fname => name.first;
+  get lname => name.last;
+  var Email = FirebaseAuth.instance.currentUser!.email;
+
   void initState() {
     // call the methods to fetch the data from the DB
     getCategoryList();
@@ -55,8 +56,6 @@ class _PostProjectState extends State<PostProject> {
     super.initState();
     String apiKey = 'AIzaSyCkRaPfvVejBlQIAWEjc9klnkqk6olnhuc';
     googlePlace = GooglePlace(apiKey);
-    getCurrentUser();
-    getUser();
   }
 
   @override
@@ -82,32 +81,6 @@ class _PostProjectState extends State<PostProject> {
         });
       }
     }
-  }
-
-  void getCurrentUser() {
-    try {
-      final user = auth.currentUser;
-      if (user != null) {
-        signedInUser = user;
-        print(signedInUser.uid);
-        print(signedInUser.email);
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future getUser() async {
-    await for (var snapshot
-        in FirebaseFirestore.instance.collection('users').snapshots())
-      for (var user in snapshot.docs) {
-        if (user.data()['Email'] == signedInUser.email)
-          setState(() {
-            Email = (user.data()['Email']);
-            lname = (user.data()['FirstName']);
-            fname = (user.data()['LastName']);
-          });
-      }
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -451,8 +424,8 @@ class _PostProjectState extends State<PostProject> {
                           'lookingFor': _lookingForEditingController.text,
                           'created': now,
                           'email': Email.toString(),
+                          'fname': fname,
                           'lname': lname,
-                          'fanme': fname,
                           'token': token,
                         });
                         //Clear

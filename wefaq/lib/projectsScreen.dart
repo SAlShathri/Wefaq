@@ -183,7 +183,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
       body: Scrollbar(
         thumbVisibility: true,
         child: ListView.builder(
-          itemCount: nameList.length,
+          itemCount: tokens.length,
           itemBuilder: (context, index) {
             // Card Which Holds Layout Of ListView Item
             return SizedBox(
@@ -522,6 +522,8 @@ showDialogFunc(context, title, desc, category, loc, lookingFor, token,
                           'project_title': title,
                           'participant_email': signedInUser.email,
                           'owner_email': ownerEmail,
+                          'participant_name':
+                              FirebaseAuth.instance.currentUser!.displayName,
                           'participant_token': token_Participant,
                         });
                       },
