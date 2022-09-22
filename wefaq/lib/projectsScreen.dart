@@ -12,6 +12,8 @@ import 'package:wefaq/models/user.dart';
 import 'package:wefaq/service/local_push_notification.dart';
 import 'package:http/http.dart' as http;
 
+import 'UserLogin.dart';
+
 // Main Stateful Widget Start
 class ProjectsListViewPage extends StatefulWidget {
   @override
@@ -77,148 +79,220 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 
   //get all projects
   Future getProjects() async {
-    if (Email != null) {
-      var fillterd = _firestore
-          .collection('projects')
-          .orderBy('created', descending: true)
-          .snapshots();
-      await for (var snapshot in fillterd)
-        for (var project in snapshot.docs) {
-          setState(() {
-            nameList.add(project['name']);
-            descList.add(project['description']);
-            locList.add(project['location']);
-            lookingForList.add(project['lookingFor']);
-            categoryList.add(project['category']);
-            tokens.add(project['token']);
-            ownerEmail.add(project['email']);
-          });
-        }
-    }
+    //clear first
+    setState(() {
+      nameList = [];
+      descList = [];
+      locList = [];
+      lookingForList = [];
+      categoryList = [];
+      tokens = [];
+      ownerEmail = [];
+    });
+
+    var fillterd = _firestore
+        .collection('projects')
+        .orderBy('created', descending: true)
+        .snapshots();
+    await for (var snapshot in fillterd)
+      for (var project in snapshot.docs) {
+        setState(() {
+          nameList.add(project['name']);
+          descList.add(project['description']);
+          locList.add(project['location']);
+          lookingForList.add(project['lookingFor']);
+          categoryList.add(project['category']);
+          tokens.add(project['token']);
+          ownerEmail.add(project['email']);
+        });
+      }
   }
 
   @override
   Widget build(BuildContext context) {
     // MediaQuery to get Device Width
     double width = MediaQuery.of(context).size.width * 0.6;
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        // Main List View With Builder
-        body: Scrollbar(
-          thumbVisibility: true,
-          child: ListView.builder(
-            itemCount: nameList.length,
-            itemBuilder: (context, index) {
-              // Card Which Holds Layout Of ListView Item
-              return SizedBox(
-                height: 195,
-                child: Card(
-                  color: const Color.fromARGB(255, 255, 255, 255),
-                  //shadowColor: Color.fromARGB(255, 255, 255, 255),
-                  //  elevation: 7,
-
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(children: <Widget>[
-                          IconButton(
-                            icon: const Icon(
-                              Icons.account_circle,
-                              color: Color.fromARGB(255, 112, 82, 149),
-                              size: 52,
-                            ),
-                            onPressed: () {
-                              // do something
-                            },
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 0),
-                            child: Text(
-                              '',
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 126, 134, 135)),
-                            ),
-                          )
-                        ]),
-                        Row(children: <Widget>[
-                          Text(
-                            "      " + nameList[index] + " ",
-                            style: const TextStyle(
-                              fontSize: 17,
-                              color: Color.fromARGB(159, 64, 7, 87),
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ]),
-                        Row(
-                          children: <Widget>[
-                            const Text("     "),
-                            const Icon(Icons.location_pin,
-                                color: Color.fromARGB(173, 64, 7, 87)),
-                            Text(locList[index],
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Color.fromARGB(221, 81, 122, 140),
-                                ))
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            const Text("     "),
-                            const Icon(
-                              Icons.search,
-                              color: Color.fromARGB(248, 170, 167, 8),
-                              size: 28,
-                            ),
-                            Text(lookingForList[index],
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    color: Color.fromARGB(221, 79, 128, 151),
-                                    fontWeight: FontWeight.normal),
-                                maxLines: 2,
-                                overflow: TextOverflow.clip),
-                          ],
-                        ),
-                        Expanded(
-                            child: //Text("                              "),
-                                /*const Icon(
-                                    Icons.arrow_downward,
-                                    color: Color.fromARGB(255, 58, 44, 130),
-                                    size: 28,
-                                  ),*/
-                                TextButton(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              'View More',
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 90, 46, 144),
-                              ),
-                            ),
-                          ),
-                          onPressed: () {
-                            showDialogFunc(
-                                context,
-                                nameList[index],
-                                descList[index],
-                                categoryList[index],
-                                locList[index],
-                                lookingForList[index],
-                                tokens[index],
-                                ownerEmail[index],
-                                signedInUser);
-                          },
-                        ))
-                      ],
-                    ),
+    return Scaffold(
+      bottomNavigationBar: CustomNavigationBar(
+        currentHomeScreen: 1,
+        updatePage: () {},
+      ),
+      appBar: AppBar(
+        title: Text("Upcoming projects", style: TextStyle(color: Colors.white)),
+        leading: PopupMenuButton(
+          tooltip: "Filter by",
+          icon: Icon(
+            Icons.filter_list,
+            color: Colors.white,
+          ),
+          itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+            PopupMenuItem(
+              child: ListTile(
+                leading: Icon(Icons.date_range,
+                    color: Color.fromARGB(144, 64, 7, 87)),
+                title: Text(
+                  'Created date',
+                  style: TextStyle(
+                    color: Color.fromARGB(221, 81, 122, 140),
                   ),
                 ),
-              );
-            },
-          ),
+                onTap: () {
+                  setState(() {
+                    //Filter by created date
+                    getProjects();
+                  });
+                },
+                selectedTileColor: Color.fromARGB(255, 252, 243, 243),
+              ),
+            ),
+            PopupMenuItem(
+              child: ListTile(
+                leading: Icon(Icons.location_on,
+                    color: Color.fromARGB(144, 64, 7, 87)),
+                title: Text(
+                  'Nearest',
+                  style: TextStyle(
+                    color: Color.fromARGB(221, 81, 122, 140),
+                  ),
+                ),
+                onTap: () {
+                  setState(() {
+                    //Filter by nearest
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
+              onPressed: () {
+                _signOut();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => UserLogin()));
+              }),
+        ],
+        automaticallyImplyLeading: false,
+        backgroundColor: Color.fromARGB(255, 145, 124, 178),
+      ),
+      // Main List View With Builder
+      body: Scrollbar(
+        thumbVisibility: true,
+        child: ListView.builder(
+          itemCount: nameList.length,
+          itemBuilder: (context, index) {
+            // Card Which Holds Layout Of ListView Item
+            return SizedBox(
+              height: 195,
+              child: Card(
+                color: const Color.fromARGB(255, 255, 255, 255),
+                //shadowColor: Color.fromARGB(255, 255, 255, 255),
+                //  elevation: 7,
+
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(children: <Widget>[
+                        IconButton(
+                          icon: const Icon(
+                            Icons.account_circle,
+                            color: Color.fromARGB(255, 112, 82, 149),
+                            size: 52,
+                          ),
+                          onPressed: () {
+                            // do something
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 0),
+                          child: Text(
+                            '',
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 126, 134, 135)),
+                          ),
+                        )
+                      ]),
+                      Row(children: <Widget>[
+                        Text(
+                          "      " + nameList[index] + " ",
+                          style: const TextStyle(
+                            fontSize: 17,
+                            color: Color.fromARGB(159, 64, 7, 87),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ]),
+                      Row(
+                        children: <Widget>[
+                          const Text("     "),
+                          const Icon(Icons.location_pin,
+                              color: Color.fromARGB(173, 64, 7, 87)),
+                          Text(locList[index],
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Color.fromARGB(221, 81, 122, 140),
+                              ))
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          const Text("     "),
+                          const Icon(
+                            Icons.search,
+                            color: Color.fromARGB(248, 170, 167, 8),
+                            size: 28,
+                          ),
+                          Text(lookingForList[index],
+                              style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromARGB(221, 79, 128, 151),
+                                  fontWeight: FontWeight.normal),
+                              maxLines: 2,
+                              overflow: TextOverflow.clip),
+                        ],
+                      ),
+                      Expanded(
+                          child: //Text("                              "),
+                              /*const Icon(
+                                  Icons.arrow_downward,
+                                  color: Color.fromARGB(255, 58, 44, 130),
+                                  size: 28,
+                                ),*/
+                              TextButton(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'View More',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 90, 46, 144),
+                            ),
+                          ),
+                        ),
+                        onPressed: () {
+                          showDialogFunc(
+                              context,
+                              nameList[index],
+                              descList[index],
+                              categoryList[index],
+                              locList[index],
+                              lookingForList[index],
+                              tokens[index],
+                              ownerEmail[index],
+                              signedInUser);
+                        },
+                      ))
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
@@ -431,7 +505,8 @@ showDialogFunc(context, title, desc, category, loc, lookingFor, token,
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Tabs()));
+                                    builder: (context) =>
+                                        ProjectsListViewPage()));
                           },
                           type: CoolAlertType.success,
                           backgroundColor: Color.fromARGB(221, 212, 189, 227),
@@ -496,4 +571,8 @@ void sendNotification(String title, String token) async {
       print("Error");
     }
   } catch (e) {}
+}
+
+Future<void> _signOut() async {
+  await FirebaseAuth.instance.signOut();
 }

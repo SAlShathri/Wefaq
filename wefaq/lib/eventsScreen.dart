@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
@@ -7,6 +8,8 @@ import 'package:wefaq/models/project.dart';
 import 'package:wefaq/profile.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/link.dart';
+
+import 'UserLogin.dart';
 
 // Main Stateful Widget Start
 class EventsListViewPage extends StatefulWidget {
@@ -46,6 +49,16 @@ class _ListViewPageState extends State<EventsListViewPage> {
   var TimeList = [];
 //get all projects
   Future getProjects() async {
+    //clear first
+    setState(() {
+      nameList = [];
+      descList = [];
+      locList = [];
+      urlList = [];
+      categoryList = [];
+      dateTimeList = [];
+      TimeList = [];
+    });
     await for (var snapshot in _firestore
         .collection('events')
         .orderBy('created', descending: true)
@@ -69,115 +82,178 @@ class _ListViewPageState extends State<EventsListViewPage> {
   Widget build(BuildContext context) {
     // MediaQuery to get Device Width
     double width = MediaQuery.of(context).size.width * 0.6;
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        // Main List View With Builder
-        body: Scrollbar(
-          thumbVisibility: true,
-          child: ListView.builder(
-            itemCount: nameList.length,
-            itemBuilder: (context, index) {
-              return SizedBox(
-                height: 160,
-                child: Card(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  //shadowColor: Color.fromARGB(255, 255, 255, 255),
-                  //  elevation: 7,
-
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(children: <Widget>[
-                          Text(
-                            "      " + nameList[index] + " ",
-                            style: TextStyle(
-                              fontSize: 17,
-                              color: Color.fromARGB(159, 64, 7, 87),
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ]),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text("     "),
-                            const Icon(Icons.location_pin,
-                                color: Color.fromARGB(173, 64, 7, 87)),
-                            Text(locList[index],
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color.fromARGB(221, 81, 122, 140),
-                                ))
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text("     "),
-                            const Icon(
-                              Icons.timelapse_outlined,
-                              color: Color.fromARGB(248, 170, 167, 8),
-                              size: 21,
-                            ),
-                            Text(dateTimeList[index] + ' ' + TimeList[index],
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Color.fromARGB(221, 79, 128, 151),
-                                    fontWeight: FontWeight.normal),
-                                maxLines: 2,
-                                overflow: TextOverflow.clip),
-                          ],
-                        ),
-                        Row(children: <Widget>[
-                          SizedBox(
-                            width: 160,
-                          ),
-                          /*const Icon(
-                                    Icons.arrow_downward,
-                                    color: Color.fromARGB(255, 58, 44, 130),
-                                    size: 28,
-                                  ),*/
-                          TextButton(
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'View More',
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 90, 46, 144),
-                                ),
-                              ),
-                            ),
-                            onPressed: () {
-                              showDialogFunc(
-                                  context,
-                                  nameList[index],
-                                  descList[index],
-                                  categoryList[index],
-                                  locList[index],
-                                  dateTimeList[index],
-                                  TimeList[index],
-                                  urlList[index]);
-                            },
-                          ),
-                          SizedBox(
-                            width: 80,
-                          ),
-                          IconButton(
-                              onPressed: () {}, icon: Icon(Icons.star_border))
-                        ])
-                      ],
-                    ),
+    return Scaffold(
+      bottomNavigationBar: CustomNavigationBar(
+        currentHomeScreen: 3,
+        updatePage: () {},
+      ),
+      appBar: AppBar(
+        title: Text("Upcoming events", style: TextStyle(color: Colors.white)),
+        leading: PopupMenuButton(
+          tooltip: "Filter by",
+          icon: Icon(
+            Icons.filter_list,
+            color: Colors.white,
+          ),
+          itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+            PopupMenuItem(
+              child: ListTile(
+                leading: Icon(Icons.date_range,
+                    color: Color.fromARGB(144, 64, 7, 87)),
+                title: Text(
+                  'Created date',
+                  style: TextStyle(
+                    color: Color.fromARGB(221, 81, 122, 140),
                   ),
                 ),
-              );
-            },
-          ),
-        ), // sc
+                onTap: () {
+                  setState(() {
+                    //Filter by created date
+                    getProjects();
+                  });
+                },
+                selectedTileColor: Color.fromARGB(255, 252, 243, 243),
+              ),
+            ),
+            PopupMenuItem(
+              child: ListTile(
+                leading: Icon(Icons.location_on,
+                    color: Color.fromARGB(144, 64, 7, 87)),
+                title: Text(
+                  'Nearest',
+                  style: TextStyle(
+                    color: Color.fromARGB(221, 81, 122, 140),
+                  ),
+                ),
+                onTap: () {
+                  setState(() {
+                    //Filter by nearest
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
+              onPressed: () {
+                _signOut();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => UserLogin()));
+              }),
+        ],
+        automaticallyImplyLeading: false,
+        backgroundColor: Color.fromARGB(255, 145, 124, 178),
       ),
+      // Main List View With Builder
+      body: Scrollbar(
+        thumbVisibility: true,
+        child: ListView.builder(
+          itemCount: nameList.length,
+          itemBuilder: (context, index) {
+            return SizedBox(
+              height: 160,
+              child: Card(
+                color: Color.fromARGB(255, 255, 255, 255),
+                //shadowColor: Color.fromARGB(255, 255, 255, 255),
+                //  elevation: 7,
+
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(children: <Widget>[
+                        Text(
+                          "      " + nameList[index] + " ",
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: Color.fromARGB(159, 64, 7, 87),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ]),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text("     "),
+                          const Icon(Icons.location_pin,
+                              color: Color.fromARGB(173, 64, 7, 87)),
+                          Text(locList[index],
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Color.fromARGB(221, 81, 122, 140),
+                              ))
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text("     "),
+                          const Icon(
+                            Icons.timelapse_outlined,
+                            color: Color.fromARGB(248, 170, 167, 8),
+                            size: 21,
+                          ),
+                          Text(dateTimeList[index] + ' ' + TimeList[index],
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromARGB(221, 79, 128, 151),
+                                  fontWeight: FontWeight.normal),
+                              maxLines: 2,
+                              overflow: TextOverflow.clip),
+                        ],
+                      ),
+                      Row(children: <Widget>[
+                        SizedBox(
+                          width: 160,
+                        ),
+                        /*const Icon(
+                                  Icons.arrow_downward,
+                                  color: Color.fromARGB(255, 58, 44, 130),
+                                  size: 28,
+                                ),*/
+                        TextButton(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'View More',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 90, 46, 144),
+                              ),
+                            ),
+                          ),
+                          onPressed: () {
+                            showDialogFunc(
+                                context,
+                                nameList[index],
+                                descList[index],
+                                categoryList[index],
+                                locList[index],
+                                dateTimeList[index],
+                                TimeList[index],
+                                urlList[index]);
+                          },
+                        ),
+                        SizedBox(
+                          width: 80,
+                        ),
+                        IconButton(
+                            onPressed: () {}, icon: Icon(Icons.star_border))
+                      ])
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ), // sc
     );
   }
 }
@@ -366,4 +442,8 @@ showDialogFunc(context, title, desc, category, loc, date, time, urlregstrtion) {
       );
     },
   );
+}
+
+Future<void> _signOut() async {
+  await FirebaseAuth.instance.signOut();
 }

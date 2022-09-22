@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:full_screen_menu/full_screen_menu.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:wefaq/HomePage.dart';
+import 'package:wefaq/eventsScreen.dart';
 import 'package:wefaq/myProjects.dart';
 import 'package:wefaq/postEvent.dart';
 import 'package:wefaq/postProject.dart';
@@ -186,8 +187,17 @@ class BottomBarButton extends StatelessWidget {
                   }
                 else if (index == 1)
                   {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Tabs()))
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProjectsListViewPage()))
+                  }
+                else if (index == 3)
+                  {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EventsListViewPage()))
                   }
               },
           child: AnimatedContainer(
