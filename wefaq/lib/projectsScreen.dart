@@ -517,7 +517,12 @@ showDialogFunc(context, title, desc, category, loc, lookingFor, token,
                             await FirebaseMessaging.instance.getToken();
                         FirebaseFirestore.instance
                             .collection('joinRequests')
-                            .add({
+                            .doc(title +
+                                "-" +
+                                signedInUser.email +
+                                '-' +
+                                ownerEmail)
+                            .set({
                           'project_title': title,
                           'participant_email': signedInUser.email,
                           'owner_email': ownerEmail,
