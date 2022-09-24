@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wefaq/ReceivedJoinRequest.dart';
 import 'package:wefaq/backgroundHome.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter/material.dart';
@@ -128,7 +129,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     onTap: () {
-                      //next sprint :)
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RequestListViewPage()));
                     },
                     child: Container(
                       decoration: BoxDecoration(

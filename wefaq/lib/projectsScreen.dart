@@ -517,11 +517,7 @@ showDialogFunc(context, title, desc, category, loc, lookingFor, token,
                             await FirebaseMessaging.instance.getToken();
                         FirebaseFirestore.instance
                             .collection('joinRequests')
-                            .doc(title +
-                                "-" +
-                                signedInUser.email +
-                                '-' +
-                                ownerEmail)
+                            .doc(title + '-' + signedInUser.email)
                             .set({
                           'project_title': title,
                           'participant_email': signedInUser.email,
@@ -529,6 +525,7 @@ showDialogFunc(context, title, desc, category, loc, lookingFor, token,
                           'participant_name':
                               FirebaseAuth.instance.currentUser!.displayName,
                           'participant_token': token_Participant,
+                          'Status': 'Pending'
                         });
                       },
                     ),
