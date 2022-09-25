@@ -1,0 +1,139 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:wefaq/UserLogin.dart';
+import 'bottom_bar_custom.dart';
+import 'package:cool_alert/cool_alert.dart';
+
+class sentJoinRequestListViewPage extends StatefulWidget {
+  @override
+  _sentRequestListState createState() => _sentRequestListState();
+}
+
+class _sentRequestListState extends State<sentJoinRequestListViewPage> {
+  final auth = FirebaseAuth.instance;
+  late User signedInUser;
+  final _firestore = FirebaseFirestore.instance;
+
+  var ProjectTitleList = [];
+
+  var status = [];
+
+  var Email = FirebaseAuth.instance.currentUser!.email;
+  @override
+  void initState() {
+    getRequests();
+    super.initState();
+  }
+
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
+  //get all projects
+  Future getRequests() async {
+    var fillterd = _firestore
+        .collection('joinRequests')
+        .where('participant_email', isEqualTo: Email)
+        .snapshots();
+    await for (var snapshot in fillterd)
+      for (var Request in snapshot.docs) {
+        setState(() {
+          ProjectTitleList.add(Request['project_title']);
+          status.add(Request['Status']);
+        });
+      }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Color.fromARGB(255, 182, 168, 203),
+        title: Text('Sent Join Requests',
+            style: TextStyle(
+              fontWeight: FontWeight.normal,
+              color: Colors.white,
+            )),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
+              onPressed: () {
+                _signOut();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => UserLogin()));
+              }),
+        ],
+      ),
+      bottomNavigationBar: CustomNavigationBar(
+        currentHomeScreen: 1,
+        updatePage: () {},
+      ),
+      body: Scrollbar(
+        thumbVisibility: true,
+        child: ListView.builder(
+          itemCount: ProjectTitleList.length,
+          itemBuilder: (context, index) {
+            return SizedBox(
+              height: 100,
+              child: Card(
+                color: const Color.fromARGB(255, 255, 255, 255),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Row(children: <Widget>[
+                        Text(
+                          " " + ProjectTitleList[index] + " ",
+                          style: const TextStyle(
+                            fontSize: 22,
+                            color: Color.fromARGB(159, 64, 7, 87),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Expanded(
+                          child: SizedBox(),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          height: 40.0,
+                          width: 100,
+                          decoration: new BoxDecoration(
+                              borderRadius: BorderRadius.circular(80.0),
+                              color: status[index] == 'Pending'
+                                  ? Color.fromARGB(144, 176, 183, 28)
+                                  : status[index] == 'Declined'
+                                      ? Color.fromARGB(144, 197, 36, 36)
+                                      : Color.fromARGB(144, 36, 197, 100)),
+                          padding: const EdgeInsets.all(0),
+                          child: Text(
+                            status[index],
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 255, 255, 255)),
+                          ),
+                        ),
+                      ]),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}

@@ -6,6 +6,7 @@ import 'package:wefaq/backgroundHome.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter/material.dart';
 import 'package:wefaq/myProjects.dart';
+import 'package:wefaq/sentJoinRequest.dart';
 import 'package:wefaq/userLogin.dart';
 import 'package:intl/intl.dart';
 import 'package:wefaq/TabScreen.dart';
@@ -151,6 +152,40 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       child: Text("   My Requests   ",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Color.fromARGB(221, 73, 105, 119),
+                              fontWeight: FontWeight.w600)),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  sentJoinRequestListViewPage()));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Color.fromARGB(255, 246, 244, 248),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(20, 17),
+                            blurRadius: 30,
+                            spreadRadius: -23,
+                            color: Color.fromARGB(255, 176, 146, 189),
+                          ),
+                        ],
+                        image: new DecorationImage(
+                          image: new AssetImage("assets/images/1.png"),
+                        ),
+                      ),
+                      child: Text("   Sent Requests   ",
                           style: TextStyle(
                               fontSize: 20,
                               color: Color.fromARGB(221, 73, 105, 119),
