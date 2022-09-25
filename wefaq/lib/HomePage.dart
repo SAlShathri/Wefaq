@@ -133,39 +133,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => RequestListViewPage()));
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Color.fromARGB(255, 246, 244, 248),
-                        boxShadow: [
-                          BoxShadow(
-                            offset: Offset(20, 17),
-                            blurRadius: 30,
-                            spreadRadius: -23,
-                            color: Color.fromARGB(255, 176, 146, 189),
-                          ),
-                        ],
-                        image: new DecorationImage(
-                          image: new AssetImage("assets/images/1.png"),
-                        ),
-                      ),
-                      child: Text("   My Requests   ",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromARGB(221, 73, 105, 119),
-                              fontWeight: FontWeight.w600)),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
                               builder: (context) =>
                                   sentJoinRequestListViewPage()));
                     },
@@ -186,6 +153,39 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       child: Text("   Sent Requests   ",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Color.fromARGB(221, 73, 105, 119),
+                              fontWeight: FontWeight.w600)),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RequestListViewPage()));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Color.fromARGB(255, 246, 244, 248),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(20, 17),
+                            blurRadius: 30,
+                            spreadRadius: -23,
+                            color: Color.fromARGB(255, 176, 146, 189),
+                          ),
+                        ],
+                        image: new DecorationImage(
+                          image: new AssetImage("assets/images/1.png"),
+                        ),
+                      ),
+                      child: Text("   Received Requests   ",
                           style: TextStyle(
                               fontSize: 20,
                               color: Color.fromARGB(221, 73, 105, 119),

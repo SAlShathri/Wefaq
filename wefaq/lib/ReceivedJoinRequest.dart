@@ -163,59 +163,64 @@ class _RequestListState extends State<RequestListViewPage> {
                       Row(
                         children: <Widget>[
                           Text("   "),
-                          ElevatedButton(
-                            onPressed: () {
-                              FirebaseFirestore.instance
-                                  .collection('joinRequests')
-                                  .doc(ProjectTitleList[index] +
-                                      '-' +
-                                      ParticipantEmailList[index])
-                                  .update({'Status': 'Accepted'});
+                          Container(
+                            margin: EdgeInsets.only(left: 120),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                FirebaseFirestore.instance
+                                    .collection('joinRequests')
+                                    .doc(ProjectTitleList[index] +
+                                        '-' +
+                                        ParticipantEmailList[index])
+                                    .update({'Status': 'Accepted'});
 
-                              CoolAlert.show(
-                                context: context,
-                                title: "Success!",
-                                confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
-                                type: CoolAlertType.success,
-                                backgroundColor:
-                                    Color.fromARGB(221, 212, 189, 227),
-                                text: "You have accepted " +
-                                    ParticipantNameList[index] +
-                                    " to be part of your team.",
-                                confirmBtnText: 'Done',
-                                onConfirmBtnTap: () {
-                                  //send join requist
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              RequestListViewPage()));
-                                },
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              surfaceTintColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(80.0)),
-                              padding: const EdgeInsets.all(0),
-                            ),
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 50.0,
-                              width: 170,
-                              decoration: new BoxDecoration(
-                                  borderRadius: BorderRadius.circular(80.0),
-                                  gradient: new LinearGradient(colors: [
-                                    Color.fromARGB(255, 15, 113, 69),
-                                    Color.fromARGB(255, 15, 113, 69),
-                                  ])),
-                              padding: const EdgeInsets.all(0),
-                              child: Text(
-                                "Accept",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color.fromARGB(255, 255, 255, 255)),
+                                CoolAlert.show(
+                                  context: context,
+                                  title: "Success!",
+                                  confirmBtnColor:
+                                      Color.fromARGB(144, 64, 6, 87),
+                                  type: CoolAlertType.success,
+                                  backgroundColor:
+                                      Color.fromARGB(221, 212, 189, 227),
+                                  text: "You have accepted " +
+                                      ParticipantNameList[index] +
+                                      " to be part of your team.",
+                                  confirmBtnText: 'Done',
+                                  onConfirmBtnTap: () {
+                                    //send join requist
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RequestListViewPage()));
+                                  },
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                surfaceTintColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(80.0)),
+                                padding: const EdgeInsets.all(0),
+                              ),
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 40.0,
+                                width: 100,
+                                decoration: new BoxDecoration(
+                                    borderRadius: BorderRadius.circular(9.0),
+                                    gradient: new LinearGradient(colors: [
+                                      Color.fromARGB(144, 7, 133, 57),
+                                      Color.fromARGB(144, 7, 133, 57),
+                                    ])),
+                                padding: const EdgeInsets.all(0),
+                                child: Text(
+                                  "Accept",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color:
+                                          Color.fromARGB(255, 255, 255, 255)),
+                                ),
                               ),
                             ),
                           ),
@@ -259,13 +264,13 @@ class _RequestListState extends State<RequestListViewPage> {
                             ),
                             child: Container(
                               alignment: Alignment.center,
-                              height: 50.0,
-                              width: 170,
+                              height: 40.0,
+                              width: 100,
                               decoration: new BoxDecoration(
-                                  borderRadius: BorderRadius.circular(80.0),
+                                  borderRadius: BorderRadius.circular(9.0),
                                   gradient: new LinearGradient(colors: [
-                                    Color.fromARGB(255, 232, 28, 28),
-                                    Color.fromARGB(255, 232, 28, 28)
+                                    Color.fromARGB(144, 210, 2, 2),
+                                    Color.fromARGB(144, 210, 2, 2)
                                   ])),
                               padding: const EdgeInsets.all(0),
                               child: Text(

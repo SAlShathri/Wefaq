@@ -49,7 +49,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                   width: 50,
                 ),
                 BottomBarButton(widget.currentHomeScreen, 3,
-                    CupertinoIcons.chat_bubble_2, widget.updatePage),
+                    CupertinoIcons.collections, widget.updatePage),
                 BottomBarButton(widget.currentHomeScreen, 4,
                     CupertinoIcons.person_fill, widget.updatePage),
               ],
