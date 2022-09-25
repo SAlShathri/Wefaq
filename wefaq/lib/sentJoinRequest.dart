@@ -95,9 +95,9 @@ class _sentRequestListState extends State<sentJoinRequestListViewPage> {
                       ),
                       Row(children: <Widget>[
                         Text(
-                          " " + ProjectTitleList[index] + " ",
+                          "Your request to join ",
                           style: const TextStyle(
-                            fontSize: 22,
+                            fontSize: 20,
                             color: Color.fromARGB(159, 64, 7, 87),
                             fontWeight: FontWeight.w600,
                           ),
@@ -110,12 +110,12 @@ class _sentRequestListState extends State<sentJoinRequestListViewPage> {
                           height: 40.0,
                           width: 100,
                           decoration: new BoxDecoration(
-                              borderRadius: BorderRadius.circular(80.0),
+                              borderRadius: BorderRadius.circular(9.0),
                               color: status[index] == 'Pending'
-                                  ? Color.fromARGB(144, 176, 183, 28)
+                                  ? Color.fromARGB(145, 221, 203, 3)
                                   : status[index] == 'Declined'
-                                      ? Color.fromARGB(144, 197, 36, 36)
-                                      : Color.fromARGB(144, 36, 197, 100)),
+                                      ? Color.fromARGB(144, 210, 2, 2)
+                                      : Color.fromARGB(144, 7, 133, 57)),
                           padding: const EdgeInsets.all(0),
                           child: Text(
                             status[index],
@@ -123,6 +123,16 @@ class _sentRequestListState extends State<sentJoinRequestListViewPage> {
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 color: Color.fromARGB(255, 255, 255, 255)),
+                          ),
+                        ),
+                      ]),
+                      Row(children: <Widget>[
+                        Text(
+                          ProjectTitleList[index] + " project is ",
+                          style: const TextStyle(
+                            fontSize: 20,
+                            color: Color.fromARGB(159, 64, 7, 87),
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ]),
