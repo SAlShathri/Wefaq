@@ -69,7 +69,7 @@ class _sentRequestListState extends State<AsentJoinRequestListViewPage> {
                       ),
                       Row(children: <Widget>[
                         Text(
-                          "Your request to join ",
+                          ProjectTitleList[index] + " project  ",
                           style: const TextStyle(
                             fontSize: 20,
                             color: Color.fromARGB(159, 64, 7, 87),
@@ -93,16 +93,6 @@ class _sentRequestListState extends State<AsentJoinRequestListViewPage> {
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 color: Color.fromARGB(255, 255, 255, 255)),
-                          ),
-                        ),
-                      ]),
-                      Row(children: <Widget>[
-                        Text(
-                          ProjectTitleList[index] + " project is ",
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: Color.fromARGB(159, 64, 7, 87),
-                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ]),

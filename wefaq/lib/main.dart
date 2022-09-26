@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/eventsScreen.dart';
+import 'package:wefaq/mapView.dart';
 import 'package:wefaq/myProjects.dart';
 import 'package:wefaq/postEvent.dart';
 import 'package:wefaq/postProject.dart';
