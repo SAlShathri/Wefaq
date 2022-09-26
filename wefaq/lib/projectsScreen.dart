@@ -522,25 +522,16 @@ showDialogFunc(context, title, desc, category, loc, lookingFor, token,
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           label: RichText(
                             text: TextSpan(
-                                text: 'Note',
-                                style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(230, 64, 7, 87)),
-                                children: [
-                                  TextSpan(
-                                      text: ' *',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 20,
-                                      ))
-                                ]),
+                              text: 'Note',
+                              style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(230, 64, 7, 87)),
+                            ),
                           )),
                       controller: _ParticipantNoteController,
                       validator: (value) {
-                        if (value!.isEmpty) {
-                          return "required";
-                        } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
+                        if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
                             !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
                           return "Only English or Arabic letters";
                         }
