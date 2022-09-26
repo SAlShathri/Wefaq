@@ -1,17 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'bottom_bar_custom.dart';
-import 'package:cool_alert/cool_alert.dart';
 
-class sentJoinRequestListViewPage extends StatefulWidget {
+class AsentJoinRequestListViewPage extends StatefulWidget {
   @override
   _sentRequestListState createState() => _sentRequestListState();
 }
 
-class _sentRequestListState extends State<sentJoinRequestListViewPage> {
+class _sentRequestListState extends State<AsentJoinRequestListViewPage> {
   final auth = FirebaseAuth.instance;
   late User signedInUser;
   final _firestore = FirebaseFirestore.instance;
@@ -36,6 +34,7 @@ class _sentRequestListState extends State<sentJoinRequestListViewPage> {
     var fillterd = _firestore
         .collection('joinRequests')
         .where('participant_email', isEqualTo: Email)
+        .where('Status', isEqualTo: "Accepted")
         .snapshots();
     await for (var snapshot in fillterd)
       for (var Request in snapshot.docs) {
@@ -51,31 +50,6 @@ class _sentRequestListState extends State<sentJoinRequestListViewPage> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Color.fromARGB(255, 182, 168, 203),
-        title: Text('Sent Join Requests',
-            style: TextStyle(
-              fontWeight: FontWeight.normal,
-              color: Colors.white,
-            )),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(
-                Icons.logout,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
-              onPressed: () {
-                _signOut();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => UserLogin()));
-              }),
-        ],
-      ),
-      bottomNavigationBar: CustomNavigationBar(
-        currentHomeScreen: 1,
-        updatePage: () {},
-      ),
       body: Scrollbar(
         thumbVisibility: true,
         child: ListView.builder(
@@ -111,11 +85,7 @@ class _sentRequestListState extends State<sentJoinRequestListViewPage> {
                           width: 100,
                           decoration: new BoxDecoration(
                               borderRadius: BorderRadius.circular(9.0),
-                              color: status[index] == 'Pending'
-                                  ? Color.fromARGB(145, 221, 203, 3)
-                                  : status[index] == 'Declined'
-                                      ? Color.fromARGB(144, 210, 2, 2)
-                                      : Color.fromARGB(144, 7, 133, 57)),
+                              color: Color.fromARGB(144, 7, 133, 57)),
                           padding: const EdgeInsets.all(0),
                           child: Text(
                             status[index],

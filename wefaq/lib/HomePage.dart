@@ -6,7 +6,7 @@ import 'package:wefaq/backgroundHome.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter/material.dart';
 import 'package:wefaq/myProjects.dart';
-import 'package:wefaq/sentJoinRequest.dart';
+import 'package:wefaq/AcceptedSentJoinRequest.dart';
 import 'package:wefaq/userLogin.dart';
 import 'package:intl/intl.dart';
 import 'package:wefaq/TabScreen.dart';
@@ -130,11 +130,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  sentJoinRequestListViewPage()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Tabs()));
                     },
                     child: Container(
                       decoration: BoxDecoration(

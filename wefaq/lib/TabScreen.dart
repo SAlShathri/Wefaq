@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wefaq/AcceptedSentJoinRequest.dart';
+import 'package:wefaq/DeclinedSentJoinRequest.dart';
+import 'package:wefaq/PendingSentJoinRequest.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'package:wefaq/eventsScreen.dart';
 import 'package:wefaq/models/project.dart';
@@ -25,44 +28,14 @@ class _ListViewTabsState extends State<Tabs> {
     // MediaQuery to get Device Width
     double width = MediaQuery.of(context).size.width * 0.6;
     return DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
           appBar: AppBar(
-            leading: PopupMenuButton(
-              tooltip: "Filter by",
-              icon: Icon(
-                Icons.filter_list,
-                color: Colors.white,
-              ),
-              itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                const PopupMenuItem(
-                  child: ListTile(
-                    leading: Icon(Icons.date_range,
-                        color: Color.fromARGB(144, 64, 7, 87)),
-                    title: Text(
-                      'Created date',
-                      style: TextStyle(
-                        color: Color.fromARGB(221, 81, 122, 140),
-                      ),
-                    ),
-                    selected: true,
-                    selectedTileColor: Color.fromARGB(255, 252, 243, 243),
-                  ),
-                ),
-                const PopupMenuItem(
-                  child: ListTile(
-                    leading: Icon(Icons.location_on,
-                        color: Color.fromARGB(144, 64, 7, 87)),
-                    title: Text(
-                      'Nearest',
-                      style: TextStyle(
-                        color: Color.fromARGB(221, 81, 122, 140),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            title: Text('Sent Join Requests',
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  color: Colors.white,
+                )),
             actions: <Widget>[
               IconButton(
                   icon: Icon(
@@ -86,18 +59,23 @@ class _ListViewTabsState extends State<Tabs> {
                   fontSize: 15.0,
                   fontFamily: 'Family Name'), //For Un-selected Tabs
               tabs: [
-                Tab(text: 'Upcoming Projects'),
+                Tab(text: 'Accepted'),
                 Tab(
-                  text: 'Upcoming Events',
+                  text: 'Pending ',
+                ),
+                Tab(
+                  text: 'Decliend',
                 ),
               ],
             ),
           ),
-          body: TabBarView(
-            children: [ProjectsListViewPage(), EventsListViewPage()],
-          ),
+          body: TabBarView(children: [
+            AsentJoinRequestListViewPage(),
+            PsentJoinRequestListViewPage(),
+            DsentJoinRequestListViewPage()
+          ]),
           bottomNavigationBar: CustomNavigationBar(
-            currentHomeScreen: 1,
+            currentHomeScreen: 0,
             updatePage: () {},
           ),
         ));
