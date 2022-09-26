@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wefaq/TabScreen.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
+import 'package:wefaq/mapView.dart';
 import 'package:wefaq/models/project.dart';
 import 'package:wefaq/models/user.dart';
 import 'package:wefaq/service/local_push_notification.dart';
@@ -27,8 +28,6 @@ final TextEditingController _ParticipantNoteController =
 class _ListViewPageState extends State<ProjectsListViewPage> {
   @override
   void initState() {
-    // TODO: implement initState
-
     getCurrentUser();
     getProjects();
 
@@ -114,7 +113,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
   @override
   Widget build(BuildContext context) {
     // MediaQuery to get Device Width
-    double width = MediaQuery.of(context).size.width * 0.6;
+
     return Scaffold(
       bottomNavigationBar: CustomNavigationBar(
         currentHomeScreen: 1,
@@ -170,6 +169,15 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
         actions: <Widget>[
           IconButton(
               icon: Icon(
+                Icons.map,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MapSample()));
+              }),
+          IconButton(
+              icon: Icon(
                 Icons.logout,
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
@@ -190,7 +198,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
           itemBuilder: (context, index) {
             // Card Which Holds Layout Of ListView Item
             return SizedBox(
-              height: 195,
+              height: 150,
               child: Card(
                 color: const Color.fromARGB(255, 255, 255, 255),
                 //shadowColor: Color.fromARGB(255, 255, 255, 255),
@@ -202,16 +210,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Row(children: <Widget>[
-                        IconButton(
-                          icon: const Icon(
-                            Icons.account_circle,
-                            color: Color.fromARGB(255, 112, 82, 149),
-                            size: 52,
-                          ),
-                          onPressed: () {
-                            // do something
-                          },
-                        ),
                         Padding(
                           padding: const EdgeInsets.only(left: 0),
                           child: Text(
