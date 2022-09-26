@@ -21,6 +21,10 @@ class ProjectsListViewPage extends StatefulWidget {
   _ListViewPageState createState() => _ListViewPageState();
 }
 
+final TextEditingController _JoiningASController = TextEditingController();
+final TextEditingController _ParticipantNoteController =
+    TextEditingController();
+
 class _ListViewPageState extends State<ProjectsListViewPage> {
   @override
   void initState() {
@@ -313,7 +317,7 @@ showDialogFunc(context, title, desc, category, loc, lookingFor, token,
                 color: const Color.fromARGB(255, 255, 255, 255),
               ),
               padding: const EdgeInsets.all(15),
-              height: 500,
+              height: 650,
               width: MediaQuery.of(context).size.width * 0.9,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -464,6 +468,74 @@ showDialogFunc(context, title, desc, category, loc, lookingFor, token,
                       ),
                     ),
                   ),
+                  const Divider(
+                    color: Color.fromARGB(255, 74, 74, 74),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      maxLength: 60,
+                      decoration: InputDecoration(
+                          hintText: "Developer,Designer",
+                          hintStyle: TextStyle(
+                              color: Color.fromARGB(255, 202, 198, 198)),
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          label: RichText(
+                            text: TextSpan(
+                                text: 'Joining As',
+                                style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(230, 64, 7, 87)),
+                                children: [
+                                  TextSpan(
+                                      text: ' *',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 20,
+                                      ))
+                                ]),
+                          )),
+                      controller: _JoiningASController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "required";
+                        } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
+                            !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
+                          return "Only English or Arabic letters";
+                        }
+                      },
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      maxLength: 150,
+                      decoration: InputDecoration(
+                          hintText: "Notes are visibale with your request",
+                          hintStyle: TextStyle(
+                              color: Color.fromARGB(255, 202, 198, 198)),
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          label: RichText(
+                            text: TextSpan(
+                              text: 'Note',
+                              style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(230, 64, 7, 87)),
+                            ),
+                          )),
+                      controller: _ParticipantNoteController,
+                      validator: (value) {
+                        if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
+                            !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
+                          return "Only English or Arabic letters";
+                        }
+                      },
+                    ),
+                  ),
                   Container(
                     alignment: Alignment.center,
                     height: 40.0,
@@ -523,8 +595,12 @@ showDialogFunc(context, title, desc, category, loc, lookingFor, token,
                           'participant_name':
                               FirebaseAuth.instance.currentUser!.displayName,
                           'participant_token': token_Participant,
-                          'Status': 'Pending'
+                          'Status': 'Pending',
+                          'Participant_note': _ParticipantNoteController.text,
+                          'joiningAs': _JoiningASController.text
                         });
+                        _JoiningASController.clear();
+                        _ParticipantNoteController.clear();
                       },
                     ),
                   ),
