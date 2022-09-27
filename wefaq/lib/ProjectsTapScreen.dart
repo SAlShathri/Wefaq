@@ -29,7 +29,7 @@ class _ListViewTabsState extends State<ProjectsTabs> {
     // MediaQuery to get Device Width
     double width = MediaQuery.of(context).size.width * 0.6;
     return DefaultTabController(
-        length: 3,
+        length: 2,
         child: Scaffold(
           appBar: AppBar(
             title: Text('Upcoming projects',

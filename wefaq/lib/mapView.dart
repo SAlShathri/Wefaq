@@ -1,12 +1,9 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
-
-import 'bottom_bar_custom.dart';
 
 class MapSample extends StatefulWidget {
   @override
