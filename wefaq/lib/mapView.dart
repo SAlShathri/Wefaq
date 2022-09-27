@@ -119,42 +119,22 @@ class MapSampleState extends State<MapSample> {
     return new Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _goToCurrentLocation,
-        label: const Text('Home'),
-        icon: const Icon(Icons.home),
-      ),
-      appBar: AppBar(
-        title: Text("Upcoming projects", style: TextStyle(color: Colors.white)),
-        backgroundColor: Color.fromARGB(255, 145, 124, 178),
-      ),
-      bottomNavigationBar: CustomNavigationBar(
-        currentHomeScreen: 1,
-        updatePage: () {},
+        label: const Text('Current location'),
+        icon: const Icon(Icons.location_searching,
+            color: Color.fromARGB(221, 137, 171, 187)),
       ),
       body: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 10, left: 1, right: 1),
+            margin: EdgeInsets.only(top: 2, left: 1, right: 1),
             child: TextFormField(
               controller: _startSearchFieldController,
               decoration: InputDecoration(
-                  hintText: 'Ksu..auto complete',
+                  hintText: 'Search',
                   hintStyle: TextStyle(
                       fontSize: 16, color: Color.fromARGB(255, 202, 198, 198)),
-                  label: RichText(
-                    text: TextSpan(
-                      text: 'Search ',
-                      style: const TextStyle(
-                          fontSize: 18, color: Color.fromARGB(144, 64, 7, 87)),
-                    ),
-                  ),
                   border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.black87, width: 2.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromARGB(144, 64, 7, 87),
-                      width: 2.0,
-                    ),
                   ),
                   suffixIcon: _startSearchFieldController.text.isEmpty
                       ? Icon(Icons.search,

@@ -115,89 +115,52 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
     // MediaQuery to get Device Width
 
     return Scaffold(
-      bottomNavigationBar: CustomNavigationBar(
-        currentHomeScreen: 1,
-        updatePage: () {},
-      ),
-      appBar: AppBar(
-        title: Text("Upcoming projects", style: TextStyle(color: Colors.white)),
-        leading: PopupMenuButton(
-          tooltip: "Filter by",
-          icon: Icon(
-            Icons.filter_list,
-            color: Colors.white,
-          ),
-          itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-            PopupMenuItem(
-              child: ListTile(
-                leading: Icon(Icons.date_range,
-                    color: Color.fromARGB(144, 64, 7, 87)),
-                title: Text(
-                  'Created date',
-                  style: TextStyle(
-                    color: Color.fromARGB(221, 81, 122, 140),
-                  ),
-                ),
-                onTap: () {
-                  setState(() {
-                    //Filter by created date
-                    getProjects();
-                  });
-                },
-                selectedTileColor: Color.fromARGB(255, 252, 243, 243),
-              ),
-            ),
-            PopupMenuItem(
-              child: ListTile(
-                leading: Icon(Icons.location_on,
-                    color: Color.fromARGB(144, 64, 7, 87)),
-                title: Text(
-                  'Nearest',
-                  style: TextStyle(
-                    color: Color.fromARGB(221, 81, 122, 140),
-                  ),
-                ),
-                onTap: () {
-                  setState(() {
-                    //Filter by nearest
-                  });
-                },
-              ),
-            ),
-            PopupMenuItem(
-              child: ListTile(
-                leading: Icon(Icons.map_rounded,
-                    color: Color.fromARGB(144, 64, 7, 87)),
-                title: Text(
-                  "Map view",
-                  style: TextStyle(
-                    color: Color.fromARGB(221, 81, 122, 140),
-                  ),
-                ),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MapSample()));
-                },
-              ),
-            ),
-          ],
+      floatingActionButton: PopupMenuButton(
+        tooltip: "Filter by",
+        icon: Icon(
+          Icons.filter_list,
+          color: Color.fromARGB(221, 81, 122, 140),
+          size: 40,
         ),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(
-                Icons.logout,
-                color: Color.fromARGB(255, 255, 255, 255),
+        itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+          PopupMenuItem(
+            child: ListTile(
+              leading:
+                  Icon(Icons.date_range, color: Color.fromARGB(144, 64, 7, 87)),
+              title: Text(
+                'Created date',
+                style: TextStyle(
+                  color: Color.fromARGB(221, 81, 122, 140),
+                ),
               ),
-              onPressed: () {
-                _signOut();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => UserLogin()));
-              }),
+              onTap: () {
+                setState(() {
+                  //Filter by created date
+                  getProjects();
+                });
+              },
+              selectedTileColor: Color.fromARGB(255, 252, 243, 243),
+            ),
+          ),
+          PopupMenuItem(
+            child: ListTile(
+              leading: Icon(Icons.location_on,
+                  color: Color.fromARGB(144, 64, 7, 87)),
+              title: Text(
+                'Nearest',
+                style: TextStyle(
+                  color: Color.fromARGB(221, 81, 122, 140),
+                ),
+              ),
+              onTap: () {
+                setState(() {
+                  //Filter by nearest
+                });
+              },
+            ),
+          ),
         ],
-        automaticallyImplyLeading: false,
-        backgroundColor: Color.fromARGB(255, 145, 124, 178),
       ),
-      // Main List View With Builder
       body: Scrollbar(
         thumbVisibility: true,
         child: ListView.builder(

@@ -15,6 +15,8 @@ import 'package:wefaq/selectionScreen.dart';
 import 'package:wefaq/TabScreen.dart';
 import 'package:wefaq/HomePage.dart';
 
+import 'ProjectsTapScreen.dart';
+
 class CustomNavigationBar extends StatefulWidget {
   const CustomNavigationBar(
       {Key? key, required this.updatePage, required this.currentHomeScreen})
@@ -187,10 +189,8 @@ class BottomBarButton extends StatelessWidget {
                   }
                 else if (index == 1)
                   {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ProjectsListViewPage()))
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ProjectsTabs()))
                   }
                 else if (index == 3)
                   {
