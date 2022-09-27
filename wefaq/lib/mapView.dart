@@ -86,7 +86,7 @@ class MapSampleState extends State<MapSample> {
       body: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 5, left: 1, right: 1),
+            margin: EdgeInsets.only(top: 10, left: 1, right: 1),
             child: TextFormField(
               controller: _startSearchFieldController,
               decoration: InputDecoration(
