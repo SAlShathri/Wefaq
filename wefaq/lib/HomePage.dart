@@ -29,6 +29,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+//,,,
 class _HomeScreenState extends State<HomeScreen> {
   final auth = FirebaseAuth.instance;
   late User signedInUser;
@@ -54,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 33,
               ),
               Container(
-                margin: EdgeInsets.only(left: 330, top: 15),
+                margin: EdgeInsets.only(left: 330, top: 25),
                 child: IconButton(
                     icon: Icon(
                       Icons.logout,
@@ -100,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               CategoryCard(
                                   title: "My Projects",
                                   imgSrc: "2.png",
-                                  press: () {
+                                  onTap: () {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -110,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               CategoryCard(
                                   title: "Sent Request",
                                   imgSrc: "4.png",
-                                  press: () {
+                                  onTap: () {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -119,12 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               CategoryCard(
                                   title: "Received Request",
                                   imgSrc: "1.png",
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(builder: (context) {
-                                  //     return DetailsScreen();
-                                  //     }),
-                                  press: () {
+                                  onTap: () {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -134,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               CategoryCard(
                                   title: "My Favorites",
                                   imgSrc: "3.png",
-                                  press: () {
+                                  onTap: () {
                                     // next sprint :)
                                   }),
                             ],
@@ -154,11 +150,12 @@ class _HomeScreenState extends State<HomeScreen> {
 class CategoryCard extends StatelessWidget {
   final String imgSrc;
   final String title;
-  final Function press;
+  final Function() onTap;
+
   const CategoryCard({
     required this.imgSrc,
     required this.title,
-    required this.press,
+    required this.onTap,
   });
 
   @override
@@ -185,7 +182,7 @@ class CategoryCard extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: press(),
+            onTap: onTap,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
