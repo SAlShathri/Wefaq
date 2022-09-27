@@ -164,18 +164,25 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                 },
               ),
             ),
+            PopupMenuItem(
+              child: ListTile(
+                leading: Icon(Icons.map_rounded,
+                    color: Color.fromARGB(144, 64, 7, 87)),
+                title: Text(
+                  "Map view",
+                  style: TextStyle(
+                    color: Color.fromARGB(221, 81, 122, 140),
+                  ),
+                ),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MapSample()));
+                },
+              ),
+            ),
           ],
         ),
         actions: <Widget>[
-          IconButton(
-              icon: Icon(
-                Icons.map,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MapSample()));
-              }),
           IconButton(
               icon: Icon(
                 Icons.logout,

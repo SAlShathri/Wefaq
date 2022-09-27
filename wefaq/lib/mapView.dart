@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
 
@@ -15,6 +16,8 @@ class MapSample extends StatefulWidget {
 class MapSampleState extends State<MapSample> {
   Completer<GoogleMapController> _controller = Completer();
 
+  late LatLng currentLatLng = const LatLng(48.8566, 2.3522);
+
   @override
   void initState() {
     getMarkers();
@@ -23,11 +26,6 @@ class MapSampleState extends State<MapSample> {
 
     super.initState();
   }
-
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(44.427963, -110.588455),
-    zoom: 14.4746,
-  );
 
   final _firestore = FirebaseFirestore.instance;
   List<Marker> markers = [];
@@ -39,6 +37,50 @@ class MapSampleState extends State<MapSample> {
   late GooglePlace googlePlace;
   List<AutocompletePrediction> predictions = [];
   Timer? _debounce;
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location services are disabled. Please enable the services')));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    return true;
+  } //permission
+
+  Future<void> _determinePosition() async {
+    if (await _handleLocationPermission()!) return;
+    Position position = await Geolocator.getCurrentPosition();
+    setState(() {
+      currentLatLng = LatLng(position.latitude, position.longitude);
+    });
+    return;
+  }
+
+  Future<void> _goToCurrentLocation() async {
+    await _determinePosition();
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: currentLatLng, zoom: 3)));
+  }
 
   //get markers
   Future getMarkers() async {
@@ -75,6 +117,11 @@ class MapSampleState extends State<MapSample> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _goToCurrentLocation,
+        label: const Text('Home'),
+        icon: const Icon(Icons.home),
+      ),
       appBar: AppBar(
         title: Text("Upcoming projects", style: TextStyle(color: Colors.white)),
         backgroundColor: Color.fromARGB(255, 145, 124, 178),
@@ -178,7 +225,12 @@ class MapSampleState extends State<MapSample> {
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
               },
-              initialCameraPosition: _kGooglePlex,
+              initialCameraPosition:
+                  CameraPosition(target: currentLatLng, zoom: 14),
+              myLocationEnabled: true,
+              zoomGesturesEnabled: true,
+              zoomControlsEnabled: true,
+              myLocationButtonEnabled: false,
             ),
           ),
         ],
