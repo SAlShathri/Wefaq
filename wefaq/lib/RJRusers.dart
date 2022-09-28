@@ -23,6 +23,11 @@ class _RequestListState extends State<RequestListViewPage> {
   var ParticipantEmailList = [];
 
   var ParticipantNameList = [];
+
+  var ParticipantNoteList = [];
+
+  var ParticipantJoiningAsList = [];
+
   var tokens = [];
 
   Status() => ProjectsListViewPage();
@@ -67,6 +72,8 @@ class _RequestListState extends State<RequestListViewPage> {
             ProjectTitleList.add(Request['project_title']);
             ParticipantEmailList.add(Request['participant_email']);
             ParticipantNameList.add(Request['participant_name']);
+            ParticipantNoteList.add(Request['Participant_note']);
+            ParticipantJoiningAsList.add(Request['joiningAs']);
             tokens.add(Request['participant_token']);
           });
         }
@@ -161,11 +168,14 @@ class _RequestListState extends State<RequestListViewPage> {
                                 size: 35,
                               ),
                               onPressed: () {
-                                Navigator.push(
+                                showDialogFunc(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            RequestListViewPage()));
+                                    ParticipantNameList[index],
+                                    ParticipantNoteList[index],
+                                    ParticipantJoiningAsList[index],
+                                    ParticipantEmailList[index],
+                                    ProjectTitleList[index],
+                                    signedInUser);
                               },
                             ),
                           )
@@ -308,4 +318,218 @@ class _RequestListState extends State<RequestListViewPage> {
       ),
     );
   }
+}
+
+showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
+    ParticipantEmail, ProjectTitle, signedInUser) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return Center(
+        child: Material(
+          type: MaterialType.transparency,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: const Color.fromARGB(255, 255, 255, 255),
+            ),
+            padding: const EdgeInsets.all(15),
+            height: 500,
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  flex: 3,
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.account_circle,
+                      color: Color.fromARGB(255, 112, 82, 149),
+                      size: 52,
+                    ),
+                    onPressed: () {
+                      // go to participant's profile
+                    },
+                  ),
+                ),
+                Expanded(
+                  flex: 6,
+                  child: GestureDetector(
+                    child: Text(
+                      " " + ParticipantName + " ",
+                      style: const TextStyle(
+                        fontSize: 20,
+                        color: Color.fromARGB(159, 64, 7, 87),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    onTap: () {
+                      // go to participant's profile
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Divider(
+                  color: Color.fromARGB(255, 74, 74, 74),
+                ),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      " " + ParticipantJoiningAs + " ",
+                      style: const TextStyle(
+                        fontSize: 20,
+                        color: Color.fromARGB(159, 64, 7, 87),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                const Divider(
+                  color: Color.fromARGB(255, 102, 102, 102),
+                ),
+                Row(
+                  children: <Widget>[
+                    if (ParticipantNote != null)
+                      Text(
+                        " " + ParticipantNote + " ",
+                        style: const TextStyle(
+                          fontSize: 20,
+                          color: Color.fromARGB(159, 64, 7, 87),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                //----------------------------------------------------------------------------
+                Row(
+                  children: <Widget>[
+                    Text("   "),
+                    Container(
+                      margin: EdgeInsets.only(left: 120),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          FirebaseFirestore.instance
+                              .collection('joinRequests')
+                              .doc(ProjectTitle + '-' + ParticipantEmail)
+                              .update({'Status': 'Accepted'});
+
+                          CoolAlert.show(
+                            context: context,
+                            title: "Success!",
+                            confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
+                            type: CoolAlertType.success,
+                            backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                            text: "You have accepted " +
+                                ParticipantName +
+                                " to be part of your team.",
+                            confirmBtnText: 'Done',
+                            onConfirmBtnTap: () {
+                              //send join requist
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          RequestListViewPage()));
+                            },
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          surfaceTintColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(80.0)),
+                          padding: const EdgeInsets.all(0),
+                        ),
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 40.0,
+                          width: 100,
+                          decoration: new BoxDecoration(
+                              borderRadius: BorderRadius.circular(9.0),
+                              gradient: new LinearGradient(colors: [
+                                Color.fromARGB(144, 7, 133, 57),
+                                Color.fromARGB(144, 7, 133, 57),
+                              ])),
+                          padding: const EdgeInsets.all(0),
+                          child: Text(
+                            "Accept",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromARGB(255, 255, 255, 255)),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Text("     "),
+                    ElevatedButton(
+                      onPressed: () {
+                        FirebaseFirestore.instance
+                            .collection('joinRequests')
+                            .doc(ProjectTitle + '-' + ParticipantEmail)
+                            .update({'Status': 'Declined'});
+                        CoolAlert.show(
+                          context: context,
+                          title: "Success!",
+                          confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
+                          type: CoolAlertType.success,
+                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                          text: "You have rejected " +
+                              ParticipantName +
+                              ", hope you find a better match.",
+                          confirmBtnText: 'Done',
+                          onConfirmBtnTap: () async {
+                            //saving the request in join request collection
+
+                            //send join requist
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        RequestListViewPage()));
+                          },
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        surfaceTintColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(80.0)),
+                        padding: const EdgeInsets.all(0),
+                      ),
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 40.0,
+                        width: 100,
+                        decoration: new BoxDecoration(
+                            borderRadius: BorderRadius.circular(9.0),
+                            gradient: new LinearGradient(colors: [
+                              Color.fromARGB(144, 210, 2, 2),
+                              Color.fromARGB(144, 210, 2, 2)
+                            ])),
+                        padding: const EdgeInsets.all(0),
+                        child: Text(
+                          "Decline",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Color.fromARGB(255, 255, 255, 255)),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
 }
