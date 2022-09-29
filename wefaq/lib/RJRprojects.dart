@@ -116,7 +116,7 @@ class _RequestListProject extends State<RequestListViewPageProject> {
         ],
       ),
       bottomNavigationBar: CustomNavigationBar(
-        currentHomeScreen: 1,
+        currentHomeScreen: 0,
         updatePage: () {},
       ),
       body: Scrollbar(

@@ -136,7 +136,7 @@ class _RequestListState extends State<RequestListViewPage> {
         ],
       ),
       bottomNavigationBar: CustomNavigationBar(
-        currentHomeScreen: 1,
+        currentHomeScreen: 0,
         updatePage: () {},
       ),
       body: Scrollbar(
