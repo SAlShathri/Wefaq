@@ -1,11 +1,14 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:wefaq/ProjectsTapScreen.dart';
+import 'package:wefaq/screens/project_detail/project_detail_screen.dart';
 import 'package:wefaq/service/local_push_notification.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,6 +27,8 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
   void initState() {
     getCurrentUser();
     getProjects();
+    _getCurrentPosition();
+    setDistance();
 
     FirebaseMessaging.instance.getInitialMessage();
     FirebaseMessaging.onMessage.listen((event) {
@@ -36,7 +41,10 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
   final auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
   late User signedInUser;
-
+  String? _currentAddress;
+  Position? _currentPosition;
+  var lat;
+  var lng;
   // Title list
   var nameList = [];
 
@@ -59,6 +67,10 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 
   //project owners emails
   var ownerEmail = [];
+  var latList = [];
+
+  var lngList = [];
+  var creatDate = [];
 
   String? Email;
   void getCurrentUser() {
@@ -102,6 +114,98 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
           ownerEmail.add(project['email']);
         });
       }
+  }
+
+  Future getProjectsLoc() async {
+    //clear first
+    setState(() {
+      nameList = [];
+      descList = [];
+      locList = [];
+      lookingForList = [];
+      categoryList = [];
+      tokens = [];
+      ownerEmail = [];
+    });
+
+    await for (var snapshot in _firestore
+        .collection('projects2')
+        .orderBy('dis', descending: false)
+        .snapshots())
+      for (var events in snapshot.docs) {
+        setState(() {
+          nameList.add(events['name']);
+          descList.add(events['description']);
+          locList.add(events['location']);
+          lookingForList.add(events['lookingFor']);
+          categoryList.add(events['category']);
+          tokens.add(events['token']);
+          ownerEmail.add(events['email']);
+          latList.add(events['lat']);
+          lngList.add(events['lng']);
+        });
+      }
+  }
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location services are disabled. Please enable the services')));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    return true;
+  } //permission
+
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() => _currentPosition = position);
+    }).catchError((e) {
+      debugPrint(e);
+    });
+    var lat = _currentPosition?.latitude;
+    var lng = _currentPosition?.longitude;
+  }
+
+  double calculateDistance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;
+    var a = 0.5 -
+        cos((lat2 - lat1) * p) / 2 +
+        cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a));
+  }
+
+  setDistance() {
+    for (var i = 0; i < latList.length; i++) {
+      setState(() {
+        FirebaseFirestore.instance.collection('projects2').doc(nameList[i]).set(
+            {'dis': calculateDistance(latList[i], lngList[i], lat, lng)},
+            SetOptions(merge: true));
+      });
+    }
   }
 
   @override
@@ -149,6 +253,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
               onTap: () {
                 setState(() {
                   //Filter by nearest
+                  getProjectsLoc();
                 });
               },
             ),
@@ -161,7 +266,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
         itemBuilder: (context, index) {
           // Card Which Holds Layout Of ListView Item
           return SizedBox(
-            height: 150,
+            height: 130,
             child: Card(
               color: const Color.fromARGB(255, 255, 255, 255),
               //shadowColor: Color.fromARGB(255, 255, 255, 255),
@@ -172,25 +277,35 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Row(children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 0),
-                        child: Text(
-                          '',
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 126, 134, 135)),
-                        ),
-                      )
-                    ]),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Row(children: <Widget>[
                       Text(
                         "      " + nameList[index] + " ",
                         style: const TextStyle(
-                          fontSize: 17,
-                          color: Color.fromARGB(159, 64, 7, 87),
-                          fontWeight: FontWeight.w600,
+                          fontSize: 19,
+                          color: Color.fromARGB(212, 82, 10, 111),
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
+                    ]),
+                    Row(children: <Widget>[
+                      const Text(
+                          "                                                                           "),
+                      IconButton(
+                          icon: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Color.fromARGB(255, 170, 169, 179),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => projectDetailScreen(
+                                          projecName: nameList[index],
+                                        )));
+                          }),
                     ]),
                     Row(
                       children: <Widget>[
@@ -200,57 +315,10 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                         Text(locList[index],
                             style: const TextStyle(
                               fontSize: 16,
-                              color: Color.fromARGB(221, 81, 122, 140),
+                              color: Color.fromARGB(255, 34, 94, 120),
                             ))
                       ],
                     ),
-                    Row(
-                      children: <Widget>[
-                        const Text("     "),
-                        const Icon(
-                          Icons.search,
-                          color: Color.fromARGB(248, 170, 167, 8),
-                          size: 28,
-                        ),
-                        Text(lookingForList[index],
-                            style: const TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(221, 79, 128, 151),
-                                fontWeight: FontWeight.normal),
-                            maxLines: 2,
-                            overflow: TextOverflow.clip),
-                      ],
-                    ),
-                    Expanded(
-                        child: //Text("                              "),
-                            /*const Icon(
-                                Icons.arrow_downward,
-                                color: Color.fromARGB(255, 58, 44, 130),
-                                size: 28,
-                              ),*/
-                            TextButton(
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'View More',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 90, 46, 144),
-                          ),
-                        ),
-                      ),
-                      onPressed: () {
-                        showDialogFunc(
-                            context,
-                            nameList[index],
-                            descList[index],
-                            categoryList[index],
-                            locList[index],
-                            lookingForList[index],
-                            tokens[index],
-                            ownerEmail[index],
-                            signedInUser);
-                      },
-                    ))
                   ],
                 ),
               ),

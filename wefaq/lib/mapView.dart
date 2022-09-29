@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
+import 'package:wefaq/screens/project_detail/project_detail_screen.dart';
 
 class MapSample extends StatefulWidget {
   @override
@@ -64,7 +65,6 @@ class MapSampleState extends State<MapSample> {
   } //permission
 
   Future<void> _determinePosition() async {
-    if (await _handleLocationPermission()!) return;
     Position position = await Geolocator.getCurrentPosition();
     setState(() {
       currentLatLng = LatLng(position.latitude, position.longitude);
@@ -87,7 +87,16 @@ class MapSampleState extends State<MapSample> {
           markers.add(new Marker(
             markerId: MarkerId(project['name']),
             position: new LatLng(project['lat'], project['lng']),
-            infoWindow: InfoWindow(title: project['name']),
+            infoWindow: InfoWindow(
+                title: project['name'],
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => projectDetailScreen(
+                                projecName: project['name'],
+                              )));
+                }),
           ));
         });
       }
