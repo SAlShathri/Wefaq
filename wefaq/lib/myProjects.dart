@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wefaq/HomePage.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/background.dart';
 import 'bottom_bar_custom.dart';
@@ -84,13 +85,16 @@ class _myProjectState extends State<myProjects> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Color.fromARGB(255, 255, 255, 255),
+            ),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()));
+            }),
         backgroundColor: Color.fromARGB(255, 182, 168, 203),
-        title: Text('My projects',
-            style: TextStyle(
-              fontWeight: FontWeight.normal,
-              color: Colors.white,
-            )),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -103,11 +107,17 @@ class _myProjectState extends State<myProjects> {
                     MaterialPageRoute(builder: (context) => UserLogin()));
               }),
         ],
+        title: Text('My projects',
+            style: TextStyle(
+              fontWeight: FontWeight.normal,
+              color: Colors.white,
+            )),
       ),
       bottomNavigationBar: CustomNavigationBar(
         currentHomeScreen: 1,
         updatePage: () {},
       ),
+
       body: Scrollbar(
         thumbVisibility: true,
         child: ListView.builder(

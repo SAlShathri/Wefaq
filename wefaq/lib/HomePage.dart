@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 33,
               ),
               Container(
-                margin: EdgeInsets.only(left: 330, top: 25),
+                margin: EdgeInsets.only(left: 330, top: 35),
                 child: IconButton(
                     icon: Icon(
                       Icons.logout,

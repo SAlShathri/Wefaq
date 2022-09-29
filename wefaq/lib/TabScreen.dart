@@ -10,6 +10,8 @@ import 'package:wefaq/projectsScreen.dart';
 import 'package:wefaq/userLogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'HomePage.dart';
+
 // Main Stateful Widget Start
 class Tabs extends StatefulWidget {
   @override
@@ -31,6 +33,15 @@ class _ListViewTabsState extends State<Tabs> {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                }),
             title: Text('Sent Join Requests',
                 style: TextStyle(
                   fontWeight: FontWeight.normal,

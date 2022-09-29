@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:wefaq/HomePage.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'bottom_bar_custom.dart';
@@ -24,8 +25,14 @@ class _RequestListProject extends State<RequestListViewPageProject> {
 
   var ParticipantNameList = [];
   var tokens = [];
-
   Status() => ProjectsListViewPage();
+
+  List DisplayProjectOnce() {
+    final removeDuplicates = [
+      ...{...ProjectTitleList}
+    ];
+    return removeDuplicates;
+  }
 
   String? Email;
   @override
@@ -80,7 +87,15 @@ class _RequestListProject extends State<RequestListViewPageProject> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Color.fromARGB(255, 255, 255, 255),
+            ),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()));
+            }),
         backgroundColor: Color.fromARGB(255, 145, 124, 178),
         title: Text('Received Join Requests',
             style: TextStyle(
@@ -107,7 +122,7 @@ class _RequestListProject extends State<RequestListViewPageProject> {
       body: Scrollbar(
         thumbVisibility: true,
         child: ListView.builder(
-          itemCount: ProjectTitleList.length,
+          itemCount: DisplayProjectOnce().length,
           itemBuilder: (context, index) {
             return SizedBox(
               height: 90,
@@ -126,11 +141,11 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                           Expanded(
                             flex: 5,
                             child: Text(
-                              " " + ProjectTitleList[index] + " ",
+                              "   " + DisplayProjectOnce()[index],
                               style: const TextStyle(
                                 fontSize: 22,
-                                color: Color.fromARGB(159, 64, 7, 87),
-                                fontWeight: FontWeight.w700,
+                                color: Color.fromARGB(159, 32, 3, 43),
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),
@@ -138,16 +153,16 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                             margin: EdgeInsets.only(left: 250),
                             child: IconButton(
                               icon: const Icon(
-                                Icons.arrow_forward,
+                                Icons.arrow_forward_ios,
                                 color: Color.fromARGB(255, 112, 82, 149),
-                                size: 35,
+                                size: 28,
                               ),
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            RequestListViewPage()));
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => RequestListViewPage(
+                                          projectName: ProjectTitleList[index]
+                                              .toString(),
+                                        )));
                               },
                             ),
                           )
@@ -157,10 +172,10 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                   ),
                 ),
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => RequestListViewPage()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => RequestListViewPage(
+                            projectName: ProjectTitleList[index].toString(),
+                          )));
                 },
               ),
             );
