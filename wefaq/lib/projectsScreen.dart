@@ -26,6 +26,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
   @override
   void initState() {
     getCurrentUser();
+
     getProjects();
     _getCurrentPosition();
     setDistance();
@@ -97,6 +98,8 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
       categoryList = [];
       tokens = [];
       ownerEmail = [];
+      latList = [];
+      lngList = [];
     });
 
     await for (var snapshot in _firestore
@@ -112,6 +115,8 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
           categoryList.add(project['category']);
           tokens.add(project['token']);
           ownerEmail.add(project['email']);
+          latList.add(project['lat']);
+          lngList.add(project['lng']);
         });
       }
   }
@@ -126,6 +131,8 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
       categoryList = [];
       tokens = [];
       ownerEmail = [];
+      latList = [];
+      lngList = [];
     });
 
     await for (var snapshot in _firestore
@@ -186,8 +193,8 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
     }).catchError((e) {
       debugPrint(e);
     });
-    var lat = _currentPosition?.latitude;
-    var lng = _currentPosition?.longitude;
+    lat = _currentPosition?.latitude;
+    lng = _currentPosition?.longitude;
   }
 
   double calculateDistance(lat1, lon1, lat2, lon2) {
@@ -201,9 +208,13 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
   setDistance() {
     for (var i = 0; i < latList.length; i++) {
       setState(() {
-        FirebaseFirestore.instance.collection('projects2').doc(nameList[i]).set(
-            {'dis': calculateDistance(latList[i], lngList[i], lat, lng)},
-            SetOptions(merge: true));
+        print(lngList);
+        print(latList);
+        FirebaseFirestore.instance
+            .collection('projects2')
+            .doc(nameList[i] + "-" + ownerEmail[i])
+            .set({'dis': calculateDistance(latList[i], lngList[i], lat, lng)},
+                SetOptions(merge: true));
       });
     }
   }
