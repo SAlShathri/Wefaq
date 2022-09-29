@@ -76,7 +76,7 @@ class MapSampleState extends State<MapSample> {
     await _determinePosition();
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: currentLatLng, zoom: 3)));
+        CameraPosition(target: currentLatLng, zoom: 15)));
   }
 
   //get markers

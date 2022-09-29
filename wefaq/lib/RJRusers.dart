@@ -513,7 +513,7 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                           sendNotification(
                               "Your Request has been Accepted on " +
                                   ProjectTitle +
-                                  "project!",
+                                  " project!",
                               tokens);
                           FirebaseFirestore.instance
                               .collection('joinRequests')
@@ -574,7 +574,7 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                         sendNotification(
                             "Sorry, Your request has been Rejected on " +
                                 ProjectTitle +
-                                "project!",
+                                " project!",
                             tokens);
                         FirebaseFirestore.instance
                             .collection('joinRequests')
