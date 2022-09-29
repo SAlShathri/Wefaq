@@ -70,10 +70,10 @@ class _ListViewTabsState extends State<Tabs> {
                   fontSize: 15.0,
                   fontFamily: 'Family Name'), //For Un-selected Tabs
               tabs: [
-                Tab(text: 'Accepted'),
                 Tab(
                   text: 'Pending ',
                 ),
+                Tab(text: 'Accepted'),
                 Tab(
                   text: 'Decliend',
                 ),
@@ -81,8 +81,8 @@ class _ListViewTabsState extends State<Tabs> {
             ),
           ),
           body: TabBarView(children: [
-            AsentJoinRequestListViewPage(),
             PsentJoinRequestListViewPage(),
+            AsentJoinRequestListViewPage(),
             DsentJoinRequestListViewPage()
           ]),
           bottomNavigationBar: CustomNavigationBar(

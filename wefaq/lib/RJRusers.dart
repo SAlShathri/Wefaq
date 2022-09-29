@@ -21,6 +21,8 @@ class RequestListViewPage extends StatefulWidget {
   _RequestListState createState() => _RequestListState(projectName);
 }
 
+final TextEditingController _AcceptingAsASController = TextEditingController();
+
 class _RequestListState extends State<RequestListViewPage> {
   String projectName;
   _RequestListState(this.projectName);
@@ -370,11 +372,12 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
               color: const Color.fromARGB(255, 255, 255, 255),
             ),
             padding: const EdgeInsets.all(15),
-            height: 400,
+            height: 500,
             width: MediaQuery.of(context).size.width * 0.9,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                // Code for acceptance role
                 Row(children: <Widget>[
                   Container(
                       margin: EdgeInsets.only(left: 0, top: 0),
@@ -502,6 +505,44 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                 const SizedBox(
                   height: 45,
                 ),
+                Container(
+                  alignment: Alignment.center,
+                  child: TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    maxLength: 60,
+                    decoration: InputDecoration(
+                        hintText: "Developer,Designer",
+                        hintStyle: TextStyle(
+                            color: Color.fromARGB(255, 202, 198, 198)),
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        label: RichText(
+                          text: TextSpan(
+                              text: 'Accepting As',
+                              style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(230, 64, 7, 87)),
+                              children: [
+                                TextSpan(
+                                    text: ' *',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 20,
+                                    ))
+                              ]),
+                        )),
+                    controller: _AcceptingAsASController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "required";
+                      } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
+                          !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
+                        return "Only English or Arabic letters";
+                      }
+                    },
+                  ),
+                ),
+
                 //----------------------------------------------------------------------------
                 Row(
                   children: <Widget>[
@@ -518,8 +559,15 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                           FirebaseFirestore.instance
                               .collection('joinRequests')
                               .doc(ProjectTitle + '-' + ParticipantEmail)
-                              .update({'Status': 'Accepted'});
-
+                              .update({
+                            'Status': 'Accepted',
+                          });
+                          FirebaseFirestore.instance
+                              .collection('joinRequests')
+                              .doc(ProjectTitle + '-' + ParticipantEmail)
+                              .update({
+                            'Participant_role': _AcceptingAsASController.text
+                          });
                           CoolAlert.show(
                             context: context,
                             title: "Success!",
@@ -574,12 +622,15 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                         sendNotification(
                             "Sorry, Your request has been Rejected on " +
                                 ProjectTitle +
-                                " project!",
+                                "project!",
                             tokens);
                         FirebaseFirestore.instance
                             .collection('joinRequests')
                             .doc(ProjectTitle + '-' + ParticipantEmail)
-                            .update({'Status': 'Declined'});
+                            .update({
+                          'Status': 'Declined',
+                        });
+
                         CoolAlert.show(
                           context: context,
                           title: "Success!",

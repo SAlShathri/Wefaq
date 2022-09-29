@@ -17,6 +17,7 @@ class _sentRequestListState extends State<AsentJoinRequestListViewPage> {
   var ProjectTitleList = [];
 
   var status = [];
+  var role = [];
 
   var Email = FirebaseAuth.instance.currentUser!.email;
   @override
@@ -41,6 +42,7 @@ class _sentRequestListState extends State<AsentJoinRequestListViewPage> {
         setState(() {
           ProjectTitleList.add(Request['project_title']);
           status.add(Request['Status']);
+          role.add(Request['Participant_role']);
         });
       }
   }
@@ -69,11 +71,14 @@ class _sentRequestListState extends State<AsentJoinRequestListViewPage> {
                       ),
                       Row(children: <Widget>[
                         Text(
-                          ProjectTitleList[index] + " project  ",
+                          " " +
+                              ProjectTitleList[index] +
+                              " project | As a " +
+                              role[index],
                           style: const TextStyle(
-                            fontSize: 20,
+                            fontSize: 16,
                             color: Color.fromARGB(159, 64, 7, 87),
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         Expanded(

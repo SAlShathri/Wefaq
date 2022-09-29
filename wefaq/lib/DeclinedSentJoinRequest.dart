@@ -69,11 +69,11 @@ class _sentRequestListState extends State<DsentJoinRequestListViewPage> {
                       ),
                       Row(children: <Widget>[
                         Text(
-                          ProjectTitleList[index] + " project ",
+                          "  " + ProjectTitleList[index] + " project ",
                           style: const TextStyle(
-                            fontSize: 20,
+                            fontSize: 16,
                             color: Color.fromARGB(159, 64, 7, 87),
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         Expanded(

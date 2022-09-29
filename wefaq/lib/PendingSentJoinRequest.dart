@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:wefaq/TabScreen.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'bottom_bar_custom.dart';
 import 'package:cool_alert/cool_alert.dart';
@@ -19,6 +20,7 @@ class _sentRequestListState extends State<PsentJoinRequestListViewPage> {
   var ProjectTitleList = [];
 
   var status = [];
+  var emailP = [];
 
   var Email = FirebaseAuth.instance.currentUser!.email;
   @override
@@ -42,6 +44,7 @@ class _sentRequestListState extends State<PsentJoinRequestListViewPage> {
       for (var Request in snapshot.docs) {
         setState(() {
           ProjectTitleList.add(Request['project_title']);
+          emailP.add(Request['participant_email']);
           status.add(Request['Status']);
         });
       }
@@ -58,7 +61,7 @@ class _sentRequestListState extends State<PsentJoinRequestListViewPage> {
           itemCount: ProjectTitleList.length,
           itemBuilder: (context, index) {
             return SizedBox(
-              height: 100,
+              height: 120,
               child: Card(
                 color: const Color.fromARGB(255, 255, 255, 255),
                 child: Padding(
@@ -66,16 +69,25 @@ class _sentRequestListState extends State<PsentJoinRequestListViewPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(
-                        height: 15,
+                      Container(
+                        margin: EdgeInsets.only(left: 0),
+                        child: IconButton(
+                          iconSize: 20,
+                          onPressed: () {
+                            showDialogFunc(context, emailP[index],
+                                ProjectTitleList[index]);
+                          },
+                          icon: const Icon(Icons.close),
+                          color: Color.fromARGB(159, 215, 14, 14),
+                        ),
                       ),
                       Row(children: <Widget>[
                         Text(
-                          ProjectTitleList[index] + " project ",
+                          "  " + ProjectTitleList[index] + " project ",
                           style: const TextStyle(
-                            fontSize: 20,
+                            fontSize: 16,
                             color: Color.fromARGB(159, 64, 7, 87),
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         Expanded(
@@ -109,4 +121,153 @@ class _sentRequestListState extends State<PsentJoinRequestListViewPage> {
       ),
     );
   }
+}
+
+showDialogFunc(context, ParticipantEmail, ProjectTitle) {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return Center(
+            child: Material(
+                type: MaterialType.transparency,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                  ),
+                  padding: const EdgeInsets.all(15),
+                  height: 150,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      // Code for acceptance role
+                      Row(children: <Widget>[
+                        Expanded(
+                          flex: 2,
+                          child: GestureDetector(
+                            child: Text(
+                              " Are you sure you want to Delete Request? ",
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(159, 64, 7, 87),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onTap: () {
+                              // go to participant's profile
+                            },
+                          ),
+                        ),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                      ]),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      //----------------------------------------------------------------------------
+                      Row(
+                        children: <Widget>[
+                          Text("   "),
+                          Text("     "),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Tabs()));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              surfaceTintColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(80.0)),
+                              padding: const EdgeInsets.all(0),
+                            ),
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 40.0,
+                              width: 100,
+                              decoration: new BoxDecoration(
+                                  borderRadius: BorderRadius.circular(9.0),
+                                  gradient: new LinearGradient(colors: [
+                                    Color.fromARGB(144, 176, 175, 175),
+                                    Color.fromARGB(144, 176, 175, 175),
+                                  ])),
+                              padding: const EdgeInsets.all(0),
+                              child: Text(
+                                "Cancel",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color.fromARGB(255, 255, 255, 255)),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 40),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                FirebaseFirestore.instance
+                                    .collection('joinRequests')
+                                    .doc(ProjectTitle + '-' + ParticipantEmail)
+                                    .update({
+                                  'Status': 'Request Deleted',
+                                });
+
+                                CoolAlert.show(
+                                  context: context,
+                                  title: "Success!",
+                                  confirmBtnColor:
+                                      Color.fromARGB(144, 64, 6, 87),
+                                  type: CoolAlertType.success,
+                                  backgroundColor:
+                                      Color.fromARGB(221, 212, 189, 227),
+                                  text: "Your request for " +
+                                      ProjectTitle +
+                                      " has been Deleted.",
+                                  confirmBtnText: 'Done',
+                                  onConfirmBtnTap: () {
+                                    //send join requist
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Tabs()));
+                                  },
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                surfaceTintColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(80.0)),
+                                padding: const EdgeInsets.all(0),
+                              ),
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 40.0,
+                                width: 100,
+                                decoration: new BoxDecoration(
+                                    borderRadius: BorderRadius.circular(9.0),
+                                    gradient: new LinearGradient(colors: [
+                                      Color.fromARGB(144, 210, 2, 2),
+                                      Color.fromARGB(144, 210, 2, 2)
+                                    ])),
+                                padding: const EdgeInsets.all(0),
+                                child: Text(
+                                  "Delete",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color:
+                                          Color.fromARGB(255, 255, 255, 255)),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                )));
+      });
 }

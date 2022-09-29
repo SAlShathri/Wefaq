@@ -553,7 +553,8 @@ showDialogFunc(context, title, desc, category, loc, lookingFor, token,
                         'participant_token': token_Participant,
                         'Status': 'Pending',
                         'Participant_note': _ParticipantNoteController.text,
-                        'joiningAs': _JoiningASController.text
+                        'joiningAs': _JoiningASController.text,
+                        'Participant_role': ' ',
                       });
                       _JoiningASController.clear();
                       _ParticipantNoteController.clear();
