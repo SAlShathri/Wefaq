@@ -28,6 +28,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    getCurrentUser();
     getProjects();
     super.initState();
   }
@@ -112,6 +113,21 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
             //tokens.add(Request['participant_token']);
           });
         }
+    }
+  }
+
+  final auth = FirebaseAuth.instance;
+  String? Email;
+  void getCurrentUser() {
+    try {
+      final user = auth.currentUser;
+      if (user != null) {
+        signedInUser = user;
+        Email = signedInUser.email;
+        print(signedInUser.email);
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
