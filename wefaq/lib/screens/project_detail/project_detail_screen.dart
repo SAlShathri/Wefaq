@@ -83,7 +83,6 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
 
   final _firestore = FirebaseFirestore.instance;
   late User signedInUser;
-  final _formKey = GlobalKey<FormState>();
 
   //get all projects
   Future getProjects() async {
@@ -244,7 +243,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                           color: Color.fromARGB(170, 123, 62, 185),
                           fontWeight: FontWeight.bold)),
                   Text(
-                      '- You can select multiple roles but if accepted, you will be only accepted in one role',
+                      '- You can select multiple roles but you are only accepted in one role',
                       style: TextStyle(
                           color: Color.fromARGB(170, 9, 0, 17),
                           fontWeight: FontWeight.w400)),
@@ -341,7 +340,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                     Text(' please select one role at least to join the project',
                         style: TextStyle(
                             fontSize: 14,
-                            color: Color.fromARGB(170, 185, 62, 62),
+                            color: Color.fromARGB(170, 123, 62, 185),
                             fontWeight: FontWeight.w400)),
                   const Divider(color: kOutlineColor, height: 1.0),
                   const SizedBox(height: 16.0),
@@ -442,64 +441,46 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                     ),
                     child: ElevatedButton(
                       onPressed: () async {
-                        if (_isSelected1 == true ||
-                            _isSelected2 == true ||
-                            _isSelected3 == true) {
-                          // send a notification to the one who posted the project
-                          sendNotification(
-                              "You received a join request on your project!",
-                              token);
-                          //sucess message
-                          CoolAlert.show(
-                            context: context,
-                            title: "Success!",
-                            confirmBtnColor: Color.fromARGB(174, 111, 78, 161),
-                            onConfirmBtnTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ProjectsTabs()));
-                            },
-                            type: CoolAlertType.success,
-                            backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                            text: "Your join request is sent successfuly",
-                          );
+                        //send a notification to the one who posted the project
+                        // sendNotification(
+                        //     "You received a join request on your project!",
+                        //     token);
+                        //sucess message
+                        CoolAlert.show(
+                          context: context,
+                          title: "Success!",
+                          confirmBtnColor: Color.fromARGB(174, 111, 78, 161),
+                          onConfirmBtnTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProjectsTabs()));
+                          },
+                          type: CoolAlertType.success,
+                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                          text: "Your join request is sent successfuly",
+                        );
 
-                          //saving the request in join request collection
-                          String? token_Participant =
-                              await FirebaseMessaging.instance.getToken();
-                          FirebaseFirestore.instance
-                              .collection('joinRequests')
-                              .doc(nameList + '-' + signedInUser.email!)
-                              .set({
-                            'project_title': nameList,
-                            'participant_email': signedInUser.email,
-                            'owner_email': ownerEmail,
-                            'participant_name':
-                                FirebaseAuth.instance.currentUser!.displayName,
-                            'participant_token': token_Participant,
-                            'Status': 'Pending',
-                            'joiningAs': selection(
-                                _isSelected1, _isSelected2, _isSelected3),
-                            'Participant_role': 'No Role'
-                          });
-                          _JoiningASController.clear();
-                          _ParticipantNoteController.clear();
-                        } else {
-                          CoolAlert.show(
-                            context: context,
-                            title: "No Role Selected",
-                            confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
-                            type: CoolAlertType.error,
-                            backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                            text:
-                                "please select one role at least to join the project",
-                            confirmBtnText: 'Try again',
-                            onConfirmBtnTap: () {
-                              Navigator.of(context).pop();
-                            },
-                          );
-                        }
+                        //saving the request in join request collection
+                        String? token_Participant =
+                            await FirebaseMessaging.instance.getToken();
+                        FirebaseFirestore.instance
+                            .collection('joinRequests')
+                            .doc(nameList + '-' + signedInUser.email!)
+                            .set({
+                          'project_title': nameList,
+                          'participant_email': signedInUser.email,
+                          'owner_email': ownerEmail,
+                          'participant_name':
+                              FirebaseAuth.instance.currentUser!.displayName,
+                          'participant_token': token_Participant,
+                          'Status': 'Pending',
+                          'joiningAs': selection(
+                              _isSelected1, _isSelected2, _isSelected3),
+                          'Participant_role': 'No Role'
+                        });
+                        _JoiningASController.clear();
+                        _ParticipantNoteController.clear();
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Color.fromARGB(204, 109, 46, 154),
