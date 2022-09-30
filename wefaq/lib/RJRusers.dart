@@ -21,7 +21,8 @@ class RequestListViewPage extends StatefulWidget {
   @override
   _RequestListState createState() => _RequestListState(projectName);
 }
-
+List<String> options = [];
+String? selectedOp;
 final TextEditingController _AcceptingAsASController = TextEditingController();
 
 class _RequestListState extends State<RequestListViewPage> {
@@ -42,6 +43,8 @@ class _RequestListState extends State<RequestListViewPage> {
   var ParticipantJoiningAsList = [];
 
   var tokens = [];
+    final _formKey = GlobalKey<FormState>();
+
 
   Status() => ProjectsListViewPage();
 
@@ -51,7 +54,7 @@ class _RequestListState extends State<RequestListViewPage> {
     getCurrentUser();
     getRequests();
     super.initState();
-
+getCategoryList();
     FirebaseMessaging.instance.getInitialMessage();
     FirebaseMessaging.onMessage.listen((event) {
       LocalNotificationService.display(event);
@@ -99,6 +102,16 @@ class _RequestListState extends State<RequestListViewPage> {
     }
   }
 
+  void getCategoryList() async {
+    final categories = await _firestore.collection('AcceptedAs').get();
+    for (var category in categories.docs) {
+      for (var element in category['AcceptedAs']) {
+        setState(() {
+          options.add(element);
+        });
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -205,7 +218,7 @@ class _RequestListState extends State<RequestListViewPage> {
                                       ParticipantEmailList[index],
                                       ProjectTitleList[index],
                                       tokens[index],
-                                      signedInUser);
+                                      signedInUser,ParticipantNameList,_formKey);
                                 },
                               ),
                             )
@@ -349,7 +362,7 @@ class _RequestListState extends State<RequestListViewPage> {
                         ParticipantEmailList[index],
                         ProjectTitleList[index],
                         tokens[index],
-                        signedInUser);
+                        signedInUser,ProjectTitleList,_formKey);
                   }),
             );
           },
@@ -360,7 +373,7 @@ class _RequestListState extends State<RequestListViewPage> {
 }
 
 showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
-    ParticipantEmail, ProjectTitle, tokens, signedInUser) {
+    ParticipantEmail, ProjectTitle, tokens, signedInUser,ProjectTitleList,_formKey) {
   return showDialog(
     context: context,
     builder: (context) {
@@ -392,7 +405,7 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomeScreen()));
+                                    builder: (context) => RequestListViewPage(projectName: ProjectTitle,)));
                           }))
                 ]),
                 // Row(children: <Widget>[
@@ -504,41 +517,90 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                 const SizedBox(
                   height: 45,
                 ),
+              //   DropdownButtonFormField(
+              //     autovalidateMode: AutovalidateMode.onUserInteraction,
+              //     hint: RichText(
+              //       text: TextSpan(
+              //           text: 'Accepting As',
+              //           style: const TextStyle(
+              //               fontSize: 18,
+              //               color: Color.fromARGB(144, 64, 7, 87)),
+              //           children: [
+              //             TextSpan(
+              //                 text: ' *',
+              //                 style: TextStyle(
+              //                   color: Colors.red,
+              //                 ))
+              //           ]),
+              //     ),
+              //     items: options
+              //         .map((e) => DropdownMenuItem(
+              //               value: e,
+              //               child: Text(e),
+              //             ))
+              //         .toList(),
+              //     onChanged: (value) {
+              //        selectedOp = value as String?;
+              //     },
+              //     icon: Icon(
+              //       Icons.arrow_drop_down_circle,
+              //       color: Color.fromARGB(221, 137, 171, 187),
+              //     ),
+              //    decoration: InputDecoration(
+              //     border: OutlineInputBorder(
+              //       borderSide: BorderSide(width: 2.0),
+              //     ),
+              //     focusedBorder: OutlineInputBorder(
+              //       borderSide: BorderSide(
+              //         color: Color.fromARGB(144, 64, 7, 87),
+              //         width: 2.0,
+              //       ),
+              //     ),
+              //   ),
+              //   validator: (value) {
+              //     if (value == null || value == "") {
+              //       return 'required';
+              //     }
+              //   },
+              // ),
                 Container(
                   alignment: Alignment.center,
-                  child: TextFormField(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    maxLength: 60,
-                    decoration: InputDecoration(
-                        hintText: "Developer,Designer",
-                        hintStyle: TextStyle(
-                            color: Color.fromARGB(255, 202, 198, 198)),
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        label: RichText(
-                          text: TextSpan(
-                              text: 'Accepting As',
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(230, 64, 7, 87)),
-                              children: [
-                                TextSpan(
-                                    text: ' *',
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 20,
-                                    ))
-                              ]),
-                        )),
-                    controller: _AcceptingAsASController,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "required";
-                      } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
-                          !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
-                        return "Only English or Arabic letters";
-                      }
-                    },
+                  child: Form(
+                     key: _formKey,
+                    child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      maxLength: 60,
+                      decoration: InputDecoration(
+                          hintText: "Developer,Designer",
+                          hintStyle: TextStyle(
+                              color: Color.fromARGB(255, 202, 198, 198)),
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          label: RichText(
+                            text: TextSpan(
+                                text: 'Accepting As',
+                                style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(230, 64, 7, 87)),
+                                children: [
+                                  TextSpan(
+                                      text: ' *',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 20,
+                                      ))
+                                ]),
+                          )),
+                      controller: _AcceptingAsASController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "required";
+                        } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
+                            !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
+                          return "Only English or Arabic letters";
+                        }
+                      },
+                    ),
                   ),
                 ),
 
@@ -550,6 +612,9 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                       margin: EdgeInsets.only(left: 40),
                       child: ElevatedButton(
                         onPressed: () {
+                          
+  if (_formKey.currentState!.validate()) {
+                        
                           sendNotification(
                               "Your Request has been Accepted on " +
                                   ProjectTitle +
@@ -565,8 +630,10 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                               .collection('joinRequests')
                               .doc(ProjectTitle + '-' + ParticipantEmail)
                               .update({
-                            'Participant_role': _AcceptingAsASController.text
+                            'Participant_role':_AcceptingAsASController.text
                           });
+                          _AcceptingAsASController.clear();
+                          
                           CoolAlert.show(
                             context: context,
                             title: "Success!",
@@ -578,12 +645,20 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                                 " to be part of your team.",
                             confirmBtnText: 'Done',
                             onConfirmBtnTap: () {
+      
+                              if( ProjectTitleList.length == 1){
+                                 Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RequestListViewPageProject()));
+                              }else{
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomeScreen()));
+                                    builder: (context) => RequestListViewPage(projectName: ProjectTitle,)));}
                             },
                           );
+                           }
                         },
                         style: ElevatedButton.styleFrom(
                           surfaceTintColor: Colors.white,
@@ -612,6 +687,7 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                         ),
                       ),
                     ),
+                    
                     Text("     "),
                     ElevatedButton(
                       onPressed: () {
@@ -639,11 +715,16 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                           confirmBtnText: 'Done',
                           onConfirmBtnTap: () async {
                             //saving the request in join request collection
-
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomeScreen()));
+if( ProjectTitleList.length == 1){
+                                 Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RequestListViewPageProject()));
+                              }else{
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RequestListViewPage(projectName: ProjectTitle,)));}
                           },
                         );
                       },
