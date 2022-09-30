@@ -353,7 +353,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 
                   return SizedBox(
                     height: 130,
-                        child: GestureDetector(
                     child: Card(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       //shadowColor: Color.fromARGB(255, 255, 255, 255),
@@ -411,15 +410,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                         ),
                       ),
                     ),
-                    onTap: () { 
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                projectDetailScreen(
-                                                  projecName: nameList[index],
-                                                )));}
-                                                ),
                   );
                 },
                 itemCount: nameList.length,
