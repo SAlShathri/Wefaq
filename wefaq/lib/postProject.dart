@@ -31,6 +31,9 @@ class _PostProjectState extends State<PostProject> {
   static final TextEditingController _startSearchFieldController =
       TextEditingController();
 
+  static final TextEditingController _durationEditingControlle =
+      TextEditingController();
+
   DetailsResult? startPosition;
 
   late GooglePlace googlePlace;
@@ -397,6 +400,46 @@ class _PostProjectState extends State<PostProject> {
                     }),
               ),
               SizedBox(height: 15),
+              TextFormField(
+                  maxLength: 60,
+                  decoration: InputDecoration(
+                    hintText: '2 weeks, 3 weeks,..',
+                    hintStyle: TextStyle(
+                        fontSize: 16,
+                        color: Color.fromARGB(255, 202, 198, 198)),
+                    label: RichText(
+                      text: TextSpan(
+                          text: 'Dyration',
+                          style: const TextStyle(
+                              fontSize: 18,
+                              color: Color.fromARGB(144, 64, 7, 87)),
+                          children: [
+                            TextSpan(
+                                text: ' *',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ))
+                          ]),
+                    ),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2.0,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color.fromARGB(144, 64, 7, 87),
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                  controller: _durationEditingControlle,
+                  validator: (value) {
+                    if (value == null || value.isEmpty || value.trim() == '') {
+                      return 'required';
+                    }
+                  }),
+              SizedBox(height: 25),
               SizedBox(
                 width: 50,
                 height: 50.0,
@@ -432,6 +475,7 @@ class _PostProjectState extends State<PostProject> {
                           'fname': fname,
                           'lname': lname,
                           'token': token,
+                          "duration": _durationEditingControlle.text,
                         });
                         //Clear
 

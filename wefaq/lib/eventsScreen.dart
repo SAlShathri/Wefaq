@@ -11,6 +11,7 @@ import 'package:wefaq/models/project.dart';
 import 'package:wefaq/profile.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/link.dart';
+import 'package:wefaq/screens/detail_screens/event_detail_screen.dart';
 
 import 'UserLogin.dart';
 
@@ -334,116 +335,150 @@ class _ListViewPageState extends State<EventsListViewPage> {
         children: [
           _searchBar(),
           Expanded(
-            child: Scrollbar(
-              thumbVisibility: true,
-              child: ListView.builder(
-                itemCount: nameList.length,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    height: 160,
-                    child: Card(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      //shadowColor: Color.fromARGB(255, 255, 255, 255),
-                      //  elevation: 7,
-
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(children: <Widget>[
-                              Text(
-                                "      " + nameList[index] + " ",
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  color: Color.fromARGB(159, 64, 7, 87),
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ]),
-                            SizedBox(
-                              height: 6,
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Text("     "),
-                                const Icon(Icons.location_pin,
-                                    color: Color.fromARGB(173, 64, 7, 87)),
-                                Text(locList[index],
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Color.fromARGB(221, 81, 122, 140),
-                                    ))
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Text("     "),
-                                const Icon(
-                                  Icons.timelapse_outlined,
-                                  color: Color.fromARGB(248, 170, 167, 8),
-                                  size: 21,
-                                ),
-                                Text(
-                                    dateTimeList[index] + ' ' + TimeList[index],
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color:
-                                            Color.fromARGB(221, 79, 128, 151),
-                                        fontWeight: FontWeight.normal),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.clip),
-                              ],
-                            ),
-                            Row(children: <Widget>[
-                              SizedBox(
-                                width: 160,
-                              ),
-                              /*const Icon(
-                                        Icons.arrow_downward,
-                                        color: Color.fromARGB(255, 58, 44, 130),
-                                        size: 28,
-                                      ),*/
-                              TextButton(
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'View More',
-                                    style: TextStyle(
-                                      color: Color.fromARGB(255, 90, 46, 144),
-                                    ),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  showDialogFunc(
-                                      context,
-                                      nameList[index],
-                                      descList[index],
-                                      categoryList[index],
-                                      locList[index],
-                                      dateTimeList[index],
-                                      TimeList[index],
-                                      urlList[index]);
-                                },
-                              ),
-                              SizedBox(
-                                width: 80,
-                              ),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.star_border))
-                            ])
-                          ],
+            child: Scaffold(
+              floatingActionButton: PopupMenuButton(
+                tooltip: "Filter by",
+                icon: Icon(
+                  Icons.filter_list,
+                  color: Color.fromARGB(221, 81, 122, 140),
+                  size: 40,
+                ),
+                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                  PopupMenuItem(
+                    child: ListTile(
+                      leading: Icon(Icons.date_range,
+                          color: Color.fromARGB(144, 64, 7, 87)),
+                      title: Text(
+                        'Created date',
+                        style: TextStyle(
+                          color: Color.fromARGB(221, 81, 122, 140),
                         ),
                       ),
+                      onTap: () {
+                        setState(() {
+                          //Filter by created date
+                          getProjects();
+                        });
+                      },
+                      selectedTileColor: Color.fromARGB(255, 252, 243, 243),
                     ),
-                  );
-                },
+                  ),
+                  PopupMenuItem(
+                    child: ListTile(
+                      leading: Icon(Icons.location_on,
+                          color: Color.fromARGB(144, 64, 7, 87)),
+                      title: Text(
+                        'Nearest',
+                        style: TextStyle(
+                          color: Color.fromARGB(221, 81, 122, 140),
+                        ),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          //Filter by nearest
+                          getEventsLoc();
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              // Main List View With Builder
+              body: Scrollbar(
+                thumbVisibility: true,
+                child: ListView.builder(
+                  //itemCount: tokens.length,
+
+                  itemBuilder: (context, index) {
+                    // Card Which Holds Layout Of ListView Item
+
+                    return SizedBox(
+                      height: 130,
+                      child: GestureDetector(
+                          child: Card(
+                            color: const Color.fromARGB(255, 255, 255, 255),
+                            //shadowColor: Color.fromARGB(255, 255, 255, 255),
+                            //  elevation: 7,
+
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Column(
+                                    children: [
+                                      Row(children: <Widget>[
+                                        Text(
+                                          "      " + nameList[index] + " ",
+                                          style: const TextStyle(
+                                            fontSize: 19,
+                                            color: Color.fromARGB(
+                                                212, 82, 10, 111),
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ]),
+                                    ],
+                                  ),
+                                  Row(children: <Widget>[
+                                    const Text(
+                                        "                                                                           "),
+                                    IconButton(
+                                        icon: Icon(
+                                          Icons.arrow_forward_ios,
+                                          color: Color.fromARGB(
+                                              255, 170, 169, 179),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      eventDetailScreen(
+                                                        eventName:
+                                                            nameList[index],
+                                                      )));
+                                        }),
+                                  ]),
+                                  Row(
+                                    children: <Widget>[
+                                      const Text("     "),
+                                      const Icon(Icons.location_pin,
+                                          color:
+                                              Color.fromARGB(173, 64, 7, 87)),
+                                      Text(locList[index],
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            color: Color.fromARGB(
+                                                255, 34, 94, 120),
+                                          ))
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => eventDetailScreen(
+                                          eventName: nameList[index],
+                                        )));
+                          }),
+                    );
+                  },
+                  itemCount: nameList.length,
+                  // itemCount:_textEditingController!.text.isNotEmpty? nameListsearch.length  : nameListsearch.length,
+                ),
               ),
             ),
           ),
         ],
-      ), // sc
+      ),
     );
   }
 
@@ -458,7 +493,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
               contentPadding: EdgeInsets.symmetric(vertical: 15.0),
 
               border: OutlineInputBorder(
-                 borderRadius: BorderRadius.circular(15.0),
+                borderRadius: BorderRadius.circular(15.0),
                 borderSide: BorderSide(color: Colors.black87, width: 2.0),
               ),
               focusedBorder: OutlineInputBorder(
@@ -512,7 +547,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
               : categoryListController.length,
           itemBuilder: (context, index) {
             return ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 40 ),
+              contentPadding: EdgeInsets.symmetric(horizontal: 40),
               visualDensity: VisualDensity(vertical: -4),
               //leading: CircleAvatar(
               //  backgroundColor: Color.fromARGB(221, 137, 171, 187),
@@ -533,12 +568,13 @@ class _ListViewPageState extends State<EventsListViewPage> {
               },
             );
           },
-          separatorBuilder: (context, index) {//<-- SEE HERE
-    return Divider(
-      thickness: 0,
-      color: Color.fromARGB(255, 194, 195, 194),
-    );
-  },
+          separatorBuilder: (context, index) {
+            //<-- SEE HERE
+            return Divider(
+              thickness: 0,
+              color: Color.fromARGB(255, 194, 195, 194),
+            );
+          },
         )
       ],
     );

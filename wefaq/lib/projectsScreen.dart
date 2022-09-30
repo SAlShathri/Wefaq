@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:wefaq/ProjectsTapScreen.dart';
-import 'package:wefaq/screens/project_detail/project_detail_screen.dart';
+import 'package:wefaq/screens/detail_screens/project_detail_screen.dart';
 import 'package:wefaq/service/local_push_notification.dart';
 import 'package:http/http.dart' as http;
 
@@ -353,73 +353,80 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 
                   return SizedBox(
                     height: 130,
-                        child: GestureDetector(
-                    child: Card(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      //shadowColor: Color.fromARGB(255, 255, 255, 255),
-                      //  elevation: 7,
+                    child: GestureDetector(
+                        child: Card(
+                          color: const Color.fromARGB(255, 255, 255, 255),
+                          //shadowColor: Color.fromARGB(255, 255, 255, 255),
+                          //  elevation: 7,
 
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(children: <Widget>[
-                              Text(
-                                "      " + nameList[index] + " ",
-                                style: const TextStyle(
-                                  fontSize: 19,
-                                  color: Color.fromARGB(212, 82, 10, 111),
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ]),
-                            Row(children: <Widget>[
-                              const Text(
-                                  "                                                                           "),
-                              IconButton(
-                                  icon: Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Color.fromARGB(255, 170, 169, 179),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                projectDetailScreen(
-                                                  projecName: nameList[index],
-                                                )));
-                                  }),
-                            ]),
-                            Row(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                const Text("     "),
-                                const Icon(Icons.location_pin,
-                                    color: Color.fromARGB(173, 64, 7, 87)),
-                                Text(locList[index],
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Color.fromARGB(255, 34, 94, 120),
-                                    ))
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Column(
+                                  children: [
+                                    Row(children: <Widget>[
+                                      Text(
+                                        "      " + nameList[index] + " ",
+                                        style: const TextStyle(
+                                          fontSize: 19,
+                                          color:
+                                              Color.fromARGB(212, 82, 10, 111),
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ]),
+                                  ],
+                                ),
+                                Row(children: <Widget>[
+                                  const Text(
+                                      "                                                                           "),
+                                  IconButton(
+                                      icon: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color:
+                                            Color.fromARGB(255, 170, 169, 179),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    projectDetailScreen(
+                                                      projecName:
+                                                          nameList[index],
+                                                    )));
+                                      }),
+                                ]),
+                                Row(
+                                  children: <Widget>[
+                                    const Text("     "),
+                                    const Icon(Icons.location_pin,
+                                        color: Color.fromARGB(173, 64, 7, 87)),
+                                    Text(locList[index],
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color:
+                                              Color.fromARGB(255, 34, 94, 120),
+                                        ))
+                                  ],
+                                ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                    onTap: () { 
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                projectDetailScreen(
-                                                  projecName: nameList[index],
-                                                )));}
-                                                ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => projectDetailScreen(
+                                        projecName: nameList[index],
+                                      )));
+                        }),
                   );
                 },
                 itemCount: nameList.length,
@@ -444,11 +451,11 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
               contentPadding: EdgeInsets.symmetric(vertical: 15.0),
 
               border: OutlineInputBorder(
-               borderRadius: BorderRadius.circular(15.0),
+                borderRadius: BorderRadius.circular(15.0),
                 borderSide: BorderSide(color: Colors.black87, width: 2.0),
               ),
               focusedBorder: OutlineInputBorder(
-               borderRadius: BorderRadius.circular(15.0), 
+                borderRadius: BorderRadius.circular(15.0),
                 borderSide: BorderSide(
                   color: Color.fromARGB(144, 64, 7, 87),
                 ),
@@ -498,7 +505,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
               : categoryListController.length,
           itemBuilder: (context, index) {
             return ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 40 ),
+              contentPadding: EdgeInsets.symmetric(horizontal: 40),
               visualDensity: VisualDensity(vertical: -4),
               //leading: CircleAvatar(
               //  backgroundColor: Color.fromARGB(221, 137, 171, 187),
@@ -519,12 +526,13 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
               },
             );
           },
-          separatorBuilder: (context, index) {//<-- SEE HERE
-    return Divider(
-      thickness: 0,
-      color: Color.fromARGB(255, 194, 195, 194),
-    );
-  },
+          separatorBuilder: (context, index) {
+            //<-- SEE HERE
+            return Divider(
+              thickness: 0,
+              color: Color.fromARGB(255, 194, 195, 194),
+            );
+          },
         )
       ],
     );

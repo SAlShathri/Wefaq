@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wefaq/ProjectsTapScreen.dart';
 import 'package:wefaq/config/colors.dart';
-import 'package:wefaq/screens/project_detail/widgets/project_detail_appbar.dart';
+import 'package:wefaq/screens/detail_screens/widgets/project_detail_appbar.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -60,6 +60,9 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
   String ownerEmail = "";
 
   String token = " ";
+  String duration = "";
+  String fName = "";
+  String Lname = "";
 
   var ProjectTitleList = [];
 
@@ -99,6 +102,9 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
           categoryList = project['category'].toString();
           token = project['token'].toString();
           ownerEmail = project['email'].toString();
+          fName = project['fname'].toString();
+          Lname = project['lname'].toString();
+          duration = project["duration"].toString();
         });
       }
   }
@@ -182,7 +188,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                             ),
                           ),
                           Text(
-                            'Sara Alshathri',
+                            fName + " " + Lname,
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
                         ],
@@ -356,7 +362,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                       size: 21,
                     ),
                     Text(
-                      ' Two Weeks',
+                      duration,
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!

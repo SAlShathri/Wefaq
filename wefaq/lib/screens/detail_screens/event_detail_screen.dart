@@ -1,0 +1,320 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:url_launcher/link.dart';
+import 'package:wefaq/config/colors.dart';
+import 'package:cool_alert/cool_alert.dart';
+import 'package:wefaq/eventsScreen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
+import 'package:wefaq/screens/detail_screens/widgets/event_detail_appbar.dart';
+import 'package:wefaq/service/local_push_notification.dart';
+
+class eventDetailScreen extends StatefulWidget {
+  String eventName;
+
+  eventDetailScreen({required this.eventName});
+
+  @override
+  State<eventDetailScreen> createState() => _eventDetailScreenState(eventName);
+}
+
+class _eventDetailScreenState extends State<eventDetailScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    getProjects();
+    super.initState();
+  }
+
+  String eventName;
+  _eventDetailScreenState(this.eventName);
+
+  // Title list
+  var nameList = [];
+
+  // Description list
+  var descList = [];
+
+  // location list
+  var locList = [];
+
+  //url list
+  var urlList = [];
+
+  //category list
+  var categoryList = [];
+
+  //category list
+  var dateTimeList = [];
+
+  var TimeList = [];
+  var latList = [];
+
+  //project lan
+  var lngList = [];
+  bool _isSelected1 = false;
+  bool _isSelected2 = false;
+  bool _isSelected3 = false;
+
+  var ProjectTitleList = [];
+
+  var ParticipantEmailList = [];
+
+  var ParticipantNameList = [];
+  Status() => EventsListViewPage();
+
+  List DisplayProjectOnce() {
+    final removeDuplicates = [
+      ...{...ProjectTitleList}
+    ];
+    return removeDuplicates;
+  }
+
+  //project lan
+  var creatDate = [];
+
+  final _firestore = FirebaseFirestore.instance;
+  late User signedInUser;
+
+  //get all projects
+  Future getProjects() async {
+    //clear first
+    setState(() {
+      nameList = [];
+      descList = [];
+      locList = [];
+      urlList = [];
+      categoryList = [];
+      dateTimeList = [];
+      TimeList = [];
+    });
+    await for (var snapshot in _firestore
+        .collection('events')
+        .orderBy('created', descending: true)
+        .snapshots())
+      for (var events in snapshot.docs) {
+        setState(() {
+          nameList.add(events['name']);
+          descList.add(events['description']);
+          locList.add(events['location']);
+          urlList.add(events['regstretion url ']);
+          categoryList.add(events['category']);
+          dateTimeList.add(events['date']);
+          TimeList.add(events['time']);
+          latList.add(events['lat']);
+          lngList.add(events['lng']);
+          //  dateTimeList.add(project['dateTime ']);
+        });
+      }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: <Widget>[
+          const eventDetailAppBar(),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    nameList[0],
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 8.0),
+                  const SizedBox(height: 16.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            height: 35.0,
+                            width: 35.0,
+                            margin: const EdgeInsets.only(right: 8.0),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: const DecorationImage(
+                                image: AssetImage(
+                                    'assets/images/profile_image.jpg'),
+                                fit: BoxFit.cover,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: const Offset(0, 4),
+                                  blurRadius: 4.0,
+                                  color: Colors.black.withOpacity(0.25),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Text(
+                            'Sara Alshathri',
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            height: 32.0,
+                            width: 32.0,
+                            alignment: Alignment.center,
+                            margin: const EdgeInsets.only(right: 8.0),
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(Icons.location_pin,
+                                color: Color.fromARGB(172, 136, 98, 146)),
+                          ),
+                          Text(
+                            locList[0],
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16.0),
+                  const Divider(color: kOutlineColor, height: 1.0),
+                  const SizedBox(height: 16.0),
+                  Text(
+                    'Description',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(color: Color.fromARGB(246, 83, 82, 82)),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    descList[0],
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: kSecondaryTextColor),
+                  ),
+                  const SizedBox(height: 16.0),
+                  const Divider(color: kOutlineColor, height: 1.0),
+                  const SizedBox(height: 16.0),
+                  Text(
+                    'Category',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 16.0),
+                  _buildIngredientItem(context, categoryList[0]),
+                  const Divider(color: kOutlineColor, height: 1.0),
+                  const SizedBox(height: 16.0),
+                  Text(
+                    'Date and time',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 8.0),
+                  Row(children: <Widget>[
+                    const Icon(
+                      Icons.calendar_today,
+                      color: Color.fromARGB(172, 136, 98, 146),
+                      size: 21,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      dateTimeList[0],
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: Color.fromARGB(246, 83, 82, 82)),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      TimeList[0],
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: Color.fromARGB(246, 83, 82, 82)),
+                    ),
+                  ]),
+                  const SizedBox(height: 16.0),
+                  const Divider(color: kOutlineColor, height: 1.0),
+                  const SizedBox(height: 16.0),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 56,
+                    margin: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).padding.bottom,
+                      left: 24,
+                      right: 24,
+                    ),
+                    child: Link(
+                        target: LinkTarget.blank,
+                        uri: Uri.parse(urlList[0]),
+                        builder: (context, followLink) => ElevatedButton(
+                              onPressed: followLink,
+                              child: Text(
+                                'Registration link',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontSize: 17),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Color.fromARGB(204, 109, 46, 154),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  )),
+                            )),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildIngredientItem(
+    BuildContext context,
+    String title,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Row(
+        children: [
+          Container(
+            height: 24.0,
+            width: 24.0,
+            alignment: Alignment.center,
+            margin: const EdgeInsets.only(right: 8.0),
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color.fromARGB(255, 229, 214, 237),
+            ),
+            child: const Icon(
+              Icons.check,
+              color: Color.fromARGB(172, 113, 60, 127),
+            ),
+          ),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Future<void> _signOut() async {
+  await FirebaseAuth.instance.signOut();
+}
