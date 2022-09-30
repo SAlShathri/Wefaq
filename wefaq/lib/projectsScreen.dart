@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
@@ -20,12 +21,15 @@ class ProjectsListViewPage extends StatefulWidget {
 final TextEditingController _JoiningASController = TextEditingController();
 final TextEditingController _ParticipantNoteController =
     TextEditingController();
+TextEditingController? _searchEditingController = TextEditingController();
 
 class _ListViewPageState extends State<ProjectsListViewPage> {
   @override
   void initState() {
     getCurrentUser();
     getProjects();
+    getCategoryList();
+
     _getCurrentPosition();
 
     FirebaseMessaging.instance.getInitialMessage();
@@ -42,32 +46,36 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
   Position? _currentPosition;
   var lat;
   var lng;
+
+  var categoryListDisplay = [];
+  var categoryListController = [];
   // Title list
-  var nameList = [];
+  List<String> nameList = [];
 
   // Description list
-  var descList = [];
+  List<String> descList = [];
 
   // location list
-  var locList = [];
+  List<String> locList = [];
 
   //Looking for list
-  var lookingForList = [];
+  List<String> lookingForList = [];
 
-  var Duration = [];
+  List<String> Duration = [];
 
   //category list
-  var categoryList = [];
+  List<String> categoryList = [];
 
   //notification tokens
-  var tokens = [];
+  List<String> tokens = [];
 
   //project owners emails
-  var ownerEmail = [];
-  var latList = [];
+  List<String> ownerEmail = [];
+  List<double> latList = [];
 
-  var lngList = [];
-  var creatDate = [];
+  List<double> lngList = [];
+
+  List<String> creatDate = [];
 
   String? Email;
   void getCurrentUser() {
@@ -80,6 +88,17 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  void getCategoryList() async {
+    final categories = await _firestore.collection('categories').get();
+    for (var category in categories.docs) {
+      for (var element in category['categories']) {
+        setState(() {
+          categoryListDisplay.add(element);
+        });
+      }
     }
   }
 
@@ -151,6 +170,56 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
       }
   }
 
+  Future getCategory(String category) async {
+    if (category == "") return;
+    if (categoryListDisplay.where((element) => element == (category)).isEmpty) {
+      CoolAlert.show(
+        context: context,
+        title: "No such category!",
+        confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+        onConfirmBtnTap: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ProjectsTabs()));
+        },
+        type: CoolAlertType.error,
+        backgroundColor: Color.fromARGB(221, 212, 189, 227),
+        text:
+            "Please search for a valid category, valid categories are specified in the drop-down menu below",
+      );
+      return;
+    }
+    //clear first
+    setState(() {
+      nameList = [];
+      descList = [];
+      locList = [];
+      lookingForList = [];
+      categoryList = [];
+      tokens = [];
+      ownerEmail = [];
+      latList = [];
+      lngList = [];
+    });
+
+    await for (var snapshot in _firestore
+        .collection('projects2')
+        .where('category', isEqualTo: category)
+        .snapshots())
+      for (var project in snapshot.docs) {
+        setState(() {
+          nameList.add(project['name']);
+          descList.add(project['description']);
+          locList.add(project['location']);
+          lookingForList.add(project['lookingFor']);
+          categoryList.add(project['category']);
+          tokens.add(project['token']);
+          ownerEmail.add(project['email']);
+          latList.add(project['lat']);
+          lngList.add(project['lng']);
+        });
+      }
+  }
+
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -206,7 +275,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
   }
 
   setDistance() {
-    print("hiii");
     for (var i = 0; i < latList.length; i++) {
       setState(() {
         FirebaseFirestore.instance
@@ -222,430 +290,537 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
   Widget build(BuildContext context) {
     // MediaQuery to get Device Width
 
-    return Scaffold(
-      floatingActionButton: PopupMenuButton(
-        tooltip: "Filter by",
-        icon: Icon(
-          Icons.filter_list,
-          color: Color.fromARGB(221, 81, 122, 140),
-          size: 40,
-        ),
-        itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-          PopupMenuItem(
-            child: ListTile(
-              leading:
-                  Icon(Icons.date_range, color: Color.fromARGB(144, 64, 7, 87)),
-              title: Text(
-                'Created date',
-                style: TextStyle(
-                  color: Color.fromARGB(221, 81, 122, 140),
-                ),
+    return Column(
+      children: [
+        _searchBar(),
+        Expanded(
+          child: Scaffold(
+            floatingActionButton: PopupMenuButton(
+              tooltip: "Filter by",
+              icon: Icon(
+                Icons.filter_list,
+                color: Color.fromARGB(221, 81, 122, 140),
+                size: 40,
               ),
-              onTap: () {
-                setState(() {
-                  //Filter by created date
-                  getProjects();
-                });
-              },
-              selectedTileColor: Color.fromARGB(255, 252, 243, 243),
-            ),
-          ),
-          PopupMenuItem(
-            child: ListTile(
-              leading: Icon(Icons.location_on,
-                  color: Color.fromARGB(144, 64, 7, 87)),
-              title: Text(
-                'Nearest',
-                style: TextStyle(
-                  color: Color.fromARGB(221, 81, 122, 140),
-                ),
-              ),
-              onTap: () {
-                setState(() {
-                  //Filter by nearest
-                  getProjectsLoc();
-                });
-              },
-            ),
-          ),
-        ],
-      ),
-      body: ListView.builder(
-        controller: ScrollController(initialScrollOffset: 50.0),
-        itemCount: tokens.length,
-        itemBuilder: (context, index) {
-          // Card Which Holds Layout Of ListView Item
-          return SizedBox(
-            height: 130,
-            child: Card(
-              color: const Color.fromARGB(255, 255, 255, 255),
-              //shadowColor: Color.fromARGB(255, 255, 255, 255),
-              //  elevation: 7,
-
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(children: <Widget>[
-                      Text(
-                        "      " + nameList[index] + " ",
-                        style: const TextStyle(
-                          fontSize: 19,
-                          color: Color.fromARGB(212, 82, 10, 111),
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ]),
-                    Row(children: <Widget>[
-                      const Text(
-                          "                                                                           "),
-                      IconButton(
-                          icon: Icon(
-                            Icons.arrow_forward_ios,
-                            color: Color.fromARGB(255, 170, 169, 179),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => projectDetailScreen(
-                                          projecName: nameList[index],
-                                        )));
-                          }),
-                    ]),
-                    Row(
-                      children: <Widget>[
-                        const Text("     "),
-                        const Icon(Icons.location_pin,
-                            color: Color.fromARGB(173, 64, 7, 87)),
-                        Text(locList[index],
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Color.fromARGB(255, 34, 94, 120),
-                            ))
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-// This is a block of Model Dialog
-showDialogFunc(context, title, desc, category, loc, lookingFor, token,
-    ownerEmail, signedInUser) {
-  return showDialog(
-    context: context,
-    builder: (context) {
-      return Center(
-        child: Material(
-          type: MaterialType.transparency,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: const Color.fromARGB(255, 255, 255, 255),
-            ),
-            padding: const EdgeInsets.all(15),
-            height: 650,
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: Color.fromARGB(230, 64, 7, 87),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Divider(
-                  color: Color.fromARGB(255, 74, 74, 74),
-                ),
-                Row(
-                  children: <Widget>[
-                    const Icon(Icons.location_pin,
-                        color: Color.fromARGB(173, 64, 7, 87)),
-                    Text(loc,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Color.fromARGB(230, 64, 7, 87),
-                        ))
-                  ],
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                const Divider(
-                  color: Color.fromARGB(255, 102, 102, 102),
-                ),
-                Row(
-                  children: <Widget>[
-                    const Icon(
-                      Icons.search,
-                      color: Color.fromARGB(248, 170, 167, 8),
-                      size: 25,
-                    ),
-                    Text(lookingFor,
-                        style: const TextStyle(
-                            fontSize: 16,
-                            color: Color.fromARGB(230, 64, 7, 87),
-                            fontWeight: FontWeight.normal),
-                        maxLines: 2,
-                        overflow: TextOverflow.clip),
-                  ],
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                const Divider(
-                  color: Color.fromARGB(255, 102, 102, 102),
-                ),
-                Container(
-                  // width: 200,
-                  child: const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "About Project",
+              itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                PopupMenuItem(
+                  child: ListTile(
+                    leading: Icon(Icons.date_range,
+                        color: Color.fromARGB(144, 64, 7, 87)),
+                    title: Text(
+                      'Created date',
                       style: TextStyle(
-                        fontSize: 16,
-                        color: Color.fromARGB(230, 64, 7, 87),
-                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(221, 81, 122, 140),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  // width: 200,
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      desc,
-                      style: const TextStyle(
-                          fontSize: 16, color: Color.fromARGB(144, 64, 7, 87)),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                const Divider(
-                  color: Color.fromARGB(255, 102, 102, 102),
-                ),
-                Container(
-                  // width: 200,
-                  child: const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Project Duration",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color.fromARGB(230, 64, 7, 87),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  // width: 200,
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "",
-                      style: const TextStyle(
-                          fontSize: 14, color: Color.fromARGB(144, 64, 7, 87)),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                const Divider(
-                  color: Color.fromARGB(255, 102, 102, 102),
-                ),
-                Container(
-                  // width: 200,
-                  child: const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Category",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color.fromARGB(230, 64, 7, 87),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  // width: 200,
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      category,
-                      style: const TextStyle(
-                          fontSize: 16, color: Color.fromARGB(144, 64, 7, 87)),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ),
-                const Divider(
-                  color: Color.fromARGB(255, 74, 74, 74),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  child: TextFormField(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    maxLength: 60,
-                    decoration: InputDecoration(
-                        hintText: "Developer,Designer",
-                        hintStyle: TextStyle(
-                            color: Color.fromARGB(255, 202, 198, 198)),
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        label: RichText(
-                          text: TextSpan(
-                              text: 'Joining As',
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(230, 64, 7, 87)),
-                              children: [
-                                TextSpan(
-                                    text: ' *',
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 20,
-                                    ))
-                              ]),
-                        )),
-                    controller: _JoiningASController,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "required";
-                      } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
-                          !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
-                        return "Only English or Arabic letters";
-                      }
-                    },
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  child: TextFormField(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    maxLength: 150,
-                    decoration: InputDecoration(
-                        hintText: "Notes are visibale with your request",
-                        hintStyle: TextStyle(
-                            color: Color.fromARGB(255, 202, 198, 198)),
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        label: RichText(
-                          text: TextSpan(
-                            text: 'Note',
-                            style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(230, 64, 7, 87)),
-                          ),
-                        )),
-                    controller: _ParticipantNoteController,
-                    validator: (value) {
-                      if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
-                          !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
-                        return "Only English or Arabic letters";
-                      }
-                    },
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  height: 40.0,
-                  width: 100,
-                  margin: const EdgeInsets.only(top: 10),
-
-                  // width: size.width * 0.5,
-                  decoration: new BoxDecoration(
-                      borderRadius: BorderRadius.circular(80.0),
-                      gradient: new LinearGradient(colors: [
-                        const Color.fromARGB(197, 67, 7, 87),
-                        const Color.fromARGB(195, 117, 45, 141),
-                      ])),
-                  padding: const EdgeInsets.all(0),
-                  child: TextButton(
-                    child: const Text(
-                      "Join",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 255, 255, 255)),
-                      //     textAlign: TextAlign.center,
-                      //     style: TextStyle(fontWeight: FontWeight.bold ),
-                    ),
-                    onPressed: () async {
-                      //send a notification to the one who posted the project
-                      sendNotification(
-                          "You received a join request on your project!",
-                          token);
-                      //sucess message
-                      CoolAlert.show(
-                        context: context,
-                        title: "Success!",
-                        confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
-                        onConfirmBtnTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProjectsTabs()));
-                        },
-                        type: CoolAlertType.success,
-                        backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                        text: "Your join request is sent successfuly",
-                      );
-
-                      //saving the request in join request collection
-                      String? token_Participant =
-                          await FirebaseMessaging.instance.getToken();
-                      FirebaseFirestore.instance
-                          .collection('joinRequests')
-                          .doc(title + '-' + signedInUser.email)
-                          .set({
-                        'project_title': title,
-                        'participant_email': signedInUser.email,
-                        'owner_email': ownerEmail,
-                        'participant_name':
-                            FirebaseAuth.instance.currentUser!.displayName,
-                        'participant_token': token_Participant,
-                        'Status': 'Pending',
-                        'Participant_note': _ParticipantNoteController.text,
-                        'joiningAs': _JoiningASController.text,
-                        'Participant_role': ' ',
+                    onTap: () {
+                      setState(() {
+                        //Filter by created date
+                        getProjects();
                       });
-                      _JoiningASController.clear();
-                      _ParticipantNoteController.clear();
+                    },
+                    selectedTileColor: Color.fromARGB(255, 252, 243, 243),
+                  ),
+                ),
+                PopupMenuItem(
+                  child: ListTile(
+                    leading: Icon(Icons.location_on,
+                        color: Color.fromARGB(144, 64, 7, 87)),
+                    title: Text(
+                      'Nearest',
+                      style: TextStyle(
+                        color: Color.fromARGB(221, 81, 122, 140),
+                      ),
+                    ),
+                    onTap: () {
+                      setState(() {
+                        //Filter by nearest
+                        getProjectsLoc();
+                      });
                     },
                   ),
                 ),
               ],
             ),
+            // Main List View With Builder
+            body: Scrollbar(
+              thumbVisibility: true,
+              child: ListView.builder(
+                //itemCount: tokens.length,
+
+                itemBuilder: (context, index) {
+                  // Card Which Holds Layout Of ListView Item
+
+                  return SizedBox(
+                    height: 130,
+                    child: Card(
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      //shadowColor: Color.fromARGB(255, 255, 255, 255),
+                      //  elevation: 7,
+
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(children: <Widget>[
+                              Text(
+                                "      " + nameList[index] + " ",
+                                style: const TextStyle(
+                                  fontSize: 19,
+                                  color: Color.fromARGB(212, 82, 10, 111),
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ]),
+                            Row(children: <Widget>[
+                              const Text(
+                                  "                                                                           "),
+                              IconButton(
+                                  icon: Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Color.fromARGB(255, 170, 169, 179),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                projectDetailScreen(
+                                                  projecName: nameList[index],
+                                                )));
+                                  }),
+                            ]),
+                            Row(
+                              children: <Widget>[
+                                const Text("     "),
+                                const Icon(Icons.location_pin,
+                                    color: Color.fromARGB(173, 64, 7, 87)),
+                                Text(locList[index],
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Color.fromARGB(255, 34, 94, 120),
+                                    ))
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                itemCount: nameList.length,
+                // itemCount:_textEditingController!.text.isNotEmpty? nameListsearch.length  : nameListsearch.length,
+              ),
+            ),
           ),
         ),
-      );
-    },
-  );
+      ],
+    );
+  }
+
+  //----
+  _searchBar() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(7.0),
+          child: TextFormField(
+            controller: _searchEditingController,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 15.0),
+
+              border: OutlineInputBorder(
+                // borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(color: Colors.black87, width: 2.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Color.fromARGB(144, 64, 7, 87),
+                ),
+              ),
+              labelText: "search for a specific category",
+              prefixIcon: IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  setState(() {
+                    getCategory(_searchEditingController!.text);
+                  });
+                },
+              ),
+              suffixIcon: _searchEditingController!.text.isNotEmpty
+                  ? IconButton(
+                      icon: Icon(Icons.cancel),
+                      onPressed: () {
+                        setState(() {
+                          getProjects();
+                          _searchEditingController?.clear();
+                        });
+                      },
+                    )
+                  : null,
+
+              hintText: 'Gaming , web  ...',
+              //    suffixIcon :IconButton(
+              //                onPressed: () {
+              //                setState(() {
+              //               // _searchEditingController.clear();
+              //            });
+              //        },
+              //      icon: Icon(Icons.clear_outlined),
+              //  )
+            ),
+            onChanged: (text) {
+              setState(() {
+                categoryListController = categoryListDisplay;
+              });
+            },
+          ),
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: _searchEditingController!.text.isEmpty
+              ? 0
+              : categoryListController.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              //leading: CircleAvatar(
+              //  backgroundColor: Color.fromARGB(221, 137, 171, 187),
+              // child: Icon(
+              //    Icons.category_rounded,
+              //    color: Colors.white,
+              //  ),
+              //  ),
+              title: Text(
+                categoryListController[index].toString(),
+              ),
+              onTap: () {
+                setState(() {
+                  _searchEditingController?.text =
+                      categoryListController[index].toString();
+                  categoryListController = [];
+                });
+              },
+            );
+          },
+        )
+      ],
+    );
+  }
+
+// This is a block of Model Dialog
+  showDialogFunc(context, title, desc, category, loc, lookingFor, token,
+      ownerEmail, signedInUser) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return Center(
+          child: Material(
+            type: MaterialType.transparency,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: const Color.fromARGB(255, 255, 255, 255),
+              ),
+              padding: const EdgeInsets.all(15),
+              height: 650,
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Color.fromARGB(230, 64, 7, 87),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Divider(
+                    color: Color.fromARGB(255, 74, 74, 74),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      const Icon(Icons.location_pin,
+                          color: Color.fromARGB(173, 64, 7, 87)),
+                      Text(loc,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Color.fromARGB(230, 64, 7, 87),
+                          ))
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  const Divider(
+                    color: Color.fromARGB(255, 102, 102, 102),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      const Icon(
+                        Icons.search,
+                        color: Color.fromARGB(248, 170, 167, 8),
+                        size: 25,
+                      ),
+                      Text(lookingFor,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              color: Color.fromARGB(230, 64, 7, 87),
+                              fontWeight: FontWeight.normal),
+                          maxLines: 2,
+                          overflow: TextOverflow.clip),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  const Divider(
+                    color: Color.fromARGB(255, 102, 102, 102),
+                  ),
+                  Container(
+                    // width: 200,
+                    child: const Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "About Project",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(230, 64, 7, 87),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    // width: 200,
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        desc,
+                        style: const TextStyle(
+                            fontSize: 16,
+                            color: Color.fromARGB(144, 64, 7, 87)),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  const Divider(
+                    color: Color.fromARGB(255, 102, 102, 102),
+                  ),
+                  Container(
+                    // width: 200,
+                    child: const Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Project Duration",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(230, 64, 7, 87),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    // width: 200,
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "",
+                        style: const TextStyle(
+                            fontSize: 14,
+                            color: Color.fromARGB(144, 64, 7, 87)),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  const Divider(
+                    color: Color.fromARGB(255, 102, 102, 102),
+                  ),
+                  Container(
+                    // width: 200,
+                    child: const Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Category",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(230, 64, 7, 87),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    // width: 200,
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        category,
+                        style: const TextStyle(
+                            fontSize: 16,
+                            color: Color.fromARGB(144, 64, 7, 87)),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ),
+                  const Divider(
+                    color: Color.fromARGB(255, 74, 74, 74),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      maxLength: 60,
+                      decoration: InputDecoration(
+                          hintText: "Developer,Designer",
+                          hintStyle: TextStyle(
+                              color: Color.fromARGB(255, 202, 198, 198)),
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          label: RichText(
+                            text: TextSpan(
+                                text: 'Joining As',
+                                style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(230, 64, 7, 87)),
+                                children: [
+                                  TextSpan(
+                                      text: ' *',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 20,
+                                      ))
+                                ]),
+                          )),
+                      controller: _JoiningASController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "required";
+                        } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
+                            !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
+                          return "Only English or Arabic letters";
+                        }
+                      },
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      maxLength: 150,
+                      decoration: InputDecoration(
+                          hintText: "Notes are visibale with your request",
+                          hintStyle: TextStyle(
+                              color: Color.fromARGB(255, 202, 198, 198)),
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          label: RichText(
+                            text: TextSpan(
+                              text: 'Note',
+                              style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(230, 64, 7, 87)),
+                            ),
+                          )),
+                      controller: _ParticipantNoteController,
+                      validator: (value) {
+                        if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
+                            !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
+                          return "Only English or Arabic letters";
+                        }
+                      },
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    height: 40.0,
+                    width: 100,
+                    margin: const EdgeInsets.only(top: 10),
+
+                    // width: size.width * 0.5,
+                    decoration: new BoxDecoration(
+                        borderRadius: BorderRadius.circular(80.0),
+                        gradient: new LinearGradient(colors: [
+                          const Color.fromARGB(197, 67, 7, 87),
+                          const Color.fromARGB(195, 117, 45, 141),
+                        ])),
+                    padding: const EdgeInsets.all(0),
+                    child: TextButton(
+                      child: const Text(
+                        "Join",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 255, 255, 255)),
+                        //     textAlign: TextAlign.center,
+                        //     style: TextStyle(fontWeight: FontWeight.bold ),
+                      ),
+                      onPressed: () async {
+                        //send a notification to the one who posted the project
+                        sendNotification(
+                            "You received a join request on your project!",
+                            token);
+                        //sucess message
+                        CoolAlert.show(
+                          context: context,
+                          title: "Success!",
+                          confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+                          onConfirmBtnTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProjectsTabs()));
+                          },
+                          type: CoolAlertType.success,
+                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                          text: "Your join request is sent successfuly",
+                        );
+
+                        //saving the request in join request collection
+                        String? token_Participant =
+                            await FirebaseMessaging.instance.getToken();
+                        FirebaseFirestore.instance
+                            .collection('joinRequests')
+                            .doc(title + '-' + signedInUser.email)
+                            .set({
+                          'project_title': title,
+                          'participant_email': signedInUser.email,
+                          'owner_email': ownerEmail,
+                          'participant_name':
+                              FirebaseAuth.instance.currentUser!.displayName,
+                          'participant_token': token_Participant,
+                          'Status': 'Pending',
+                          'Participant_note': _ParticipantNoteController.text,
+                          'joiningAs': _JoiningASController.text,
+                          'Participant_role': ' ',
+                        });
+                        _JoiningASController.clear();
+                        _ParticipantNoteController.clear();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
 
 //Notification

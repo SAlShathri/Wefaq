@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,13 +24,16 @@ class _ListViewPageState extends State<EventsListViewPage> {
   @override
   void initState() {
     getProjects();
+    getCategoryList();
     _getCurrentPosition();
 
     super.initState();
   }
 
+  TextEditingController? _searchEditingController = TextEditingController();
   final _firestore = FirebaseFirestore.instance;
-
+  var categoryListDisplay = [];
+  var categoryListController = [];
   // Title list
   var nameList = [];
 
@@ -55,6 +59,68 @@ class _ListViewPageState extends State<EventsListViewPage> {
   Position? _currentPosition;
   var lat;
   var lng;
+
+  void getCategoryList() async {
+    final categories = await _firestore.collection('categoriesE').get();
+    for (var category in categories.docs) {
+      for (var element in category['catE']) {
+        setState(() {
+          categoryListDisplay.add(element);
+        });
+      }
+    }
+  }
+
+  Future getCategory(String category) async {
+    if (category == "") return;
+    if (categoryListDisplay.where((element) => element == (category)).isEmpty) {
+      CoolAlert.show(
+        context: context,
+        title: "No such category!",
+        confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+        onConfirmBtnTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => EventsListViewPage()));
+        },
+        type: CoolAlertType.error,
+        backgroundColor: Color.fromARGB(221, 212, 189, 227),
+        text:
+            "Please search for a valid category, valid categories are specified in the drop-down menu below",
+      );
+      return;
+    }
+    //clear first
+    setState(() {
+      nameList = [];
+      descList = [];
+      locList = [];
+      urlList = [];
+      categoryList = [];
+      dateTimeList = [];
+      TimeList = [];
+      latList = [];
+      lngList = [];
+    });
+
+    await for (var snapshot in _firestore
+        .collection('events2')
+        .where('category', isEqualTo: category)
+        .snapshots())
+      for (var events in snapshot.docs) {
+        setState(() {
+          nameList.add(events['name']);
+          descList.add(events['description']);
+          locList.add(events['location']);
+          urlList.add(events['regstretion url ']);
+          categoryList.add(events['category']);
+          dateTimeList.add(events['date']);
+          TimeList.add(events['time']);
+          latList.add(events['lat']);
+          lngList.add(events['lng']);
+        });
+      }
+  }
+
 //get all projects
   Future getProjects() async {
     //clear first
@@ -264,110 +330,208 @@ class _ListViewPageState extends State<EventsListViewPage> {
         backgroundColor: Color.fromARGB(255, 145, 124, 178),
       ),
       // Main List View With Builder
-      body: Scrollbar(
-        thumbVisibility: true,
-        child: ListView.builder(
-          itemCount: nameList.length,
-          itemBuilder: (context, index) {
-            return SizedBox(
-              height: 160,
-              child: Card(
-                color: Color.fromARGB(255, 255, 255, 255),
-                //shadowColor: Color.fromARGB(255, 255, 255, 255),
-                //  elevation: 7,
+      body: Column(
+        children: [
+          _searchBar(),
+          Expanded(
+            child: Scrollbar(
+              thumbVisibility: true,
+              child: ListView.builder(
+                itemCount: nameList.length,
+                itemBuilder: (context, index) {
+                  return SizedBox(
+                    height: 160,
+                    child: Card(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      //shadowColor: Color.fromARGB(255, 255, 255, 255),
+                      //  elevation: 7,
 
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(children: <Widget>[
-                        Text(
-                          "      " + nameList[index] + " ",
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: Color.fromARGB(159, 64, 7, 87),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ]),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Text("     "),
-                          const Icon(Icons.location_pin,
-                              color: Color.fromARGB(173, 64, 7, 87)),
-                          Text(locList[index],
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(221, 81, 122, 140),
-                              ))
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Text("     "),
-                          const Icon(
-                            Icons.timelapse_outlined,
-                            color: Color.fromARGB(248, 170, 167, 8),
-                            size: 21,
-                          ),
-                          Text(dateTimeList[index] + ' ' + TimeList[index],
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color.fromARGB(221, 79, 128, 151),
-                                  fontWeight: FontWeight.normal),
-                              maxLines: 2,
-                              overflow: TextOverflow.clip),
-                        ],
-                      ),
-                      Row(children: <Widget>[
-                        SizedBox(
-                          width: 160,
-                        ),
-                        /*const Icon(
-                                  Icons.arrow_downward,
-                                  color: Color.fromARGB(255, 58, 44, 130),
-                                  size: 28,
-                                ),*/
-                        TextButton(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              'View More',
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 90, 46, 144),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(children: <Widget>[
+                              Text(
+                                "      " + nameList[index] + " ",
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  color: Color.fromARGB(159, 64, 7, 87),
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
+                            ]),
+                            SizedBox(
+                              height: 6,
                             ),
-                          ),
-                          onPressed: () {
-                            showDialogFunc(
-                                context,
-                                nameList[index],
-                                descList[index],
-                                categoryList[index],
-                                locList[index],
-                                dateTimeList[index],
-                                TimeList[index],
-                                urlList[index]);
-                          },
+                            Row(
+                              children: <Widget>[
+                                Text("     "),
+                                const Icon(Icons.location_pin,
+                                    color: Color.fromARGB(173, 64, 7, 87)),
+                                Text(locList[index],
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Color.fromARGB(221, 81, 122, 140),
+                                    ))
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Text("     "),
+                                const Icon(
+                                  Icons.timelapse_outlined,
+                                  color: Color.fromARGB(248, 170, 167, 8),
+                                  size: 21,
+                                ),
+                                Text(
+                                    dateTimeList[index] + ' ' + TimeList[index],
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color:
+                                            Color.fromARGB(221, 79, 128, 151),
+                                        fontWeight: FontWeight.normal),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.clip),
+                              ],
+                            ),
+                            Row(children: <Widget>[
+                              SizedBox(
+                                width: 160,
+                              ),
+                              /*const Icon(
+                                        Icons.arrow_downward,
+                                        color: Color.fromARGB(255, 58, 44, 130),
+                                        size: 28,
+                                      ),*/
+                              TextButton(
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'View More',
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 90, 46, 144),
+                                    ),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  showDialogFunc(
+                                      context,
+                                      nameList[index],
+                                      descList[index],
+                                      categoryList[index],
+                                      locList[index],
+                                      dateTimeList[index],
+                                      TimeList[index],
+                                      urlList[index]);
+                                },
+                              ),
+                              SizedBox(
+                                width: 80,
+                              ),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.star_border))
+                            ])
+                          ],
                         ),
-                        SizedBox(
-                          width: 80,
-                        ),
-                        IconButton(
-                            onPressed: () {}, icon: Icon(Icons.star_border))
-                      ])
-                    ],
-                  ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ), // sc
+    );
+  }
+
+  _searchBar() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(7.0),
+          child: TextFormField(
+            controller: _searchEditingController,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 15.0),
+
+              border: OutlineInputBorder(
+                // borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(color: Colors.black87, width: 2.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Color.fromARGB(144, 64, 7, 87),
                 ),
               ),
+              labelText: "search for a specific category",
+              prefixIcon: IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  setState(() {
+                    getCategory(_searchEditingController!.text);
+                  });
+                },
+              ),
+              suffixIcon: _searchEditingController!.text.isNotEmpty
+                  ? IconButton(
+                      icon: Icon(Icons.cancel),
+                      onPressed: () {
+                        setState(() {
+                          getProjects();
+                          _searchEditingController?.clear();
+                        });
+                      },
+                    )
+                  : null,
+
+              hintText: 'Gaming , web  ...',
+              //    suffixIcon :IconButton(
+              //                onPressed: () {
+              //                setState(() {
+              //               // _searchEditingController.clear();
+              //            });
+              //        },
+              //      icon: Icon(Icons.clear_outlined),
+              //  )
+            ),
+            onChanged: (text) {
+              setState(() {
+                categoryListController = categoryListDisplay;
+              });
+            },
+          ),
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: _searchEditingController!.text.isEmpty
+              ? 0
+              : categoryListController.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              //leading: CircleAvatar(
+              //  backgroundColor: Color.fromARGB(221, 137, 171, 187),
+              // child: Icon(
+              //    Icons.category_rounded,
+              //    color: Colors.white,
+              //  ),
+              //  ),
+              title: Text(
+                categoryListController[index].toString(),
+              ),
+              onTap: () {
+                setState(() {
+                  _searchEditingController?.text =
+                      categoryListController[index].toString();
+                  categoryListController = [];
+                });
+              },
             );
           },
-        ),
-      ), // sc
+        )
+      ],
     );
   }
 }
