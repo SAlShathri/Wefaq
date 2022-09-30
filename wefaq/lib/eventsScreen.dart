@@ -195,59 +195,59 @@ class _ListViewPageState extends State<EventsListViewPage> {
     // MediaQuery to get Device Width
     double width = MediaQuery.of(context).size.width * 0.6;
     return Scaffold(
+      floatingActionButton: PopupMenuButton(
+        tooltip: "Filter by",
+        icon: Icon(
+          Icons.filter_list,
+          color: Color.fromARGB(221, 81, 122, 140),
+          size: 40,
+        ),
+        itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+          PopupMenuItem(
+            child: ListTile(
+              leading:
+                  Icon(Icons.date_range, color: Color.fromARGB(144, 64, 7, 87)),
+              title: Text(
+                'Created date',
+                style: TextStyle(
+                  color: Color.fromARGB(221, 81, 122, 140),
+                ),
+              ),
+              onTap: () {
+                setState(() {
+                  //Filter by created date
+                  getProjects();
+                });
+              },
+              selectedTileColor: Color.fromARGB(255, 252, 243, 243),
+            ),
+          ),
+          PopupMenuItem(
+            child: ListTile(
+              leading: Icon(Icons.location_on,
+                  color: Color.fromARGB(144, 64, 7, 87)),
+              title: Text(
+                'Nearest',
+                style: TextStyle(
+                  color: Color.fromARGB(221, 81, 122, 140),
+                ),
+              ),
+              onTap: () {
+                setState(() {
+                  //Filter by nearest
+                  getEventsLoc();
+                });
+              },
+            ),
+          ),
+        ],
+      ),
       bottomNavigationBar: CustomNavigationBar(
         currentHomeScreen: 3,
         updatePage: () {},
       ),
       appBar: AppBar(
         title: Text("Upcoming events", style: TextStyle(color: Colors.white)),
-        leading: PopupMenuButton(
-          tooltip: "Filter by",
-          icon: Icon(
-            Icons.filter_list,
-            color: Colors.white,
-          ),
-          itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-            PopupMenuItem(
-              child: ListTile(
-                leading: Icon(Icons.date_range,
-                    color: Color.fromARGB(144, 64, 7, 87)),
-                title: Text(
-                  'Created date',
-                  style: TextStyle(
-                    color: Color.fromARGB(221, 81, 122, 140),
-                  ),
-                ),
-                onTap: () {
-                  setState(() {
-                    //Filter by created date
-                    getProjects();
-                  });
-                },
-                selectedTileColor: Color.fromARGB(255, 252, 243, 243),
-              ),
-            ),
-            PopupMenuItem(
-              child: ListTile(
-                leading: Icon(Icons.location_on,
-                    color: Color.fromARGB(144, 64, 7, 87)),
-                title: Text(
-                  'Nearest',
-                  style: TextStyle(
-                    color: Color.fromARGB(221, 81, 122, 140),
-                  ),
-                ),
-                onTap: () {
-                  setState(() {
-                    //Filter by nearest
-
-                    getEventsLoc();
-                  });
-                },
-              ),
-            ),
-          ],
-        ),
         actions: <Widget>[
           IconButton(
               icon: Icon(
