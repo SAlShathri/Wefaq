@@ -434,10 +434,11 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
               contentPadding: EdgeInsets.symmetric(vertical: 15.0),
 
               border: OutlineInputBorder(
-                // borderRadius: BorderRadius.circular(10.0),
+               borderRadius: BorderRadius.circular(15.0),
                 borderSide: BorderSide(color: Colors.black87, width: 2.0),
               ),
               focusedBorder: OutlineInputBorder(
+               borderRadius: BorderRadius.circular(15.0), 
                 borderSide: BorderSide(
                   color: Color.fromARGB(144, 64, 7, 87),
                 ),
@@ -480,13 +481,15 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
             },
           ),
         ),
-        ListView.builder(
+        ListView.separated(
           shrinkWrap: true,
           itemCount: _searchEditingController!.text.isEmpty
               ? 0
               : categoryListController.length,
           itemBuilder: (context, index) {
             return ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 40 ),
+              visualDensity: VisualDensity(vertical: -4),
               //leading: CircleAvatar(
               //  backgroundColor: Color.fromARGB(221, 137, 171, 187),
               // child: Icon(
@@ -506,6 +509,12 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
               },
             );
           },
+          separatorBuilder: (context, index) {//<-- SEE HERE
+    return Divider(
+      thickness: 0,
+      color: Color.fromARGB(255, 194, 195, 194),
+    );
+  },
         )
       ],
     );
