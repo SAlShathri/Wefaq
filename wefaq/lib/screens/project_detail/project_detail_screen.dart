@@ -64,6 +64,12 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
   var ProjectTitleList = [];
 
   var ParticipantEmailList = [];
+  bool _isSelected1 = false;
+  bool _isSelected2 = false;
+  bool _isSelected3 = false;
+  String Role1 = 'Developer';
+  String Role2 = 'Tester';
+  String Role3 = 'Designer';
 
   var ParticipantNameList = [];
   Status() => ProjectsListViewPage();
@@ -102,7 +108,8 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
       var fillterd = _firestore
           .collection('joinRequests')
           .where('owner_email', isEqualTo: signedInUser.email)
-          .where('Status', isEqualTo: 'Pending')
+          .where('Status', isEqualTo: 'Accepted')
+          .where('project_title', isEqualTo: "Bloom")
           .snapshots();
       await for (var snapshot in fillterd)
         for (var Request in snapshot.docs) {
@@ -224,22 +231,117 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 16.0),
-                  _buildIngredientItem(context, categoryList),
+                  _buildIngredientItem(context, categoryList[0]),
                   const Divider(color: kOutlineColor, height: 1.0),
                   const SizedBox(height: 16.0),
                   Text(
                     'Looking For',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  const SizedBox(height: 8.0),
+                  Text('Select the Role you want to join as',
+                      style: TextStyle(
+                          color: Color.fromARGB(170, 123, 62, 185),
+                          fontWeight: FontWeight.bold)),
                   Text(
-                    lookingForList,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(color: kSecondaryTextColor),
+                      '- You can select multiple roles but you are only accepted in one role',
+                      style: TextStyle(
+                          color: Color.fromARGB(170, 9, 0, 17),
+                          fontWeight: FontWeight.w400)),
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          ChoiceChip(
+                            elevation: 8.0,
+                            padding: EdgeInsets.all(2.0),
+                            avatar: CircleAvatar(
+                                backgroundColor:
+                                    Color.fromARGB(143, 252, 252, 252),
+                                child: Text(
+                                  '2',
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                            label: Text(
+                              Role1,
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 255, 255, 255)),
+                            ),
+                            selected: _isSelected1,
+                            selectedColor: Color.fromARGB(133, 177, 227, 232),
+                            onSelected: (bool selected) {
+                              setState(() {
+                                _isSelected1 = selected;
+                              });
+                            },
+                            backgroundColor: Color.fromARGB(170, 123, 62, 185),
+                          ),
+                          SizedBox(
+                            width: 6,
+                          ),
+                          ChoiceChip(
+                            elevation: 8.0,
+                            padding: EdgeInsets.all(2.0),
+                            avatar: CircleAvatar(
+                                backgroundColor:
+                                    Color.fromARGB(143, 252, 252, 252),
+                                child: Text(
+                                  '3',
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                            label: Text(
+                              Role2,
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 255, 255, 255)),
+                            ),
+                            selected: _isSelected2,
+                            selectedColor: Color.fromARGB(133, 177, 227, 232),
+                            onSelected: (bool selected) {
+                              setState(() {
+                                _isSelected2 = selected;
+                              });
+                            },
+                            backgroundColor: Color.fromARGB(170, 123, 62, 185),
+                          ),
+                          SizedBox(
+                            width: 6,
+                          ),
+                          ChoiceChip(
+                            elevation: 8.0,
+                            padding: EdgeInsets.all(2.0),
+                            avatar: CircleAvatar(
+                                backgroundColor:
+                                    Color.fromARGB(143, 252, 252, 252),
+                                child: Text(
+                                  '1',
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                            label: Text(
+                              Role3,
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 255, 255, 255)),
+                            ),
+                            selected: _isSelected3,
+                            selectedColor: Color.fromARGB(133, 177, 227, 232),
+                            onSelected: (bool selected) {
+                              setState(() {
+                                _isSelected3 = selected;
+                              });
+                            },
+                            backgroundColor: Color.fromARGB(170, 123, 62, 185),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 16.0),
+                  if (_isSelected1 == false &&
+                      _isSelected2 == false &&
+                      _isSelected3 == false)
+                    Text(' please select one role at least to join the project',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Color.fromARGB(170, 123, 62, 185),
+                            fontWeight: FontWeight.w400)),
                   const Divider(color: kOutlineColor, height: 1.0),
                   const SizedBox(height: 16.0),
                   Text(
@@ -338,13 +440,50 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                       right: 24,
                     ),
                     child: ElevatedButton(
-                      onPressed: () {
-                        showDialogFunc(
-                          token,
+                      onPressed: () async {
+                        //send a notification to the one who posted the project
+                        // sendNotification(
+                        //     "You received a join request on your project!",
+                        //     token);
+                        //sucess message
+                        CoolAlert.show(
+                          context: context,
+                          title: "Success!",
+                          confirmBtnColor: Color.fromARGB(174, 111, 78, 161),
+                          onConfirmBtnTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProjectsTabs()));
+                          },
+                          type: CoolAlertType.success,
+                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                          text: "Your join request is sent successfuly",
                         );
+
+                        //saving the request in join request collection
+                        String? token_Participant =
+                            await FirebaseMessaging.instance.getToken();
+                        FirebaseFirestore.instance
+                            .collection('joinRequests')
+                            .doc(nameList + '-' + signedInUser.email!)
+                            .set({
+                          'project_title': nameList,
+                          'participant_email': signedInUser.email,
+                          'owner_email': ownerEmail,
+                          'participant_name':
+                              FirebaseAuth.instance.currentUser!.displayName,
+                          'participant_token': token_Participant,
+                          'Status': 'Pending',
+                          'joiningAs': selection(
+                              _isSelected1, _isSelected2, _isSelected3),
+                          'Participant_role': 'No Role'
+                        });
+                        _JoiningASController.clear();
+                        _ParticipantNoteController.clear();
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(174, 111, 78, 161),
+                          backgroundColor: Color.fromARGB(204, 109, 46, 154),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           )),
@@ -363,183 +502,25 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
     );
   }
 
-  showDialogFunc(
-    token,
-  ) {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return Center(
-          child: Material(
-            type: MaterialType.transparency,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: const Color.fromARGB(255, 255, 255, 255),
-              ),
-              padding: const EdgeInsets.all(15),
-              height: 350,
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: TextFormField(
-                      controller: _ParticipantNoteController,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      maxLength: 60,
-                      decoration: InputDecoration(
-                          hintText: "Developer,Designer",
-                          hintStyle: TextStyle(
-                              color: Color.fromARGB(255, 202, 198, 198)),
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          label: RichText(
-                            text: TextSpan(
-                                text: 'Joining As',
-                                style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(230, 64, 7, 87)),
-                                children: [
-                                  TextSpan(
-                                      text: ' *',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 20,
-                                      ))
-                                ]),
-                          )),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "required";
-                        } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
-                            !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
-                          return "Only English or Arabic letters";
-                        }
-                      },
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: TextFormField(
-                      controller: _JoiningASController,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      maxLength: 150,
-                      decoration: InputDecoration(
-                          hintText: "Notes are visibale with your request",
-                          hintStyle: TextStyle(
-                              color: Color.fromARGB(255, 202, 198, 198)),
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          label: RichText(
-                            text: TextSpan(
-                              text: 'Note',
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(230, 64, 7, 87)),
-                            ),
-                          )),
-                      validator: (value) {
-                        if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
-                            !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
-                          return "Only English or Arabic letters";
-                        }
-                      },
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    height: 40.0,
-                    width: 100,
-                    margin: const EdgeInsets.only(top: 10),
+  selection(bool _isSelected1, bool _isSelected2, bool _isSelected3) {
+    String JoiningAs = 'No Role';
+    if (_isSelected1 == true && _isSelected2 == false && _isSelected3 == false)
+      JoiningAs = Role1;
+    if (_isSelected1 == false && _isSelected2 == true && _isSelected3 == false)
+      JoiningAs = Role2;
+    if (_isSelected1 == true && _isSelected2 == false && _isSelected3 == true)
+      JoiningAs = Role3;
+    if (_isSelected1 == true && _isSelected2 == true && _isSelected3 == false)
+      JoiningAs = Role1 + " " + Role2;
+    if (_isSelected1 == true && _isSelected2 == false && _isSelected3 == true)
+      JoiningAs = Role1 + " " + Role3;
+    if (_isSelected1 == false && _isSelected2 == true && _isSelected3 == true)
+      JoiningAs = Role2 + " " + Role3;
+    if (_isSelected1 == true && _isSelected2 == true && _isSelected3 == true)
+      JoiningAs = Role1 + " " + Role2 + " " + Role3;
+    print(JoiningAs);
 
-                    // width: size.width * 0.5,
-                    decoration: new BoxDecoration(
-                        borderRadius: BorderRadius.circular(80.0),
-                        gradient: new LinearGradient(colors: [
-                          const Color.fromARGB(174, 111, 78, 161),
-                          const Color.fromARGB(174, 111, 78, 161),
-                        ])),
-                    padding: const EdgeInsets.all(0),
-                    child: TextButton(
-                      child: const Text(
-                        "Join",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 255, 255, 255)),
-                        //     textAlign: TextAlign.center,
-                        //     style: TextStyle(fontWeight: FontWeight.bold ),
-                      ),
-                      onPressed: () async {
-                        //send a notification to the one who posted the project
-                        sendNotification(
-                            "You received a join request on your project!",
-                            token);
-                        //sucess message
-                        // CoolAlert.show(
-                        //   context: context,
-                        //   title: "Success!",
-                        //   confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
-                        //   onConfirmBtnTap: () {
-                        //     Navigator.push(
-                        //         context,
-                        //         MaterialPageRoute(
-                        //             builder: (context) => projectDetailScreen(
-                        //                   projecName: this.projecName,
-                        //                 )));
-                        //   },
-                        //   type: CoolAlertType.success,
-                        //   backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                        //   text: "Your join request is sent successfuly",
-                        // );
-                        CoolAlert.show(
-                          context: context,
-                          title: "Success!",
-                          confirmBtnColor: Color.fromARGB(174, 111, 78, 161),
-                          onConfirmBtnTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProjectsTabs()));
-                          },
-                          type: CoolAlertType.success,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text: "Your join request is sent successfuly",
-                        );
-                        //saving the request in join request collection
-                        String? token_Participant =
-                            await FirebaseMessaging.instance.getToken();
-                        FirebaseFirestore.instance
-                            .collection('joinRequests')
-                            .doc(nameList + '-' + signedInUser.email!)
-                            .set({
-                          'project_title': nameList,
-                          'participant_email': signedInUser.email,
-                          'owner_email': ownerEmail,
-                          'participant_name':
-                              FirebaseAuth.instance.currentUser!.displayName,
-                          'participant_token': token_Participant,
-                          'Status': 'Pending',
-                          'Participant_note': _ParticipantNoteController.text,
-                          'joiningAs': _JoiningASController.text
-                        });
-                        _JoiningASController.clear();
-                        _ParticipantNoteController.clear();
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
+    return JoiningAs;
   }
 
   Widget _buildIngredientItem(
@@ -557,11 +538,11 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
             margin: const EdgeInsets.only(right: 8.0),
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              color: Color.fromARGB(255, 237, 227, 255),
+              color: Color.fromARGB(255, 229, 214, 237),
             ),
             child: const Icon(
               Icons.check,
-              color: Color.fromARGB(172, 136, 98, 146),
+              color: Color.fromARGB(172, 113, 60, 127),
             ),
           ),
           Text(
