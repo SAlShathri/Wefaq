@@ -389,6 +389,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                   Container(
                     alignment: Alignment.center,
                     child: TextFormField(
+                      controller: _ParticipantNoteController,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       maxLength: 60,
                       decoration: InputDecoration(
@@ -425,6 +426,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                   Container(
                     alignment: Alignment.center,
                     child: TextFormField(
+                      controller: _JoiningASController,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       maxLength: 150,
                       decoration: InputDecoration(

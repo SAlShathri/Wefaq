@@ -12,6 +12,7 @@ import 'package:multiselect/multiselect.dart';
 import 'package:get/get.dart';
 import 'package:google_place/google_place.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wefaq/eventsScreen.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -484,7 +485,10 @@ class _PostEventState extends State<PostEvent> {
                               var formatter = new DateFormat('yyyy-MM-dd');
                               String formattedDate = formatter.format(now);
 
-                              _firestore.collection('events').add({
+                              _firestore
+                                  .collection('events2')
+                                  .doc(_nameEditingController.text)
+                                  .set({
                                 'name': _nameEditingController.text,
                                 'location': _startSearchFieldController.text,
                                 'description':
@@ -496,6 +500,8 @@ class _PostEventState extends State<PostEvent> {
                                     ":" +
                                     dateTime.minute.toString(),
                                 'created': now,
+                                'lng': startPosition?.geometry?.location?.lng,
+                                'lat': startPosition?.geometry?.location?.lat,
                               });
                               //Clear
 
@@ -514,7 +520,8 @@ class _PostEventState extends State<PostEvent> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Tabs()));
+                                          builder: (context) =>
+                                              EventsListViewPage()));
                                 },
                                 type: CoolAlertType.success,
                                 backgroundColor:

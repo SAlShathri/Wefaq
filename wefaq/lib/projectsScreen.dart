@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -26,10 +25,8 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
   @override
   void initState() {
     getCurrentUser();
-
     getProjects();
     _getCurrentPosition();
-    setDistance();
 
     FirebaseMessaging.instance.getInitialMessage();
     FirebaseMessaging.onMessage.listen((event) {
@@ -42,7 +39,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
   final auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
   late User signedInUser;
-  String? _currentAddress;
   Position? _currentPosition;
   var lat;
   var lng;
@@ -121,6 +117,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
       }
   }
 
+  //get all projects
   Future getProjectsLoc() async {
     //clear first
     setState(() {
@@ -139,17 +136,17 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
         .collection('projects2')
         .orderBy('dis', descending: false)
         .snapshots())
-      for (var events in snapshot.docs) {
+      for (var project in snapshot.docs) {
         setState(() {
-          nameList.add(events['name']);
-          descList.add(events['description']);
-          locList.add(events['location']);
-          lookingForList.add(events['lookingFor']);
-          categoryList.add(events['category']);
-          tokens.add(events['token']);
-          ownerEmail.add(events['email']);
-          latList.add(events['lat']);
-          lngList.add(events['lng']);
+          nameList.add(project['name']);
+          descList.add(project['description']);
+          locList.add(project['location']);
+          lookingForList.add(project['lookingFor']);
+          categoryList.add(project['category']);
+          tokens.add(project['token']);
+          ownerEmail.add(project['email']);
+          latList.add(project['lat']);
+          lngList.add(project['lng']);
         });
       }
   }
@@ -193,8 +190,11 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
     }).catchError((e) {
       debugPrint(e);
     });
-    lat = _currentPosition?.latitude;
-    lng = _currentPosition?.longitude;
+    setState(() {
+      lat = _currentPosition?.latitude;
+      lng = _currentPosition?.longitude;
+      setDistance();
+    });
   }
 
   double calculateDistance(lat1, lon1, lat2, lon2) {
@@ -206,13 +206,12 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
   }
 
   setDistance() {
+    print("hiii");
     for (var i = 0; i < latList.length; i++) {
       setState(() {
-        print(lngList);
-        print(latList);
         FirebaseFirestore.instance
             .collection('projects2')
-            .doc(nameList[i] + "-" + ownerEmail[i])
+            .doc(nameList[i].toString() + "-" + ownerEmail[i].toString())
             .set({'dis': calculateDistance(latList[i], lngList[i], lat, lng)},
                 SetOptions(merge: true));
       });

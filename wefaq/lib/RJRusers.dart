@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wefaq/HomePage.dart';
 import 'package:wefaq/RJRprojects.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/projectsScreen.dart';
@@ -391,9 +392,7 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => RequestListViewPage(
-                                          projectName: ProjectTitle,
-                                        )));
+                                    builder: (context) => HomeScreen()));
                           }))
                 ]),
                 // Row(children: <Widget>[
@@ -579,13 +578,10 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                                 " to be part of your team.",
                             confirmBtnText: 'Done',
                             onConfirmBtnTap: () {
-                              //send join requist
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => RequestListViewPage(
-                                            projectName: ProjectTitle,
-                                          )));
+                                      builder: (context) => HomeScreen()));
                             },
                           );
                         },
@@ -644,13 +640,10 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                           onConfirmBtnTap: () async {
                             //saving the request in join request collection
 
-                            //send join requist
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => RequestListViewPage(
-                                          projectName: ProjectTitle,
-                                        )));
+                                    builder: (context) => HomeScreen()));
                           },
                         );
                       },

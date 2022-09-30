@@ -1,8 +1,10 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'package:wefaq/models/project.dart';
 import 'package:wefaq/profile.dart';
@@ -20,13 +22,13 @@ class EventsListViewPage extends StatefulWidget {
 class _ListViewPageState extends State<EventsListViewPage> {
   @override
   void initState() {
-    // TODO: implement initState
     getProjects();
+    _getCurrentPosition();
+
     super.initState();
   }
 
   final _firestore = FirebaseFirestore.instance;
-  @override
 
   // Title list
   var nameList = [];
@@ -47,6 +49,12 @@ class _ListViewPageState extends State<EventsListViewPage> {
   var dateTimeList = [];
 
   var TimeList = [];
+  var latList = [];
+
+  var lngList = [];
+  Position? _currentPosition;
+  var lat;
+  var lng;
 //get all projects
   Future getProjects() async {
     //clear first
@@ -58,9 +66,11 @@ class _ListViewPageState extends State<EventsListViewPage> {
       categoryList = [];
       dateTimeList = [];
       TimeList = [];
+      latList = [];
+      lngList = [];
     });
     await for (var snapshot in _firestore
-        .collection('events')
+        .collection('events2')
         .orderBy('created', descending: true)
         .snapshots())
       for (var events in snapshot.docs) {
@@ -72,10 +82,112 @@ class _ListViewPageState extends State<EventsListViewPage> {
           categoryList.add(events['category']);
           dateTimeList.add(events['date']);
           TimeList.add(events['time']);
+          latList.add(events['lat']);
+          lngList.add(events['lng']);
 
           //  dateTimeList.add(project['dateTime ']);
         });
       }
+  }
+
+  //get all projects
+  Future getEventsLoc() async {
+    //clear first
+    setState(() {
+      nameList = [];
+      descList = [];
+      locList = [];
+      urlList = [];
+      categoryList = [];
+      dateTimeList = [];
+      TimeList = [];
+      latList = [];
+      lngList = [];
+    });
+
+    await for (var snapshot in _firestore
+        .collection('events2')
+        .orderBy('created', descending: false)
+        .snapshots())
+      for (var events in snapshot.docs) {
+        setState(() {
+          nameList.add(events['name']);
+          descList.add(events['description']);
+          locList.add(events['location']);
+          urlList.add(events['regstretion url ']);
+          categoryList.add(events['category']);
+          dateTimeList.add(events['date']);
+          TimeList.add(events['time']);
+          latList.add(events['lat']);
+          lngList.add(events['lng']);
+        });
+      }
+  }
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location services are disabled. Please enable the services')));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    return true;
+  } //permission
+
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() => _currentPosition = position);
+    }).catchError((e) {
+      debugPrint(e);
+    });
+    setState(() {
+      lat = _currentPosition?.latitude;
+      lng = _currentPosition?.longitude;
+      setDistance();
+    });
+  }
+
+  double calculateDistance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;
+    var a = 0.5 -
+        cos((lat2 - lat1) * p) / 2 +
+        cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a));
+  }
+
+  setDistance() {
+    for (var i = 0; i < latList.length; i++) {
+      setState(() {
+        FirebaseFirestore.instance
+            .collection('events2')
+            .doc(nameList[i].toString())
+            .set({'dist': calculateDistance(latList[i], lngList[i], lat, lng)},
+                SetOptions(merge: true));
+      });
+    }
   }
 
   @override
@@ -128,6 +240,8 @@ class _ListViewPageState extends State<EventsListViewPage> {
                 onTap: () {
                   setState(() {
                     //Filter by nearest
+
+                    getEventsLoc();
                   });
                 },
               ),
