@@ -492,7 +492,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                           String? token_Participant =
                               await FirebaseMessaging.instance.getToken();
                           FirebaseFirestore.instance
-                              .collection('AlljoinRequests')
+                              .collection('AllJoinRequests')
                               .doc(nameList + '-' + signedInUser.email!)
                               .set({
                             'project_title': nameList,
