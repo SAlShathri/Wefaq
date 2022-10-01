@@ -197,7 +197,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
 
     await for (var snapshot in _firestore
         .collection('AllEvents')
-        .orderBy('created', descending: false)
+        .orderBy('dis', descending: false)
         .snapshots())
       for (var events in snapshot.docs) {
         setState(() {
@@ -274,7 +274,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
         FirebaseFirestore.instance
             .collection('AllEvents')
             .doc(nameList[i].toString())
-            .set({'dist': calculateDistance(latList[i], lngList[i], lat, lng)},
+            .set({'dis': calculateDistance(latList[i], lngList[i], lat, lng)},
                 SetOptions(merge: true));
       });
     }
