@@ -176,8 +176,8 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: const DecorationImage(
-                                image: AssetImage(
-                                    'assets/images/profile_image.jpg'),
+                                image:
+                                    AssetImage('assets/images/PlaceHolder.png'),
                                 fit: BoxFit.cover,
                               ),
                               boxShadow: [
