@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
+import 'package:wefaq/eventsTabs.dart';
 import 'package:wefaq/models/project.dart';
 import 'package:wefaq/profile.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -82,8 +83,8 @@ class _ListViewPageState extends State<EventsListViewPage> {
         title: "No such category!",
         confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
         onConfirmBtnTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => EventsListViewPage()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => EventsTabs()));
         },
         type: CoolAlertType.error,
         backgroundColor: Color.fromARGB(221, 212, 189, 227),
@@ -98,8 +99,8 @@ class _ListViewPageState extends State<EventsListViewPage> {
         title: "Sorry!",
         confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
         onConfirmBtnTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => EventsListViewPage()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => EventsTabs()));
         },
         type: CoolAlertType.error,
         backgroundColor: Color.fromARGB(221, 212, 189, 227),
@@ -331,27 +332,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
           ),
         ],
       ),
-      bottomNavigationBar: CustomNavigationBar(
-        currentHomeScreen: 3,
-        updatePage: () {},
-      ),
-      appBar: AppBar(
-        title: Text("Upcoming events", style: TextStyle(color: Colors.white)),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(
-                Icons.logout,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
-              onPressed: () {
-                _signOut();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => UserLogin()));
-              }),
-        ],
-        automaticallyImplyLeading: false,
-        backgroundColor: Color.fromARGB(255, 145, 124, 178),
-      ),
+
       // Main List View With Builder
       body: Column(
         children: [

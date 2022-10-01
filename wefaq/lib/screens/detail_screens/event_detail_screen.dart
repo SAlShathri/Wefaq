@@ -11,6 +11,7 @@ import 'package:wefaq/eventsScreen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
+import 'package:wefaq/eventsTabs.dart';
 import 'package:wefaq/screens/detail_screens/widgets/event_detail_appbar.dart';
 import 'package:wefaq/service/local_push_notification.dart';
 
@@ -66,7 +67,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
   var ParticipantEmailList = [];
 
   var ParticipantNameList = [];
-  Status() => EventsListViewPage();
+  Status() => EventsTabs();
 
   List DisplayProjectOnce() {
     final removeDuplicates = [

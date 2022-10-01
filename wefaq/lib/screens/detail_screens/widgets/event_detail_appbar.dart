@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wefaq/config/colors.dart';
+import 'package:wefaq/eventsTabs.dart';
 import 'package:wefaq/projectsScreen.dart';
 
 import '../../../eventsScreen.dart';
@@ -75,10 +76,8 @@ class eventDetailAppBar extends StatelessWidget {
                     size: 30,
                   ),
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EventsListViewPage()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => EventsTabs()));
                   }),
             ),
           ),

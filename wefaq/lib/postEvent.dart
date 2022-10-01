@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:google_place/google_place.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wefaq/eventsScreen.dart';
+import 'package:wefaq/eventsTabs.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -520,8 +521,7 @@ class _PostEventState extends State<PostEvent> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              EventsListViewPage()));
+                                          builder: (context) => EventsTabs()));
                                 },
                                 type: CoolAlertType.success,
                                 backgroundColor:
