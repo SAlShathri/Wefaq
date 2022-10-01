@@ -62,7 +62,7 @@ class _myProjectState extends State<myProjects> {
   Future getProjects() async {
     if (Email != null) {
       var fillterd = _firestore
-          .collection('projects2')
+          .collection('AllProjects')
           .where('email', isEqualTo: Email)
           .orderBy('created', descending: true)
           .snapshots();
@@ -125,111 +125,109 @@ class _myProjectState extends State<myProjects> {
           itemBuilder: (context, index) {
             // Card Which Holds Layout Of ListView Item
             return SizedBox(
-              height: 180,
-              child: GestureDetector(
-              child: Card(
-                color: const Color.fromARGB(255, 255, 255, 255),
-                //shadowColor: Color.fromARGB(255, 255, 255, 255),
-                //  elevation: 7,
+                height: 180,
+                child: GestureDetector(
+                  child: Card(
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    //shadowColor: Color.fromARGB(255, 255, 255, 255),
+                    //  elevation: 7,
 
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(children: <Widget>[
-                        Text(
-                          "      " + nameList[index] + " ",
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: Color.fromARGB(159, 64, 7, 87),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ]),
-                      Divider(
-                        color: Color.fromARGB(230, 64, 7, 87),
-                        indent: 20,
-                        endIndent: 20,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          const Text("     "),
-                          const Icon(Icons.location_pin,
-                              color: Color.fromARGB(173, 64, 7, 87)),
-                          Text(locList[index],
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(221, 81, 122, 140),
-                              ))
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          const Text("     "),
-                          const Icon(
-                            Icons.search,
-                            color: Color.fromARGB(248, 170, 167, 8),
-                            size: 28,
+                          SizedBox(
+                            height: 20,
                           ),
-                          Text(lookingForList[index],
+                          Row(children: <Widget>[
+                            Text(
+                              "      " + nameList[index] + " ",
                               style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Color.fromARGB(221, 79, 128, 151),
-                                  fontWeight: FontWeight.normal),
-                              maxLines: 2,
-                              overflow: TextOverflow.clip),
-                        ],
-                      ),
-                      Expanded(
-                          child: //Text("                              "),
-                              /*const Icon(
+                                fontSize: 20,
+                                color: Color.fromARGB(159, 64, 7, 87),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ]),
+                          Divider(
+                            color: Color.fromARGB(230, 64, 7, 87),
+                            indent: 20,
+                            endIndent: 20,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              const Text("     "),
+                              const Icon(Icons.location_pin,
+                                  color: Color.fromARGB(173, 64, 7, 87)),
+                              Text(locList[index],
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromARGB(221, 81, 122, 140),
+                                  ))
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              const Text("     "),
+                              const Icon(
+                                Icons.search,
+                                color: Color.fromARGB(248, 170, 167, 8),
+                                size: 28,
+                              ),
+                              Text(lookingForList[index],
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Color.fromARGB(221, 79, 128, 151),
+                                      fontWeight: FontWeight.normal),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.clip),
+                            ],
+                          ),
+                          Expanded(
+                              child: //Text("                              "),
+                                  /*const Icon(
                                     Icons.arrow_downward,
                                     color: Color.fromARGB(255, 58, 44, 130),
                                     size: 28,
                                   ),*/
-                              TextButton(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'View More',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 90, 46, 144),
+                                  TextButton(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'View More',
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 90, 46, 144),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        onPressed: () {
-                          showDialogFunc(
-                              context,
-                              nameList[index],
-                              descList[index],
-                              categoryList[index],
-                              locList[index],
-                              lookingForList[index]);
-                        },
-                      ))
-                    ],
+                            onPressed: () {
+                              showDialogFunc(
+                                  context,
+                                  nameList[index],
+                                  descList[index],
+                                  categoryList[index],
+                                  locList[index],
+                                  lookingForList[index]);
+                            },
+                          ))
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              onTap: (){
- showDialogFunc(
-                              context,
-                              nameList[index],
-                              descList[index],
-                              categoryList[index],
-                              locList[index],
-                              lookingForList[index]);
-
-              },
-              )
-            );
+                  onTap: () {
+                    showDialogFunc(
+                        context,
+                        nameList[index],
+                        descList[index],
+                        categoryList[index],
+                        locList[index],
+                        lookingForList[index]);
+                  },
+                ));
           },
         ),
       ), // sc

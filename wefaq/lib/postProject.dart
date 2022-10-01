@@ -459,7 +459,7 @@ class _PostProjectState extends State<PostProject> {
                         String? token =
                             await FirebaseMessaging.instance.getToken();
                         _firestore
-                            .collection('projects2')
+                            .collection('AllProjects')
                             .doc(_nameEditingController.text +
                                 '-' +
                                 Email.toString())

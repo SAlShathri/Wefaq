@@ -118,7 +118,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
     });
 
     await for (var snapshot in _firestore
-        .collection('projects2')
+        .collection('AllProjects')
         .orderBy('email')
         .where("email", isNotEqualTo: Email)
         .orderBy('created', descending: true)
@@ -156,7 +156,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
     });
 
     await for (var snapshot in _firestore
-        .collection('projects2')
+        .collection('AllProjects')
         .orderBy('email')
         .where("email", isNotEqualTo: Email)
         .orderBy('dis', descending: false)
@@ -225,7 +225,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
     });
 
     await for (var snapshot in _firestore
-        .collection('projects2')
+        .collection('AllProjects')
         .orderBy('email')
         .where("email", isNotEqualTo: Email)
         .where('category', isEqualTo: category)
@@ -304,7 +304,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
     for (var i = 0; i < latList.length; i++) {
       setState(() {
         FirebaseFirestore.instance
-            .collection('projects2')
+            .collection('AllProjects')
             .doc(nameList[i].toString() + "-" + ownerEmail[i].toString())
             .set({'dis': calculateDistance(latList[i], lngList[i], lat, lng)},
                 SetOptions(merge: true));

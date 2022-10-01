@@ -94,7 +94,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
   //get all projects
   Future getProjects() async {
     await for (var snapshot in _firestore
-        .collection('projects2')
+        .collection('AllProjects')
         .where('name', isEqualTo: projecName)
         .snapshots())
       for (var project in snapshot.docs) {
