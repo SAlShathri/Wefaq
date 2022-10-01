@@ -195,6 +195,21 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
       );
       return;
     }
+    if (categoryList.where((element) => element == (category)).isEmpty) {
+      CoolAlert.show(
+        context: context,
+        title: "Sorry!",
+        confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+        onConfirmBtnTap: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ProjectsTabs()));
+        },
+        type: CoolAlertType.error,
+        backgroundColor: Color.fromARGB(221, 212, 189, 227),
+        text: "No projects are under this category yet ",
+      );
+      return;
+    }
     //clear first
     setState(() {
       nameList = [];
@@ -214,7 +229,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
         .orderBy('email')
         .where("email", isNotEqualTo: Email)
         .where('category', isEqualTo: category)
-        .snapshots())
+        .snapshots()) {
       for (var project in snapshot.docs) {
         setState(() {
           nameList.add(project['name']);
@@ -229,6 +244,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
           creatDate.add(project['cdate']);
         });
       }
+    }
   }
 
   Future<bool> _handleLocationPermission() async {

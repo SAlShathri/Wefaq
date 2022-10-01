@@ -92,6 +92,21 @@ class _ListViewPageState extends State<EventsListViewPage> {
       );
       return;
     }
+    if (categoryList.where((element) => element == (category)).isEmpty) {
+      CoolAlert.show(
+        context: context,
+        title: "Sorry!",
+        confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+        onConfirmBtnTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => EventsListViewPage()));
+        },
+        type: CoolAlertType.error,
+        backgroundColor: Color.fromARGB(221, 212, 189, 227),
+        text: "No events are under this category yet ",
+      );
+      return;
+    }
     //clear first
     setState(() {
       nameList = [];
