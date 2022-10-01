@@ -233,7 +233,6 @@ class _ListViewPageState extends State<EventsListViewPage> {
     setState(() {
       lat = _currentPosition?.latitude;
       lng = _currentPosition?.longitude;
-      setDistance();
     });
   }
 
@@ -374,10 +373,9 @@ class _ListViewPageState extends State<EventsListViewPage> {
                         ),
                       ),
                       onTap: () {
-                        setState(() {
-                          //Filter by nearest
-                          getEventsLoc();
-                        });
+                        //Filter by nearest
+                        setDistance();
+                        getEventsLoc();
                       },
                     ),
                   ),

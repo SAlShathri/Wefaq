@@ -29,7 +29,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
     getCurrentUser();
     getProjects();
     getCategoryList();
-
     _getCurrentPosition();
 
     FirebaseMessaging.instance.getInitialMessage();
@@ -262,7 +261,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
     setState(() {
       lat = _currentPosition?.latitude;
       lng = _currentPosition?.longitude;
-      setDistance();
     });
   }
 
@@ -333,10 +331,9 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                       ),
                     ),
                     onTap: () {
-                      setState(() {
-                        //Filter by nearest
-                        getProjectsLoc();
-                      });
+                      //Filter by nearest
+                      setDistance();
+                      getProjectsLoc();
                     },
                   ),
                 ),
@@ -475,6 +472,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                       onPressed: () {
                         setState(() {
                           getProjects();
+
                           _searchEditingController?.clear();
                         });
                       },

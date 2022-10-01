@@ -30,6 +30,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
     // TODO: implement initState
     getCurrentUser();
     getProjects();
+    getRequests();
     super.initState();
   }
 
@@ -63,6 +64,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
   String duration = "";
   String fName = "";
   String Lname = "";
+  List<String> participantNames = [];
 
   var ProjectTitleList = [];
 
@@ -115,15 +117,12 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
           .collection('joinRequests')
           .where('owner_email', isEqualTo: signedInUser.email)
           .where('Status', isEqualTo: 'Accepted')
-          .where('project_title', isEqualTo: "Bloom")
+          .where('project_title', isEqualTo: projecName)
           .snapshots();
       await for (var snapshot in fillterd)
         for (var Request in snapshot.docs) {
           setState(() {
-            ProjectTitleList.add(Request['project_title']);
-            ParticipantEmailList.add(Request['participant_email']);
             ParticipantNameList.add(Request['participant_name']);
-            //tokens.add(Request['participant_token']);
           });
         }
     }
@@ -402,7 +401,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                             ),
                           ),
                           Text(
-                            'Raseel',
+                            ParticipantNameList.toString(),
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
                           SizedBox(
