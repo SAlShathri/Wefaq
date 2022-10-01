@@ -57,6 +57,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
   var latList = [];
 
   var lngList = [];
+  List<String> creatDate = [];
   Position? _currentPosition;
   var lat;
   var lng;
@@ -101,6 +102,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
       TimeList = [];
       latList = [];
       lngList = [];
+      creatDate = [];
     });
 
     await for (var snapshot in _firestore
@@ -118,6 +120,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
           TimeList.add(events['time']);
           latList.add(events['lat']);
           lngList.add(events['lng']);
+          creatDate.add(events['cdate']);
         });
       }
   }
@@ -135,6 +138,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
       TimeList = [];
       latList = [];
       lngList = [];
+      creatDate = [];
     });
     await for (var snapshot in _firestore
         .collection('events2')
@@ -151,6 +155,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
           TimeList.add(events['time']);
           latList.add(events['lat']);
           lngList.add(events['lng']);
+          creatDate.add(events['cdate']);
 
           //  dateTimeList.add(project['dateTime ']);
         });
@@ -170,6 +175,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
       TimeList = [];
       latList = [];
       lngList = [];
+      creatDate = [];
     });
 
     await for (var snapshot in _firestore
@@ -187,6 +193,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
           TimeList.add(events['time']);
           latList.add(events['lat']);
           lngList.add(events['lng']);
+          creatDate.add(events['cdate']);
         });
       }
   }
@@ -416,6 +423,18 @@ class _ListViewPageState extends State<EventsListViewPage> {
                                             color: Color.fromARGB(
                                                 212, 82, 10, 111),
                                             fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 240,
+                                        ),
+                                        Text(
+                                          creatDate[index],
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            color: Color.fromARGB(
+                                                255, 170, 169, 179),
+                                            fontWeight: FontWeight.normal,
                                           ),
                                         ),
                                       ]),

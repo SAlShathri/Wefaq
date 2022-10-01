@@ -20,7 +20,6 @@ class ProjectsTabs extends StatefulWidget {
 class _ListViewTabsState extends State<ProjectsTabs> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 

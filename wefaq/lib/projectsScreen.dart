@@ -114,6 +114,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
       ownerEmail = [];
       latList = [];
       lngList = [];
+      creatDate = [];
     });
 
     await for (var snapshot in _firestore
@@ -131,6 +132,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
           ownerEmail.add(project['email']);
           latList.add(project['lat']);
           lngList.add(project['lng']);
+          creatDate.add(project['cdate']);
         });
       }
   }
@@ -148,6 +150,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
       ownerEmail = [];
       latList = [];
       lngList = [];
+      creatDate = [];
     });
 
     await for (var snapshot in _firestore
@@ -165,6 +168,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
           ownerEmail.add(project['email']);
           latList.add(project['lat']);
           lngList.add(project['lng']);
+          creatDate.add(project['cdate']);
         });
       }
   }
@@ -198,6 +202,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
       ownerEmail = [];
       latList = [];
       lngList = [];
+      creatDate = [];
     });
 
     await for (var snapshot in _firestore
@@ -215,6 +220,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
           ownerEmail.add(project['email']);
           latList.add(project['lat']);
           lngList.add(project['lng']);
+          creatDate.add(project['cdate']);
         });
       }
   }
@@ -374,6 +380,18 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                                           color:
                                               Color.fromARGB(212, 82, 10, 111),
                                           fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 240,
+                                      ),
+                                      Text(
+                                        creatDate[index],
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: Color.fromARGB(
+                                              255, 170, 169, 179),
+                                          fontWeight: FontWeight.normal,
                                         ),
                                       ),
                                     ]),

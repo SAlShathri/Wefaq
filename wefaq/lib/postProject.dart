@@ -409,7 +409,7 @@ class _PostProjectState extends State<PostProject> {
                         color: Color.fromARGB(255, 202, 198, 198)),
                     label: RichText(
                       text: TextSpan(
-                          text: 'Dyration',
+                          text: 'Duration',
                           style: const TextStyle(
                               fontSize: 18,
                               color: Color.fromARGB(144, 64, 7, 87)),
@@ -455,6 +455,7 @@ class _PostProjectState extends State<PostProject> {
                         // you'd often call a server or save the information in a database.
                         // for sorting purpose
                         var now = new DateTime.now();
+                        final DateFormat formatter = DateFormat('yyyy-MM-dd');
                         String? token =
                             await FirebaseMessaging.instance.getToken();
                         _firestore
@@ -476,6 +477,7 @@ class _PostProjectState extends State<PostProject> {
                           'lname': lname,
                           'token': token,
                           "duration": _durationEditingControlle.text,
+                          'cdate': formatter.format(now)
                         });
                         //Clear
 

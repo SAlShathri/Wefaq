@@ -137,34 +137,6 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                       Row(
                         children: [
                           Container(
-                            height: 35.0,
-                            width: 35.0,
-                            margin: const EdgeInsets.only(right: 8.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: const DecorationImage(
-                                image: AssetImage(
-                                    'assets/images/profile_image.jpg'),
-                                fit: BoxFit.cover,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: const Offset(0, 4),
-                                  blurRadius: 4.0,
-                                  color: Colors.black.withOpacity(0.25),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Text(
-                            'Sara Alshathri',
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
                             height: 32.0,
                             width: 32.0,
                             alignment: Alignment.center,

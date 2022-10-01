@@ -483,7 +483,6 @@ class _PostEventState extends State<PostEvent> {
                               // for sorting purpose
                               var now = new DateTime.now();
                               var formatter = new DateFormat('yyyy-MM-dd');
-                              String formattedDate = formatter.format(now);
 
                               _firestore
                                   .collection('events2')
@@ -502,6 +501,7 @@ class _PostEventState extends State<PostEvent> {
                                 'created': now,
                                 'lng': startPosition?.geometry?.location?.lng,
                                 'lat': startPosition?.geometry?.location?.lat,
+                                'cdate': formatter.format(now)
                               });
                               //Clear
 
