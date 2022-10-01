@@ -126,6 +126,7 @@ class _myProjectState extends State<myProjects> {
             // Card Which Holds Layout Of ListView Item
             return SizedBox(
               height: 180,
+              child: GestureDetector(
               child: Card(
                 color: const Color.fromARGB(255, 255, 255, 255),
                 //shadowColor: Color.fromARGB(255, 255, 255, 255),
@@ -217,6 +218,17 @@ class _myProjectState extends State<myProjects> {
                   ),
                 ),
               ),
+              onTap: (){
+ showDialogFunc(
+                              context,
+                              nameList[index],
+                              descList[index],
+                              categoryList[index],
+                              locList[index],
+                              lookingForList[index]);
+
+              },
+              )
             );
           },
         ),
