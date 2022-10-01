@@ -385,7 +385,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                           )),
                       controller: _ParticipantNoteController,
                       validator: (value) {
-                        if (!RegExp(r'^[a-z A-Z]+$').hasMatch(value!) &&
+                        if (!RegExp(r'^[ , . a-z A-Z]+$').hasMatch(value!) &&
                             !RegExp(r'^[ أ-ي]+$').hasMatch(value!)&& value.isNotEmpty) {
                           return "Only English or Arabic letters";
                         }

@@ -38,10 +38,20 @@ class _RequestListProject extends State<RequestListViewPageProject> {
   void initState() {
     getCurrentUser();
     getRequests();
-
+   getCategoryList();
     super.initState();
   }
 
+  void getCategoryList() async {
+    final categories = await _firestore.collection('AcceptedAs').get();
+    for (var category in categories.docs) {
+      for (var element in category['AcceptedAs']) {
+        setState(() {
+          options.add(element);
+        });
+      }
+    }
+  }
   //----
 
   void getCurrentUser() {
@@ -283,8 +293,8 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                 itemCount: ProjectTitleList.length,
                 itemBuilder: (context, index) {
                   return SizedBox(
-                    height: 500,
-                    
+                    height: 160,
+                    child:GestureDetector(
                     child: Card(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       child: Padding(
@@ -292,9 +302,28 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            SizedBox(
-                              height: 15,
-                            ),
+                           
+                             Row(children: <Widget>[
+                                  const Text(
+                                      "                                                                           "),
+                                  IconButton(
+                                      icon: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color:
+                                            Color.fromARGB(255, 170, 169, 179),
+                                      ),
+                                      onPressed: () {
+                                       showDialogFunc(
+                        context, index,
+  ProjectTitleList[index],
+  ParticipantNameList[index],
+  ParticipantEmailList[index],
+  ParticipantjoiningAsList[index],
+  ParticipantNoteList[index], 
+  tokens[index],
+  signedInUser,ParticipantEmailList , ParticipantjoiningAsList, ProjectTitleList);
+                                      }),
+                                ]),
                             Row(children: <Widget>[
                               Expanded(
                                 flex: 5,
@@ -334,20 +363,69 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                                 ),
                               ),
                             ]),
-                                             const SizedBox(height: 10.0),
-                  const Divider(color: kOutlineColor, height: 1.0),
-                                             const SizedBox(height: 10.0),
+                                          
 
+                          ],
+                        ),
+                      ),
+                    ),
+                         onTap: (){
+                      showDialogFunc(
+                        context, index,
+  ProjectTitleList[index],
+  ParticipantNameList[index],
+  ParticipantEmailList[index],
+  ParticipantjoiningAsList[index],
+  ParticipantNoteList[index], 
+  tokens[index],
+  signedInUser,ParticipantEmailList , ParticipantjoiningAsList, ProjectTitleList);
+                    })
+               
+                    ,
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// This is a block of Model Dialog
+  showDialogFunc(context, index, title, Name, email,  JoinAs, Note,  token,
+      signedInUser, ParticipantEmailList,ParticipantjoiningAsList, ProjectTitleList) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return Center(
+          child: Material(
+            type: MaterialType.transparency,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: const Color.fromARGB(255, 255, 255, 255),
+              ),
+              padding: const EdgeInsets.all(15),
+              height: 300,
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                   SizedBox(
+                              height: 25,
+                            ),
                             Row(children: <Widget>[
                               Expanded(
                                 flex: 5,
                                 child: Text(
                                   " Joining As:  " +
-                                      ParticipantjoiningAsList[index],
+                                    JoinAs,
                                   style: const TextStyle(
                                     fontSize: 16,
                                     color: Color.fromARGB(159, 30, 27, 31),
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
@@ -361,22 +439,23 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                                 child: Text(
                                   " Note:  " +
                                     
-                                  ParticipantNoteList[index],
+                                  Note,
                                   style: const TextStyle(
                                     fontSize: 16,
                                     color: Color.fromARGB(159, 30, 27, 31),
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
                             ]),
+   const SizedBox(height: 10.0),
                   const Divider(color: kOutlineColor, height: 1.0),
-
+                                             const SizedBox(height: 10.0),
                             //TEXTFIELD 
                              Container(
                   alignment: Alignment.center,
                                               child: Form(
-                     key: _formKey,
+                                                key: _formKey,
                     child: TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       maxLength: 60,
@@ -388,10 +467,11 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                           label: RichText(
                             text: TextSpan(
                                 text: ' Accepting As',
-                                style: const TextStyle(
-                                    fontSize: 20,
+                                 style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(159, 30, 27, 31),
                                     fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(230, 64, 7, 87)),
+                                ),
                                 children: [
                                   TextSpan(
                                       text: ' *',
@@ -405,9 +485,7 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                           )),
                       controller: _AcceptingAsASController,
                       validator: (value) {
-                        if (value!.isEmpty) {
-                          return "required";
-                        } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
+                        if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
                             !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
                           return "Only English or Arabic letters";
                         }
@@ -417,66 +495,78 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                   ),
                 ),
 
-                //DROPDOWN LIST 
-                            // DropdownButtonFormField(
-                            //   key: _formKey,
-                            //   autovalidateMode:
-                            //       AutovalidateMode.onUserInteraction,
-                            //   hint: RichText(
-                            //     text: TextSpan(
-                            //         text: 'Accepting As',
-                            //         style: const TextStyle(
-                            //             fontSize: 18,
-                            //             color: Color.fromARGB(144, 64, 7, 87)),
-                            //         children: [
-                            //           TextSpan(
-                            //               text: ' *',
-                            //               style: TextStyle(
-                            //                 color: Colors.red,
-                            //               ))
-                            //         ]),
-                            //   ),
-                            //   items: options
-                            //       .map((e) => DropdownMenuItem(
-                            //             value: e,
-                            //             child: Text(e),
-                            //           ))
-                            //       .toList(),
-                            //   onChanged: (value) {
-                            //     setState(() {
-                            //       selectedOp = value as String?;
-                            //     });
-                            //   },
-                            //   icon: Icon(
-                            //     Icons.arrow_drop_down_circle,
-                            //     color: Color.fromARGB(221, 137, 171, 187),
-                            //   ),
-                            //   decoration: InputDecoration(
-                            //     border: OutlineInputBorder(
-                            //       borderSide: BorderSide(width: 2.0),
-                            //     ),
-                            //     focusedBorder: OutlineInputBorder(
-                            //       borderSide: BorderSide(
-                            //         color: Color.fromARGB(144, 64, 7, 87),
-                            //         width: 2.0,
-                            //       ),
-                            //     ),
-                            //   ),
-                            //   validator: (value) {
-                            //     if (value == null || value == " ") {
-                            //       return 'required';
-                            //     }
-                            //   },
-                            // ),
+              //   //DROPDOWN LIST 
+              //       Form(child:      
+              // DropdownButtonFormField(
+              //   hint: RichText(
+              //     text: TextSpan(
+              //         text: 'Accepting As',
+              //         style: const TextStyle(
+              //             fontSize: 18, color: Color.fromARGB(144, 64, 7, 87)),
+              //         children: [
+              //           TextSpan(
+              //               text: ' *',
+              //               style: TextStyle(
+              //                 color: Colors.red,
+              //               ))
+              //         ]),
+              //   ),
+              //   items: options
+              //       .map((e) => DropdownMenuItem(
+              //             value: e,
+              //             child: Text(e),
+              //           ))
+              //       .toList(),
+              //   onChanged: (value) {
+              //     setState(() {
+              //       selectedOp = value as String?;
+              //     });
+              //   },
+              //   icon: Icon(
+              //     Icons.arrow_drop_down_circle,
+              //     color: Color.fromARGB(221, 137, 171, 187),
+              //   ),
+              //   decoration: InputDecoration(
+              //     border: OutlineInputBorder(
+              //       borderSide: BorderSide(width: 2.0),
+              //     ),
+              //     focusedBorder: OutlineInputBorder(
+              //       borderSide: BorderSide(
+              //         color: Color.fromARGB(144, 64, 7, 87),
+              //         width: 2.0,
+              //       ),
+              //     ),
+              //   ),
+              //   validator: (value) {
+              //     if (value == null || value == "") {
+              //       return 'required';
+              //     }
+              //   },
+              // ),),
                             Row(
                               children: <Widget>[
                                 Container(
-                                  margin: EdgeInsets.only(left: 80),
+
+                                  margin: EdgeInsets.only(left: 50),
                                   child: ElevatedButton(
                                     onPressed: () {
 
-                                       if (_formKey.currentState!.validate()) {
-                              
+                                     if (_formKey.currentState!.validate()) {
+                                   // ACCEPT ONE Reject ALL
+                                                for (var i = 0;
+                                    i < ParticipantEmailList.length;
+                                    i++) {
+                                  if (i != index &&
+                                      ParticipantjoiningAsList[i] ==
+                                        _AcceptingAsASController) {
+                                    FirebaseFirestore.instance
+                                        .collection('joinRequests')
+                                        .doc(title +
+                                            "-" +
+                                            ParticipantEmailList[i])
+                                        .update({'Status': 'Rejected'});
+                                  }
+                                }
                                       FirebaseFirestore.instance
                                           .collection('joinRequests')
                                           .doc(ProjectTitleList[index] +
@@ -489,24 +579,10 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                                               '-' +
                                               ParticipantEmailList[index])
                                           .update({
-                                        'Participant_role': _AcceptingAsASController.text
+                                        'Participant_role': _AcceptingAsASController
                                       });
 
-                                      // ACCEPT ONE Reject ALL
-                                //                 for (var i = 0;
-                                //     i < ParticipantEmailList.length;
-                                //     i++) {
-                                //   if (i != index &&
-                                //       ParticipantjoiningAsList[i] ==
-                                //          _AcceptingAsASController) {
-                                //     FirebaseFirestore.instance
-                                //         .collection('joinRequests')
-                                //         .doc(ProjectTitleList[index] +
-                                //             "-" +
-                                //             ParticipantEmailList[i])
-                                //         .update({'Status': 'Rejected'});
-                                //   }
-                                // }
+                                 
                                       CoolAlert.show(
                                           context: context,
                                           title: "Success!",
@@ -516,7 +592,7 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                                           backgroundColor: Color.fromARGB(
                                               221, 212, 189, 227),
                                           text: "You have accepted " +
-                                              ParticipantNameList[index] +
+                                              Name +
                                               " to be part of your team.",
                                           confirmBtnText: 'Done',
                                           onConfirmBtnTap: () {
@@ -526,7 +602,8 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                                                     builder: (context) =>
                                                         RequestListViewPageProject()));
                                           });
-                                       }
+                                          _AcceptingAsASController.clear();
+                                      }
                                     },
                                     style: ElevatedButton.styleFrom(
                                       surfaceTintColor: Colors.white,
@@ -576,10 +653,13 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                                         backgroundColor:
                                             Color.fromARGB(221, 212, 189, 227),
                                         text: "You have rejected " +
-                                            ParticipantNameList[index] +
+                                           Name +
                                             ", hope you find a better match.",
                                         confirmBtnText: 'Done',
                                         onConfirmBtnTap: () {
+
+
+
                                           // if (ProjectTitleList.length == 1) {
                                           Navigator.push(
                                               context,
@@ -629,17 +709,12 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                                 ),
                               ],
                             )
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
+                ],
               ),
             ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
-}
+
