@@ -325,6 +325,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
               onTap: () {
                 setState(() {
                   //Filter by nearest
+                  setDistance();
                   getEventsLoc();
                 });
               },

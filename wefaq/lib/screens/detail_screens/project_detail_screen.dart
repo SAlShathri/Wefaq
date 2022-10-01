@@ -13,7 +13,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:wefaq/service/local_push_notification.dart';
-  final _formKey = GlobalKey<FormState>();
+
+final _formKey = GlobalKey<FormState>();
 
 class projectDetailScreen extends StatefulWidget {
   String projecName;
@@ -147,10 +148,8 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
-      body: 
-       Scrollbar(
-         child: CustomScrollView(
+        body: Scrollbar(
+      child: CustomScrollView(
         slivers: <Widget>[
           const DetailAppBar(),
           SliverToBoxAdapter(
@@ -243,20 +242,17 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                   _buildIngredientItem(context, categoryList),
                   const Divider(color: kOutlineColor, height: 1.0),
                   const SizedBox(height: 16.0),
-                  Row(
-                  children: [
+                  Row(children: [
                     Text(
-                    'Looking For',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                                  Text(
-                                      ' *',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 20,
-                                      ))
-                                ]
-                  ),
+                      'Looking For',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    Text(' *',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 20,
+                        ))
+                  ]),
                   Text('Select the Role you want to join as',
                       style: TextStyle(
                           color: Color.fromARGB(170, 123, 62, 185),
@@ -356,43 +352,44 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                   if (_isSelected1 == false &&
                       _isSelected2 == false &&
                       _isSelected3 == false)
-                    Text(
-                      ' please select one role at least to join the project',
+                    Text(' please select one role at least to join the project',
                         style: TextStyle(
                             fontSize: 14,
                             color: Color.fromARGB(170, 185, 62, 62),
                             fontWeight: FontWeight.w400)),
-                             Container(
-                  alignment: Alignment.center,
-                                              child: Form(
-                     key: _formKey,
-                    child: TextFormField(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      maxLength: 60,
-                      decoration: InputDecoration(
-                          hintText: "Your Note will be visible with your request",
-                          hintStyle: TextStyle(
-                              color: Color.fromARGB(255, 202, 198, 198)),
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          label: RichText(
-                            text: TextSpan(
+                  Container(
+                    alignment: Alignment.center,
+                    child: Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        maxLength: 60,
+                        decoration: InputDecoration(
+                            hintText:
+                                "Your Note will be visible with your request",
+                            hintStyle: TextStyle(
+                                color: Color.fromARGB(255, 202, 198, 198)),
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            label: RichText(
+                              text: TextSpan(
                                 text: 'Note',
                                 style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Color.fromARGB(230, 35, 33, 35)),
-                                ),
-                          )),
-                      controller: _ParticipantNoteController,
-                      validator: (value) {
-                        if (!RegExp(r'^[ , . a-z A-Z]+$').hasMatch(value!) &&
-                            !RegExp(r'^[ أ-ي]+$').hasMatch(value!)&& value.isNotEmpty) {
-                          return "Only English or Arabic letters";
-                        }
-                      },
+                              ),
+                            )),
+                        controller: _ParticipantNoteController,
+                        validator: (value) {
+                          if (!RegExp(r'^[ , . a-z A-Z]+$').hasMatch(value!) &&
+                              !RegExp(r'^[ أ-ي]+$').hasMatch(value!) &&
+                              value.isNotEmpty) {
+                            return "Only English or Arabic letters";
+                          }
+                        },
+                      ),
                     ),
                   ),
-                ),
                   const Divider(color: kOutlineColor, height: 1.0),
                   const SizedBox(height: 16.0),
                   Text(
@@ -468,55 +465,55 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                     child: ElevatedButton(
                       onPressed: () async {
                         //send a notification to the one who posted the project
-                        // sendNotification(
-                        //     "You received a join request on your project!",
-                        //     token);
+                        sendNotification(
+                            "You received a join request on your project!",
+                            token);
                         //sucess message
-                         if (_isSelected1 == true ||
+                        if (_isSelected1 == true ||
                             _isSelected2 == true ||
                             _isSelected3 == true) {
-                                                                     if (_formKey.currentState!.validate()) {
+                          if (_formKey.currentState!.validate()) {
+                            CoolAlert.show(
+                              context: context,
+                              title: "Success!",
+                              confirmBtnColor:
+                                  Color.fromARGB(174, 111, 78, 161),
+                              onConfirmBtnTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProjectsTabs()));
+                              },
+                              type: CoolAlertType.success,
+                              backgroundColor:
+                                  Color.fromARGB(221, 212, 189, 227),
+                              text: "Your join request is sent successfuly",
+                            );
 
-                        CoolAlert.show(
-                          context: context,
-                          title: "Success!",
-                          confirmBtnColor: Color.fromARGB(174, 111, 78, 161),
-                          onConfirmBtnTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProjectsTabs()));
-                          },
-                          type: CoolAlertType.success,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text: "Your join request is sent successfuly",
-                        );
-
-                        //saving the request in join request collection
-                        String? token_Participant =
-                            await FirebaseMessaging.instance.getToken();
-                        FirebaseFirestore.instance
-                            .collection('joinRequests')
-                            .doc(nameList + '-' + signedInUser.email!)
-                            .set({
-                          'project_title': nameList,
-                          'participant_email': signedInUser.email,
-                          'owner_email': ownerEmail,
-                          'participant_name':
-                              FirebaseAuth.instance.currentUser!.displayName,
-                          'participant_token': token_Participant,
-                          'Status': 'Pending',
-                          'joiningAs': selection(
-                              _isSelected1, _isSelected2, _isSelected3),
-                              
-                               'Participant_note': _ParticipantNoteController.text,
-                                                        'Participant_role': 'No Role'
-                        });
-                        _JoiningASController.clear();
-                        _ParticipantNoteController.clear();
-                                                                     }
-                            }
-                            else {
+                            //saving the request in join request collection
+                            String? token_Participant =
+                                await FirebaseMessaging.instance.getToken();
+                            FirebaseFirestore.instance
+                                .collection('joinRequests')
+                                .doc(nameList + '-' + signedInUser.email!)
+                                .set({
+                              'project_title': nameList,
+                              'participant_email': signedInUser.email,
+                              'owner_email': ownerEmail,
+                              'participant_name': FirebaseAuth
+                                  .instance.currentUser!.displayName,
+                              'participant_token': token_Participant,
+                              'Status': 'Pending',
+                              'joiningAs': selection(
+                                  _isSelected1, _isSelected2, _isSelected3),
+                              'Participant_note':
+                                  _ParticipantNoteController.text,
+                              'Participant_role': 'No Role'
+                            });
+                            _JoiningASController.clear();
+                            _ParticipantNoteController.clear();
+                          }
+                        } else {
                           CoolAlert.show(
                             context: context,
                             title: "No Role Selected",
