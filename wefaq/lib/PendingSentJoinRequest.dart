@@ -36,7 +36,7 @@ class _sentRequestListState extends State<PsentJoinRequestListViewPage> {
   //get all projects
   Future getRequests() async {
     var fillterd = _firestore
-        .collection('joinRequests')
+        .collection('AllJoinRequests')
         .where('participant_email', isEqualTo: Email)
         .where('Status', isEqualTo: 'Pending')
         .snapshots();
@@ -204,7 +204,7 @@ showDialogFunc(context, ParticipantEmail, ProjectTitle) {
                             child: ElevatedButton(
                               onPressed: () {
                                 FirebaseFirestore.instance
-                                    .collection('joinRequests')
+                                    .collection('AllJoinRequests')
                                     .doc(ProjectTitle + '-' + ParticipantEmail)
                                     .update({
                                   'Status': 'Request Deleted',

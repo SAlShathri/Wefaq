@@ -91,12 +91,7 @@ class _RequestListProject extends State<RequestListViewPageProject> {
       tokens = [];
     });
     if (Email != null) {
-      var fillterd = _firestore
-          .collection('joinRequests')
-          .where('owner_email', isEqualTo: Email)
-          .where('Status', isEqualTo: 'Pending')
-          .orderBy('project_title')
-          .snapshots();
+      var fillterd = _firestore.collection('AllJoinRequests').snapshots();
       await for (var snapshot in fillterd)
         for (var Request in snapshot.docs) {
           setState(() {
@@ -139,7 +134,7 @@ class _RequestListProject extends State<RequestListViewPageProject> {
       tokens = [];
     });
     var fillterd = _firestore
-        .collection('joinRequests')
+        .collection('AllJoinRequests')
         .where('owner_email', isEqualTo: Email)
         .where('Status', isEqualTo: 'Pending')
         .where('project_title', isEqualTo: title)
@@ -587,19 +582,19 @@ showDialogFunc(
                                   ParticipantjoiningAsList[i] ==
                                       _AcceptingAsASController) {
                                 FirebaseFirestore.instance
-                                    .collection('joinRequests')
+                                    .collection('AllJoinRequests')
                                     .doc(title + "-" + ParticipantEmailList[i])
                                     .update({'Status': 'Rejected'});
                               }
                             }
                             FirebaseFirestore.instance
-                                .collection('joinRequests')
+                                .collection('AllJoinRequests')
                                 .doc(ProjectTitleList[index] +
                                     '-' +
                                     ParticipantEmailList[index])
                                 .update({'Status': 'Accepted'});
                             FirebaseFirestore.instance
-                                .collection('joinRequests')
+                                .collection('AllJoinRequests')
                                 .doc(ProjectTitleList[index] +
                                     '-' +
                                     ParticipantEmailList[index])
@@ -680,7 +675,7 @@ showDialogFunc(
                                 " project",
                             token);
                         FirebaseFirestore.instance
-                            .collection('joinRequests')
+                            .collection('AllJoinRequests')
                             .doc(ProjectTitleList[index] +
                                 '-' +
                                 ParticipantEmailList[index])

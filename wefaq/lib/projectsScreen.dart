@@ -864,7 +864,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                         String? token_Participant =
                             await FirebaseMessaging.instance.getToken();
                         FirebaseFirestore.instance
-                            .collection('joinRequests')
+                            .collection('AllJoinRequests')
                             .doc(title + '-' + signedInUser.email)
                             .set({
                           'project_title': title,

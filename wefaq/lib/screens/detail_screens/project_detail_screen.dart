@@ -116,7 +116,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
   Future getRequests() async {
     if (signedInUser.email != null) {
       var fillterd = _firestore
-          .collection('joinRequests')
+          .collection('AllJoinRequests')
           .where('owner_email', isEqualTo: signedInUser.email)
           .where('Status', isEqualTo: 'Accepted')
           .where('project_title', isEqualTo: projecName)

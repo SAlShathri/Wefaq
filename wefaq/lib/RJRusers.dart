@@ -80,7 +80,7 @@ class _RequestListState extends State<RequestListViewPage> {
   Future getRequests() async {
     if (Email != null) {
       var fillterd = _firestore
-          .collection('joinRequests')
+          .collection('AllJoinRequests')
           .where('owner_email', isEqualTo: Email)
           .where('Status', isEqualTo: 'Pending')
           .where('project_title', isEqualTo: projectName)
@@ -392,7 +392,8 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => RequestListViewPageProject()));
+                                    builder: (context) =>
+                                        RequestListViewPageProject()));
                           }))
                 ]),
                 // Row(children: <Widget>[
@@ -556,13 +557,13 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                                   " project!",
                               tokens);
                           FirebaseFirestore.instance
-                              .collection('joinRequests')
+                              .collection('AllJoinRequests')
                               .doc(ProjectTitle + '-' + ParticipantEmail)
                               .update({
                             'Status': 'Accepted',
                           });
                           FirebaseFirestore.instance
-                              .collection('joinRequests')
+                              .collection('AllJoinRequests')
                               .doc(ProjectTitle + '-' + ParticipantEmail)
                               .update({
                             'Participant_role': _AcceptingAsASController.text
@@ -621,7 +622,7 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                                 "project!",
                             tokens);
                         FirebaseFirestore.instance
-                            .collection('joinRequests')
+                            .collection('AllJoinRequests')
                             .doc(ProjectTitle + '-' + ParticipantEmail)
                             .update({
                           'Status': 'Declined',
