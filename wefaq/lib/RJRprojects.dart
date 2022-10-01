@@ -589,7 +589,7 @@ showDialogFunc(
                                     '-' +
                                     ParticipantEmailList[index])
                                 .update({
-                              'Participant_role': _AcceptingAsASController
+                              'Participant_role': _AcceptingAsASController.text
                             });
 
                             CoolAlert.show(

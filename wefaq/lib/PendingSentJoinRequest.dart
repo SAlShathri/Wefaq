@@ -90,17 +90,13 @@ class _sentRequestListState extends State<PsentJoinRequestListViewPage> {
                             color: Color.fromARGB(159, 215, 14, 14),
                           ),
                           padding: const EdgeInsets.all(0),
-                          child: IconButton(
-                            iconSize: 20,
-                            onPressed: () {
-                              showDialogFunc(context, emailP[index],
-                                  ProjectTitleList[index]);
-                            },
-                            icon: const Icon(
-                              Icons.close,
-                              color: Colors.white,
-                            ),
-                            color: Color.fromARGB(159, 215, 14, 14),
+                          child: Text(
+                           'Delete',
+                          style: const TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontWeight: FontWeight.bold,
+                              ),
                           ),
                         ),
                       ]),
