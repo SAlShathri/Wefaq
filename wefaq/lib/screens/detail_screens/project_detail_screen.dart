@@ -240,7 +240,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 16.0),
-                  _buildIngredientItem(context, categoryList[0]),
+                  _buildIngredientItem(context, categoryList),
                   const Divider(color: kOutlineColor, height: 1.0),
                   const SizedBox(height: 16.0),
                   Row(
@@ -370,7 +370,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       maxLength: 60,
                       decoration: InputDecoration(
-                          hintText: "Your Note will be visable with your request",
+                          hintText: "Your Note will be visible with your request",
                           hintStyle: TextStyle(
                               color: Color.fromARGB(255, 202, 198, 198)),
                           floatingLabelBehavior: FloatingLabelBehavior.always,
