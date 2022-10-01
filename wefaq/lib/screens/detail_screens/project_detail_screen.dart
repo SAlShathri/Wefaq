@@ -372,7 +372,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                   const Divider(color: kOutlineColor, height: 1.0),
                   const SizedBox(height: 16.0),
                   Text(
-                    'Team Members',
+                    "Team Members ",
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 10.0),
@@ -387,8 +387,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: const DecorationImage(
-                                image:
-                                    AssetImage('assets/images/PlaceHolder.png'),
+                                image: AssetImage('assets/images/team.png'),
                                 fit: BoxFit.cover,
                               ),
                               boxShadow: [
@@ -401,35 +400,11 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                             ),
                           ),
                           Text(
-                            ParticipantNameList.toString(),
+                            ParticipantNameList.join(","),
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
                           SizedBox(
                             width: 130,
-                          ),
-                          Container(
-                            height: 35.0,
-                            width: 35.0,
-                            margin: const EdgeInsets.only(right: 8.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: const DecorationImage(
-                                image:
-                                    AssetImage('assets/images/PlaceHolder.png'),
-                                fit: BoxFit.cover,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: const Offset(0, 4),
-                                  blurRadius: 4.0,
-                                  color: Colors.black.withOpacity(0.25),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Text(
-                            'Nada',
-                            style: Theme.of(context).textTheme.titleSmall,
                           ),
                         ],
                       ),
