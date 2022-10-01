@@ -93,7 +93,7 @@ class _RequestListProject extends State<RequestListViewPageProject> {
     if (Email != null) {
       var fillterd = _firestore
           .collection('joinRequests')
-          // .where('owner_email', isNotEqualTo: Email)
+          .where('owner_email', isNotEqualTo: Email)
           .where('Status', isEqualTo: 'Pending')
           .orderBy('project_title')
           .snapshots();
