@@ -392,7 +392,7 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomeScreen()));
+                                    builder: (context) => RequestListViewPageProject()));
                           }))
                 ]),
                 // Row(children: <Widget>[

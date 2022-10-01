@@ -114,7 +114,7 @@ class _myProjectState extends State<myProjects> {
             )),
       ),
       bottomNavigationBar: CustomNavigationBar(
-        currentHomeScreen: 1,
+        currentHomeScreen: 0,
         updatePage: () {},
       ),
 
@@ -251,6 +251,22 @@ showDialogFunc(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                Row(children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(left: 260, top: 0),
+                      child: IconButton(
+                          icon: const Icon(
+                            Icons.close,
+                            color: Color.fromARGB(255, 112, 82, 149),
+                            size: 26,
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => myProjects()));
+                          }))
+                ]),
                 Text(
                   title,
                   style: const TextStyle(

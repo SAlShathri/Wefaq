@@ -414,14 +414,28 @@ showDialogFunc(
               color: const Color.fromARGB(255, 255, 255, 255),
             ),
             padding: const EdgeInsets.all(15),
-            height: 300,
+            height: 320,
             width: MediaQuery.of(context).size.width * 0.9,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                SizedBox(
-                  height: 25,
-                ),
+               
+                Row(children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(left: 260, top: 0),
+                      child: IconButton(
+                          icon: const Icon(
+                            Icons.close,
+                            color: Color.fromARGB(255, 112, 82, 149),
+                            size: 26,
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RequestListViewPageProject()));
+                          }))
+                ]),
                 Row(children: <Widget>[
                   Expanded(
                     flex: 5,
