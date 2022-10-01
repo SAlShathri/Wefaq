@@ -94,7 +94,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
       TimeList = [];
     });
     await for (var snapshot in _firestore
-        .collection('events')
+        .collection('AllEvents')
         .orderBy('created', descending: true)
         .snapshots())
       for (var events in snapshot.docs) {
