@@ -106,7 +106,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
     });
 
     await for (var snapshot in _firestore
-        .collection('events2')
+        .collection('AllEvents')
         .where('category', isEqualTo: category)
         .snapshots())
       for (var events in snapshot.docs) {
@@ -141,7 +141,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
       creatDate = [];
     });
     await for (var snapshot in _firestore
-        .collection('events2')
+        .collection('AllEvents')
         .orderBy('created', descending: true)
         .snapshots())
       for (var events in snapshot.docs) {
@@ -179,7 +179,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
     });
 
     await for (var snapshot in _firestore
-        .collection('events2')
+        .collection('AllEvents')
         .orderBy('created', descending: false)
         .snapshots())
       for (var events in snapshot.docs) {
@@ -255,7 +255,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
     for (var i = 0; i < latList.length; i++) {
       setState(() {
         FirebaseFirestore.instance
-            .collection('events2')
+            .collection('AllEvents')
             .doc(nameList[i].toString())
             .set({'dist': calculateDistance(latList[i], lngList[i], lat, lng)},
                 SetOptions(merge: true));
@@ -425,8 +425,10 @@ class _ListViewPageState extends State<EventsListViewPage> {
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: 240,
+                                        Expanded(
+                                          child: SizedBox(
+                                            width: 240,
+                                          ),
                                         ),
                                         Text(
                                           creatDate[index],

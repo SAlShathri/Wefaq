@@ -382,8 +382,10 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                                           fontWeight: FontWeight.w700,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 240,
+                                      Expanded(
+                                        child: SizedBox(
+                                          width: 240,
+                                        ),
                                       ),
                                       Text(
                                         creatDate[index],
