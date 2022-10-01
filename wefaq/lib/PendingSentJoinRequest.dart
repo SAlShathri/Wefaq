@@ -81,23 +81,29 @@ class _sentRequestListState extends State<PsentJoinRequestListViewPage> {
                         Expanded(
                           child: SizedBox(),
                         ),
-                        Container(
-                          alignment: Alignment.center,
-                          height: 40.0,
-                          width: 100,
-                          decoration: new BoxDecoration(
-                            borderRadius: BorderRadius.circular(9.0),
-                            color: Color.fromARGB(159, 215, 14, 14),
-                          ),
-                          padding: const EdgeInsets.all(0),
-                          child: Text(
-                           'Delete',
-                          style: const TextStyle(
+                        GestureDetector(
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 40.0,
+                            width: 100,
+                            decoration: new BoxDecoration(
+                              borderRadius: BorderRadius.circular(9.0),
+                              color: Color.fromARGB(159, 215, 14, 14),
+                            ),
+                            padding: const EdgeInsets.all(0),
+                            child: Text(
+                              'Delete',
+                              style: const TextStyle(
                                 fontSize: 14,
                                 color: Color.fromARGB(255, 255, 255, 255),
                                 fontWeight: FontWeight.bold,
                               ),
+                            ),
                           ),
+                          onTap: () {
+                            showDialogFunc(context, emailP[index],
+                                ProjectTitleList[index]);
+                          },
                         ),
                       ]),
                     ],

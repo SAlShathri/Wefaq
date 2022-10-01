@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -8,6 +10,8 @@ import 'package:wefaq/config/colors.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'bottom_bar_custom.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:http/http.dart' as http;
+import 'package:wefaq/service/local_push_notification.dart';
 
 class RequestListViewPageProject extends StatefulWidget {
   @override
@@ -41,6 +45,11 @@ class _RequestListProject extends State<RequestListViewPageProject> {
     getRequests();
     getCategoryList();
     super.initState();
+
+    FirebaseMessaging.instance.getInitialMessage();
+    FirebaseMessaging.onMessage.listen((event) {
+      LocalNotificationService.display(event);
+    });
   }
 
   void getCategoryList() async {
@@ -84,7 +93,7 @@ class _RequestListProject extends State<RequestListViewPageProject> {
     if (Email != null) {
       var fillterd = _firestore
           .collection('joinRequests')
-          .where('owner_email', isEqualTo: Email)
+          // .where('owner_email', isNotEqualTo: Email)
           .where('Status', isEqualTo: 'Pending')
           .orderBy('project_title')
           .snapshots();
@@ -419,7 +428,6 @@ showDialogFunc(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-               
                 Row(children: <Widget>[
                   Container(
                       margin: EdgeInsets.only(left: 260, top: 0),
@@ -433,7 +441,8 @@ showDialogFunc(
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => RequestListViewPageProject()));
+                                    builder: (context) =>
+                                        RequestListViewPageProject()));
                           }))
                 ]),
                 Row(children: <Widget>[
@@ -472,7 +481,7 @@ showDialogFunc(
                 Container(
                   alignment: Alignment.center,
                   child: Form(
-                    key: _formKey,
+                    // key: _formKey,
                     child: TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       maxLength: 60,
@@ -500,8 +509,8 @@ showDialogFunc(
                           )),
                       controller: _AcceptingAsASController,
                       validator: (value) {
-                        if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
-                            !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
+                        if (!RegExp(r'^[a-z A-Z]+$').hasMatch(value!) &&
+                            !RegExp(r'^[ أ-ي]+$').hasMatch(value!)) {
                           return "Only English or Arabic letters";
                         }
                       },
@@ -563,7 +572,13 @@ showDialogFunc(
                       margin: EdgeInsets.only(left: 50),
                       child: ElevatedButton(
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
+                          // if (_formKey.currentState!.validate()) {
+                          if (_AcceptingAsASController.text != "") {
+                            sendNotification(
+                                "Your request has been accepted for " +
+                                    title +
+                                    " project",
+                                token);
                             // ACCEPT ONE Reject ALL
                             for (var i = 0;
                                 i < ParticipantEmailList.length;
@@ -611,6 +626,22 @@ showDialogFunc(
                                               RequestListViewPageProject()));
                                 });
                             _AcceptingAsASController.clear();
+                            // }
+                          } else {
+                            CoolAlert.show(
+                              context: context,
+                              title: "Accepting As",
+                              confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
+                              type: CoolAlertType.error,
+                              backgroundColor:
+                                  Color.fromARGB(221, 212, 189, 227),
+                              text:
+                                  "please Write down the role you want to accept the participant as",
+                              confirmBtnText: 'Try again',
+                              onConfirmBtnTap: () {
+                                Navigator.of(context).pop();
+                              },
+                            );
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -643,6 +674,11 @@ showDialogFunc(
                     Text("     "),
                     ElevatedButton(
                       onPressed: () {
+                        sendNotification(
+                            "Sorry, Your request has been Rejected for " +
+                                title +
+                                " project",
+                            token);
                         FirebaseFirestore.instance
                             .collection('joinRequests')
                             .doc(ProjectTitleList[index] +
@@ -713,4 +749,41 @@ showDialogFunc(
       );
     },
   );
+}
+
+void sendNotification(String title, String token) async {
+  final data = {
+    'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+    'id': '1',
+    'status': 'done',
+    'message': title,
+  };
+
+  try {
+    http.Response response =
+        await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+            headers: <String, String>{
+              'Content-Type': 'application/json',
+              'Authorization':
+                  'key=AAAAshcbmas:APA91bGwyZZKhGUguFmek5aalqcySgs3oKgJmra4oloSpk715ijWkf4itCOuGZbeWbPBmHWKBpMkddsr1KyEq6uOzZqIubl2eDs7lB815xPnQmXIEErtyG9wpR9Q4rXdzvk4w6BvGQdJ'
+            },
+            body: jsonEncode(<String, dynamic>{
+              'notification': <String, dynamic>{
+                'title': title,
+                'body': 'You received a join request on your project!'
+              },
+              'priority': 'high',
+              'data': data,
+            }));
+
+    if (response.statusCode == 200) {
+      print("Yeh notificatin is sended");
+    } else {
+      print("Error");
+    }
+  } catch (e) {}
+}
+
+Future<void> _signOut() async {
+  await FirebaseAuth.instance.signOut();
 }

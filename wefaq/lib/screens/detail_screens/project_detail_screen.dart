@@ -360,7 +360,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                   Container(
                     alignment: Alignment.center,
                     child: Form(
-                      key: _formKey,
+                      // key: _formKey,
                       child: TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         maxLength: 60,
@@ -472,47 +472,44 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                         if (_isSelected1 == true ||
                             _isSelected2 == true ||
                             _isSelected3 == true) {
-                          if (_formKey.currentState!.validate()) {
-                            CoolAlert.show(
-                              context: context,
-                              title: "Success!",
-                              confirmBtnColor:
-                                  Color.fromARGB(174, 111, 78, 161),
-                              onConfirmBtnTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ProjectsTabs()));
-                              },
-                              type: CoolAlertType.success,
-                              backgroundColor:
-                                  Color.fromARGB(221, 212, 189, 227),
-                              text: "Your join request is sent successfuly",
-                            );
+                          // if (_formKey.currentState!.validate()) {
+                          CoolAlert.show(
+                            context: context,
+                            title: "Success!",
+                            confirmBtnColor: Color.fromARGB(174, 111, 78, 161),
+                            onConfirmBtnTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ProjectsTabs()));
+                            },
+                            type: CoolAlertType.success,
+                            backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                            text: "Your join request is sent successfuly",
+                          );
 
-                            //saving the request in join request collection
-                            String? token_Participant =
-                                await FirebaseMessaging.instance.getToken();
-                            FirebaseFirestore.instance
-                                .collection('joinRequests')
-                                .doc(nameList + '-' + signedInUser.email!)
-                                .set({
-                              'project_title': nameList,
-                              'participant_email': signedInUser.email,
-                              'owner_email': ownerEmail,
-                              'participant_name': FirebaseAuth
-                                  .instance.currentUser!.displayName,
-                              'participant_token': token_Participant,
-                              'Status': 'Pending',
-                              'joiningAs': selection(
-                                  _isSelected1, _isSelected2, _isSelected3),
-                              'Participant_note':
-                                  _ParticipantNoteController.text,
-                              'Participant_role': 'No Role'
-                            });
-                            _JoiningASController.clear();
-                            _ParticipantNoteController.clear();
-                          }
+                          //saving the request in join request collection
+                          String? token_Participant =
+                              await FirebaseMessaging.instance.getToken();
+                          FirebaseFirestore.instance
+                              .collection('joinRequests')
+                              .doc(nameList + '-' + signedInUser.email!)
+                              .set({
+                            'project_title': nameList,
+                            'participant_email': signedInUser.email,
+                            'owner_email': ownerEmail,
+                            'participant_name':
+                                FirebaseAuth.instance.currentUser!.displayName,
+                            'participant_token': token_Participant,
+                            'Status': 'Pending',
+                            'joiningAs': selection(
+                                _isSelected1, _isSelected2, _isSelected3),
+                            'Participant_note': _ParticipantNoteController.text,
+                            'Participant_role': 'No Role'
+                          });
+                          _JoiningASController.clear();
+                          _ParticipantNoteController.clear();
+                          // }
                         } else {
                           CoolAlert.show(
                             context: context,
