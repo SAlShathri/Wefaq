@@ -12,6 +12,7 @@ import 'package:wefaq/profile.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/link.dart';
 import 'package:wefaq/screens/detail_screens/event_detail_screen.dart';
+import 'package:wefaq/screens/detail_screens/project_detail_screen.dart';
 
 import 'UserLogin.dart';
 
@@ -398,7 +399,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
                     // Card Which Holds Layout Of ListView Item
 
                     return SizedBox(
-                      height: 130,
+                      height: 100,
                       child: GestureDetector(
                           child: Card(
                             color: const Color.fromARGB(255, 255, 255, 255),
@@ -442,39 +443,41 @@ class _ListViewPageState extends State<EventsListViewPage> {
                                       ]),
                                     ],
                                   ),
-                                  Row(children: <Widget>[
-                                    const Text(
-                                        "                                                                           "),
-                                    IconButton(
-                                        icon: Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Color.fromARGB(
-                                              255, 170, 169, 179),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      eventDetailScreen(
-                                                        eventName:
-                                                            nameList[index],
-                                                      )));
-                                        }),
-                                  ]),
-                                  Row(
-                                    children: <Widget>[
-                                      const Text("     "),
-                                      const Icon(Icons.location_pin,
-                                          color:
-                                              Color.fromARGB(173, 64, 7, 87)),
-                                      Text(locList[index],
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            color: Color.fromARGB(
-                                                255, 34, 94, 120),
-                                          ))
-                                    ],
+                                  Expanded(
+                                    child: Row(
+                                      children: <Widget>[
+                                        const Text("     "),
+                                        const Icon(Icons.location_pin,
+                                            color:
+                                                Color.fromARGB(173, 64, 7, 87)),
+                                        Text(locList[index],
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Color.fromARGB(
+                                                  255, 34, 94, 120),
+                                            )),
+                                        Expanded(
+                                            child: SizedBox(
+                                          width: 100,
+                                        )),
+                                        IconButton(
+                                            icon: Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: Color.fromARGB(
+                                                  255, 170, 169, 179),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          eventDetailScreen(
+                                                            eventName:
+                                                                nameList[index],
+                                                          )));
+                                            }),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),

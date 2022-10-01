@@ -119,6 +119,8 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 
     await for (var snapshot in _firestore
         .collection('projects2')
+        .orderBy('email')
+        .where("email", isNotEqualTo: Email)
         .orderBy('created', descending: true)
         .snapshots())
       for (var project in snapshot.docs) {
@@ -155,6 +157,8 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 
     await for (var snapshot in _firestore
         .collection('projects2')
+        .orderBy('email')
+        .where("email", isNotEqualTo: Email)
         .orderBy('dis', descending: false)
         .snapshots())
       for (var project in snapshot.docs) {
@@ -207,6 +211,8 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 
     await for (var snapshot in _firestore
         .collection('projects2')
+        .orderBy('email')
+        .where("email", isNotEqualTo: Email)
         .where('category', isEqualTo: category)
         .snapshots())
       for (var project in snapshot.docs) {
@@ -355,7 +361,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                   // Card Which Holds Layout Of ListView Item
 
                   return SizedBox(
-                    height: 130,
+                    height: 100,
                     child: GestureDetector(
                         child: Card(
                           color: const Color.fromARGB(255, 255, 255, 255),
@@ -399,38 +405,41 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                                     ]),
                                   ],
                                 ),
-                                Row(children: <Widget>[
-                                  const Text(
-                                      "                                                                           "),
-                                  IconButton(
-                                      icon: Icon(
-                                        Icons.arrow_forward_ios,
-                                        color:
-                                            Color.fromARGB(255, 170, 169, 179),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    projectDetailScreen(
-                                                      projecName:
-                                                          nameList[index],
-                                                    )));
-                                      }),
-                                ]),
-                                Row(
-                                  children: <Widget>[
-                                    const Text("     "),
-                                    const Icon(Icons.location_pin,
-                                        color: Color.fromARGB(173, 64, 7, 87)),
-                                    Text(locList[index],
-                                        style: const TextStyle(
-                                          fontSize: 16,
+                                Expanded(
+                                  child: Row(
+                                    children: <Widget>[
+                                      const Text("     "),
+                                      const Icon(Icons.location_pin,
                                           color:
-                                              Color.fromARGB(255, 34, 94, 120),
-                                        ))
-                                  ],
+                                              Color.fromARGB(173, 64, 7, 87)),
+                                      Text(locList[index],
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            color: Color.fromARGB(
+                                                255, 34, 94, 120),
+                                          )),
+                                      Expanded(
+                                          child: SizedBox(
+                                        width: 100,
+                                      )),
+                                      IconButton(
+                                          icon: Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Color.fromARGB(
+                                                255, 170, 169, 179),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        projectDetailScreen(
+                                                          projecName:
+                                                              nameList[index],
+                                                        )));
+                                          }),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),

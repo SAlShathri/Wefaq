@@ -61,26 +61,14 @@ class _sentRequestListState extends State<PsentJoinRequestListViewPage> {
           itemCount: ProjectTitleList.length,
           itemBuilder: (context, index) {
             return SizedBox(
-              height: 120,
+              height: 80,
               child: Card(
                 color: const Color.fromARGB(255, 255, 255, 255),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(left: 0),
-                        child: IconButton(
-                          iconSize: 20,
-                          onPressed: () {
-                            showDialogFunc(context, emailP[index],
-                                ProjectTitleList[index]);
-                          },
-                          icon: const Icon(Icons.close),
-                          color: Color.fromARGB(159, 215, 14, 14),
-                        ),
-                      ),
                       Row(children: <Widget>[
                         Text(
                           "  " + ProjectTitleList[index] + " project ",
@@ -99,15 +87,20 @@ class _sentRequestListState extends State<PsentJoinRequestListViewPage> {
                           width: 100,
                           decoration: new BoxDecoration(
                             borderRadius: BorderRadius.circular(9.0),
-                            color: Color.fromARGB(145, 221, 203, 3),
+                            color: Color.fromARGB(159, 215, 14, 14),
                           ),
                           padding: const EdgeInsets.all(0),
-                          child: Text(
-                            status[index],
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 255, 255, 255)),
+                          child: IconButton(
+                            iconSize: 20,
+                            onPressed: () {
+                              showDialogFunc(context, emailP[index],
+                                  ProjectTitleList[index]);
+                            },
+                            icon: const Icon(
+                              Icons.close,
+                              color: Colors.white,
+                            ),
+                            color: Color.fromARGB(159, 215, 14, 14),
                           ),
                         ),
                       ]),

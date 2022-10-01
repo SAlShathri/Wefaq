@@ -13,6 +13,7 @@ class RequestListViewPageProject extends StatefulWidget {
   @override
   _RequestListProject createState() => _RequestListProject();
 }
+
 final TextEditingController _AcceptingAsASController = TextEditingController();
 final _formKey = GlobalKey<FormState>();
 
@@ -38,7 +39,7 @@ class _RequestListProject extends State<RequestListViewPageProject> {
   void initState() {
     getCurrentUser();
     getRequests();
-   getCategoryList();
+    getCategoryList();
     super.initState();
   }
 
@@ -293,19 +294,48 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                 itemCount: ProjectTitleList.length,
                 itemBuilder: (context, index) {
                   return SizedBox(
-                    height: 160,
-                    child:GestureDetector(
-                    child: Card(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                           
-                             Row(children: <Widget>[
-                                  const Text(
-                                      "                                                                           "),
+                    height: 120,
+                    child: GestureDetector(
+                        child: Card(
+                          color: const Color.fromARGB(255, 255, 255, 255),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Row(children: <Widget>[
+                                  Text(
+                                    " " + ProjectTitleList[index] + " Project",
+                                    style: const TextStyle(
+                                      fontSize: 24,
+                                      color: Color.fromARGB(159, 35, 86, 84),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ]),
+                                Row(children: <Widget>[
+                                  IconButton(
+                                    icon: const Icon(
+                                      Icons.account_circle,
+                                      color: Color.fromARGB(255, 112, 82, 149),
+                                      size: 32,
+                                    ),
+                                    onPressed: () {
+                                      // go to participant's profile
+                                    },
+                                  ),
+                                  Text(
+                                    ParticipantNameList[index],
+                                    style: const TextStyle(
+                                      fontSize: 22,
+                                      color: Color.fromARGB(159, 32, 3, 43),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Expanded(
+                                      child: SizedBox(
+                                    width: 210,
+                                  )),
                                   IconButton(
                                       icon: Icon(
                                         Icons.arrow_forward_ios,
@@ -313,75 +343,40 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                                             Color.fromARGB(255, 170, 169, 179),
                                       ),
                                       onPressed: () {
-                                       showDialogFunc(
-                        context, index,
-  ProjectTitleList[index],
-  ParticipantNameList[index],
-  ParticipantEmailList[index],
-  ParticipantjoiningAsList[index],
-  ParticipantNoteList[index], 
-  tokens[index],
-  signedInUser,ParticipantEmailList , ParticipantjoiningAsList, ProjectTitleList);
+                                        showDialogFunc(
+                                            context,
+                                            index,
+                                            ProjectTitleList[index],
+                                            ParticipantNameList[index],
+                                            ParticipantEmailList[index],
+                                            ParticipantjoiningAsList[index],
+                                            ParticipantNoteList[index],
+                                            tokens[index],
+                                            signedInUser,
+                                            ParticipantEmailList,
+                                            ParticipantjoiningAsList,
+                                            ProjectTitleList);
                                       }),
                                 ]),
-                            Row(children: <Widget>[
-                              Expanded(
-                                flex: 5,
-                                child: Text(
-                                  " " + ProjectTitleList[index]+  " Project",
-                                  style: const TextStyle(
-                                    fontSize: 24,
-                                    color: Color.fromARGB(159, 35, 86, 84),
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ]),
-                            Row(children: <Widget>[
-                              Expanded(
-                                flex: 1,
-                                child: IconButton(
-                                  icon: const Icon(
-                                    Icons.account_circle,
-                                    color: Color.fromARGB(255, 112, 82, 149),
-                                    size: 32,
-                                  ),
-                                  onPressed: () {
-                                    // go to participant's profile
-                                  },
-                                ),
-                              ),
-                              Expanded(
-                                flex: 5,
-                                child: Text(
-                                   ParticipantNameList[index],
-                                  style: const TextStyle(
-                                    fontSize: 22,
-                                    color: Color.fromARGB(159, 32, 3, 43),
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ]),
-                                          
-
-                          ],
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                         onTap: (){
-                      showDialogFunc(
-                        context, index,
-  ProjectTitleList[index],
-  ParticipantNameList[index],
-  ParticipantEmailList[index],
-  ParticipantjoiningAsList[index],
-  ParticipantNoteList[index], 
-  tokens[index],
-  signedInUser,ParticipantEmailList , ParticipantjoiningAsList, ProjectTitleList);
-                    })
-               
-                    ,
+                        onTap: () {
+                          showDialogFunc(
+                              context,
+                              index,
+                              ProjectTitleList[index],
+                              ParticipantNameList[index],
+                              ParticipantEmailList[index],
+                              ParticipantjoiningAsList[index],
+                              ParticipantNoteList[index],
+                              tokens[index],
+                              signedInUser,
+                              ParticipantEmailList,
+                              ParticipantjoiningAsList,
+                              ProjectTitleList);
+                        }),
                   );
                 },
               ),
@@ -394,68 +389,76 @@ class _RequestListProject extends State<RequestListViewPageProject> {
 }
 
 // This is a block of Model Dialog
-  showDialogFunc(context, index, title, Name, email,  JoinAs, Note,  token,
-      signedInUser, ParticipantEmailList,ParticipantjoiningAsList, ProjectTitleList) {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return Center(
-          child: Material(
-            type: MaterialType.transparency,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: const Color.fromARGB(255, 255, 255, 255),
-              ),
-              padding: const EdgeInsets.all(15),
-              height: 300,
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                   SizedBox(
-                              height: 25,
-                            ),
-                            Row(children: <Widget>[
-                              Expanded(
-                                flex: 5,
-                                child: Text(
-                                  " Joining As:  " +
-                                    JoinAs,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    color: Color.fromARGB(159, 30, 27, 31),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ]),
-                                             const SizedBox(height: 10.0),
-                  const Divider(color: kOutlineColor, height: 1.0),
-                                             const SizedBox(height: 10.0),
-                             Row(children: <Widget>[
-                              Expanded(
-                                flex: 5,
-                                child: Text(
-                                  " Note:  " +
-                                    
-                                  Note,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    color: Color.fromARGB(159, 30, 27, 31),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ]),
-   const SizedBox(height: 10.0),
-                  const Divider(color: kOutlineColor, height: 1.0),
-                                             const SizedBox(height: 10.0),
-                            //TEXTFIELD 
-                             Container(
+showDialogFunc(
+    context,
+    index,
+    title,
+    Name,
+    email,
+    JoinAs,
+    Note,
+    token,
+    signedInUser,
+    ParticipantEmailList,
+    ParticipantjoiningAsList,
+    ProjectTitleList) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return Center(
+        child: Material(
+          type: MaterialType.transparency,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: const Color.fromARGB(255, 255, 255, 255),
+            ),
+            padding: const EdgeInsets.all(15),
+            height: 300,
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  height: 25,
+                ),
+                Row(children: <Widget>[
+                  Expanded(
+                    flex: 5,
+                    child: Text(
+                      " Joining As:  " + JoinAs,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Color.fromARGB(159, 30, 27, 31),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ]),
+                const SizedBox(height: 10.0),
+                const Divider(color: kOutlineColor, height: 1.0),
+                const SizedBox(height: 10.0),
+                Row(children: <Widget>[
+                  Expanded(
+                    flex: 5,
+                    child: Text(
+                      " Note:  " + Note,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Color.fromARGB(159, 30, 27, 31),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ]),
+                const SizedBox(height: 10.0),
+                const Divider(color: kOutlineColor, height: 1.0),
+                const SizedBox(height: 10.0),
+                //TEXTFIELD
+                Container(
                   alignment: Alignment.center,
-                                              child: Form(
-                                                key: _formKey,
+                  child: Form(
+                    key: _formKey,
                     child: TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       maxLength: 60,
@@ -467,10 +470,10 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                           label: RichText(
                             text: TextSpan(
                                 text: ' Accepting As',
-                                 style: const TextStyle(
-                                    fontSize: 18,
-                                    color: Color.fromARGB(159, 30, 27, 31),
-                                    fontWeight: FontWeight.bold,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(159, 30, 27, 31),
+                                  fontWeight: FontWeight.bold,
                                 ),
                                 children: [
                                   TextSpan(
@@ -478,10 +481,8 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                                       style: TextStyle(
                                         color: Colors.red,
                                         fontSize: 20,
-                                      )
-                                      )
-                                ]
-                                ),
+                                      ))
+                                ]),
                           )),
                       controller: _AcceptingAsASController,
                       validator: (value) {
@@ -490,231 +491,212 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                           return "Only English or Arabic letters";
                         }
                       },
-                    
                     ),
                   ),
                 ),
 
-              //   //DROPDOWN LIST 
-              //       Form(child:      
-              // DropdownButtonFormField(
-              //   hint: RichText(
-              //     text: TextSpan(
-              //         text: 'Accepting As',
-              //         style: const TextStyle(
-              //             fontSize: 18, color: Color.fromARGB(144, 64, 7, 87)),
-              //         children: [
-              //           TextSpan(
-              //               text: ' *',
-              //               style: TextStyle(
-              //                 color: Colors.red,
-              //               ))
-              //         ]),
-              //   ),
-              //   items: options
-              //       .map((e) => DropdownMenuItem(
-              //             value: e,
-              //             child: Text(e),
-              //           ))
-              //       .toList(),
-              //   onChanged: (value) {
-              //     setState(() {
-              //       selectedOp = value as String?;
-              //     });
-              //   },
-              //   icon: Icon(
-              //     Icons.arrow_drop_down_circle,
-              //     color: Color.fromARGB(221, 137, 171, 187),
-              //   ),
-              //   decoration: InputDecoration(
-              //     border: OutlineInputBorder(
-              //       borderSide: BorderSide(width: 2.0),
-              //     ),
-              //     focusedBorder: OutlineInputBorder(
-              //       borderSide: BorderSide(
-              //         color: Color.fromARGB(144, 64, 7, 87),
-              //         width: 2.0,
-              //       ),
-              //     ),
-              //   ),
-              //   validator: (value) {
-              //     if (value == null || value == "") {
-              //       return 'required';
-              //     }
-              //   },
-              // ),),
-                            Row(
-                              children: <Widget>[
-                                Container(
+                //   //DROPDOWN LIST
+                //       Form(child:
+                // DropdownButtonFormField(
+                //   hint: RichText(
+                //     text: TextSpan(
+                //         text: 'Accepting As',
+                //         style: const TextStyle(
+                //             fontSize: 18, color: Color.fromARGB(144, 64, 7, 87)),
+                //         children: [
+                //           TextSpan(
+                //               text: ' *',
+                //               style: TextStyle(
+                //                 color: Colors.red,
+                //               ))
+                //         ]),
+                //   ),
+                //   items: options
+                //       .map((e) => DropdownMenuItem(
+                //             value: e,
+                //             child: Text(e),
+                //           ))
+                //       .toList(),
+                //   onChanged: (value) {
+                //     setState(() {
+                //       selectedOp = value as String?;
+                //     });
+                //   },
+                //   icon: Icon(
+                //     Icons.arrow_drop_down_circle,
+                //     color: Color.fromARGB(221, 137, 171, 187),
+                //   ),
+                //   decoration: InputDecoration(
+                //     border: OutlineInputBorder(
+                //       borderSide: BorderSide(width: 2.0),
+                //     ),
+                //     focusedBorder: OutlineInputBorder(
+                //       borderSide: BorderSide(
+                //         color: Color.fromARGB(144, 64, 7, 87),
+                //         width: 2.0,
+                //       ),
+                //     ),
+                //   ),
+                //   validator: (value) {
+                //     if (value == null || value == "") {
+                //       return 'required';
+                //     }
+                //   },
+                // ),),
+                Row(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(left: 50),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            // ACCEPT ONE Reject ALL
+                            for (var i = 0;
+                                i < ParticipantEmailList.length;
+                                i++) {
+                              if (i != index &&
+                                  ParticipantjoiningAsList[i] ==
+                                      _AcceptingAsASController) {
+                                FirebaseFirestore.instance
+                                    .collection('joinRequests')
+                                    .doc(title + "-" + ParticipantEmailList[i])
+                                    .update({'Status': 'Rejected'});
+                              }
+                            }
+                            FirebaseFirestore.instance
+                                .collection('joinRequests')
+                                .doc(ProjectTitleList[index] +
+                                    '-' +
+                                    ParticipantEmailList[index])
+                                .update({'Status': 'Accepted'});
+                            FirebaseFirestore.instance
+                                .collection('joinRequests')
+                                .doc(ProjectTitleList[index] +
+                                    '-' +
+                                    ParticipantEmailList[index])
+                                .update({
+                              'Participant_role': _AcceptingAsASController
+                            });
 
-                                  margin: EdgeInsets.only(left: 50),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-
-                                     if (_formKey.currentState!.validate()) {
-                                   // ACCEPT ONE Reject ALL
-                                                for (var i = 0;
-                                    i < ParticipantEmailList.length;
-                                    i++) {
-                                  if (i != index &&
-                                      ParticipantjoiningAsList[i] ==
-                                        _AcceptingAsASController) {
-                                    FirebaseFirestore.instance
-                                        .collection('joinRequests')
-                                        .doc(title +
-                                            "-" +
-                                            ParticipantEmailList[i])
-                                        .update({'Status': 'Rejected'});
-                                  }
-                                }
-                                      FirebaseFirestore.instance
-                                          .collection('joinRequests')
-                                          .doc(ProjectTitleList[index] +
-                                              '-' +
-                                              ParticipantEmailList[index])
-                                          .update({'Status': 'Accepted'});
-                                      FirebaseFirestore.instance
-                                          .collection('joinRequests')
-                                          .doc(ProjectTitleList[index] +
-                                              '-' +
-                                              ParticipantEmailList[index])
-                                          .update({
-                                        'Participant_role': _AcceptingAsASController
-                                      });
-
-                                 
-                                      CoolAlert.show(
-                                          context: context,
-                                          title: "Success!",
-                                          confirmBtnColor:
-                                              Color.fromARGB(144, 64, 6, 87),
-                                          type: CoolAlertType.success,
-                                          backgroundColor: Color.fromARGB(
-                                              221, 212, 189, 227),
-                                          text: "You have accepted " +
-                                              Name +
-                                              " to be part of your team.",
-                                          confirmBtnText: 'Done',
-                                          onConfirmBtnTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        RequestListViewPageProject()));
-                                          });
-                                          _AcceptingAsASController.clear();
-                                      }
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      surfaceTintColor: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(80.0)),
-                                      padding: const EdgeInsets.all(0),
-                                    ),
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      height: 40.0,
-                                      width: 100,
-                                      decoration: new BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(9.0),
-                                          gradient: new LinearGradient(colors: [
-                                            Color.fromARGB(144, 7, 133, 57),
-                                            Color.fromARGB(144, 7, 133, 57),
-                                          ])),
-                                      padding: const EdgeInsets.all(0),
-                                      child: Text(
-                                        "Accept",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                            color: Color.fromARGB(
-                                                255, 255, 255, 255)),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Text("     "),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    FirebaseFirestore.instance
-                                        .collection('joinRequests')
-                                        .doc(ProjectTitleList[index] +
-                                            '-' +
-                                            ParticipantEmailList[index])
-                                        .update({'Status': 'Declined'});
-                                    CoolAlert.show(
-                                        context: context,
-                                        title: "Success!",
-                                        confirmBtnColor:
-                                            Color.fromARGB(144, 64, 6, 87),
-                                        type: CoolAlertType.success,
-                                        backgroundColor:
-                                            Color.fromARGB(221, 212, 189, 227),
-                                        text: "You have rejected " +
-                                           Name +
-                                            ", hope you find a better match.",
-                                        confirmBtnText: 'Done',
-                                        onConfirmBtnTap: () {
-
-
-
-                                          // if (ProjectTitleList.length == 1) {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      RequestListViewPageProject()));
-                                          // } else {
-                                          //   Navigator.push(
-                                          //       context,
-                                          //       MaterialPageRoute(
-                                          //           builder: (context) =>
-                                          //               RequestListViewPage(
-                                          //                 projectName:
-                                          //                     projectName,
-                                          //               )));
-                                          // }
-                                        });
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    surfaceTintColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(80.0)),
-                                    padding: const EdgeInsets.all(0),
-                                  ),
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    height: 40.0,
-                                    width: 100,
-                                    decoration: new BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(9.0),
-                                        gradient: new LinearGradient(colors: [
-                                          Color.fromARGB(144, 210, 2, 2),
-                                          Color.fromARGB(144, 210, 2, 2)
-                                        ])),
-                                    padding: const EdgeInsets.all(0),
-                                    child: Text(
-                                      "Decline",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color.fromARGB(
-                                              255, 255, 255, 255)),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                ],
-              ),
+                            CoolAlert.show(
+                                context: context,
+                                title: "Success!",
+                                confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
+                                type: CoolAlertType.success,
+                                backgroundColor:
+                                    Color.fromARGB(221, 212, 189, 227),
+                                text: "You have accepted " +
+                                    Name +
+                                    " to be part of your team.",
+                                confirmBtnText: 'Done',
+                                onConfirmBtnTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              RequestListViewPageProject()));
+                                });
+                            _AcceptingAsASController.clear();
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          surfaceTintColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(80.0)),
+                          padding: const EdgeInsets.all(0),
+                        ),
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 40.0,
+                          width: 100,
+                          decoration: new BoxDecoration(
+                              borderRadius: BorderRadius.circular(9.0),
+                              gradient: new LinearGradient(colors: [
+                                Color.fromARGB(144, 7, 133, 57),
+                                Color.fromARGB(144, 7, 133, 57),
+                              ])),
+                          padding: const EdgeInsets.all(0),
+                          child: Text(
+                            "Accept",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromARGB(255, 255, 255, 255)),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Text("     "),
+                    ElevatedButton(
+                      onPressed: () {
+                        FirebaseFirestore.instance
+                            .collection('joinRequests')
+                            .doc(ProjectTitleList[index] +
+                                '-' +
+                                ParticipantEmailList[index])
+                            .update({'Status': 'Declined'});
+                        CoolAlert.show(
+                            context: context,
+                            title: "Success!",
+                            confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
+                            type: CoolAlertType.success,
+                            backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                            text: "You have rejected " +
+                                Name +
+                                ", hope you find a better match.",
+                            confirmBtnText: 'Done',
+                            onConfirmBtnTap: () {
+                              // if (ProjectTitleList.length == 1) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          RequestListViewPageProject()));
+                              // } else {
+                              //   Navigator.push(
+                              //       context,
+                              //       MaterialPageRoute(
+                              //           builder: (context) =>
+                              //               RequestListViewPage(
+                              //                 projectName:
+                              //                     projectName,
+                              //               )));
+                              // }
+                            });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        surfaceTintColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(80.0)),
+                        padding: const EdgeInsets.all(0),
+                      ),
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 40.0,
+                        width: 100,
+                        decoration: new BoxDecoration(
+                            borderRadius: BorderRadius.circular(9.0),
+                            gradient: new LinearGradient(colors: [
+                              Color.fromARGB(144, 210, 2, 2),
+                              Color.fromARGB(144, 210, 2, 2)
+                            ])),
+                        padding: const EdgeInsets.all(0),
+                        child: Text(
+                          "Decline",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Color.fromARGB(255, 255, 255, 255)),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
             ),
           ),
-        );
-      },
-    );
-  }
-
+        ),
+      );
+    },
+  );
+}

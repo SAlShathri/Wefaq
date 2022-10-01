@@ -56,7 +56,7 @@ class _sentRequestListState extends State<DsentJoinRequestListViewPage> {
           itemCount: ProjectTitleList.length,
           itemBuilder: (context, index) {
             return SizedBox(
-              height: 100,
+              height: 80,
               child: Card(
                 color: const Color.fromARGB(255, 255, 255, 255),
                 child: Padding(
@@ -78,22 +78,6 @@ class _sentRequestListState extends State<DsentJoinRequestListViewPage> {
                         ),
                         Expanded(
                           child: SizedBox(),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          height: 40.0,
-                          width: 100,
-                          decoration: new BoxDecoration(
-                              borderRadius: BorderRadius.circular(9.0),
-                              color: Color.fromARGB(144, 210, 2, 2)),
-                          padding: const EdgeInsets.all(0),
-                          child: Text(
-                            status[index],
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 255, 255, 255)),
-                          ),
                         ),
                       ]),
                     ],
