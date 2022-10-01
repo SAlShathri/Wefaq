@@ -13,6 +13,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:wefaq/service/local_push_notification.dart';
+  final _formKey = GlobalKey<FormState>();
 
 class projectDetailScreen extends StatefulWidget {
   String projecName;
@@ -146,7 +147,10 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
+     
+      body: 
+       Scrollbar(
+         child: CustomScrollView(
         slivers: <Widget>[
           const DetailAppBar(),
           SliverToBoxAdapter(
@@ -239,16 +243,26 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                   _buildIngredientItem(context, categoryList[0]),
                   const Divider(color: kOutlineColor, height: 1.0),
                   const SizedBox(height: 16.0),
-                  Text(
+                  Row(
+                  children: [
+                    Text(
                     'Looking For',
                     style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                                  Text(
+                                      ' *',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 20,
+                                      ))
+                                ]
                   ),
                   Text('Select the Role you want to join as',
                       style: TextStyle(
                           color: Color.fromARGB(170, 123, 62, 185),
                           fontWeight: FontWeight.bold)),
                   Text(
-                      '- You can select multiple roles but you are only accepted in one role',
+                      '- You can select multiple roles but if accepted, you will be only accepted in one role',
                       style: TextStyle(
                           color: Color.fromARGB(170, 9, 0, 17),
                           fontWeight: FontWeight.w400)),
@@ -342,11 +356,43 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                   if (_isSelected1 == false &&
                       _isSelected2 == false &&
                       _isSelected3 == false)
-                    Text(' please select one role at least to join the project',
+                    Text(
+                      ' please select one role at least to join the project',
                         style: TextStyle(
                             fontSize: 14,
-                            color: Color.fromARGB(170, 123, 62, 185),
+                            color: Color.fromARGB(170, 185, 62, 62),
                             fontWeight: FontWeight.w400)),
+                             Container(
+                  alignment: Alignment.center,
+                                              child: Form(
+                     key: _formKey,
+                    child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      maxLength: 60,
+                      decoration: InputDecoration(
+                          hintText: "Your Note will be visable with your request",
+                          hintStyle: TextStyle(
+                              color: Color.fromARGB(255, 202, 198, 198)),
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          label: RichText(
+                            text: TextSpan(
+                                text: 'Note',
+                                style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(230, 35, 33, 35)),
+                                ),
+                          )),
+                      controller: _ParticipantNoteController,
+                      validator: (value) {
+                        if (!RegExp(r'^[a-z A-Z]+$').hasMatch(value!) &&
+                            !RegExp(r'^[ أ-ي]+$').hasMatch(value!)&& value.isNotEmpty) {
+                          return "Only English or Arabic letters";
+                        }
+                      },
+                    ),
+                  ),
+                ),
                   const Divider(color: kOutlineColor, height: 1.0),
                   const SizedBox(height: 16.0),
                   Text(
@@ -426,6 +472,11 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                         //     "You received a join request on your project!",
                         //     token);
                         //sucess message
+                         if (_isSelected1 == true ||
+                            _isSelected2 == true ||
+                            _isSelected3 == true) {
+                                                                     if (_formKey.currentState!.validate()) {
+
                         CoolAlert.show(
                           context: context,
                           title: "Success!",
@@ -457,10 +508,29 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                           'Status': 'Pending',
                           'joiningAs': selection(
                               _isSelected1, _isSelected2, _isSelected3),
-                          'Participant_role': 'No Role'
+                              
+                               'Participant_note': _ParticipantNoteController.text,
+                                                        'Participant_role': 'No Role'
                         });
                         _JoiningASController.clear();
                         _ParticipantNoteController.clear();
+                                                                     }
+                            }
+                            else {
+                          CoolAlert.show(
+                            context: context,
+                            title: "No Role Selected",
+                            confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
+                            type: CoolAlertType.error,
+                            backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                            text:
+                                "please select one role at least to join the project",
+                            confirmBtnText: 'Try again',
+                            onConfirmBtnTap: () {
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Color.fromARGB(204, 109, 46, 154),
@@ -479,7 +549,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   selection(bool _isSelected1, bool _isSelected2, bool _isSelected3) {
@@ -491,13 +561,13 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
     if (_isSelected1 == true && _isSelected2 == false && _isSelected3 == true)
       JoiningAs = Role3;
     if (_isSelected1 == true && _isSelected2 == true && _isSelected3 == false)
-      JoiningAs = Role1 + " " + Role2;
+      JoiningAs = Role1 + " - " + Role2;
     if (_isSelected1 == true && _isSelected2 == false && _isSelected3 == true)
-      JoiningAs = Role1 + " " + Role3;
+      JoiningAs = Role1 + " - " + Role3;
     if (_isSelected1 == false && _isSelected2 == true && _isSelected3 == true)
-      JoiningAs = Role2 + " " + Role3;
+      JoiningAs = Role2 + " - " + Role3;
     if (_isSelected1 == true && _isSelected2 == true && _isSelected3 == true)
-      JoiningAs = Role1 + " " + Role2 + " " + Role3;
+      JoiningAs = Role1 + " - " + Role2 + " - " + Role3;
     print(JoiningAs);
 
     return JoiningAs;

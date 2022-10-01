@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:wefaq/HomePage.dart';
 import 'package:wefaq/UserLogin.dart';
+import 'package:wefaq/config/colors.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'bottom_bar_custom.dart';
 import 'package:cool_alert/cool_alert.dart';
@@ -12,7 +13,7 @@ class RequestListViewPageProject extends StatefulWidget {
   @override
   _RequestListProject createState() => _RequestListProject();
 }
-
+final TextEditingController _AcceptingAsASController = TextEditingController();
 final _formKey = GlobalKey<FormState>();
 
 class _RequestListProject extends State<RequestListViewPageProject> {
@@ -83,7 +84,7 @@ class _RequestListProject extends State<RequestListViewPageProject> {
             ParticipantEmailList.add(Request['participant_email']);
             ParticipantNameList.add(Request['participant_name']);
             ParticipantjoiningAsList.add(Request['joiningAs']);
-            //ParticipantNoteList.add(Request['ParticipantNote']);
+            ParticipantNoteList.add(Request['Participant_note']);
             tokens.add(Request['participant_token']);
           });
         }
@@ -130,7 +131,7 @@ class _RequestListProject extends State<RequestListViewPageProject> {
           ParticipantEmailList.add(Request['participant_email']);
           ParticipantNameList.add(Request['participant_name']);
           ParticipantjoiningAsList.add(Request['joiningAs']);
-          //ParticipantNoteList.add(Request['ParticipantNote']);
+          ParticipantNoteList.add(Request['Participant_note']);
           tokens.add(Request['participant_token']);
         });
       }
@@ -282,7 +283,8 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                 itemCount: ProjectTitleList.length,
                 itemBuilder: (context, index) {
                   return SizedBox(
-                    height: 400,
+                    height: 500,
+                    
                     child: Card(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       child: Padding(
@@ -295,12 +297,25 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                             ),
                             Row(children: <Widget>[
                               Expanded(
-                                flex: 3,
+                                flex: 5,
+                                child: Text(
+                                  " " + ProjectTitleList[index]+  " Project",
+                                  style: const TextStyle(
+                                    fontSize: 24,
+                                    color: Color.fromARGB(159, 35, 86, 84),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ]),
+                            Row(children: <Widget>[
+                              Expanded(
+                                flex: 1,
                                 child: IconButton(
                                   icon: const Icon(
                                     Icons.account_circle,
                                     color: Color.fromARGB(255, 112, 82, 149),
-                                    size: 52,
+                                    size: 32,
                                   ),
                                   onPressed: () {
                                     // go to participant's profile
@@ -310,7 +325,7 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                               Expanded(
                                 flex: 5,
                                 child: Text(
-                                  "   " + ProjectTitleList[index],
+                                   ParticipantNameList[index],
                                   style: const TextStyle(
                                     fontSize: 22,
                                     color: Color.fromARGB(159, 32, 3, 43),
@@ -319,6 +334,10 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                                 ),
                               ),
                             ]),
+                                             const SizedBox(height: 10.0),
+                  const Divider(color: kOutlineColor, height: 1.0),
+                                             const SizedBox(height: 10.0),
+
                             Row(children: <Widget>[
                               Expanded(
                                 flex: 5,
@@ -326,70 +345,138 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                                   " Joining As:  " +
                                       ParticipantjoiningAsList[index],
                                   style: const TextStyle(
-                                    fontSize: 22,
-                                    color: Color.fromARGB(159, 32, 3, 43),
+                                    fontSize: 16,
+                                    color: Color.fromARGB(159, 30, 27, 31),
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ),
                             ]),
-                            DropdownButtonFormField(
-                              key: _formKey,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              hint: RichText(
-                                text: TextSpan(
-                                    text: 'Accepting As',
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        color: Color.fromARGB(144, 64, 7, 87)),
-                                    children: [
-                                      TextSpan(
-                                          text: ' *',
-                                          style: TextStyle(
-                                            color: Colors.red,
-                                          ))
-                                    ]),
-                              ),
-                              items: options
-                                  .map((e) => DropdownMenuItem(
-                                        value: e,
-                                        child: Text(e),
-                                      ))
-                                  .toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedOp = value as String?;
-                                });
-                              },
-                              icon: Icon(
-                                Icons.arrow_drop_down_circle,
-                                color: Color.fromARGB(221, 137, 171, 187),
-                              ),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(width: 2.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color.fromARGB(144, 64, 7, 87),
-                                    width: 2.0,
+                                             const SizedBox(height: 10.0),
+                  const Divider(color: kOutlineColor, height: 1.0),
+                                             const SizedBox(height: 10.0),
+                             Row(children: <Widget>[
+                              Expanded(
+                                flex: 5,
+                                child: Text(
+                                  " Note:  " +
+                                    
+                                  ParticipantNoteList[index],
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromARGB(159, 30, 27, 31),
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ),
-                              validator: (value) {
-                                if (value == null || value == " ") {
-                                  return 'required';
-                                }
-                              },
-                            ),
+                            ]),
+                  const Divider(color: kOutlineColor, height: 1.0),
+
+                            //TEXTFIELD 
+                             Container(
+                  alignment: Alignment.center,
+                                              child: Form(
+                     key: _formKey,
+                    child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      maxLength: 60,
+                      decoration: InputDecoration(
+                          hintText: "Developer,Designer",
+                          hintStyle: TextStyle(
+                              color: Color.fromARGB(255, 202, 198, 198)),
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          label: RichText(
+                            text: TextSpan(
+                                text: ' Accepting As',
+                                style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(230, 64, 7, 87)),
+                                children: [
+                                  TextSpan(
+                                      text: ' *',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 20,
+                                      )
+                                      )
+                                ]
+                                ),
+                          )),
+                      controller: _AcceptingAsASController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "required";
+                        } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
+                            !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
+                          return "Only English or Arabic letters";
+                        }
+                      },
+                    
+                    ),
+                  ),
+                ),
+
+                //DROPDOWN LIST 
+                            // DropdownButtonFormField(
+                            //   key: _formKey,
+                            //   autovalidateMode:
+                            //       AutovalidateMode.onUserInteraction,
+                            //   hint: RichText(
+                            //     text: TextSpan(
+                            //         text: 'Accepting As',
+                            //         style: const TextStyle(
+                            //             fontSize: 18,
+                            //             color: Color.fromARGB(144, 64, 7, 87)),
+                            //         children: [
+                            //           TextSpan(
+                            //               text: ' *',
+                            //               style: TextStyle(
+                            //                 color: Colors.red,
+                            //               ))
+                            //         ]),
+                            //   ),
+                            //   items: options
+                            //       .map((e) => DropdownMenuItem(
+                            //             value: e,
+                            //             child: Text(e),
+                            //           ))
+                            //       .toList(),
+                            //   onChanged: (value) {
+                            //     setState(() {
+                            //       selectedOp = value as String?;
+                            //     });
+                            //   },
+                            //   icon: Icon(
+                            //     Icons.arrow_drop_down_circle,
+                            //     color: Color.fromARGB(221, 137, 171, 187),
+                            //   ),
+                            //   decoration: InputDecoration(
+                            //     border: OutlineInputBorder(
+                            //       borderSide: BorderSide(width: 2.0),
+                            //     ),
+                            //     focusedBorder: OutlineInputBorder(
+                            //       borderSide: BorderSide(
+                            //         color: Color.fromARGB(144, 64, 7, 87),
+                            //         width: 2.0,
+                            //       ),
+                            //     ),
+                            //   ),
+                            //   validator: (value) {
+                            //     if (value == null || value == " ") {
+                            //       return 'required';
+                            //     }
+                            //   },
+                            // ),
                             Row(
                               children: <Widget>[
                                 Container(
                                   margin: EdgeInsets.only(left: 80),
                                   child: ElevatedButton(
                                     onPressed: () {
-                                      // if (_formKey.currentState!.validate()) {
+
+                                       if (_formKey.currentState!.validate()) {
+                              
                                       FirebaseFirestore.instance
                                           .collection('joinRequests')
                                           .doc(ProjectTitleList[index] +
@@ -401,8 +488,25 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                                           .doc(ProjectTitleList[index] +
                                               '-' +
                                               ParticipantEmailList[index])
-                                          .update(
-                                              {'Participant_role': selectedOp});
+                                          .update({
+                                        'Participant_role': _AcceptingAsASController.text
+                                      });
+
+                                      // ACCEPT ONE Reject ALL
+                                //                 for (var i = 0;
+                                //     i < ParticipantEmailList.length;
+                                //     i++) {
+                                //   if (i != index &&
+                                //       ParticipantjoiningAsList[i] ==
+                                //          _AcceptingAsASController) {
+                                //     FirebaseFirestore.instance
+                                //         .collection('joinRequests')
+                                //         .doc(ProjectTitleList[index] +
+                                //             "-" +
+                                //             ParticipantEmailList[i])
+                                //         .update({'Status': 'Rejected'});
+                                //   }
+                                // }
                                       CoolAlert.show(
                                           context: context,
                                           title: "Success!",
@@ -422,7 +526,7 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                                                     builder: (context) =>
                                                         RequestListViewPageProject()));
                                           });
-                                      // }
+                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
                                       surfaceTintColor: Colors.white,
