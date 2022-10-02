@@ -36,28 +36,25 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
   _eventDetailScreenState(this.eventName);
 
   // Title list
-  var nameList = [];
+  String nameList = "";
 
   // Description list
-  var descList = [];
+  String descList = "";
 
   // location list
-  var locList = [];
+  String locList = "";
 
   //url list
-  var urlList = [];
+  String urlList = "";
 
   //category list
-  var categoryList = [];
+  String categoryList = "";
 
   //category list
-  var dateTimeList = [];
+  String dateTimeList = "";
 
-  var TimeList = [];
-  var latList = [];
+  String TimeList = "";
 
-  //project lan
-  var lngList = [];
   bool _isSelected1 = false;
   bool _isSelected2 = false;
   bool _isSelected3 = false;
@@ -86,29 +83,29 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
   Future getProjects() async {
     //clear first
     setState(() {
-      nameList = [];
-      descList = [];
-      locList = [];
-      urlList = [];
-      categoryList = [];
-      dateTimeList = [];
-      TimeList = [];
+      nameList = "";
+      descList = "";
+      locList = "";
+      urlList = "";
+      categoryList = "";
+      dateTimeList = "";
+      TimeList = "";
     });
     await for (var snapshot in _firestore
         .collection('AllEvents')
         .orderBy('created', descending: true)
+        .where('name', isEqualTo: eventName)
         .snapshots())
       for (var events in snapshot.docs) {
         setState(() {
-          nameList.add(events['name']);
-          descList.add(events['description']);
-          locList.add(events['location']);
-          urlList.add(events['regstretion url ']);
-          categoryList.add(events['category']);
-          dateTimeList.add(events['date']);
-          TimeList.add(events['time']);
-          latList.add(events['lat']);
-          lngList.add(events['lng']);
+          nameList = events['name'].toString();
+          descList = events['description'].toString();
+          locList = events['location'].toString();
+          urlList = events['regstretion url '].toString();
+          categoryList = events['category'].toString();
+          dateTimeList = events['date'].toString();
+          TimeList = events['time'].toString();
+
           //  dateTimeList.add(project['dateTime ']);
         });
       }
@@ -127,7 +124,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    nameList[0],
+                    nameList,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 8.0),
@@ -149,7 +146,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                                 color: Color.fromARGB(172, 136, 98, 146)),
                           ),
                           Text(
-                            locList[0],
+                            locList,
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
                         ],
@@ -168,7 +165,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    descList[0],
+                    descList,
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
@@ -182,7 +179,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 16.0),
-                  _buildIngredientItem(context, categoryList[0]),
+                  _buildIngredientItem(context, categoryList),
                   const Divider(color: kOutlineColor, height: 1.0),
                   const SizedBox(height: 16.0),
                   Text(
@@ -200,7 +197,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                       width: 10,
                     ),
                     Text(
-                      dateTimeList[0],
+                      dateTimeList,
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
@@ -210,7 +207,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                       width: 10,
                     ),
                     Text(
-                      TimeList[0],
+                      TimeList,
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
@@ -230,7 +227,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                     ),
                     child: Link(
                         target: LinkTarget.blank,
-                        uri: Uri.parse(urlList[0]),
+                        uri: Uri.parse(urlList),
                         builder: (context, followLink) => ElevatedButton(
                               onPressed: followLink,
                               child: Text(

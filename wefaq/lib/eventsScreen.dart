@@ -390,8 +390,6 @@ class _ListViewPageState extends State<EventsListViewPage> {
               body: Scrollbar(
                 thumbVisibility: true,
                 child: ListView.builder(
-                  //itemCount: tokens.length,
-
                   itemBuilder: (context, index) {
                     // Card Which Holds Layout Of ListView Item
 
