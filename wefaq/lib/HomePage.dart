@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'RJRprojects.dart';
 import 'package:wefaq/backgroundHome.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter/material.dart';
 import 'package:wefaq/myProjects.dart';
+import 'package:wefaq/AcceptedSentJoinRequest.dart';
 import 'package:wefaq/userLogin.dart';
 import 'package:intl/intl.dart';
 import 'package:wefaq/TabScreen.dart';
@@ -27,45 +29,17 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+//,,,
 class _HomeScreenState extends State<HomeScreen> {
   final auth = FirebaseAuth.instance;
   late User signedInUser;
   @override
-  void initState() {
-    super.initState();
-    getUser();
-    getCurrentUser();
-  }
-
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
   }
 
-  void getCurrentUser() {
-    try {
-      final user = auth.currentUser;
-      if (user != null) {
-        signedInUser = user;
-        print(signedInUser.uid);
-        print(signedInUser.email);
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  var FName;
-  Future getUser() async {
-    await for (var snapshot
-        in FirebaseFirestore.instance.collection('users').snapshots())
-      for (var user in snapshot.docs) {
-        if (user.data()['Email'] == signedInUser.email) {
-          setState(() {
-            FName = (user.data()['FirstName']);
-          });
-        }
-      }
-  }
+  var name = '${FirebaseAuth.instance.currentUser!.displayName}'.split(' ');
+  get FName => name.first;
 
   @override
   Widget build(BuildContext context) {
@@ -75,145 +49,157 @@ class _HomeScreenState extends State<HomeScreen> {
           updatePage: () {},
         ),
         body: BackgroundHome(
-            child: Column(children: [
-          SizedBox(
-            height: 33,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 330, top: 15),
-            child: IconButton(
-                icon: Icon(
-                  Icons.logout,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
-                onPressed: () {
-                  _signOut();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => UserLogin()));
-                }),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Text("   Hello $FName!",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 35),
-                textAlign: TextAlign.left),
-          ),
-          SizedBox(
-            height: 200,
-          ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Text("    Swipe left to view more <--",
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: Color.fromARGB(255, 93, 76, 134),
-                    fontSize: 20),
-                textAlign: TextAlign.left),
-          ),
-          Container(
-              margin: EdgeInsets.only(top: 40),
-              height: 240,
-              child: ListView(scrollDirection: Axis.horizontal, children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => myProjects()));
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Color.fromARGB(255, 246, 244, 248),
-                        boxShadow: [
-                          BoxShadow(
-                            offset: Offset(20, 17),
-                            blurRadius: 30,
-                            spreadRadius: -23,
-                            color: Color.fromARGB(255, 176, 146, 189),
+          child: Stack(
+            children: <Widget>[
+              SizedBox(
+                height: 33,
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 330, top: 35),
+                child: IconButton(
+                    icon: Icon(
+                      Icons.logout,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    onPressed: () {
+                      _signOut();
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => UserLogin()));
+                    }),
+              ),
+              SizedBox(
+                height: 130,
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 10, top: 125),
+                alignment: Alignment.topLeft,
+                child: Text("Hello $FName!",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 32),
+                    textAlign: TextAlign.left),
+              ),
+              SizedBox(
+                height: 200,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 290),
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                          child: GridView.count(
+                            crossAxisCount: 2,
+                            childAspectRatio: .85,
+                            crossAxisSpacing: 20,
+                            mainAxisSpacing: 20,
+                            children: <Widget>[
+                              CategoryCard(
+                                  title: "My Projects",
+                                  imgSrc: "2.png",
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                myProjects()));
+                                  }),
+                              CategoryCard(
+                                  title: "Sent Request",
+                                  imgSrc: "4.png",
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Tabs()));
+                                  }),
+                              CategoryCard(
+                                  title: "Received Request",
+                                  imgSrc: "1.png",
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RequestListViewPageProject()));
+                                  }),
+                              CategoryCard(
+                                  title: "My Favorites",
+                                  imgSrc: "3.png",
+                                  onTap: () {
+                                    // next sprint :)
+                                  }),
+                            ],
                           ),
-                        ],
-                        image: new DecorationImage(
-                          image: new AssetImage("assets/images/2.png"),
                         ),
-                      ),
-                      child: Text("   My Projects   ",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromARGB(221, 73, 105, 119),
-                              fontWeight: FontWeight.w600)),
+                      ],
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    onTap: () {
-                      //next sprint :)
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Color.fromARGB(255, 246, 244, 248),
-                        boxShadow: [
-                          BoxShadow(
-                            offset: Offset(20, 17),
-                            blurRadius: 30,
-                            spreadRadius: -23,
-                            color: Color.fromARGB(255, 176, 146, 189),
-                          ),
-                        ],
-                        image: new DecorationImage(
-                          image: new AssetImage("assets/images/1.png"),
-                        ),
-                      ),
-                      child: Text("   My Requests   ",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromARGB(221, 73, 105, 119),
-                              fontWeight: FontWeight.w600)),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    onTap: () {},
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Color.fromARGB(255, 246, 244, 248),
-                        boxShadow: [
-                          BoxShadow(
-                            offset: Offset(20, 17),
-                            blurRadius: 30,
-                            spreadRadius: -23,
-                            color: Color.fromARGB(255, 176, 146, 189),
-                          ),
-                        ],
-                        image: new DecorationImage(
-                            image: new AssetImage("assets/images/3.png")),
-                      ),
-                      child: Text("   My favourites   ",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromARGB(221, 73, 105, 119),
-                              fontWeight: FontWeight.w600)),
-                    ),
-                  ),
-                ),
-              ]))
-        ])
+              )
+            ],
+          ),
+        ));
+  }
+}
 
-            // This trailing comma makes auto-formatting nicer for build methods.
-            ));
+class CategoryCard extends StatelessWidget {
+  final String imgSrc;
+  final String title;
+  final Function() onTap;
+
+  const CategoryCard({
+    required this.imgSrc,
+    required this.title,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(13),
+      child: Container(
+        // padding: EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(13),
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(20, 17),
+              blurRadius: 30,
+              spreadRadius: -23,
+              color: Color.fromARGB(255, 46, 36, 50),
+            ),
+          ],
+          image: new DecorationImage(
+            image: new AssetImage("assets/images/$imgSrc"),
+          ),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: <Widget>[
+                  Spacer(),
+                  Spacer(),
+                  Text("$title",
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Color.fromARGB(221, 73, 105, 119),
+                          fontWeight: FontWeight.normal)),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

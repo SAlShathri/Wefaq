@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wefaq/HomePage.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/background.dart';
 import 'bottom_bar_custom.dart';
@@ -61,7 +62,7 @@ class _myProjectState extends State<myProjects> {
   Future getProjects() async {
     if (Email != null) {
       var fillterd = _firestore
-          .collection('projects')
+          .collection('AllProjects')
           .where('email', isEqualTo: Email)
           .orderBy('created', descending: true)
           .snapshots();
@@ -84,13 +85,16 @@ class _myProjectState extends State<myProjects> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Color.fromARGB(255, 255, 255, 255),
+            ),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()));
+            }),
         backgroundColor: Color.fromARGB(255, 182, 168, 203),
-        title: Text('My projects',
-            style: TextStyle(
-              fontWeight: FontWeight.normal,
-              color: Colors.white,
-            )),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -103,11 +107,17 @@ class _myProjectState extends State<myProjects> {
                     MaterialPageRoute(builder: (context) => UserLogin()));
               }),
         ],
+        title: Text('My projects',
+            style: TextStyle(
+              fontWeight: FontWeight.normal,
+              color: Colors.white,
+            )),
       ),
       bottomNavigationBar: CustomNavigationBar(
-        currentHomeScreen: 1,
+        currentHomeScreen: 0,
         updatePage: () {},
       ),
+
       body: Scrollbar(
         thumbVisibility: true,
         child: ListView.builder(
@@ -115,99 +125,109 @@ class _myProjectState extends State<myProjects> {
           itemBuilder: (context, index) {
             // Card Which Holds Layout Of ListView Item
             return SizedBox(
-              height: 180,
-              child: Card(
-                color: const Color.fromARGB(255, 255, 255, 255),
-                //shadowColor: Color.fromARGB(255, 255, 255, 255),
-                //  elevation: 7,
+                height: 180,
+                child: GestureDetector(
+                  child: Card(
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    //shadowColor: Color.fromARGB(255, 255, 255, 255),
+                    //  elevation: 7,
 
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(children: <Widget>[
-                        Text(
-                          "      " + nameList[index] + " ",
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: Color.fromARGB(159, 64, 7, 87),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ]),
-                      Divider(
-                        color: Color.fromARGB(230, 64, 7, 87),
-                        indent: 20,
-                        endIndent: 20,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          const Text("     "),
-                          const Icon(Icons.location_pin,
-                              color: Color.fromARGB(173, 64, 7, 87)),
-                          Text(locList[index],
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(221, 81, 122, 140),
-                              ))
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          const Text("     "),
-                          const Icon(
-                            Icons.search,
-                            color: Color.fromARGB(248, 170, 167, 8),
-                            size: 28,
+                          SizedBox(
+                            height: 20,
                           ),
-                          Text(lookingForList[index],
+                          Row(children: <Widget>[
+                            Text(
+                              "      " + nameList[index] + " ",
                               style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Color.fromARGB(221, 79, 128, 151),
-                                  fontWeight: FontWeight.normal),
-                              maxLines: 2,
-                              overflow: TextOverflow.clip),
-                        ],
-                      ),
-                      Expanded(
-                          child: //Text("                              "),
-                              /*const Icon(
+                                fontSize: 20,
+                                color: Color.fromARGB(159, 64, 7, 87),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ]),
+                          Divider(
+                            color: Color.fromARGB(230, 64, 7, 87),
+                            indent: 20,
+                            endIndent: 20,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              const Text("     "),
+                              const Icon(Icons.location_pin,
+                                  color: Color.fromARGB(173, 64, 7, 87)),
+                              Text(locList[index],
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromARGB(221, 81, 122, 140),
+                                  ))
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              const Text("     "),
+                              const Icon(
+                                Icons.search,
+                                color: Color.fromARGB(248, 170, 167, 8),
+                                size: 28,
+                              ),
+                              Text(lookingForList[index],
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Color.fromARGB(221, 79, 128, 151),
+                                      fontWeight: FontWeight.normal),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.clip),
+                            ],
+                          ),
+                          Expanded(
+                              child: //Text("                              "),
+                                  /*const Icon(
                                     Icons.arrow_downward,
                                     color: Color.fromARGB(255, 58, 44, 130),
                                     size: 28,
                                   ),*/
-                              TextButton(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'View More',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 90, 46, 144),
+                                  TextButton(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'View More',
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 90, 46, 144),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        onPressed: () {
-                          showDialogFunc(
-                              context,
-                              nameList[index],
-                              descList[index],
-                              categoryList[index],
-                              locList[index],
-                              lookingForList[index]);
-                        },
-                      ))
-                    ],
+                            onPressed: () {
+                              showDialogFunc(
+                                  context,
+                                  nameList[index],
+                                  descList[index],
+                                  categoryList[index],
+                                  locList[index],
+                                  lookingForList[index]);
+                            },
+                          ))
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            );
+                  onTap: () {
+                    showDialogFunc(
+                        context,
+                        nameList[index],
+                        descList[index],
+                        categoryList[index],
+                        locList[index],
+                        lookingForList[index]);
+                  },
+                ));
           },
         ),
       ), // sc
@@ -241,6 +261,22 @@ showDialogFunc(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                Row(children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(left: 260, top: 0),
+                      child: IconButton(
+                          icon: const Icon(
+                            Icons.close,
+                            color: Color.fromARGB(255, 112, 82, 149),
+                            size: 26,
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => myProjects()));
+                          }))
+                ]),
                 Text(
                   title,
                   style: const TextStyle(

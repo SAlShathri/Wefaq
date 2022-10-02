@@ -43,6 +43,12 @@ dependencies:
   full_screen_menu: ^1.0.0
   hawk_fab_menu: ^1.2.0
   url_launcher: ^6.1.5
+  flutter_local_notifications: ^11.0.0
+  firebase_messaging: ^13.0.2
+  google_maps_flutter: ^2.2.0 
+  geocoding: ^2.0.5
+  geolocator: ^9.0.2
+  http:
 
 
   
@@ -56,6 +62,7 @@ dependencies:
   google_fonts: ^3.0.1
   multi_select_flutter: ^4.1.2
   shared_preferences: ^2.0.15
+  flutter_svg: ^1.1.5
 
 dev_dependencies:
   flutter_test:

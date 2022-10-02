@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_place/google_place.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -30,6 +31,9 @@ class _PostProjectState extends State<PostProject> {
   static final TextEditingController _startSearchFieldController =
       TextEditingController();
 
+  static final TextEditingController _durationEditingControlle =
+      TextEditingController();
+
   DetailsResult? startPosition;
 
   late GooglePlace googlePlace;
@@ -42,11 +46,12 @@ class _PostProjectState extends State<PostProject> {
   String? selectedCat;
   final auth = FirebaseAuth.instance;
   late User signedInUser;
-  var Email;
-  var fname;
-  var lname;
 
-  @override
+  var name = '${FirebaseAuth.instance.currentUser!.displayName}'.split(' ');
+  get fname => name.first;
+  get lname => name.last;
+  var Email = FirebaseAuth.instance.currentUser!.email;
+
   void initState() {
     // call the methods to fetch the data from the DB
     getCategoryList();
@@ -54,8 +59,6 @@ class _PostProjectState extends State<PostProject> {
     super.initState();
     String apiKey = 'AIzaSyCkRaPfvVejBlQIAWEjc9klnkqk6olnhuc';
     googlePlace = GooglePlace(apiKey);
-    getCurrentUser();
-    getUser();
   }
 
   @override
@@ -81,32 +84,6 @@ class _PostProjectState extends State<PostProject> {
         });
       }
     }
-  }
-
-  void getCurrentUser() {
-    try {
-      final user = auth.currentUser;
-      if (user != null) {
-        signedInUser = user;
-        print(signedInUser.uid);
-        print(signedInUser.email);
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future getUser() async {
-    await for (var snapshot
-        in FirebaseFirestore.instance.collection('users').snapshots())
-      for (var user in snapshot.docs) {
-        if (user.data()['Email'] == signedInUser.email)
-          setState(() {
-            Email = (user.data()['Email']);
-            lname = (user.data()['FirstName']);
-            fname = (user.data()['LastName']);
-          });
-      }
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -423,6 +400,46 @@ class _PostProjectState extends State<PostProject> {
                     }),
               ),
               SizedBox(height: 15),
+              TextFormField(
+                  maxLength: 60,
+                  decoration: InputDecoration(
+                    hintText: '2 weeks, 3 weeks,..',
+                    hintStyle: TextStyle(
+                        fontSize: 16,
+                        color: Color.fromARGB(255, 202, 198, 198)),
+                    label: RichText(
+                      text: TextSpan(
+                          text: 'Duration',
+                          style: const TextStyle(
+                              fontSize: 18,
+                              color: Color.fromARGB(144, 64, 7, 87)),
+                          children: [
+                            TextSpan(
+                                text: ' *',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ))
+                          ]),
+                    ),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2.0,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color.fromARGB(144, 64, 7, 87),
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                  controller: _durationEditingControlle,
+                  validator: (value) {
+                    if (value == null || value.isEmpty || value.trim() == '') {
+                      return 'required';
+                    }
+                  }),
+              SizedBox(height: 25),
               SizedBox(
                 width: 50,
                 height: 50.0,
@@ -438,17 +455,29 @@ class _PostProjectState extends State<PostProject> {
                         // you'd often call a server or save the information in a database.
                         // for sorting purpose
                         var now = new DateTime.now();
-
-                        _firestore.collection('projects').add({
+                        final DateFormat formatter = DateFormat('yyyy-MM-dd');
+                        String? token =
+                            await FirebaseMessaging.instance.getToken();
+                        _firestore
+                            .collection('AllProjects')
+                            .doc(_nameEditingController.text +
+                                '-' +
+                                Email.toString())
+                            .set({
                           'name': _nameEditingController.text,
                           'location': _startSearchFieldController.text,
+                          'lng': startPosition?.geometry?.location?.lng,
+                          'lat': startPosition?.geometry?.location?.lat,
                           'description': _descriptionEditingController.text,
                           'category': selectedCat,
                           'lookingFor': _lookingForEditingController.text,
                           'created': now,
                           'email': Email.toString(),
+                          'fname': fname,
                           'lname': lname,
-                          'fanme': fname
+                          'token': token,
+                          "duration": _durationEditingControlle.text,
+                          'cdate': formatter.format(now)
                         });
                         //Clear
 

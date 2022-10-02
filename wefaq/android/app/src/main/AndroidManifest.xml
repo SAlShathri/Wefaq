@@ -53,4 +53,11 @@
     <data android:mimeType="*/*" />
   </intent>
 </queries>
+ <meta-data
+           android:name="com.google.firebase.messaging.default_notification_channel_id"
+           android:value="mychanel"
+           />
+            <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyCkRaPfvVejBlQIAWEjc9klnkqk6olnhuc"/>
+               <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 </manifest>
