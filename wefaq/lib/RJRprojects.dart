@@ -429,7 +429,7 @@ showDialogFunc(
               children: <Widget>[
                 Row(children: <Widget>[
                   Container(
-                      margin: EdgeInsets.only(left: 260, top: 0),
+                      margin: EdgeInsets.only(left: 240, top: 0),
                       child: IconButton(
                           icon: const Icon(
                             Icons.close,
@@ -574,10 +574,7 @@ showDialogFunc(
                           // if (_formKey.currentState!.validate()) {
                           if (_AcceptingAsASController.text != "") {
                             sendNotification(
-                                "Your request has been accepted for " +
-                                    title +
-                                    " project",
-                                token);
+                                "Your Join request has been accepted ", token);
                             // ACCEPT ONE Reject ALL
                             for (var i = 0;
                                 i < ParticipantEmailList.length;
@@ -674,9 +671,7 @@ showDialogFunc(
                     ElevatedButton(
                       onPressed: () {
                         sendNotification(
-                            "Sorry, Your request has been Rejected for " +
-                                title +
-                                " project",
+                            "Sorry, Your join request has been Rejected ",
                             token);
                         FirebaseFirestore.instance
                             .collection('AllJoinRequests')
@@ -750,6 +745,8 @@ showDialogFunc(
   );
 }
 
+//Notification
+
 void sendNotification(String title, String token) async {
   final data = {
     'click_action': 'FLUTTER_NOTIFICATION_CLICK',
@@ -773,6 +770,7 @@ void sendNotification(String title, String token) async {
               },
               'priority': 'high',
               'data': data,
+              'to': '$token'
             }));
 
     if (response.statusCode == 200) {
