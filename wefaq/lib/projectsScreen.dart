@@ -30,7 +30,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
     getProjects();
     getCategoryList();
     _getCurrentPosition();
-
+    setDistance();
     FirebaseMessaging.instance.getInitialMessage();
     FirebaseMessaging.onMessage.listen((event) {
       LocalNotificationService.display(event);
@@ -119,8 +119,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 
     await for (var snapshot in _firestore
         .collection('AllProjects')
-        .orderBy('email')
-        .where("email", isNotEqualTo: Email)
         .orderBy('created', descending: true)
         .snapshots())
       for (var project in snapshot.docs) {
@@ -157,8 +155,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 
     await for (var snapshot in _firestore
         .collection('AllProjects')
-        .orderBy('email')
-        .where("email", isNotEqualTo: Email)
         .orderBy('dis', descending: false)
         .snapshots())
       for (var project in snapshot.docs) {
@@ -226,8 +222,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 
     await for (var snapshot in _firestore
         .collection('AllProjects')
-        .orderBy('email')
-        .where("email", isNotEqualTo: Email)
         .where('category', isEqualTo: category)
         .snapshots()) {
       for (var project in snapshot.docs) {
