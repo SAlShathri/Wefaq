@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:wefaq/RJRprojects.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'bottom_bar_custom.dart';
 import 'package:flutter/cupertino.dart';
@@ -108,7 +107,7 @@ class _chatScreenState extends State<chatScreen> {
                           Row(children: <Widget>[
                             IconButton(
                               icon: const Icon(
-                                CupertinoIcons.group_solid,
+                                CupertinoIcons.group,
                                 color: Color.fromARGB(255, 112, 82, 149),
                                 size: 52,
                               ),
