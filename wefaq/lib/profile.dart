@@ -1,10 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/background.dart';
 import 'bottom_bar_custom.dart';
-import 'package:wefaq/models/user.dart';
 
 class profileScreen extends StatefulWidget {
   @override
@@ -161,7 +159,6 @@ class _profileScreenState extends State<profileScreen> {
                         textAlign: TextAlign.left),
                     alignment: Alignment.topLeft),
                 SizedBox(height: 0.90),
-                
                 Container(
                     margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                     alignment: Alignment.topRight,
@@ -182,17 +179,11 @@ class _profileScreenState extends State<profileScreen> {
                               color: Color.fromARGB(255, 188, 164, 192)),
                         ),
                         color: Color.fromARGB(23, 255, 255, 255))),
-
-                        SizedBox(height: 60),
-                        
-
-                        Container(
+                SizedBox(height: 60),
+                Container(
                   child: ElevatedButton(
                     onPressed: () async {
-                    
-                        deleteprofile(); 
-                        
-                            
+                      deleteprofile();
                     },
                     style: ElevatedButton.styleFrom(
                       surfaceTintColor: Colors.white,
@@ -232,7 +223,8 @@ class _profileScreenState extends State<profileScreen> {
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
   }
+
   Future<void> deleteprofile() async {
-     await FirebaseAuth.instance.currentUser!.delete();
+    await FirebaseAuth.instance.currentUser!.delete();
   }
 }
