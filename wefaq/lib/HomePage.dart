@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: IconButton(
                       icon: Icon(
                         CupertinoIcons.profile_circled,
-                        size: 40,
+                        size: 55,
                         color: Color.fromARGB(255, 255, 255, 255),
                       ),
                       onPressed: () {
@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 builder: (context) => profileScreen()));
                       })),
               Container(
-                margin: EdgeInsets.only(left: 380, top: 40),
+                margin: EdgeInsets.only(left: 340, top: 40),
                 child: IconButton(
                     icon: Icon(
                       Icons.logout,

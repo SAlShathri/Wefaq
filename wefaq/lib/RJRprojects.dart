@@ -427,7 +427,7 @@ showDialogFunc(
               children: <Widget>[
                 Row(children: <Widget>[
                   Container(
-                      margin: EdgeInsets.only(left: 240, top: 0),
+                      margin: EdgeInsets.only(left: 290, top: 0),
                       child: IconButton(
                           icon: const Icon(
                             Icons.close,
