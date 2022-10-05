@@ -88,7 +88,7 @@ class _profileScreenState extends State<profileScreen> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 180),
+                SizedBox(height: 200),
                 Container(
                     margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                     child: Text("First Name:",
@@ -161,6 +161,7 @@ class _profileScreenState extends State<profileScreen> {
                         textAlign: TextAlign.left),
                     alignment: Alignment.topLeft),
                 SizedBox(height: 0.90),
+                
                 Container(
                     margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                     alignment: Alignment.topRight,
@@ -181,6 +182,45 @@ class _profileScreenState extends State<profileScreen> {
                               color: Color.fromARGB(255, 188, 164, 192)),
                         ),
                         color: Color.fromARGB(23, 255, 255, 255))),
+
+                        SizedBox(height: 60),
+                        
+
+                        Container(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                    
+                        deleteprofile(); 
+                        
+                            
+                    },
+                    style: ElevatedButton.styleFrom(
+                      surfaceTintColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(80.0)),
+                      padding: const EdgeInsets.all(0),
+                    ),
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 50.0,
+                      width: size.width * 0.5,
+                      decoration: new BoxDecoration(
+                          borderRadius: BorderRadius.circular(80.0),
+                          gradient: new LinearGradient(colors: [
+                            Color.fromARGB(144, 67, 7, 87),
+                            Color.fromARGB(221, 137, 171, 187)
+                          ])),
+                      padding: const EdgeInsets.all(0),
+                      child: Text(
+                        "Delete Account",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 255, 255, 255)),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ],
@@ -191,5 +231,8 @@ class _profileScreenState extends State<profileScreen> {
 
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
+  }
+  Future<void> deleteprofile() async {
+     await FirebaseAuth.instance.currentUser!.delete();
   }
 }
