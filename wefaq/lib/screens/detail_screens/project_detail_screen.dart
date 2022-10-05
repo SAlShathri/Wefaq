@@ -117,7 +117,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
     if (signedInUser.email != null) {
       var fillterd = _firestore
           .collection('AllJoinRequests')
-          .where('owner_email', isEqualTo: signedInUser.email)
+          .where('owner_email', isEqualTo: Email)
           .where('Status', isEqualTo: 'Accepted')
           .where('project_title', isEqualTo: projecName)
           .snapshots();

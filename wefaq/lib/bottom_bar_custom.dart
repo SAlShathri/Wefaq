@@ -17,6 +17,7 @@ import 'package:wefaq/TabScreen.dart';
 import 'package:wefaq/HomePage.dart';
 
 import 'ProjectsTapScreen.dart';
+import 'chats.dart';
 
 class CustomNavigationBar extends StatefulWidget {
   const CustomNavigationBar(
@@ -183,10 +184,8 @@ class BottomBarButton extends StatelessWidget {
                   }
                 else if (index == 4)
                   {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => profileScreen()))
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => chatScreen()))
                   }
                 else if (index == 1)
                   {
