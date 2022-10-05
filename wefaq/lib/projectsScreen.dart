@@ -915,7 +915,7 @@ void sendNotification(String title, String token) async {
             }));
 
     if (response.statusCode == 200) {
-      print("Yeh notificatin is sended");
+      print("Your notificatin is sent");
     } else {
       print("Error");
     }
