@@ -26,7 +26,6 @@ class _profileScreenState extends State<profileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         title: Text('Profile', style: TextStyle(color: Colors.white)),
         actions: <Widget>[
           IconButton(
@@ -43,7 +42,7 @@ class _profileScreenState extends State<profileScreen> {
         backgroundColor: Color.fromARGB(255, 182, 168, 203),
       ),
       bottomNavigationBar: CustomNavigationBar(
-        currentHomeScreen: 4,
+        currentHomeScreen: 0,
         updatePage: () {},
       ),
       backgroundColor: Color.fromARGB(255, 255, 255, 255),

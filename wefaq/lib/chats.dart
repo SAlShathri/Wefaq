@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wefaq/RJRprojects.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'bottom_bar_custom.dart';
+import 'package:flutter/cupertino.dart';
 
 class chatScreen extends StatefulWidget {
   @override
@@ -46,7 +47,7 @@ class _chatScreenState extends State<chatScreen> {
     if (Email != null) {
       var fillterd = _firestore
           .collection('AllJoinRequests')
-          .where('owner_email', isEqualTo: Email)
+          .where('participant_email', isEqualTo: Email)
           .where('Status', isEqualTo: 'Accepted')
           .snapshots();
       await for (var snapshot in fillterd)
@@ -62,19 +63,9 @@ class _chatScreenState extends State<chatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Color.fromARGB(255, 255, 255, 255),
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => RequestListViewPageProject()));
-            }),
+        automaticallyImplyLeading: false,
         backgroundColor: Color.fromARGB(255, 145, 124, 178),
-        title: Text(ProjectTitleList.first,
+        title: Text("Group chat",
             style: TextStyle(
               fontWeight: FontWeight.normal,
               color: Colors.white,
@@ -117,7 +108,7 @@ class _chatScreenState extends State<chatScreen> {
                           Row(children: <Widget>[
                             IconButton(
                               icon: const Icon(
-                                Icons.account_circle,
+                                CupertinoIcons.group_solid,
                                 color: Color.fromARGB(255, 112, 82, 149),
                                 size: 52,
                               ),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wefaq/profile.dart';
 import 'RJRprojects.dart';
 import 'package:wefaq/backgroundHome.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -13,6 +14,7 @@ import 'package:wefaq/TabScreen.dart';
 import 'package:wefaq/userLogin.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -55,10 +57,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 33,
               ),
               Container(
-                margin: EdgeInsets.only(left: 330, top: 35),
+                  margin: EdgeInsets.only(top: 40),
+                  child: IconButton(
+                      icon: Icon(
+                        CupertinoIcons.profile_circled,
+                        size: 40,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => profileScreen()));
+                      })),
+              Container(
+                margin: EdgeInsets.only(left: 380, top: 40),
                 child: IconButton(
                     icon: Icon(
                       Icons.logout,
+                      size: 30,
                       color: Color.fromARGB(255, 255, 255, 255),
                     ),
                     onPressed: () {
