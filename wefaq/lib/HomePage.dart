@@ -1,30 +1,14 @@
-import 'dart:convert';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wefaq/profile.dart';
 import 'RJRprojects.dart';
 import 'package:wefaq/backgroundHome.dart';
-import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter/material.dart';
 import 'package:wefaq/myProjects.dart';
-import 'package:wefaq/AcceptedSentJoinRequest.dart';
 import 'package:wefaq/userLogin.dart';
-import 'package:intl/intl.dart';
 import 'package:wefaq/TabScreen.dart';
-import 'package:wefaq/userLogin.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
-import 'package:cool_alert/cool_alert.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:multiselect/multiselect.dart';
-import 'package:get/get.dart';
-import 'package:google_place/google_place.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:wefaq/projectsScreen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'bottom_bar_custom.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

@@ -1,8 +1,6 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:wefaq/postEvent.dart';
 import 'package:wefaq/postProject.dart';
-import 'background.dart';
 import 'bottom_bar_custom.dart';
 import 'package:wefaq/userLogin.dart';
 

@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:wefaq/TabScreen.dart';
-import 'package:wefaq/UserLogin.dart';
-import 'bottom_bar_custom.dart';
 import 'package:cool_alert/cool_alert.dart';
 
 class PsentJoinRequestListViewPage extends StatefulWidget {
