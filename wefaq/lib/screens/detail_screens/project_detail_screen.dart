@@ -680,6 +680,7 @@ void ShowToastRemove() => Fluttertoast.showToast(
       fontSize: 18,
       gravity: ToastGravity.CENTER,
       toastLength: Toast.LENGTH_SHORT,
+      backgroundColor: Color.fromARGB(172, 136, 98, 146),
     );
 
 void ShowToastAdd() => Fluttertoast.showToast(
@@ -687,4 +688,5 @@ void ShowToastAdd() => Fluttertoast.showToast(
       fontSize: 18,
       gravity: ToastGravity.CENTER,
       toastLength: Toast.LENGTH_SHORT,
+      backgroundColor: Color.fromARGB(172, 136, 98, 146),
     );
