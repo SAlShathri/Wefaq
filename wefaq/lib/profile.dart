@@ -179,6 +179,66 @@ class _profileScreenState extends State<profileScreen> {
                               color: Color.fromARGB(255, 188, 164, 192)),
                         ),
                         color: Color.fromARGB(23, 255, 255, 255))),
+                Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                    child: Text("Experience:",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Color.fromARGB(144, 64, 7, 87),
+                            fontSize: 19),
+                        textAlign: TextAlign.left),
+                    alignment: Alignment.topLeft),
+                SizedBox(height: 0.90),
+                Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                    alignment: Alignment.topRight,
+                    child: Row(
+                      children: [
+                        Text('Web Development',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromRGBO(118, 117, 121, 1),
+                                fontSize: 19),
+                            textAlign: TextAlign.left),
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              width: 1.5,
+                              color: Color.fromARGB(255, 188, 164, 192)),
+                        ),
+                        color: Color.fromARGB(23, 255, 255, 255))),
+                Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                    child: Text("Skills:",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Color.fromARGB(144, 64, 7, 87),
+                            fontSize: 19),
+                        textAlign: TextAlign.left),
+                    alignment: Alignment.topLeft),
+                SizedBox(height: 0.90),
+                Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                    alignment: Alignment.topRight,
+                    child: Row(
+                      children: [
+                        Text('Html & Css',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromRGBO(118, 117, 121, 1),
+                                fontSize: 19),
+                            textAlign: TextAlign.left),
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              width: 1.5,
+                              color: Color.fromARGB(255, 188, 164, 192)),
+                        ),
+                        color: Color.fromARGB(23, 255, 255, 255))),
                 SizedBox(height: 60),
                 Container(
                   child: ElevatedButton(
