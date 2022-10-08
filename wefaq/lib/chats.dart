@@ -25,6 +25,7 @@ class _chatScreenState extends State<chatScreen> {
   void initState() {
     getCurrentUser();
     getProjectTitle();
+    getProjectTitleOwner();
     super.initState();
   }
 
@@ -56,6 +57,22 @@ class _chatScreenState extends State<chatScreen> {
         for (var Request in snapshot.docs) {
           setState(() {
             ProjectTitleList.add(Request['project_title']);
+          });
+        }
+    }
+  }
+
+  Future getProjectTitleOwner() async {
+    if (Email != null) {
+      var fillterd = _firestore
+          .collection('AllJoinRequests')
+          .where('owner_email', isEqualTo: Email)
+          .snapshots();
+      await for (var snapshot in fillterd)
+        for (var Request in snapshot.docs) {
+          setState(() {
+            if (!ProjectTitleList.contains(Request['project_title']))
+              ProjectTitleList.add(Request['project_title']);
           });
         }
     }
