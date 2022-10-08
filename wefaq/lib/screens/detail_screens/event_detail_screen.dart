@@ -14,7 +14,6 @@ import 'package:http/http.dart' as http;
 import 'package:wefaq/eventsTabs.dart';
 import 'package:wefaq/screens/detail_screens/widgets/event_detail_appbar.dart';
 import 'package:wefaq/service/local_push_notification.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class eventDetailScreen extends StatefulWidget {
   String eventName;
@@ -59,7 +58,6 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
   bool _isSelected1 = false;
   bool _isSelected2 = false;
   bool _isSelected3 = false;
-  bool isPressed = false;
 
   var ProjectTitleList = [];
 
@@ -125,48 +123,12 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        nameList,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(height: 8.0),
-                      const SizedBox(height: 16.0),
-                      Row(
-                        children: [
-                          Container(
-                            height: 50.0,
-                            width: 50.0,
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.only(right: 8.0),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: IconButton(
-                              icon: (isPressed)
-                                  ? const Icon(Icons.favorite,
-                                      color: Color.fromARGB(172, 136, 98, 146))
-                                  : const Icon(Icons.favorite_border,
-                                      color: Color.fromARGB(172, 136, 98, 146)),
-                              onPressed: () {
-                                setState(() {
-                                  if (isPressed) {
-                                    isPressed = false;
-                                    ShowToastRemove();
-                                  } else {
-                                    isPressed = true;
-                                    ShowToastAdd();
-                                  }
-                                });
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                  Text(
+                    nameList,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
+                  const SizedBox(height: 8.0),
+                  const SizedBox(height: 16.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -326,19 +288,3 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
 Future<void> _signOut() async {
   await FirebaseAuth.instance.signOut();
 }
-
-void ShowToastRemove() => Fluttertoast.showToast(
-      msg: "Project is removed form favorite",
-      fontSize: 18,
-      gravity: ToastGravity.CENTER,
-      toastLength: Toast.LENGTH_SHORT,
-      backgroundColor: Color.fromARGB(172, 136, 98, 146),
-    );
-
-void ShowToastAdd() => Fluttertoast.showToast(
-      msg: "Project is added to favorite",
-      fontSize: 18,
-      gravity: ToastGravity.CENTER,
-      toastLength: Toast.LENGTH_SHORT,
-      backgroundColor: Color.fromARGB(172, 136, 98, 146),
-    );
