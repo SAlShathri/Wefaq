@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wefaq/favoriteProject.dart';
 import 'package:wefaq/profile.dart';
 import 'RJRprojects.dart';
 import 'package:wefaq/backgroundHome.dart';
@@ -132,7 +133,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   title: "My Favorites",
                                   imgSrc: "3.png",
                                   onTap: () {
-                                    // next sprint :)
+                                    /* Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                favoriteProjectPage()));*/
                                   }),
                             ],
                           ),
