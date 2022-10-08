@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:wefaq/UserLogin.dart';
-import 'package:wefaq/chatDetails.dart';
 import 'package:wefaq/chatRoom.dart';
 import 'bottom_bar_custom.dart';
 import 'package:flutter/cupertino.dart';
@@ -96,72 +95,60 @@ class _chatScreenState extends State<chatScreen> {
           itemBuilder: (context, index) {
             return SizedBox(
               height: 100,
-              child: GestureDetector(
-                  child: Card(
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                            height: 15,
+              child: Card(
+                color: const Color.fromARGB(255, 255, 255, 255),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Row(children: <Widget>[
+                        IconButton(
+                          icon: const Icon(
+                            CupertinoIcons.group,
+                            color: Color.fromARGB(255, 112, 82, 149),
+                            size: 52,
                           ),
-                          GestureDetector(
-                              child: Row(children: <Widget>[
-                                IconButton(
-                                  icon: const Icon(
-                                    CupertinoIcons.group,
-                                    color: Color.fromARGB(255, 112, 82, 149),
-                                    size: 52,
-                                  ),
-                                  onPressed: () {
-                                    // go to participant's profile
-                                  },
-                                ),
-                                Text(
-                                  " " + ProjectTitleList[index] + " Project",
-                                  style: const TextStyle(
-                                    fontSize: 24,
-                                    color: Color.fromARGB(159, 35, 86, 84),
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 140),
-                                    child: IconButton(
-                                      icon: const Icon(
-                                        Icons.arrow_forward_ios,
-                                        color:
-                                            Color.fromARGB(255, 112, 82, 149),
-                                        size: 28,
-                                      ),
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ChatScreen(
-                                                        projectName:
-                                                            ProjectTitleList[
-                                                                index])));
-                                      },
-                                    ),
-                                  ),
-                                )
-                              ]),
-                              onTap: () {
+                          onPressed: () {
+                            // go to participant's profile
+                          },
+                        ),
+                        Text(
+                          " " + ProjectTitleList[index] + " Project",
+                          style: const TextStyle(
+                            fontSize: 24,
+                            color: Color.fromARGB(159, 35, 86, 84),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.only(left: 140),
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.arrow_forward_ios,
+                                color: Color.fromARGB(255, 112, 82, 149),
+                                size: 28,
+                              ),
+                              onPressed: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => ChatRoom()));
-                              }),
-                        ],
-                      ),
-                    ),
+                                        builder: (context) => ChatScreen(
+                                            projectName:
+                                                ProjectTitleList[index])));
+                              },
+                            ),
+                          ),
+                        )
+                      ]),
+                    ],
                   ),
-                  onTap: () {}),
+                ),
+              ),
             );
           },
         ),

@@ -1,10 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/background.dart';
 import 'bottom_bar_custom.dart';
-import 'package:wefaq/models/user.dart';
 
 class profileScreen extends StatefulWidget {
   @override
@@ -161,7 +159,6 @@ class _profileScreenState extends State<profileScreen> {
                         textAlign: TextAlign.left),
                     alignment: Alignment.topLeft),
                 SizedBox(height: 0.90),
-                
                 Container(
                     margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                     alignment: Alignment.topRight,
@@ -182,21 +179,72 @@ class _profileScreenState extends State<profileScreen> {
                               color: Color.fromARGB(255, 188, 164, 192)),
                         ),
                         color: Color.fromARGB(23, 255, 255, 255))),
-
-                        SizedBox(height: 60),
-                        
-
-                        Container(
+                Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                    child: Text("Experience:",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Color.fromARGB(144, 64, 7, 87),
+                            fontSize: 19),
+                        textAlign: TextAlign.left),
+                    alignment: Alignment.topLeft),
+                SizedBox(height: 0.90),
+                Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                    alignment: Alignment.topRight,
+                    child: Row(
+                      children: [
+                        Text('Web Development',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromRGBO(118, 117, 121, 1),
+                                fontSize: 19),
+                            textAlign: TextAlign.left),
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              width: 1.5,
+                              color: Color.fromARGB(255, 188, 164, 192)),
+                        ),
+                        color: Color.fromARGB(23, 255, 255, 255))),
+                Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                    child: Text("Skills:",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Color.fromARGB(144, 64, 7, 87),
+                            fontSize: 19),
+                        textAlign: TextAlign.left),
+                    alignment: Alignment.topLeft),
+                SizedBox(height: 0.90),
+                Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                    alignment: Alignment.topRight,
+                    child: Row(
+                      children: [
+                        Text('Html & Css',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromRGBO(118, 117, 121, 1),
+                                fontSize: 19),
+                            textAlign: TextAlign.left),
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              width: 1.5,
+                              color: Color.fromARGB(255, 188, 164, 192)),
+                        ),
+                        color: Color.fromARGB(23, 255, 255, 255))),
+                SizedBox(height: 60),
+                Container(
                   child: ElevatedButton(
                     onPressed: () async {
-                    
-                        deleteprofile(); 
-                        Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => UserLogin()));
-                            
+                      deleteprofile();
                     },
-                    
-                    
                     style: ElevatedButton.styleFrom(
                       surfaceTintColor: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -235,18 +283,8 @@ class _profileScreenState extends State<profileScreen> {
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
   }
-  Future<void> deleteprofile() async {
-    print(FirebaseAuth.instance.currentUser!.email);
-    //FirebaseFirestore.instance
-      //                              .collection('AllPrpjects')
-      //                              .doc(FirebaseAuth.instance.currentUser!.email)
-      //                              .delete();
 
-    FirebaseFirestore.instance.collection('AllUsers')
-                                    .doc(FirebaseAuth.instance.currentUser!.email)
-                                    .delete();
-                                    
-     await FirebaseAuth.instance.currentUser!.delete();
-      
+  Future<void> deleteprofile() async {
+    await FirebaseAuth.instance.currentUser!.delete();
   }
 }

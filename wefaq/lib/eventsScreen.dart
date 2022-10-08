@@ -1,21 +1,12 @@
-import 'dart:io';
 import 'dart:math';
-
 import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:wefaq/bottom_bar_custom.dart';
 import 'package:wefaq/eventsTabs.dart';
-import 'package:wefaq/models/project.dart';
-import 'package:wefaq/profile.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/link.dart';
 import 'package:wefaq/screens/detail_screens/event_detail_screen.dart';
-import 'package:wefaq/screens/detail_screens/project_detail_screen.dart';
-
-import 'UserLogin.dart';
 
 // Main Stateful Widget Start
 class EventsListViewPage extends StatefulWidget {

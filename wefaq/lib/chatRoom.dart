@@ -57,7 +57,10 @@ class ChatScreenState extends State<ChatScreen> {
           children: [
             Image.asset('assets/images/logo.png', height: 70),
             SizedBox(width: 10),
-            Text(projectName)
+            Text(
+              projectName,
+              style: TextStyle(color: Colors.grey[800]),
+            )
           ],
         ),
         actions: [],
@@ -175,12 +178,7 @@ class MessageLine extends StatelessWidget {
             isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
           Text("$sender",
-              style: TextStyle(
-                fontSize: 12,
-                color: isMe
-                    ? Color.fromARGB(172, 136, 98, 146)
-                    : Color.fromARGB(221, 81, 122, 140),
-              )),
+              style: TextStyle(fontSize: 12, color: Colors.grey[500])),
           Material(
             elevation: 5,
             borderRadius: isMe
@@ -194,14 +192,12 @@ class MessageLine extends StatelessWidget {
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30),
                   ),
-            color: isMe
-                ? Color.fromARGB(221, 81, 122, 140)
-                : Color.fromARGB(172, 136, 98, 146),
+            color: isMe ? Colors.grey[200] : Color.fromARGB(255, 178, 195, 202),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               child: Text(
                 "$text",
-                style: TextStyle(fontSize: 15, color: Colors.white),
+                style: TextStyle(fontSize: 15, color: Colors.grey[800]),
               ),
             ),
           ),

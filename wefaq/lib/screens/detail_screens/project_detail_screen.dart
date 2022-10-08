@@ -13,6 +13,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:wefaq/service/local_push_notification.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 final _formKey = GlobalKey<FormState>();
 
@@ -77,6 +78,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
   String Role1 = 'Developer';
   String Role2 = 'Tester';
   String Role3 = 'Designer';
+  bool isPressed = false;
 
   var ParticipantNameList = [];
   Status() => ProjectsListViewPage();
@@ -158,12 +160,48 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    nameList,
-                    style: Theme.of(context).textTheme.titleLarge,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        nameList,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(height: 8.0),
+                      const SizedBox(height: 16.0),
+                      Row(
+                        children: [
+                          Container(
+                            height: 50.0,
+                            width: 50.0,
+                            alignment: Alignment.center,
+                            margin: const EdgeInsets.only(right: 8.0),
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: IconButton(
+                              icon: (isPressed)
+                                  ? const Icon(Icons.favorite,
+                                      color: Color.fromARGB(172, 136, 98, 146))
+                                  : const Icon(Icons.favorite_border,
+                                      color: Color.fromARGB(172, 136, 98, 146)),
+                              onPressed: () {
+                                setState(() {
+                                  if (isPressed) {
+                                    isPressed = false;
+                                    ShowToastRemove();
+                                  } else {
+                                    isPressed = true;
+                                    ShowToastAdd();
+                                  }
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 8.0),
-                  const SizedBox(height: 16.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -636,3 +674,19 @@ void sendNotification(String title, String token) async {
 Future<void> _signOut() async {
   await FirebaseAuth.instance.signOut();
 }
+
+void ShowToastRemove() => Fluttertoast.showToast(
+      msg: "Project is removed form favorite",
+      fontSize: 18,
+      gravity: ToastGravity.CENTER,
+      toastLength: Toast.LENGTH_SHORT,
+      backgroundColor: Color.fromARGB(172, 136, 98, 146),
+    );
+
+void ShowToastAdd() => Fluttertoast.showToast(
+      msg: "Project is added to favorite",
+      fontSize: 18,
+      gravity: ToastGravity.CENTER,
+      toastLength: Toast.LENGTH_SHORT,
+      backgroundColor: Color.fromARGB(172, 136, 98, 146),
+    );
