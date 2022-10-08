@@ -144,7 +144,7 @@ class _chatScreenState extends State<chatScreen> {
                         ),
                         Expanded(
                           child: Container(
-                            margin: EdgeInsets.only(left: 140),
+                            margin: EdgeInsets.only(left: 50),
                             child: IconButton(
                               icon: const Icon(
                                 Icons.arrow_forward_ios,
