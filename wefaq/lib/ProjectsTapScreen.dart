@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wefaq/AcceptedSentJoinRequest.dart';
+import 'package:wefaq/DeclinedSentJoinRequest.dart';
+import 'package:wefaq/PendingSentJoinRequest.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
+import 'package:wefaq/eventsScreen.dart';
 import 'package:wefaq/mapView.dart';
+import 'package:wefaq/models/project.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'package:wefaq/userLogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
