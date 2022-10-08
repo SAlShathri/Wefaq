@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/chatDetails.dart';
+import 'package:wefaq/chatRoom.dart';
 import 'bottom_bar_custom.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -141,7 +142,10 @@ class _chatScreenState extends State<chatScreen> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ChatRoom()));
+                                                    ChatScreen(
+                                                        projectName:
+                                                            ProjectTitleList[
+                                                                index])));
                                       },
                                     ),
                                   ),
