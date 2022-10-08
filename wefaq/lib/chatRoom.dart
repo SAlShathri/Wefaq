@@ -1,8 +1,13 @@
-import 'dart:ui';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/route_manager.dart';
+import 'package:http/http.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:wefaq/chatDetails.dart';
 
 late User signedInUser;
 late String userEmail;
@@ -26,7 +31,7 @@ class ChatScreenState extends State<ChatScreen> {
   TextEditingController messageTextEditingControlle = TextEditingController();
 
   String? messageText;
-
+  var _picurl;
   var name = '${FirebaseAuth.instance.currentUser!.displayName}'.split(' ');
   get FName => name.first;
   get LName => name.last;
@@ -38,6 +43,9 @@ class ChatScreenState extends State<ChatScreen> {
     getCurrentUser();
   }
 
+  File? imageFile;
+  ImagePicker _picker = ImagePicker();
+
   void getCurrentUser() {
     try {
       final user = _auth.currentUser;
@@ -48,6 +56,45 @@ class ChatScreenState extends State<ChatScreen> {
     } catch (e) {
       print(e);
     }
+  }
+
+  Future imageFromGallery(BuildContext context) async {
+    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      imageFile = File(image!.path);
+    });
+    Navigator.of(context).pop();
+  }
+
+  Future imageFromCamera(BuildContext context) async {
+    XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    setState(() {
+      imageFile = File(image!.path);
+    });
+    Navigator.of(context).pop();
+  }
+
+  options(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text('Choose'),
+              content: SingleChildScrollView(
+                  child: Column(
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.image),
+                    title: Text("Gallery"),
+                    onTap: () => imageFromGallery(context),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.camera_alt),
+                    title: Text("Camera"),
+                    onTap: () => imageFromCamera(context),
+                  ),
+                ],
+              )),
+            ));
   }
 
   @override
@@ -86,16 +133,24 @@ class ChatScreenState extends State<ChatScreen> {
                       ),
                     );
                   }
-
+                  var timeH;
+                  var timeM;
                   final messages = snapshot.data!.docs.reversed;
                   for (var message in messages) {
-                    final messageText = message.get("message");
+                    var messageText = message.get("message");
                     final messageSender = message.get("senderName");
                     final senderEmail = message.get("email");
-
+                    if (message.get("time") != null) {
+                      timeH = message.get("time").toDate().hour;
+                      timeM = message.get("time").toDate().minute;
+                    }
+                    if (messageText == null) messageText = ' ';
                     final messageWidget = MessageLine(
+                      hour: timeH,
+                      minute: timeM,
                       text: messageText,
                       sender: messageSender,
+                      img: imageFile,
                       isMe: signedInUser.email == senderEmail,
                     );
                     messageWidgets.add(messageWidget);
@@ -128,6 +183,10 @@ class ChatScreenState extends State<ChatScreen> {
                         messageText = value;
                       },
                       decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          onPressed: () => options(context),
+                          icon: Icon(Icons.add_photo_alternate_outlined),
+                        ),
                         contentPadding: EdgeInsets.symmetric(
                           vertical: 10,
                           horizontal: 20,
@@ -166,7 +225,17 @@ class ChatScreenState extends State<ChatScreen> {
 }
 
 class MessageLine extends StatelessWidget {
-  const MessageLine({this.text, this.sender, required this.isMe, super.key});
+  const MessageLine(
+      {this.img,
+      this.text,
+      this.hour,
+      this.minute,
+      this.sender,
+      required this.isMe,
+      super.key});
+  final File? img;
+  final int? hour;
+  final int? minute;
   final String? sender;
   final String? text;
   final bool isMe;
@@ -179,11 +248,21 @@ class MessageLine extends StatelessWidget {
         crossAxisAlignment:
             isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
-          Text("$sender",
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey[500],
-              )),
+          SizedBox(
+            width: 10,
+          ),
+          if (isMe)
+            Text("You",
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Color.fromARGB(255, 147, 160, 166),
+                )),
+          if (!isMe)
+            Text("$sender",
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Color.fromARGB(255, 84, 17, 115),
+                )),
           Material(
             elevation: 5,
             borderRadius: isMe
@@ -209,6 +288,11 @@ class MessageLine extends StatelessWidget {
               ),
             ),
           ),
+          Text(" $hour:$minute",
+              style: TextStyle(
+                fontSize: 10,
+                color: Color.fromARGB(255, 109, 107, 110),
+              )),
         ],
       ),
     );
