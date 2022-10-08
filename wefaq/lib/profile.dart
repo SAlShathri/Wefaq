@@ -191,9 +191,12 @@ class _profileScreenState extends State<profileScreen> {
                     onPressed: () async {
                     
                         deleteprofile(); 
-                        
+                        Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => UserLogin()));
                             
                     },
+                    
+                    
                     style: ElevatedButton.styleFrom(
                       surfaceTintColor: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -233,6 +236,17 @@ class _profileScreenState extends State<profileScreen> {
     await FirebaseAuth.instance.signOut();
   }
   Future<void> deleteprofile() async {
+    print(FirebaseAuth.instance.currentUser!.email);
+    //FirebaseFirestore.instance
+      //                              .collection('AllPrpjects')
+      //                              .doc(FirebaseAuth.instance.currentUser!.email)
+      //                              .delete();
+
+    FirebaseFirestore.instance.collection('AllUsers')
+                                    .doc(FirebaseAuth.instance.currentUser!.email)
+                                    .delete();
+                                    
      await FirebaseAuth.instance.currentUser!.delete();
+      
   }
 }
