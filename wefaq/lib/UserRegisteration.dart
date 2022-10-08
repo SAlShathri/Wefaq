@@ -1,11 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:async';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/backgroundLogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -512,7 +509,7 @@ class _UserRegistratin extends State<UserRegistratin> {
         'LastName': LastName,
         'password': password
       };
-      final docRef = FirebaseFirestore.instance.collection('AllUsers').doc(email);
+      final docRef = FirebaseFirestore.instance.collection('users').doc(uid);
       await docRef.set(userData, SetOptions(merge: true));
       isLoading = false;
       setState(() {});
