@@ -288,11 +288,12 @@ class MessageLine extends StatelessWidget {
               ),
             ),
           ),
-          Text(" $hour:$minute",
-              style: TextStyle(
-                fontSize: 10,
-                color: Color.fromARGB(255, 109, 107, 110),
-              )),
+          if (hour != null && minute != null)
+            Text(" $hour:$minute",
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Color.fromARGB(255, 109, 107, 110),
+                )),
         ],
       ),
     );
