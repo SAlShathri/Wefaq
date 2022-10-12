@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wefaq/FavoritePage.dart';
 //import 'package:wefaq/favoriteProject.dart';
 import 'package:wefaq/profile.dart';
 import 'RJRprojects.dart';
@@ -10,6 +11,7 @@ import 'package:wefaq/TabScreen.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
+import 'ProjectsTapScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -133,11 +135,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   title: "My Favorites",
                                   imgSrc: "3.png",
                                   onTap: () {
-                                    /* Navigator.push(
+                                    Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                favoriteProjectPage()));*/
+                                                favoritePage()));
                                   }),
                             ],
                           ),
