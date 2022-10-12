@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,9 +9,12 @@ import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:wefaq/chatDetails.dart';
+import 'package:wefaq/service/local_push_notification.dart';
+import 'package:http/http.dart' as http;
 
 late User signedInUser;
 late String userEmail;
+var tokens = [];
 
 class ChatScreen extends StatefulWidget {
   String projectName;
@@ -42,8 +46,9 @@ class ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-
     getCurrentUser();
+    getTokens();
+    getTokensOwner();
   }
 
   File? imageFile;
@@ -98,6 +103,33 @@ class ChatScreenState extends State<ChatScreen> {
                 ],
               )),
             ));
+  }
+
+  Future getTokens() async {
+    var fillterd = _firestore
+        .collection('AllJoinRequests')
+        .where('project_title', isEqualTo: projectName)
+        .where('Status', isEqualTo: 'Accepted')
+        .snapshots();
+    await for (var snapshot in fillterd)
+      for (var Request in snapshot.docs) {
+        setState(() {
+          tokens.add(Request['participant_token']);
+        });
+      }
+  }
+
+  Future getTokensOwner() async {
+    var fillterd = _firestore
+        .collection("AllProjects")
+        .where('project_title', isEqualTo: projectName)
+        .snapshots();
+    await for (var snapshot in fillterd)
+      for (var p in snapshot.docs) {
+        setState(() {
+          tokens.add(p['token']);
+        });
+      }
   }
 
   @override
@@ -208,6 +240,10 @@ class ChatScreenState extends State<ChatScreen> {
                           "email": userEmail,
                           "time": FieldValue.serverTimestamp(),
                         });
+                        for (int i = 0; i < tokens.length; i++) {
+                          sendNotification(
+                              FName + ":" + messageText, tokens[i]);
+                        }
                       },
                       child: CircleAvatar(
                         // backgroundColor: MyTheme.kAccentColor,
@@ -301,4 +337,38 @@ class MessageLine extends StatelessWidget {
       ),
     );
   }
+}
+
+void sendNotification(String title, String token) async {
+  final data = {
+    'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+    'id': '1',
+    'status': 'done',
+    'message': title,
+  };
+
+  try {
+    http.Response response =
+        await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+            headers: <String, String>{
+              'Content-Type': 'application/json',
+              'Authorization':
+                  'key=AAAAshcbmas:APA91bGwyZZKhGUguFmek5aalqcySgs3oKgJmra4oloSpk715ijWkf4itCOuGZbeWbPBmHWKBpMkddsr1KyEq6uOzZqIubl2eDs7lB815xPnQmXIEErtyG9wpR9Q4rXdzvk4w6BvGQdJ'
+            },
+            body: jsonEncode(<String, dynamic>{
+              'notification': <String, dynamic>{
+                'title': title,
+                'body': 'You received a join request on your project!'
+              },
+              'priority': 'high',
+              'data': data,
+              'to': '$token'
+            }));
+
+    if (response.statusCode == 200) {
+      print("Your notificatin is sent");
+    } else {
+      print("Error");
+    }
+  } catch (e) {}
 }

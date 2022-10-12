@@ -29,6 +29,7 @@ class _chatScreenState extends State<chatScreen> {
     getProjectTitle();
     getProjectTitleOwner();
 
+    getLastMessage();
     super.initState();
   }
 
