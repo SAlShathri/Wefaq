@@ -20,12 +20,15 @@ class _chatScreenState extends State<chatScreen> {
 
   var ProjectTitleList = [];
 
+  var lastMessage = [];
+  var senders = [];
   String? Email;
   @override
   void initState() {
     getCurrentUser();
     getProjectTitle();
     getProjectTitleOwner();
+
     super.initState();
   }
 
@@ -59,6 +62,31 @@ class _chatScreenState extends State<chatScreen> {
             ProjectTitleList.add(Request['project_title']);
           });
         }
+    }
+  }
+
+  Future getLastMessage() async {
+    for (int i = 0; i < ProjectTitleList.length; i++) {
+      var fillterd = _firestore
+          .collection(ProjectTitleList[i].toString() + " project")
+          .orderBy("time", descending: true)
+          .limit(1)
+          .snapshots();
+      if (await fillterd.isEmpty) {
+        setState(() {
+          lastMessage.add("");
+          senders.add("");
+        });
+      } else {
+        await for (var snapshot in fillterd)
+          for (var message in snapshot.docs) {
+            setState(() {
+              lastMessage.add(message['message']);
+
+              senders.add(message['senderName']);
+            });
+          }
+      }
     }
   }
 
@@ -113,37 +141,41 @@ class _chatScreenState extends State<chatScreen> {
           itemBuilder: (context, index) {
             return SizedBox(
               height: 100,
-              child: Card(
-                color: const Color.fromARGB(255, 255, 255, 255),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Row(children: <Widget>[
-                        IconButton(
-                          icon: const Icon(
-                            CupertinoIcons.group,
-                            color: Color.fromARGB(255, 112, 82, 149),
-                            size: 52,
-                          ),
-                          onPressed: () {
-                            // go to participant's profile
-                          },
+              child: GestureDetector(
+                child: Card(
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 15,
                         ),
-                        Text(
-                          " " + ProjectTitleList[index] + " Project",
-                          style: const TextStyle(
-                            fontSize: 24,
-                            color: Color.fromARGB(159, 35, 86, 84),
-                            fontWeight: FontWeight.w500,
+                        Row(children: <Widget>[
+                          CircleAvatar(
+                            child: IconButton(
+                              icon: const Icon(
+                                CupertinoIcons.group,
+                                color: Colors.white,
+                                size: 25,
+                              ),
+                              onPressed: () {
+                                // go to participant's profile
+                              },
+                            ),
+                            backgroundColor: Colors.grey[350],
                           ),
-                        ),
-                        Expanded(
-                          child: Container(
+                          Text(
+                            " " + ProjectTitleList[index] + " Project",
+                            style: const TextStyle(
+                              fontSize: 24,
+                              color: Color.fromARGB(159, 35, 86, 84),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Expanded(child: SizedBox()),
+                          Container(
                             margin: EdgeInsets.only(left: 50),
                             child: IconButton(
                               icon: const Icon(
@@ -156,16 +188,25 @@ class _chatScreenState extends State<chatScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => ChatScreen(
-                                            projectName:
-                                                ProjectTitleList[index])));
+                                              projectName:
+                                                  ProjectTitleList[index],
+                                            )));
                               },
                             ),
-                          ),
-                        )
-                      ]),
-                    ],
+                          )
+                        ]),
+                      ],
+                    ),
                   ),
                 ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChatScreen(
+                                projectName: ProjectTitleList[index],
+                              )));
+                },
               ),
             );
           },

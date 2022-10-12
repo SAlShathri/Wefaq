@@ -14,7 +14,10 @@ late String userEmail;
 
 class ChatScreen extends StatefulWidget {
   String projectName;
-  ChatScreen({required this.projectName});
+
+  ChatScreen({
+    required this.projectName,
+  });
   static const String screenRoute = 'chat_screen';
 
   @override
