@@ -19,7 +19,7 @@ class _chatScreenState extends State<chatScreen> {
   final _firestore = FirebaseFirestore.instance;
 
   var ProjectTitleList = [];
-
+  var Last = [];
   var lastMessage = [];
   var senders = [];
   String? Email;
@@ -28,7 +28,6 @@ class _chatScreenState extends State<chatScreen> {
     getCurrentUser();
     getProjectTitle();
     getProjectTitleOwner();
-
     getLastMessage();
     super.initState();
   }
@@ -67,27 +66,27 @@ class _chatScreenState extends State<chatScreen> {
   }
 
   Future getLastMessage() async {
-    for (int i = 0; i < ProjectTitleList.length; i++) {
+    for (int i = 0; i < 2; i++) {
       var fillterd = _firestore
-          .collection(ProjectTitleList[i].toString() + " project")
+          .collection("Wefaq project")
           .orderBy("time", descending: true)
           .limit(1)
           .snapshots();
-      if (await fillterd.isEmpty) {
-        setState(() {
-          lastMessage.add("");
-          senders.add("");
-        });
-      } else {
-        await for (var snapshot in fillterd)
-          for (var message in snapshot.docs) {
-            setState(() {
-              lastMessage.add(message['message']);
+      await for (var snapshot in fillterd)
+        for (var message in snapshot.docs) {
+          // if (await fillterd.isEmpty) {
+          //   setState(() {
+          //     lastMessage.add("");
+          //     senders.add("");
+          //   });
+          // } else {
+          setState(() {
+            lastMessage.add(message['message']);
 
-              senders.add(message['senderName']);
-            });
-          }
-      }
+            senders.add(message['senderName']);
+          });
+          // }
+        }
     }
   }
 
@@ -141,7 +140,7 @@ class _chatScreenState extends State<chatScreen> {
           itemCount: ProjectTitleList.length,
           itemBuilder: (context, index) {
             return SizedBox(
-              height: 100,
+              height: 120,
               child: GestureDetector(
                 child: Card(
                   color: const Color.fromARGB(255, 255, 255, 255),
@@ -154,30 +153,43 @@ class _chatScreenState extends State<chatScreen> {
                           height: 15,
                         ),
                         Row(children: <Widget>[
-                          CircleAvatar(
-                            child: IconButton(
-                              icon: const Icon(
-                                CupertinoIcons.group,
-                                color: Colors.white,
-                                size: 25,
+                          Container(
+                            padding: EdgeInsets.all(10.0),
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Color.fromARGB(255, 143, 132, 159),
+                                  width: 0),
+                              shape: BoxShape.circle,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage('assets/images/g.png'),
                               ),
-                              onPressed: () {
-                                // go to participant's profile
-                              },
                             ),
-                            backgroundColor: Colors.grey[350],
                           ),
                           Text(
                             " " + ProjectTitleList[index] + " Project",
                             style: const TextStyle(
-                              fontSize: 24,
+                              fontSize: 18,
                               color: Color.fromARGB(159, 35, 86, 84),
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Expanded(child: SizedBox()),
                           Container(
-                            margin: EdgeInsets.only(left: 50),
+                            margin: EdgeInsets.only(left: 95),
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.looks_one_sharp,
+                                color: Color.fromARGB(255, 112, 82, 149),
+                                size: 28,
+                              ),
+                              onPressed: () {},
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 0),
                             child: IconButton(
                               icon: const Icon(
                                 Icons.arrow_forward_ios,
@@ -194,8 +206,28 @@ class _chatScreenState extends State<chatScreen> {
                                             )));
                               },
                             ),
-                          )
+                          ),
                         ]),
+                        Row(
+                          children: [
+                            Text(
+                              senders.last + ": ",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Color.fromARGB(185, 92, 51, 109),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              lastMessage.last,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Color.fromARGB(159, 7, 7, 7),
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),

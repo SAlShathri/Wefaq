@@ -36,6 +36,7 @@ class ChatScreenState extends State<ChatScreen> {
   final _auth = FirebaseAuth.instance;
 
   TextEditingController messageTextEditingControlle = TextEditingController();
+  TextEditingController dataController = TextEditingController();
 
   String? messageText;
   var _picurl;
@@ -66,12 +67,28 @@ class ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  Future<String> uploadImageToFirebase(File file) async {
+    String fileUrl = '';
+    String fileName = imageFile!.path;
+    var reference = FirebaseStorage.instance.ref().child('myfiles/$fileName');
+    UploadTask uploadTask = reference.putFile(file);
+    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(
+      () => null,
+    );
+    await taskSnapshot.ref.getDownloadURL().then((value) {
+      fileUrl = value;
+    });
+// print ("Url $fileUrl");
+    return fileUrl;
+  }
+
   Future imageFromGallery(BuildContext context) async {
     XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
       imageFile = File(image!.path);
     });
     Navigator.of(context).pop();
+    String imageURL = await uploadImageToFirebase(File(image!.path));
   }
 
   Future imageFromCamera(BuildContext context) async {
@@ -80,6 +97,8 @@ class ChatScreenState extends State<ChatScreen> {
       imageFile = File(image!.path);
     });
     Navigator.of(context).pop();
+
+    String imageURL = await uploadImageToFirebase(File(image!.path));
   }
 
   options(BuildContext context) {
@@ -154,6 +173,26 @@ class ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+                height: 40,
+                child: Center(
+                  child: Card(
+                    color: Color.fromARGB(255, 144, 120, 155),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        "20/10/2022",
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        ),
+                      ),
+                    ),
+                  ),
+                )),
             StreamBuilder<QuerySnapshot>(
                 stream: _firestore
                     .collection(projectName + " project")
@@ -290,6 +329,23 @@ class MessageLine extends StatelessWidget {
           SizedBox(
             width: 10,
           ),
+          // SizedBox(
+          //     height: 40,
+          //     child: Center(
+          //       child: Card(
+          //         color: Color.fromARGB(255, 84, 17, 115),
+          //         child: Padding(
+          //           padding: const EdgeInsets.all(8),
+          //           child: Text(
+          //             "20/10/2022",
+          //             style: TextStyle(
+          //               fontSize: 15,
+          //               color: Color.fromARGB(255, 255, 255, 255),
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     )),
           if (isMe)
             Text("You",
                 style: TextStyle(
