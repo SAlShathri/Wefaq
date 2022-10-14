@@ -4,11 +4,10 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/route_manager.dart';
-import 'package:http/http.dart';
+import 'package:grouped_list/grouped_list.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:wefaq/chatDetails.dart';
+import 'package:intl/intl.dart';
 import 'package:wefaq/service/local_push_notification.dart';
 import 'package:http/http.dart' as http;
 
@@ -166,37 +165,18 @@ class ChatScreenState extends State<ChatScreen> {
             )
           ],
         ),
-        actions: [],
       ),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-                height: 40,
-                child: Center(
-                  child: Card(
-                    color: Color.fromARGB(255, 144, 120, 155),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Text(
-                        "20/10/2022",
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        ),
-                      ),
-                    ),
-                  ),
-                )),
             StreamBuilder<QuerySnapshot>(
                 stream: _firestore
                     .collection(projectName + " project")
-                    .orderBy("time")
+                    .orderBy(
+                      "time",
+                    )
                     .snapshots(),
                 builder: (context, snapshot) {
                   List<MessageLine> messageWidgets = [];
@@ -209,6 +189,7 @@ class ChatScreenState extends State<ChatScreen> {
                   }
                   var timeH;
                   var timeM;
+                  String? dateM;
                   final messages = snapshot.data!.docs.reversed;
                   for (var message in messages) {
                     var messageText = message.get("message");
@@ -217,24 +198,100 @@ class ChatScreenState extends State<ChatScreen> {
                     if (message.get("time") != null) {
                       timeH = message.get("time").toDate().hour;
                       timeM = message.get("time").toDate().minute;
+
+                      dateM = DateFormat.yMMMd()
+                          .format(message.get("time").toDate());
                     }
                     if (messageText == null) messageText = ' ';
                     final messageWidget = MessageLine(
-                      hour: timeH,
-                      minute: timeM,
-                      text: messageText,
-                      sender: messageSender,
-                      img: imageFile,
-                      isMe: signedInUser.email == senderEmail,
-                    );
+                        hour: timeH,
+                        minute: timeM,
+                        text: messageText,
+                        sender: messageSender,
+                        img: imageFile,
+                        isMe: signedInUser.email == senderEmail,
+                        date: dateM.toString());
                     messageWidgets.add(messageWidget);
                   }
                   return Expanded(
-                    child: ListView(
-                      reverse: true,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      children: messageWidgets,
+                    child: GroupedListView<MessageLine, String>(
+                      elements: messageWidgets,
+                      groupBy: (message) => message.date.toString(),
+                      order: GroupedListOrder.DESC,
+                      groupSeparatorBuilder: (String groupByValue) => SizedBox(
+                          height: 40,
+                          child: Center(
+                              child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Text(
+                                    groupByValue.toString(),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Color.fromARGB(255, 144, 120, 155),
+                                    ),
+                                  )))),
+                      itemBuilder: (context, MessageLine message) => Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          crossAxisAlignment: message.isMe
+                              ? CrossAxisAlignment.end
+                              : CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 10,
+                            ),
+                            if (message.isMe)
+                              Text("You",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Color.fromARGB(255, 147, 160, 166),
+                                  )),
+                            if (!message.isMe)
+                              Text(message.sender.toString(),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Color.fromARGB(255, 84, 17, 115),
+                                  )),
+                            Material(
+                              elevation: 5,
+                              borderRadius: message.isMe
+                                  ? BorderRadius.only(
+                                      topLeft: Radius.circular(30),
+                                      bottomLeft: Radius.circular(30),
+                                      bottomRight: Radius.circular(30),
+                                    )
+                                  : BorderRadius.only(
+                                      topRight: Radius.circular(30),
+                                      bottomLeft: Radius.circular(30),
+                                      bottomRight: Radius.circular(30),
+                                    ),
+                              color: message.isMe
+                                  ? Colors.grey[200]
+                                  : Color.fromARGB(255, 178, 195, 202),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 10),
+                                child: Text(
+                                  message.text.toString(),
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.grey[800],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            if (message.hour != null && message.minute != null)
+                              Text(
+                                  message.hour.toString() +
+                                      ":" +
+                                      message.minute.toString(),
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Color.fromARGB(255, 109, 107, 110),
+                                  )),
+                          ],
+                        ),
+                      ),
                     ),
                   );
                 }),
@@ -302,7 +359,7 @@ class ChatScreenState extends State<ChatScreen> {
   }
 }
 
-class MessageLine extends StatelessWidget {
+class MessageLine {
   const MessageLine(
       {this.img,
       this.text,
@@ -310,89 +367,14 @@ class MessageLine extends StatelessWidget {
       this.minute,
       this.sender,
       required this.isMe,
-      super.key});
+      required this.date});
   final File? img;
   final int? hour;
   final int? minute;
   final String? sender;
   final String? text;
+  final String date;
   final bool isMe;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        crossAxisAlignment:
-            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 10,
-          ),
-          // SizedBox(
-          //     height: 40,
-          //     child: Center(
-          //       child: Card(
-          //         color: Color.fromARGB(255, 84, 17, 115),
-          //         child: Padding(
-          //           padding: const EdgeInsets.all(8),
-          //           child: Text(
-          //             "20/10/2022",
-          //             style: TextStyle(
-          //               fontSize: 15,
-          //               color: Color.fromARGB(255, 255, 255, 255),
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     )),
-          if (isMe)
-            Text("You",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 147, 160, 166),
-                )),
-          if (!isMe)
-            Text("$sender",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 84, 17, 115),
-                )),
-          Material(
-            elevation: 5,
-            borderRadius: isMe
-                ? BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30),
-                  )
-                : BorderRadius.only(
-                    topRight: Radius.circular(30),
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30),
-                  ),
-            color: isMe ? Colors.grey[200] : Color.fromARGB(255, 178, 195, 202),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: Text(
-                "$text",
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.grey[800],
-                ),
-              ),
-            ),
-          ),
-          if (hour != null && minute != null)
-            Text(" $hour:$minute",
-                style: TextStyle(
-                  fontSize: 10,
-                  color: Color.fromARGB(255, 109, 107, 110),
-                )),
-        ],
-      ),
-    );
-  }
 }
 
 void sendNotification(String title, String token) async {
@@ -412,10 +394,7 @@ void sendNotification(String title, String token) async {
                   'key=AAAAshcbmas:APA91bGwyZZKhGUguFmek5aalqcySgs3oKgJmra4oloSpk715ijWkf4itCOuGZbeWbPBmHWKBpMkddsr1KyEq6uOzZqIubl2eDs7lB815xPnQmXIEErtyG9wpR9Q4rXdzvk4w6BvGQdJ'
             },
             body: jsonEncode(<String, dynamic>{
-              'notification': <String, dynamic>{
-                'title': title,
-                'body': 'You received a join request on your project!'
-              },
+              'notification': <String, dynamic>{'title': title, 'body': ''},
               'priority': 'high',
               'data': data,
               'to': '$token'

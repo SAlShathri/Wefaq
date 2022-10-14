@@ -28,7 +28,6 @@ class _chatScreenState extends State<chatScreen> {
     getCurrentUser();
     getProjectTitle();
     getProjectTitleOwner();
-    getLastMessage();
     super.initState();
   }
 
@@ -66,26 +65,25 @@ class _chatScreenState extends State<chatScreen> {
   }
 
   Future getLastMessage() async {
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < ProjectTitleList.length; i++) {
       var fillterd = _firestore
-          .collection("Wefaq project")
+          .collection(ProjectTitleList[i] + " project")
           .orderBy("time", descending: true)
           .limit(1)
           .snapshots();
       await for (var snapshot in fillterd)
         for (var message in snapshot.docs) {
-          // if (await fillterd.isEmpty) {
-          //   setState(() {
-          //     lastMessage.add("");
-          //     senders.add("");
-          //   });
-          // } else {
-          setState(() {
-            lastMessage.add(message['message']);
-
-            senders.add(message['senderName']);
-          });
-          // }
+          if (await fillterd.isEmpty) {
+            setState(() {
+              lastMessage.add(" ");
+              senders.add(" ");
+            });
+          } else {
+            setState(() {
+              lastMessage.add(message['message']);
+              senders.add(message['senderName']);
+            });
+          }
         }
     }
   }
@@ -177,17 +175,7 @@ class _chatScreenState extends State<chatScreen> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(left: 95),
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.looks_one_sharp,
-                                color: Color.fromARGB(255, 112, 82, 149),
-                                size: 28,
-                              ),
-                              onPressed: () {},
-                            ),
-                          ),
+                          Expanded(child: SizedBox()),
                           Container(
                             margin: EdgeInsets.only(left: 0),
                             child: IconButton(
@@ -208,26 +196,6 @@ class _chatScreenState extends State<chatScreen> {
                             ),
                           ),
                         ]),
-                        Row(
-                          children: [
-                            Text(
-                              senders.last + ": ",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(185, 92, 51, 109),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            Text(
-                              lastMessage.last,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(159, 7, 7, 7),
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ],
-                        )
                       ],
                     ),
                   ),
