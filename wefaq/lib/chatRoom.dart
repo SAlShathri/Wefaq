@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -190,6 +191,7 @@ class ChatScreenState extends State<ChatScreen> {
                   var timeH;
                   var timeM;
                   String? dateM;
+                  Timestamp? timestamp;
                   final messages = snapshot.data!.docs.reversed;
                   for (var message in messages) {
                     var messageText = message.get("message");
@@ -198,7 +200,7 @@ class ChatScreenState extends State<ChatScreen> {
                     if (message.get("time") != null) {
                       timeH = message.get("time").toDate().hour;
                       timeM = message.get("time").toDate().minute;
-
+                      timestamp = message.get("time");
                       dateM = DateFormat.yMMMd()
                           .format(message.get("time").toDate());
                     }
@@ -210,13 +212,17 @@ class ChatScreenState extends State<ChatScreen> {
                         sender: messageSender,
                         img: imageFile,
                         isMe: signedInUser.email == senderEmail,
-                        date: dateM.toString());
+                        date: dateM.toString(),
+                        time: timestamp);
                     messageWidgets.add(messageWidget);
                   }
                   return Expanded(
                     child: GroupedListView<MessageLine, String>(
+                      reverse: true,
                       elements: messageWidgets,
                       groupBy: (message) => message.date.toString(),
+                      itemComparator: (item1, item2) =>
+                          item1.time!.compareTo(item2.time!),
                       order: GroupedListOrder.DESC,
                       groupSeparatorBuilder: (String groupByValue) => SizedBox(
                           height: 40,
@@ -230,7 +236,7 @@ class ChatScreenState extends State<ChatScreen> {
                                       color: Color.fromARGB(255, 144, 120, 155),
                                     ),
                                   )))),
-                      itemBuilder: (context, MessageLine message) => Padding(
+                      itemBuilder: (context, MessageLine message) => (Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Column(
                           crossAxisAlignment: message.isMe
@@ -291,7 +297,7 @@ class ChatScreenState extends State<ChatScreen> {
                                   )),
                           ],
                         ),
-                      ),
+                      )),
                     ),
                   );
                 }),
@@ -367,7 +373,8 @@ class MessageLine {
       this.minute,
       this.sender,
       required this.isMe,
-      required this.date});
+      required this.date,
+      required this.time});
   final File? img;
   final int? hour;
   final int? minute;
@@ -375,6 +382,7 @@ class MessageLine {
   final String? text;
   final String date;
   final bool isMe;
+  final Timestamp? time;
 }
 
 void sendNotification(String title, String token) async {
