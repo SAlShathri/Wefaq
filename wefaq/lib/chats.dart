@@ -19,14 +19,14 @@ class _chatScreenState extends State<chatScreen> {
   final auth = FirebaseAuth.instance;
   late User signedInUser;
   final _firestore = FirebaseFirestore.instance;
-
-  var ProjectTitleList = HomeScreenState.ProjectTitleList;
+  var ProjectTitleList;
   var Last = [];
   var lastMessage = [];
   var senders = [];
   String? Email;
   @override
   void initState() {
+    ProjectTitleList = HomeScreenState.ProjectTitleList;
     getLastMessage();
     super.initState();
   }
@@ -158,18 +158,19 @@ class _chatScreenState extends State<chatScreen> {
                           SizedBox(
                             width: 40,
                           ),
-                          if (senders[index] != " ")
-                            Expanded(
-                              child: Text(
-                                senders[index] + ": " + lastMessage[index],
-                                style: const TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                  fontSize: 12,
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w500,
+                          if (index < senders.length)
+                            if (senders[index] != " ")
+                              Expanded(
+                                child: Text(
+                                  senders[index] + ": " + lastMessage[index],
+                                  style: const TextStyle(
+                                    overflow: TextOverflow.ellipsis,
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
-                            ),
                         ]),
                       ],
                     ),
