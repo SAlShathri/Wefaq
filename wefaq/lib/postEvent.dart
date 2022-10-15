@@ -20,6 +20,9 @@ class PostEvent extends StatefulWidget {
 
 class _PostEventState extends State<PostEvent> {
   final _firestore = FirebaseFirestore.instance;
+  final auth = FirebaseAuth.instance;
+  late User? signedInUser = auth.currentUser;
+
   final TextEditingController _nameEditingController = TextEditingController();
   final TextEditingController _descriptionEditingController =
       TextEditingController();
@@ -484,6 +487,7 @@ class _PostEventState extends State<PostEvent> {
                                   .doc(_nameEditingController.text)
                                   .set({
                                 'name': _nameEditingController.text,
+                                'email': signedInUser?.email,
                                 'location': _startSearchFieldController.text,
                                 'description':
                                     _descriptionEditingController.text,
