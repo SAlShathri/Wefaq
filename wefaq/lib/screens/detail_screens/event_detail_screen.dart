@@ -1,4 +1,5 @@
 import 'dart:convert';
+//import 'dart:js_util';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -55,6 +56,12 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
   String dateTimeList = "";
 
   String TimeList = "";
+/////////////////////////////////////////////////////////////////////////////////////////
+  //String favoriteEmail = "";
+
+  String ownerEmail = "";
+
+  String EventName = "";
 
   bool _isSelected1 = false;
   bool _isSelected2 = false;
@@ -79,7 +86,8 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
   var creatDate = [];
 
   final _firestore = FirebaseFirestore.instance;
-  late User signedInUser;
+  final auth = FirebaseAuth.instance;
+  late User? signedInUser = auth.currentUser;
 
   //get all projects
   Future getProjects() async {
@@ -92,6 +100,9 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
       categoryList = "";
       dateTimeList = "";
       TimeList = "";
+      //favoriteEmail = "";
+      ownerEmail = "";
+      EventName = "";
     });
     await for (var snapshot in _firestore
         .collection('AllEvents')
@@ -107,11 +118,28 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
           categoryList = events['category'].toString();
           dateTimeList = events['date'].toString();
           TimeList = events['time'].toString();
-
+          nameList = events['name'].toString();
+          EventName = events['name'].toString();
+          ownerEmail = events['email'].toString();
           //  dateTimeList.add(project['dateTime ']);
         });
       }
   }
+/*
+  final auth = FirebaseAuth.instance;
+  String? Email;
+  void getCurrentUser() {
+    try {
+      final user = auth.currentUser;
+      if (user != null) {
+        signedInUser = user;
+        Email = signedInUser.email;
+        print(signedInUser.email);
+      }
+    } catch (e) {
+      print(e);
+    }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -158,6 +186,12 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                                   } else {
                                     isPressed = true;
                                     ShowToastAdd();
+
+                                    _firestore.collection('FavoriteEvent').add({
+                                      'favoriteEmail': signedInUser?.email,
+                                      'ownerEmail': ownerEmail,
+                                      'eventName': EventName,
+                                    });
                                   }
                                 });
                               },
