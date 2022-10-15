@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wefaq/FavoritePage.dart';
 //import 'package:wefaq/favoriteProject.dart';
@@ -15,20 +16,75 @@ import 'ProjectsTapScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
 //,,,
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
   final auth = FirebaseAuth.instance;
   late User signedInUser;
   @override
+  void initState() {
+    getCurrentUser();
+    getProjectTitle();
+    getProjectTitleOwner();
+    super.initState();
+  }
+
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
   }
 
+  static List<String> ProjectTitleList = [];
+  String? Email;
+  final _firestore = FirebaseFirestore.instance;
   var name = '${FirebaseAuth.instance.currentUser!.displayName}'.split(' ');
   get FName => name.first;
+  void getCurrentUser() {
+    try {
+      final user = auth.currentUser;
+      if (user != null) {
+        signedInUser = user;
+        Email = signedInUser.email;
+        print(signedInUser.email);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future getProjectTitleOwner() async {
+    if (Email != null) {
+      var fillterd = _firestore
+          .collection('AllJoinRequests')
+          .where('owner_email', isEqualTo: Email)
+          .snapshots();
+      await for (var snapshot in fillterd)
+        for (var Request in snapshot.docs) {
+          setState(() {
+            if (!ProjectTitleList.contains(Request['project_title'].toString()))
+              ProjectTitleList.add(Request['project_title'].toString());
+          });
+        }
+    }
+  }
+
+  Future getProjectTitle() async {
+    if (Email != null) {
+      var fillterd = _firestore
+          .collection('AllJoinRequests')
+          .where('participant_email', isEqualTo: Email)
+          .where('Status', isEqualTo: 'Accepted')
+          .snapshots();
+      await for (var snapshot in fillterd)
+        for (var Request in snapshot.docs) {
+          setState(() {
+            if (!ProjectTitleList.contains(Request['project_title'].toString()))
+              ProjectTitleList.add(Request['project_title'].toString());
+          });
+        }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

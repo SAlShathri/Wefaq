@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:intl/intl.dart';
+import 'package:wefaq/HomePage.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/chatDetails.dart';
 import 'package:wefaq/chatRoom.dart';
@@ -18,89 +20,48 @@ class _chatScreenState extends State<chatScreen> {
   late User signedInUser;
   final _firestore = FirebaseFirestore.instance;
 
-  var ProjectTitleList = [];
+  var ProjectTitleList = HomeScreenState.ProjectTitleList;
   var Last = [];
   var lastMessage = [];
   var senders = [];
   String? Email;
   @override
   void initState() {
-    getCurrentUser();
-    getProjectTitle();
-    getProjectTitleOwner();
+    getLastMessage();
     super.initState();
-  }
-
-  void getCurrentUser() {
-    try {
-      final user = auth.currentUser;
-      if (user != null) {
-        signedInUser = user;
-        Email = signedInUser.email;
-        print(signedInUser.email);
-      }
-    } catch (e) {
-      print(e);
-    }
   }
 
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
   }
 
-  Future getProjectTitle() async {
-    if (Email != null) {
-      var fillterd = _firestore
-          .collection('AllJoinRequests')
-          .where('participant_email', isEqualTo: Email)
-          .where('Status', isEqualTo: 'Accepted')
-          .snapshots();
-      await for (var snapshot in fillterd)
-        for (var Request in snapshot.docs) {
-          setState(() {
-            ProjectTitleList.add(Request['project_title']);
-          });
-        }
-    }
-  }
-
+  var fillterd;
   Future getLastMessage() async {
-    for (int i = 0; i < ProjectTitleList.length; i++) {
-      var fillterd = _firestore
-          .collection(ProjectTitleList[i] + " project")
-          .orderBy("time", descending: true)
-          .limit(1)
-          .snapshots();
-      await for (var snapshot in fillterd)
-        for (var message in snapshot.docs) {
-          if (await fillterd.isEmpty) {
-            setState(() {
-              lastMessage.add(" ");
-              senders.add(" ");
-            });
-          } else {
-            setState(() {
-              lastMessage.add(message['message']);
-              senders.add(message['senderName']);
-            });
-          }
-        }
-    }
+    for (var i = 0; i < ProjectTitleList.length; i++)
+      setState(() {
+        add(ProjectTitleList[i].toString());
+      });
   }
 
-  Future getProjectTitleOwner() async {
-    if (Email != null) {
-      var fillterd = _firestore
-          .collection('AllJoinRequests')
-          .where('owner_email', isEqualTo: Email)
-          .snapshots();
-      await for (var snapshot in fillterd)
-        for (var Request in snapshot.docs) {
-          setState(() {
-            if (!ProjectTitleList.contains(Request['project_title']))
-              ProjectTitleList.add(Request['project_title']);
-          });
-        }
+  add(String projectName) async {
+    fillterd = _firestore
+        .collection(projectName + " project")
+        .orderBy("time", descending: true)
+        .limit(1)
+        .snapshots();
+    bool enterTheLoop = false;
+    await for (var snapshot in fillterd) {
+      for (var message in snapshot.docs) {
+        setState(() {
+          lastMessage.add(message['message']);
+          senders.add(message['senderName']);
+          enterTheLoop = true;
+        });
+      }
+      if (!enterTheLoop) {
+        lastMessage.add(" ");
+        senders.add(" ");
+      }
     }
   }
 
@@ -138,7 +99,7 @@ class _chatScreenState extends State<chatScreen> {
           itemCount: ProjectTitleList.length,
           itemBuilder: (context, index) {
             return SizedBox(
-              height: 120,
+              height: 85,
               child: GestureDetector(
                 child: Card(
                   color: const Color.fromARGB(255, 255, 255, 255),
@@ -147,14 +108,11 @@ class _chatScreenState extends State<chatScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        SizedBox(
-                          height: 15,
-                        ),
                         Row(children: <Widget>[
                           Container(
                             padding: EdgeInsets.all(10.0),
-                            width: 60,
-                            height: 60,
+                            width: 40,
+                            height: 40,
                             decoration: BoxDecoration(
                               border: Border.all(
                                   color: Color.fromARGB(255, 143, 132, 159),
@@ -176,13 +134,13 @@ class _chatScreenState extends State<chatScreen> {
                             ),
                           ),
                           Expanded(child: SizedBox()),
-                          Container(
-                            margin: EdgeInsets.only(left: 0),
+                          SizedBox(
+                            height: 20,
                             child: IconButton(
                               icon: const Icon(
                                 Icons.arrow_forward_ios,
                                 color: Color.fromARGB(255, 112, 82, 149),
-                                size: 28,
+                                size: 20,
                               ),
                               onPressed: () {
                                 Navigator.push(
@@ -193,6 +151,22 @@ class _chatScreenState extends State<chatScreen> {
                                                   ProjectTitleList[index],
                                             )));
                               },
+                            ),
+                          ),
+                        ]),
+                        Row(children: [
+                          SizedBox(
+                            width: 40,
+                          ),
+                          Expanded(
+                            child: Text(
+                              senders[index] + ": " + lastMessage[index],
+                              style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                fontSize: 12,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ]),
