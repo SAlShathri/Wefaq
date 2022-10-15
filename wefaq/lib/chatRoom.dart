@@ -230,7 +230,7 @@ class ChatScreenState extends State<ChatScreen> {
                               child: Padding(
                                   padding: const EdgeInsets.all(8),
                                   child: Text(
-                                    groupByValue.toString(),
+                                    groupByValue == "null" ? "" : groupByValue,
                                     style: TextStyle(
                                       fontSize: 15,
                                       color: Color.fromARGB(255, 144, 120, 155),
