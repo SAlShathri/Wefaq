@@ -158,17 +158,18 @@ class _chatScreenState extends State<chatScreen> {
                           SizedBox(
                             width: 40,
                           ),
-                          Expanded(
-                            child: Text(
-                              senders[index] + ": " + lastMessage[index],
-                              style: const TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: 12,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w500,
+                          if (senders[index] != " ")
+                            Expanded(
+                              child: Text(
+                                senders[index] + ": " + lastMessage[index],
+                                style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
-                          ),
                         ]),
                       ],
                     ),
