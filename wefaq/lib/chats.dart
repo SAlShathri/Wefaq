@@ -19,14 +19,14 @@ class _chatScreenState extends State<chatScreen> {
   final auth = FirebaseAuth.instance;
   late User signedInUser;
   final _firestore = FirebaseFirestore.instance;
-  var ProjectTitleList;
+
+  var ProjectTitleList = HomeScreenState.ProjectTitleList;
   var Last = [];
   var lastMessage = [];
   var senders = [];
   String? Email;
   @override
   void initState() {
-    ProjectTitleList = HomeScreenState.ProjectTitleList;
     getLastMessage();
     super.initState();
   }
@@ -154,24 +154,77 @@ class _chatScreenState extends State<chatScreen> {
                             ),
                           ),
                         ]),
-                        Row(children: [
-                          SizedBox(
-                            width: 40,
-                          ),
+                        if (ProjectTitleList.length != 0)
+                          if (index < senders.length)
+                            if (lastMessage[index]!.contains(
+                                'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images'))
+                              Row(children: [
+                                SizedBox(
+                                  width: 40,
+                                ),
+                                if (ProjectTitleList.length != 0)
+                                  if (index < senders.length)
+                                    if (senders[index] != " ")
+                                      Expanded(
+                                        child: Text(
+                                          senders[index] + ": " + "Photo",
+                                          style: const TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                              ]),
+                        if (ProjectTitleList.length != 0)
+                          if (index < senders.length)
+                            if (lastMessage[index]!.contains(
+                                'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/files'))
+                              Row(children: [
+                                SizedBox(
+                                  width: 40,
+                                ),
+                                if (ProjectTitleList.length != 0)
+                                  if (index < senders.length)
+                                    if (senders[index] != " ")
+                                      Expanded(
+                                        child: Text(
+                                          senders[index] + ": " + "File",
+                                          style: const TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                              ]),
+                        if (ProjectTitleList.length != 0)
                           if (index < senders.length)
                             if (senders[index] != " ")
-                              Expanded(
-                                child: Text(
-                                  senders[index] + ": " + lastMessage[index],
-                                  style: const TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    fontSize: 12,
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w500,
+                              if (!lastMessage[index]!.contains('https:'))
+                                Row(children: [
+                                  SizedBox(
+                                    width: 40,
                                   ),
-                                ),
-                              ),
-                        ]),
+                                  if (ProjectTitleList.length != 0)
+                                    if (index < senders.length)
+                                      if (senders[index] != " ")
+                                        Expanded(
+                                          child: Text(
+                                            senders[index] +
+                                                ": " +
+                                                lastMessage[index],
+                                            style: const TextStyle(
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 12,
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                ]),
                       ],
                     ),
                   ),

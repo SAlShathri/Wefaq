@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:google_place/google_place.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -12,6 +14,7 @@ import 'package:intl/intl.dart';
 import 'package:wefaq/service/local_push_notification.dart';
 import 'package:http/http.dart' as http;
 
+String FileText = 'test';
 late User signedInUser;
 late String userEmail;
 var tokens = [];
@@ -30,13 +33,13 @@ class ChatScreen extends StatefulWidget {
 
 class ChatScreenState extends State<ChatScreen> {
   String projectName;
+
   ChatScreenState(this.projectName);
 
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
 
   TextEditingController messageTextEditingControlle = TextEditingController();
-  TextEditingController dataController = TextEditingController();
 
   String? messageText;
   var _picurl;
@@ -52,8 +55,7 @@ class ChatScreenState extends State<ChatScreen> {
     getTokensOwner();
   }
 
-  File? imageFile;
-  ImagePicker _picker = ImagePicker();
+  PlatformFile? pickedFile;
 
   void getCurrentUser() {
     try {
@@ -67,39 +69,126 @@ class ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  Future<String> uploadImageToFirebase(File file) async {
-    String fileUrl = '';
-    String fileName = imageFile!.path;
-    var reference = FirebaseStorage.instance.ref().child('myfiles/$fileName');
-    UploadTask uploadTask = reference.putFile(file);
-    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(
-      () => null,
-    );
-    await taskSnapshot.ref.getDownloadURL().then((value) {
-      fileUrl = value;
-    });
-// print ("Url $fileUrl");
-    return fileUrl;
-  }
+  File? imageFile;
+  ImagePicker _picker = ImagePicker();
+  String uploadedFileURL = '';
 
-  Future imageFromGallery(BuildContext context) async {
-    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      imageFile = File(image!.path);
-    });
+  Future uploadImageToFirebase() async {
+    print("Getting Image from Gallery.");
+    XFile? result = await _picker.pickImage(source: ImageSource.gallery);
     Navigator.of(context).pop();
-    String imageURL = await uploadImageToFirebase(File(image!.path));
+    if (result != null) {
+      print(result);
+      setState(() {
+        imageFile = File(result!.path);
+      });
+      String fileName = imageFile!.path;
+      final reference =
+          FirebaseStorage.instance.ref().child('images/$fileName');
+      UploadTask uploadTask = reference.putFile(imageFile!);
+      await uploadTask.whenComplete(() => null);
+      print('File Uploaded');
+      reference.getDownloadURL().then((fileURL) {
+        uploadedFileURL = fileURL;
+      });
+      print(
+          "--------------------------------------- Url $uploadedFileURL -------------------------------------");
+    } else
+      Navigator.of(context).pop();
   }
 
-  Future imageFromCamera(BuildContext context) async {
-    XFile? image = await _picker.pickImage(source: ImageSource.camera);
-    setState(() {
-      imageFile = File(image!.path);
-    });
+  Future uploadCameraImageToFirebase() async {
+    print("Getting Image from Gallery.");
+    XFile? result = await _picker.pickImage(source: ImageSource.camera);
     Navigator.of(context).pop();
 
-    String imageURL = await uploadImageToFirebase(File(image!.path));
+    if (result != null) {
+      print(result);
+      setState(() {
+        imageFile = File(result!.path);
+      });
+      String fileName = imageFile!.path;
+      final reference =
+          FirebaseStorage.instance.ref().child('images/$fileName');
+      UploadTask uploadTask = reference.putFile(imageFile!);
+      await uploadTask.whenComplete(() => null);
+      print('File Uploaded');
+      reference.getDownloadURL().then((fileURL) {
+        uploadedFileURL = fileURL;
+      });
+      print(
+          "--------------------------------------- Url $uploadedFileURL -------------------------------------");
+    } else
+      Navigator.of(context).pop();
   }
+
+  Future uploadFileToFirebase() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    Navigator.of(context).pop();
+    if (result != null) {
+      PlatformFile f = result.files.first;
+      print(f.name);
+      print(f.bytes);
+      print(f.size);
+      print(f.extension);
+
+      print(f.path);
+      File file = File(result.files.single.path!);
+      setState(() {
+        FileText = file.path;
+      });
+      String fileName = result.files.first.name;
+      final storageReference =
+          FirebaseStorage.instance.ref().child('files/$fileName');
+      UploadTask uploadTask = storageReference.putFile(file);
+      await uploadTask.whenComplete(() => null);
+      print('File Uploaded');
+      storageReference.getDownloadURL().then((fileURL) {
+        uploadedFileURL = fileURL;
+      });
+      print(
+          "--------------------------------------- Url $uploadedFileURL -------------------------------------");
+    } else
+      Navigator.of(context).pop();
+  }
+
+  Future selectMultiFiles() async {
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(allowMultiple: true);
+    if (result != null) {
+      List<File> Files = result.paths.map((path) => File(path!)).toList();
+
+      setState(() {
+        FileText = Files.toString();
+      });
+      Navigator.of(context).pop();
+    } else
+      Navigator.of(context).pop();
+  }
+
+  // Future Camera() async {
+  //   XFile? image = await _picker.pickImage(source: ImageSource.camera);
+  //   setState(() {
+  //     imageFile = File(image!.path);
+  //   });
+  //   fileUrl = uploadImageToFirebase(imageFile!).toString();
+  //   Navigator.of(context).pop();
+  // }
+
+  // Future selectSingleImage() async {
+  //   print("Getting Image from Gallery.");
+  //   XFile? result = await _picker.pickImage(source: ImageSource.gallery);
+  //   if (result != null) {
+  //     print(result);
+  //     setState(() {
+  //       imageFile = File(result!.path);
+  //     });
+  //     Navigator.of(context).pop();
+  //     fileUrl = uploadImageToFirebase(imageFile!).toString();
+  //     Navigator.of(context).pop();
+  //   } else
+  //     Navigator.of(context).pop();
+  // }
 
   options(BuildContext context) {
     return showDialog(
@@ -110,14 +199,19 @@ class ChatScreenState extends State<ChatScreen> {
                   child: Column(
                 children: [
                   ListTile(
-                    leading: Icon(Icons.image),
-                    title: Text("Gallery"),
-                    onTap: () => imageFromGallery(context),
+                    leading: Icon(Icons.photo_library_sharp),
+                    title: Text("Photos"),
+                    onTap: () => uploadImageToFirebase(),
                   ),
                   ListTile(
                     leading: Icon(Icons.camera_alt),
                     title: Text("Camera"),
-                    onTap: () => imageFromCamera(context),
+                    onTap: () => uploadCameraImageToFirebase(),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.library_books),
+                    title: Text("Files"),
+                    onTap: () => uploadFileToFirebase(),
                   ),
                 ],
               )),
@@ -258,34 +352,64 @@ class ChatScreenState extends State<ChatScreen> {
                                     fontSize: 12,
                                     color: Color.fromARGB(255, 84, 17, 115),
                                   )),
-                            Material(
-                              elevation: 5,
-                              borderRadius: message.isMe
-                                  ? BorderRadius.only(
-                                      topLeft: Radius.circular(30),
-                                      bottomLeft: Radius.circular(30),
-                                      bottomRight: Radius.circular(30),
-                                    )
-                                  : BorderRadius.only(
-                                      topRight: Radius.circular(30),
-                                      bottomLeft: Radius.circular(30),
-                                      bottomRight: Radius.circular(30),
+                            if (!message.text!.contains(
+                                'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images'))
+                              Material(
+                                elevation: 5,
+                                borderRadius: message.isMe
+                                    ? BorderRadius.only(
+                                        topLeft: Radius.circular(30),
+                                        bottomLeft: Radius.circular(30),
+                                        bottomRight: Radius.circular(30),
+                                      )
+                                    : BorderRadius.only(
+                                        topRight: Radius.circular(30),
+                                        bottomLeft: Radius.circular(30),
+                                        bottomRight: Radius.circular(30),
+                                      ),
+                                color: message.isMe
+                                    ? Colors.grey[200]
+                                    : Color.fromARGB(255, 178, 195, 202),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 10),
+                                  child: Text(
+                                    message.text.toString(),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.grey[800],
                                     ),
-                              color: message.isMe
-                                  ? Colors.grey[200]
-                                  : Color.fromARGB(255, 178, 195, 202),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 10),
-                                child: Text(
-                                  message.text.toString(),
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.grey[800],
                                   ),
                                 ),
                               ),
-                            ),
+                            if (message.text!.contains(
+                                'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images'))
+                              Material(
+                                elevation: 5,
+                                borderRadius: message.isMe
+                                    ? BorderRadius.only(
+                                        topLeft: Radius.circular(30),
+                                        bottomLeft: Radius.circular(30),
+                                        bottomRight: Radius.circular(30),
+                                      )
+                                    : BorderRadius.only(
+                                        topRight: Radius.circular(30),
+                                        bottomLeft: Radius.circular(30),
+                                        bottomRight: Radius.circular(30),
+                                      ),
+                                color: message.isMe
+                                    ? Colors.grey[200]
+                                    : Color.fromARGB(255, 178, 195, 202),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 10),
+                                  child: Image.network(
+                                    message.text.toString(),
+                                    height: 220,
+                                    width: 100,
+                                  ),
+                                ),
+                              ),
                             if (message.hour != null && message.minute != null)
                               Text(
                                   message.hour.toString() +
@@ -314,16 +438,60 @@ class ChatScreenState extends State<ChatScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: TextField(
+                    child: TextFormField(
                       controller: messageTextEditingControlle,
                       onChanged: (value) {
-                        messageText = value;
+                        setState(() {
+                          messageText = value;
+                          messageTextEditingControlle.text = uploadedFileURL;
+                        });
                       },
                       decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          onPressed: () => options(context),
-                          icon: Icon(Icons.add_photo_alternate_outlined),
-                        ),
+                        suffixIcon: messageTextEditingControlle.text.isNotEmpty
+                            ? TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    messageTextEditingControlle.clear();
+                                  });
+
+                                  _firestore
+                                      .collection(projectName + " project")
+                                      .add({
+                                    "message": messageText!.contains('https')
+                                        ? uploadedFileURL
+                                        : messageText,
+                                    "senderName": FName + " " + LName,
+                                    "email": userEmail,
+                                    "time": FieldValue.serverTimestamp(),
+                                  });
+                                  for (int i = 0; i < tokens.length; i++) {
+                                    if (messageText!.contains(
+                                        'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images')) {
+                                      messageText = ' Photo';
+                                    } else if (messageText!.contains(
+                                        'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/files')) {
+                                      messageText = 'File';
+                                    }
+                                    sendNotification(
+                                        FName + ":" + messageText, tokens[i]);
+                                  }
+                                  setState(() {
+                                    messageText = "";
+                                  });
+                                },
+                                child: CircleAvatar(
+                                  // backgroundColor: MyTheme.kAccentColor,
+                                  child: Icon(
+                                    Icons.send,
+                                    color: Colors.white,
+                                  ),
+                                  backgroundColor:
+                                      Color.fromARGB(255, 182, 168, 203),
+                                ))
+                            : IconButton(
+                                onPressed: () => options(context),
+                                icon: Icon(Icons.more_vert),
+                              ),
                         contentPadding: EdgeInsets.symmetric(
                           vertical: 10,
                           horizontal: 20,
@@ -333,28 +501,6 @@ class ChatScreenState extends State<ChatScreen> {
                       ),
                     ),
                   ),
-                  TextButton(
-                      onPressed: () {
-                        messageTextEditingControlle.clear();
-                        _firestore.collection(projectName + " project").add({
-                          "message": messageText,
-                          "senderName": FName + " " + LName,
-                          "email": userEmail,
-                          "time": FieldValue.serverTimestamp(),
-                        });
-                        for (int i = 0; i < tokens.length; i++) {
-                          sendNotification(
-                              FName + ":" + messageText, tokens[i]);
-                        }
-                      },
-                      child: CircleAvatar(
-                        // backgroundColor: MyTheme.kAccentColor,
-                        child: Icon(
-                          Icons.send,
-                          color: Colors.white,
-                        ),
-                        backgroundColor: Color.fromARGB(255, 182, 168, 203),
-                      ))
                 ],
               ),
             ),
@@ -381,6 +527,7 @@ class MessageLine {
   final String? sender;
   final String? text;
   final String date;
+
   final bool isMe;
   final Timestamp? time;
 }
