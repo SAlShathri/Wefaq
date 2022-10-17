@@ -76,8 +76,8 @@ class eventDetailAppBar extends StatelessWidget {
                     size: 30,
                   ),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => EventsTabs()));
+                    Navigator.pop(context);
+                    //Navigator.push(context,MaterialPageRoute(builder: (context) => EventsTabs()));
                   }),
             ),
           ),

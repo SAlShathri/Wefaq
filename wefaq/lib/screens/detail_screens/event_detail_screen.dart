@@ -118,7 +118,6 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
           categoryList = events['category'].toString();
           dateTimeList = events['date'].toString();
           TimeList = events['time'].toString();
-          nameList = events['name'].toString();
           EventName = events['name'].toString();
           ownerEmail = events['email'].toString();
           //  dateTimeList.add(project['dateTime ']);
@@ -191,6 +190,12 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                                       'favoriteEmail': signedInUser?.email,
                                       'ownerEmail': ownerEmail,
                                       'eventName': EventName,
+                                      'description': descList,
+                                      'location': locList,
+                                      'URL': urlList,
+                                      'category': categoryList,
+                                      'date': dateTimeList,
+                                      'time': TimeList,
                                     });
                                   }
                                 });
