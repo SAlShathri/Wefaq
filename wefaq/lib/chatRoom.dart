@@ -89,7 +89,17 @@ class ChatScreenState extends State<ChatScreen> {
       await uploadTask.whenComplete(() => null);
       print('File Uploaded');
       reference.getDownloadURL().then((fileURL) {
-        uploadedFileURL = fileURL;
+        setState(() {
+          uploadedFileURL = fileURL;
+
+          messageText = uploadedFileURL;
+          _firestore.collection(projectName + " project").add({
+            "message": messageText,
+            "senderName": FName + " " + LName,
+            "email": userEmail,
+            "time": FieldValue.serverTimestamp(),
+          });
+        });
       });
       print(
           "--------------------------------------- Url $uploadedFileURL -------------------------------------");
@@ -114,7 +124,17 @@ class ChatScreenState extends State<ChatScreen> {
       await uploadTask.whenComplete(() => null);
       print('File Uploaded');
       reference.getDownloadURL().then((fileURL) {
-        uploadedFileURL = fileURL;
+        setState(() {
+          uploadedFileURL = fileURL;
+
+          messageText = uploadedFileURL;
+          _firestore.collection(projectName + " project").add({
+            "message": messageText,
+            "senderName": FName + " " + LName,
+            "email": userEmail,
+            "time": FieldValue.serverTimestamp(),
+          });
+        });
       });
       print(
           "--------------------------------------- Url $uploadedFileURL -------------------------------------");
@@ -144,7 +164,16 @@ class ChatScreenState extends State<ChatScreen> {
       await uploadTask.whenComplete(() => null);
       print('File Uploaded');
       storageReference.getDownloadURL().then((fileURL) {
-        uploadedFileURL = fileURL;
+        setState(() {
+          uploadedFileURL = fileURL;
+          messageText = uploadedFileURL;
+          _firestore.collection(projectName + " project").add({
+            "message": messageText,
+            "senderName": FName + " " + LName,
+            "email": userEmail,
+            "time": FieldValue.serverTimestamp(),
+          });
+        });
       });
       print(
           "--------------------------------------- Url $uploadedFileURL -------------------------------------");
@@ -443,7 +472,6 @@ class ChatScreenState extends State<ChatScreen> {
                       onChanged: (value) {
                         setState(() {
                           messageText = value;
-                          messageTextEditingControlle.text = uploadedFileURL;
                         });
                       },
                       decoration: InputDecoration(
