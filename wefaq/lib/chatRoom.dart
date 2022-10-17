@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -313,50 +314,16 @@ class ChatScreenState extends State<ChatScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: TextFormField(
+                    child: TextField(
                       controller: messageTextEditingControlle,
                       onChanged: (value) {
-                        setState(() {
-                          messageText = value;
-                        });
+                        messageText = value;
                       },
                       decoration: InputDecoration(
-                        suffixIcon: messageTextEditingControlle.text.isNotEmpty
-                            ? TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    messageTextEditingControlle.clear();
-                                  });
-
-                                  _firestore
-                                      .collection(projectName + " project")
-                                      .add({
-                                    "message": messageText,
-                                    "senderName": FName + " " + LName,
-                                    "email": userEmail,
-                                    "time": FieldValue.serverTimestamp(),
-                                  });
-                                  for (int i = 0; i < tokens.length; i++) {
-                                    sendNotification(
-                                        FName + ":" + messageText, tokens[i]);
-                                  }
-                                  setState(() {
-                                    messageText = "";
-                                  });
-                                },
-                                child: CircleAvatar(
-                                  // backgroundColor: MyTheme.kAccentColor,
-                                  child: Icon(
-                                    Icons.send,
-                                    color: Colors.white,
-                                  ),
-                                  backgroundColor:
-                                      Color.fromARGB(255, 182, 168, 203),
-                                ))
-                            : IconButton(
-                                onPressed: () => options(context),
-                                icon: Icon(Icons.add_photo_alternate_outlined),
-                              ),
+                        suffixIcon: IconButton(
+                          onPressed: () => options(context),
+                          icon: Icon(Icons.add_photo_alternate_outlined),
+                        ),
                         contentPadding: EdgeInsets.symmetric(
                           vertical: 10,
                           horizontal: 20,
@@ -366,6 +333,28 @@ class ChatScreenState extends State<ChatScreen> {
                       ),
                     ),
                   ),
+                  TextButton(
+                      onPressed: () {
+                        messageTextEditingControlle.clear();
+                        _firestore.collection(projectName + " project").add({
+                          "message": messageText,
+                          "senderName": FName + " " + LName,
+                          "email": userEmail,
+                          "time": FieldValue.serverTimestamp(),
+                        });
+                        for (int i = 0; i < tokens.length; i++) {
+                          sendNotification(
+                              FName + ":" + messageText, tokens[i]);
+                        }
+                      },
+                      child: CircleAvatar(
+                        // backgroundColor: MyTheme.kAccentColor,
+                        child: Icon(
+                          Icons.send,
+                          color: Colors.white,
+                        ),
+                        backgroundColor: Color.fromARGB(255, 182, 168, 203),
+                      ))
                 ],
               ),
             ),
