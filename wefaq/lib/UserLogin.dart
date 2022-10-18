@@ -141,6 +141,7 @@ class _UserLogin extends State<UserLogin> {
                         builder: ((context) =>
                             Center(child: CircularProgressIndicator())));
         */
+        else{
                     if (_FormKey.currentState!.validate()) {
                       try {
                         final user = await _auth.signInWithEmailAndPassword(
@@ -174,6 +175,7 @@ class _UserLogin extends State<UserLogin> {
                         );
                       }
                     }
+                  }
                     // hide the loding indicator
                     // navigatorKey.currentState!.popUntil((route) => route.isFirst);
                   },
