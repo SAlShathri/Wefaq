@@ -46,6 +46,8 @@ class _ListViewPageState extends State<EventsListViewPage> {
   //category list
   var dateTimeList = [];
 
+  List<String> ownerEmail = [];
+
   var TimeList = [];
   var latList = [];
 
@@ -111,6 +113,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
       latList = [];
       lngList = [];
       creatDate = [];
+      ownerEmail = [];
     });
 
     await for (var snapshot in _firestore
@@ -126,6 +129,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
           categoryList.add(events['category']);
           dateTimeList.add(events['date']);
           TimeList.add(events['time']);
+          ownerEmail.add(events['email']);
           latList.add(events['lat']);
           lngList.add(events['lng']);
           creatDate.add(events['cdate']);
@@ -147,6 +151,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
       latList = [];
       lngList = [];
       creatDate = [];
+      ownerEmail = [];
     });
     await for (var snapshot in _firestore
         .collection('AllEvents')
@@ -164,6 +169,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
           latList.add(events['lat']);
           lngList.add(events['lng']);
           creatDate.add(events['cdate']);
+          ownerEmail.add(events['email']);
 
           //  dateTimeList.add(project['dateTime ']);
         });

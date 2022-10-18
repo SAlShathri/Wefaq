@@ -507,9 +507,10 @@ class _UserRegistratin extends State<UserRegistratin> {
         'Email': email,
         'FirstName': FirstName,
         'LastName': LastName,
-        'password': password
+        'password': password,
+        'status' : 'active',
       };
-      final docRef = FirebaseFirestore.instance.collection('users').doc(uid);
+      final docRef = FirebaseFirestore.instance.collection('users').doc(email);
       await docRef.set(userData, SetOptions(merge: true));
       isLoading = false;
       setState(() {});

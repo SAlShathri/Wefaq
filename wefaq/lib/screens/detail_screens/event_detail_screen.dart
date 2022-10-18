@@ -17,6 +17,8 @@ import 'package:wefaq/screens/detail_screens/widgets/event_detail_appbar.dart';
 import 'package:wefaq/service/local_push_notification.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../Report.dart';
+
 class eventDetailScreen extends StatefulWidget {
   String eventName;
 
@@ -178,6 +180,27 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                       const SizedBox(height: 16.0),
                       Row(
                         children: [
+                          Container(
+                margin: EdgeInsets.only(right: 0),
+              height: 56.0,
+              width: 56.0,
+         
+              child: IconButton(
+                  icon: Icon(
+                    Icons.error_outline,
+                    color: Color.fromARGB(255, 186, 48, 48),
+                    size: 30,
+                  ),
+                  
+                  onPressed: () {
+                     Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => reportEvent( eventName:
+                                                                nameList, eventOwner: ownerEmail  )));
+//showDialogFunc(context);
+                  }
+                  
+                  ),
+            ),
                           Container(
                             height: 50.0,
                             width: 50.0,

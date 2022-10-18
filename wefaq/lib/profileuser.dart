@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
@@ -273,25 +274,42 @@ class _viewprofileState extends State<viewprofile> {
                               ),
                             ),
                           ),
-                          Container(
-                            alignment: Alignment.center,
-                            height: 50.0,
+                         Container(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      showDialogFunc();
+                      // deleteprofile();
+                      //   Navigator.push(context,
+                      //     MaterialPageRoute(builder: (context) => UserLogin()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      surfaceTintColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(80.0)),
+                      padding: const EdgeInsets.all(0),
+                    ),
+                    child: Container(
+                      alignment: Alignment.center,
+                       height: 50.0,
                             width: 150,
-                            decoration: new BoxDecoration(
-                                borderRadius: BorderRadius.circular(80.0),
-                                gradient: new LinearGradient(colors: [
-                                  Color.fromARGB(144, 67, 7, 87),
-                                  Color.fromARGB(221, 137, 171, 187)
-                                ])),
-                            padding: const EdgeInsets.all(0),
-                            child: Text(
-                              "Delete Account",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 255, 255, 255)),
-                            ),
-                          ),
+                     // width: size.width * 0.5,
+                      decoration: new BoxDecoration(
+                          borderRadius: BorderRadius.circular(80.0),
+                          gradient: new LinearGradient(colors: [
+                            Color.fromARGB(144, 67, 7, 87),
+                            Color.fromARGB(221, 137, 171, 187)
+                          ])),
+                      padding: const EdgeInsets.all(0),
+                      child: Text(
+                        "Delete Account",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 255, 255, 255)),
+                      ),
+                    ),
+                  ),
+                ),
                         ],
                       ),
                     ),
@@ -304,4 +322,171 @@ class _viewprofileState extends State<viewprofile> {
       ),
     );
   }
+  Future<void> deleteprofile() async {
+    print(FirebaseAuth.instance.currentUser!.email);
+    //FirebaseFirestore.instance
+      //                              .collection('AllPrpjects')
+      //                              .doc(FirebaseAuth.instance.currentUser!.email)
+      //                              .delete();
+
+    FirebaseFirestore.instance.collection('users')
+                                    .doc(FirebaseAuth.instance.currentUser!.email)
+                                    .delete();
+                                    
+     await FirebaseAuth.instance.currentUser!.delete();
+      
+  }
+
+  showDialogFunc() {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return Center(
+            child: Material(
+                type: MaterialType.transparency,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                  ),
+                  padding: const EdgeInsets.all(15),
+                  height: 190,
+                  width: MediaQuery.of(context).size.width * 0.85,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      // Code for acceptance role
+                      Row(children: <Widget>[
+                        Expanded(
+                          flex: 2,
+                          child: GestureDetector(
+                            child: Text(
+                              "Are you sure you want to delete    your account ?",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Color.fromARGB(159, 64, 7, 87),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onTap: () {
+                              // go to participant's profile
+                            },
+                          ),
+                        ),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                      ]),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      //----------------------------------------------------------------------------
+                      Row(
+                        children: <Widget>[
+                          Text(""),
+                          Text("        "),
+                          ElevatedButton(
+                            onPressed: () async {
+                      
+                        Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => viewprofile(userEmail: 'Email',)  ));
+                    },
+                            style: ElevatedButton.styleFrom(
+                              surfaceTintColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(80.0)),
+                              padding: const EdgeInsets.all(0),
+                            ),
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 40.0,
+                              width: 100,
+                              decoration: new BoxDecoration(
+                                  borderRadius: BorderRadius.circular(9.0),
+                                  gradient: new LinearGradient(colors: [
+                                    Color.fromARGB(144, 176, 175, 175),
+                                    Color.fromARGB(144, 176, 175, 175),
+                                  ])),
+                              padding: const EdgeInsets.all(0),
+                              child: Text(
+                                "Cancel",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color.fromARGB(255, 255, 255, 255)),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 40),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(
+                                FirebaseAuth.instance.currentUser!.email)
+                            .update({'status': 'inactive'});
+
+
+
+                                CoolAlert.show(
+                          context: context,
+                          title: "your account is inactive now",
+                          
+                          confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+                          onConfirmBtnTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => UserLogin() ));
+                          },
+                          type: CoolAlertType.success,
+                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                          
+                          text: "you can reactivate your account within 1 week when you login",
+                        );
+                               // deleteprofile();
+                                // Navigator.push(context,
+                                // MaterialPageRoute(builder: (context) => UserLogin()));
+
+                    
+     
+     
+                                  
+                              },
+                              style: ElevatedButton.styleFrom(
+                                surfaceTintColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(80.0)),
+                                padding: const EdgeInsets.all(0),
+                              ),
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 40.0,
+                                width: 100,
+                                decoration: new BoxDecoration(
+                                    borderRadius: BorderRadius.circular(9.0),
+                                    gradient: new LinearGradient(colors: [
+                                      Color.fromARGB(144, 210, 2, 2),
+                                      Color.fromARGB(144, 210, 2, 2)
+                                    ])),
+                                padding: const EdgeInsets.all(0),
+                                child: Text(
+                                  "Delete",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color:
+                                          Color.fromARGB(255, 255, 255, 255)),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                )));
+      });
+}
 }
