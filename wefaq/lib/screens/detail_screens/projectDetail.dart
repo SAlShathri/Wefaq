@@ -16,6 +16,8 @@ import 'package:http/http.dart' as http;
 import 'package:wefaq/service/local_push_notification.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../viewOtherProfile.dart';
+
 final _formKey = GlobalKey<FormState>();
 
 class projectDetail extends StatefulWidget {
@@ -213,24 +215,34 @@ class projectDetailScreenState extends State<projectDetail> {
                     children: [
                       Row(
                         children: [
-                          Container(
-                            height: 35.0,
-                            width: 35.0,
-                            margin: const EdgeInsets.only(right: 8.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: const DecorationImage(
-                                image:
-                                    AssetImage('assets/images/PlaceHolder.png'),
-                                fit: BoxFit.cover,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: const Offset(0, 4),
-                                  blurRadius: 4.0,
-                                  color: Colors.black.withOpacity(0.25),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => viewotherprofile(
+                                            userEmail: ownerEmail,
+                                          )));
+                            },
+                            child: Container(
+                              height: 35.0,
+                              width: 35.0,
+                              margin: const EdgeInsets.only(right: 8.0),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: const DecorationImage(
+                                  image: AssetImage(
+                                      'assets/images/PlaceHolder.png'),
+                                  fit: BoxFit.cover,
                                 ),
-                              ],
+                                boxShadow: [
+                                  BoxShadow(
+                                    offset: const Offset(0, 4),
+                                    blurRadius: 4.0,
+                                    color: Colors.black.withOpacity(0.25),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           Text(

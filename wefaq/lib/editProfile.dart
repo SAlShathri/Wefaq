@@ -235,25 +235,24 @@ class _editprofileState extends State<editprofile> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(5.0),
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(left: 95),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    TextFormField(
-                                      decoration: const InputDecoration(
-                                        border: UnderlineInputBorder(),
-                                        //  labelText: 'About',
-                                      ),
-                                      controller: _nameEditingController,
-                                    ),
-                                  ],
-                                ),
+                          child: ListTile(
+                            subtitle: TextFormField(
+                              decoration: const InputDecoration(
+                                border: UnderlineInputBorder(),
+                                //  labelText: 'About',
                               ),
-                            ],
+                              controller: _nameEditingController,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "required";
+                                } else if (!RegExp(r'^[a-z A-Z]+$')
+                                        .hasMatch(value!) &&
+                                    !RegExp(r'^[ أ-ي]+$').hasMatch(value!)) {
+                                  return "Only English or Arabic letters";
+                                }
+                              },
+                            ),
+                            leading: Icon(Icons.format_align_center),
                           ),
                         ),
                         /*Container(
@@ -362,18 +361,21 @@ class _editprofileState extends State<editprofile> {
                           ListTile(
                             title: Text("Role"),
                             subtitle: TextFormField(
-                                decoration: const InputDecoration(
-                                  border: UnderlineInputBorder(),
-                                  //  labelText: 'About',
-                                ),
-                                controller: _roleEditingController,
-                                validator: (value) {
-                                  if (value == null ||
-                                      value.isEmpty ||
-                                      value.trim() == '') {
-                                    return 'required';
-                                  }
-                                }),
+                              decoration: const InputDecoration(
+                                border: UnderlineInputBorder(),
+                                //  labelText: 'About',
+                              ),
+                              controller: _roleEditingController,
+                              validator: (value) {
+                                if (value!.isEmpty || value.trim() == '') {
+                                  return "required";
+                                } else if (!RegExp(r'^[a-zA-Z]+$')
+                                        .hasMatch(value!) &&
+                                    !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
+                                  return "Only English or Arabic letters";
+                                }
+                              },
+                            ),
                             leading: Icon(Icons.person),
                           ),
                           Divider(
@@ -462,9 +464,9 @@ class _editprofileState extends State<editprofile> {
                                 validator: (value) {
                                   if (value == null ||
                                       value.isEmpty ||
-                                      value.trim() == ' ' ||
+                                      value.trim() == '' ||
                                       value == ' ') {
-                                    return 'space dose not allowed ';
+                                    return 'required';
                                   }
                                 }),
                             leading: Icon(

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wefaq/ProjectsTapScreen.dart';
 import 'package:wefaq/config/colors.dart';
+import 'package:wefaq/profileuser.dart';
 import 'package:wefaq/screens/detail_screens/widgets/project_detail_appbar.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:wefaq/projectsScreen.dart';
@@ -14,6 +15,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:wefaq/service/local_push_notification.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../viewOtherProfile.dart';
 
 final _formKey = GlobalKey<FormState>();
 
@@ -30,7 +33,6 @@ class projectDetailScreen extends StatefulWidget {
 class _projectDetailScreenState extends State<projectDetailScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     getCurrentUser();
     getProjects();
     getRequests();
@@ -207,24 +209,34 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                     children: [
                       Row(
                         children: [
-                          Container(
-                            height: 35.0,
-                            width: 35.0,
-                            margin: const EdgeInsets.only(right: 8.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: const DecorationImage(
-                                image:
-                                    AssetImage('assets/images/PlaceHolder.png'),
-                                fit: BoxFit.cover,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: const Offset(0, 4),
-                                  blurRadius: 4.0,
-                                  color: Colors.black.withOpacity(0.25),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => viewotherprofile(
+                                            userEmail: ownerEmail,
+                                          )));
+                            },
+                            child: Container(
+                              height: 35.0,
+                              width: 35.0,
+                              margin: const EdgeInsets.only(right: 8.0),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: const DecorationImage(
+                                  image: AssetImage(
+                                      'assets/images/PlaceHolder.png'),
+                                  fit: BoxFit.cover,
                                 ),
-                              ],
+                                boxShadow: [
+                                  BoxShadow(
+                                    offset: const Offset(0, 4),
+                                    blurRadius: 4.0,
+                                    color: Colors.black.withOpacity(0.25),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           Text(
