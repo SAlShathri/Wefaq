@@ -128,24 +128,6 @@ class _viewprofileState extends State<viewotherprofile> {
                                         Text("$fname" + " $lname",
                                             style: TextStyle(fontSize: 18)),
                                       ])),
-                                      Expanded(
-                                          child: Column(children: <Widget>[
-                                        IconButton(
-                                          icon: Icon(
-                                            Icons.edit,
-                                            color: Color.fromARGB(
-                                                255, 141, 136, 146),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      editprofile()),
-                                            );
-                                          },
-                                        ),
-                                      ]))
                                     ]),
                                     Row(children: <Widget>[
                                       Expanded(
