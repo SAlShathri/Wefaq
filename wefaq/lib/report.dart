@@ -175,6 +175,7 @@ class _reportEventState extends State<reportEvent> {
               Scrollbar(
                 thumbVisibility: true,
                 child: TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                     maxLength: 1000,
                     maxLines: 12,
                     decoration: InputDecoration(
@@ -209,6 +210,10 @@ class _reportEventState extends State<reportEvent> {
                     ),
                     controller: _noteEditingController,
                     validator: (value) {
+                      if (!RegExp(r'^[a-z A-Z . ,]+$').hasMatch(value!) &&
+                          !RegExp(r'^[, . أ-ي]+$').hasMatch(value!)) {
+                        return "Only English or Arabic letters";
+                      }
                       // if (value == null ||
                       //     value.isEmpty ||
                       //     value.trim() == '') {
