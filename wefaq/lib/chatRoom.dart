@@ -16,6 +16,7 @@ import 'package:wefaq/photo.dart';
 import 'package:wefaq/service/local_push_notification.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+// import 'package:open_file/open_file.dart';
 
 String FileText = 'test';
 late User signedInUser;
@@ -388,7 +389,6 @@ class ChatScreenState extends State<ChatScreen> {
                             if (!message.text!.startsWith(
                                 'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/'))
                               Material(
-                                elevation: 5,
                                 borderRadius: message.isMe
                                     ? BorderRadius.only(
                                         topLeft: Radius.circular(30),
@@ -418,7 +418,6 @@ class ChatScreenState extends State<ChatScreen> {
                             if (message.text!.startsWith(
                                 'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images'))
                               Material(
-                                elevation: 5,
                                 borderRadius: message.isMe
                                     ? BorderRadius.only(
                                         topLeft: Radius.zero,
@@ -451,6 +450,62 @@ class ChatScreenState extends State<ChatScreen> {
                                     message.text.toString(),
                                     height: 280,
                                     width: 150,
+                                  ),
+                                ),
+                              ),
+                            if (message.text!.startsWith(
+                                'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/files'))
+                              Material(
+                                borderRadius: message.isMe
+                                    ? BorderRadius.only(
+                                        topLeft: Radius.zero,
+                                        bottomLeft: Radius.zero,
+                                        bottomRight: Radius.zero,
+                                      )
+                                    : BorderRadius.only(
+                                        topRight: Radius.zero,
+                                        bottomLeft: Radius.zero,
+                                        bottomRight: Radius.zero,
+                                      ),
+                                // child: TextButton(
+                                //   onPressed: () {
+                                //     Navigator.push(
+                                //         context,
+                                //         MaterialPageRoute(
+                                //             builder: (context) => PhotoDisplay(
+                                //                   photoURL:
+                                //                       message.text.toString(),
+                                //                   date: message.date,
+                                //                   time: message.hour
+                                //                           .toString() +
+                                //                       ":" +
+                                //                       message.minute.toString(),
+                                //                   name:
+                                //                       message.sender.toString(),
+                                //                 )));
+                                //   },
+                                //   child: Image.network(
+                                //     message.text.toString(),
+                                //     height: 280,
+                                //     width: 150,
+                                //   ),
+                                // ),
+                                child: Container(
+                                  child: Link(
+                                    target: LinkTarget.blank,
+                                    uri: Uri.parse(
+                                      message.text.toString(),
+                                    ),
+                                    builder: (context, followLink) =>
+                                        IconButton(
+                                      onPressed: () =>
+                                          launch(message.text.toString()),
+                                      icon: Icon(
+                                        Icons.file_present_outlined,
+                                        size: 40,
+                                      ),
+                                      color: Color.fromARGB(255, 150, 138, 169),
+                                    ),
                                   ),
                                 ),
                               ),
