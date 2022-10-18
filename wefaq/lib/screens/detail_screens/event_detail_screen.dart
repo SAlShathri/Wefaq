@@ -27,11 +27,26 @@ class eventDetailScreen extends StatefulWidget {
 }
 
 class _eventDetailScreenState extends State<eventDetailScreen> {
+  String? Email;
   @override
   void initState() {
     // TODO: implement initState
+    getCurrentUser();
     getProjects();
     super.initState();
+  }
+
+  void getCurrentUser() {
+    try {
+      final user = auth.currentUser;
+      if (user != null) {
+        signedInUser = user;
+        Email = signedInUser?.email;
+        print(signedInUser?.email);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   String eventName;
@@ -182,12 +197,28 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                                   if (isPressed) {
                                     isPressed = false;
                                     ShowToastRemove();
+
+                                    FirebaseFirestore.instance
+                                        .collection('FavoriteEvent')
+                                        .doc(Email! +
+                                            '-' +
+                                            EventName +
+                                            '-' +
+                                            ownerEmail)
+                                        .delete();
                                   } else {
                                     isPressed = true;
                                     ShowToastAdd();
 
-                                    _firestore.collection('FavoriteEvent').add({
-                                      'favoriteEmail': signedInUser?.email,
+                                    _firestore
+                                        .collection('FavoriteEvent')
+                                        .doc(Email! +
+                                            '-' +
+                                            EventName +
+                                            '-' +
+                                            ownerEmail)
+                                        .set({
+                                      'favoriteEmail': Email,
                                       'ownerEmail': ownerEmail,
                                       'eventName': EventName,
                                       'description': descList,
