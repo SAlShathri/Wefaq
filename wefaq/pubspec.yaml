@@ -62,7 +62,8 @@ dependencies:
   image_picker: ^0.8.6
   firebase_storage: ^10.3.11
   file_picker: ^5.2.1
-  open_file: 
+  line_icons: ^2.0.1
+  image_cropper: ^3.0.0
   
 dev_dependencies:
   flutter_test:

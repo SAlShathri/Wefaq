@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wefaq/FavoritePage.dart';
 //import 'package:wefaq/favoriteProject.dart';
 import 'package:wefaq/profile.dart';
+import 'package:wefaq/profileuser.dart';
 import 'RJRprojects.dart';
 import 'package:wefaq/backgroundHome.dart';
 import 'package:flutter/material.dart';
@@ -111,7 +112,9 @@ class HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => profileScreen()));
+                                builder: (context) => viewprofile(
+                                    userEmail: FirebaseAuth
+                                        .instance.currentUser!.email!)));
                       })),
               Container(
                 margin: EdgeInsets.only(left: 340, top: 40),
