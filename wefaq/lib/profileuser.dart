@@ -32,7 +32,7 @@ class _viewprofileState extends State<viewprofile> {
   String experince = "";
   String cerifi = "";
   String skills = "";
-  String role = "";
+
   String gitHub = "";
   List<String> selectedOptionList = [];
 
@@ -55,7 +55,7 @@ class _viewprofileState extends State<viewprofile> {
           about = user["about"].toString();
           experince = user["experince"].toString();
           cerifi = user["cerifi"].toString();
-          role = user["role"].toString();
+
           gitHub = user["gitHub"].toString();
           for (var skill in user["skills"])
             selectedOptionList.add(skill.toString());
@@ -145,37 +145,21 @@ class _viewprofileState extends State<viewprofile> {
                                             );
                                           },
                                         ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      userProjects(
+                                                          userEmail:
+                                                              userEmail)),
+                                            );
+                                          },
+                                          child: Text("My Projects"),
+                                        )
                                       ]))
                                     ]),
-                                    Row(children: <Widget>[
-                                      Expanded(
-                                          child: Column(children: <Widget>[
-                                        ListTile(
-                                          contentPadding: EdgeInsets.all(0),
-                                          title: Text("$role"),
-                                          //You can add Subtitle here
-                                        ),
-                                      ])),
-                                      Expanded(
-                                        child: Column(
-                                          children: <Widget>[
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          userProjects(
-                                                              userEmail:
-                                                                  userEmail)),
-                                                );
-                                              },
-                                              child: Text("My Projects"),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ])
                                   ],
                                 ),
                               ),

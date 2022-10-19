@@ -508,7 +508,7 @@ class _UserRegistratin extends State<UserRegistratin> {
         'FirstName': FirstName,
         'LastName': LastName,
         'password': password,
-        'status' : 'active',
+        'status': 'active',
       };
       final docRef = FirebaseFirestore.instance.collection('users').doc(email);
       await docRef.set(userData, SetOptions(merge: true));

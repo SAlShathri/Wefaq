@@ -118,13 +118,13 @@ class _viewprofileState extends State<viewotherprofile> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Container(
-                                margin: EdgeInsets.only(left: 95),
+                                margin: EdgeInsets.only(left: 5),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Row(children: <Widget>[
                                       Expanded(
-                                          child: Column(children: <Widget>[
+                                          child: Column(children: [
                                         Text("$fname" + " $lname",
                                             style: TextStyle(fontSize: 18)),
                                       ])),
@@ -134,37 +134,31 @@ class _viewprofileState extends State<viewotherprofile> {
                                           child: Column(children: <Widget>[
                                         ListTile(
                                           contentPadding: EdgeInsets.all(0),
-                                          title: Text("$role"),
+
                                           //You can add Subtitle here
                                         ),
                                       ])),
-                                      Expanded(
-                                        child: Column(
-                                          children: <Widget>[
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          userProjects(
-                                                              userEmail:
-                                                                  userEmail)),
-                                                );
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    "View projects",
-                                                    style: TextStyle(
-                                                      fontSize: 12,
-                                                    ),
-                                                  ),
-                                                ],
+                                      Column(
+                                        children: <Widget>[
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        userProjects(
+                                                            userEmail:
+                                                                userEmail)),
+                                              );
+                                            },
+                                            child: Text(
+                                              "View projects",
+                                              style: TextStyle(
+                                                fontSize: 12,
                                               ),
-                                            )
-                                          ],
-                                        ),
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     ])
                                   ],

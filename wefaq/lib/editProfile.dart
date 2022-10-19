@@ -47,7 +47,7 @@ class _editprofileState extends State<editprofile> {
   final TextEditingController _certificationsEditingController =
       TextEditingController();
   final TextEditingController _nameEditingController = TextEditingController();
-  final TextEditingController _roleEditingController = TextEditingController();
+
   List<String> options = [];
   List<String> selectedOptionList = [];
   var selectedOption;
@@ -166,14 +166,12 @@ class _editprofileState extends State<editprofile> {
           about = user["about"].toString();
           experince = user["experince"].toString();
           cerifi = user["cerifi"].toString();
-          role = user["role"].toString();
           gitHub = user["gitHub"].toString();
           _aboutEditingController.text = user["about"].toString();
           _gitHubEditingController.text = user["gitHub"].toString();
           _certificationsEditingController.text = user["cerifi"].toString();
           _nameEditingController.text =
               user["FirstName"].toString() + " " + user["LastName"].toString();
-          _roleEditingController.text = user["role"].toString();
           _experienceEditingController.text = user["experince"].toString();
           for (var skill in user["skills"])
             selectedOptionList.add(skill.toString());
@@ -236,6 +234,7 @@ class _editprofileState extends State<editprofile> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: ListTile(
+                            title: Text("Name"),
                             subtitle: TextFormField(
                               decoration: const InputDecoration(
                                 border: UnderlineInputBorder(),
@@ -306,17 +305,6 @@ class _editprofileState extends State<editprofile> {
                                                     radius: 100.0,
                                                   ),
                                           )),
-                                      IconButton(
-                                        iconSize: 20,
-                                        icon: Icon(
-                                          Icons.camera_alt,
-                                          color: Color.fromARGB(
-                                              255, 141, 136, 146),
-                                        ),
-                                        onPressed: () {
-                                          _showSelectPhotoOptions(context);
-                                        },
-                                      ),
                                     ],
                                   ),
                                 ],
@@ -349,34 +337,14 @@ class _editprofileState extends State<editprofile> {
                                 ),
                                 controller: _aboutEditingController,
                                 validator: (value) {
-                                  if (value == null ||
-                                      value.isEmpty ||
-                                      value.trim() == '') {
-                                    return 'required';
-                                  }
+                                  if (value?.trim() == '') {
+                                    return 'Space is not allowed';
+                                  } else if (RegExp("^[0-9]").hasMatch(value!))
+                                    return 'Numbers are not allowed';
+
                                   return null;
                                 }),
                             leading: Icon(Icons.format_align_center),
-                          ),
-                          ListTile(
-                            title: Text("Role"),
-                            subtitle: TextFormField(
-                              decoration: const InputDecoration(
-                                border: UnderlineInputBorder(),
-                                //  labelText: 'About',
-                              ),
-                              controller: _roleEditingController,
-                              validator: (value) {
-                                if (value!.isEmpty || value.trim() == '') {
-                                  return "required";
-                                } else if (!RegExp(r'^[a-zA-Z]+$')
-                                        .hasMatch(value!) &&
-                                    !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
-                                  return "Only English or Arabic letters";
-                                }
-                              },
-                            ),
-                            leading: Icon(Icons.person),
                           ),
                           Divider(
                             color: Color.fromARGB(115, 176, 176, 176),
@@ -393,11 +361,10 @@ class _editprofileState extends State<editprofile> {
                                 ),
                                 controller: _gitHubEditingController,
                                 validator: (value) {
-                                  if (value == null ||
-                                      value.isEmpty ||
-                                      value.trim() == '') {
-                                    return 'required';
-                                  }
+                                  if (value?.trim() == '') {
+                                    return 'Space is not allowed';
+                                  } else if (RegExp("^[0-9]").hasMatch(value!))
+                                    return 'Numbers are not allowed';
                                 }),
                             leading: Icon(
                               LineIcons.github,
@@ -417,11 +384,10 @@ class _editprofileState extends State<editprofile> {
                                 ),
                                 controller: _experienceEditingController,
                                 validator: (value) {
-                                  if (value == null ||
-                                      value.isEmpty ||
-                                      value.trim() == '') {
-                                    return 'required';
-                                  }
+                                  if (value?.trim() == '') {
+                                    return 'Space is not allowed';
+                                  } else if (RegExp("^[0-9]").hasMatch(value!))
+                                    return 'Numbers are not allowed';
                                 }),
                             leading: Icon(Icons.calendar_view_day),
                           ),
@@ -462,12 +428,10 @@ class _editprofileState extends State<editprofile> {
                                 ),
                                 controller: _certificationsEditingController,
                                 validator: (value) {
-                                  if (value == null ||
-                                      value.isEmpty ||
-                                      value.trim() == '' ||
-                                      value == ' ') {
-                                    return 'required';
-                                  }
+                                  if (value?.trim() == '') {
+                                    return 'Space is not allowed';
+                                  } else if (RegExp("^[0-9]").hasMatch(value!))
+                                    return 'Numbers are not allowed';
                                 }),
                             leading: Icon(
                               Icons.workspace_premium,
@@ -521,13 +485,21 @@ class _editprofileState extends State<editprofile> {
                                         .collection('users')
                                         .doc(signedInUser.email)
                                         .set({
+                                      "FirstName": _nameEditingController.text
+                                          .substring(
+                                              0,
+                                              _nameEditingController.text
+                                                  .indexOf(" ")),
+                                      "LastName": _nameEditingController.text
+                                          .substring(_nameEditingController.text
+                                                  .indexOf(" ") +
+                                              1),
                                       "about": _aboutEditingController.text,
                                       "experince":
                                           _experienceEditingController.text,
                                       "cerifi":
                                           _certificationsEditingController.text,
                                       "skills": selectedOptionList,
-                                      "role": _roleEditingController.text,
                                       "gitHub": _gitHubEditingController.text,
                                     }, SetOptions(merge: true));
 
