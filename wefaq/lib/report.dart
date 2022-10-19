@@ -175,8 +175,8 @@ class _reportEventState extends State<reportEvent> {
               Scrollbar(
                 thumbVisibility: true,
                 child: TextFormField(
-                //  autovalidateMode: AutovalidateMode.onUserInteraction,
-                    maxLength: 1000,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                    maxLength: 500,
                     maxLines: 12,
                     decoration: InputDecoration(
                        floatingLabelBehavior: FloatingLabelBehavior.always,
