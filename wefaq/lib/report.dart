@@ -175,7 +175,7 @@ class _reportEventState extends State<reportEvent> {
               Scrollbar(
                 thumbVisibility: true,
                 child: TextFormField(
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                //  autovalidateMode: AutovalidateMode.onUserInteraction,
                     maxLength: 1000,
                     maxLines: 12,
                     decoration: InputDecoration(
@@ -211,7 +211,7 @@ class _reportEventState extends State<reportEvent> {
                     controller: _noteEditingController,
                     validator: (value) {
                       if (!RegExp(r'^[a-z A-Z . ,]+$').hasMatch(value!) &&
-                          !RegExp(r'^[, . أ-ي]+$').hasMatch(value!)) {
+                          !RegExp(r'^[, . أ-ي]+$').hasMatch(value!) && value.isNotEmpty) {
                         return "Only English or Arabic letters";
                       }
                       // if (value == null ||
@@ -280,7 +280,7 @@ class _reportEventState extends State<reportEvent> {
                         //sucess message
                         CoolAlert.show(
                           context: context,
-                          title: "Thank you for your report!",
+                          title: "Thanks for letting us know!",
                           
                           confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
                           onConfirmBtnTap: () {
