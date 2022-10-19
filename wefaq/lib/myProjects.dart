@@ -92,7 +92,7 @@ class _myProjectState extends State<myProjects> {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => HomeScreen()));
             }),
-        backgroundColor: Color.fromARGB(255, 182, 168, 203),
+        backgroundColor: Color.fromARGB(255, 145, 124, 178),
         actions: <Widget>[
           IconButton(
               icon: Icon(
