@@ -504,6 +504,8 @@ class _UserRegistratin extends State<UserRegistratin> {
       await userCredential.user!.updateDisplayName(Fullname);
       final uid = userCredential.user!.uid;
       final userData = {
+        "Profile":
+            "https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images%2FScreen%20Shot%202022-10-19%20at%204.03.24%20PM.png?alt=media&token=fb592318-b262-4fdf-96f2-48fed928f5b5",
         'Email': email,
         'FirstName': FirstName,
         'LastName': LastName,

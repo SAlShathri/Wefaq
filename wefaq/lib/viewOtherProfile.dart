@@ -28,6 +28,7 @@ class _viewprofileState extends State<viewotherprofile> {
   String skills = "";
   String role = "";
   String gitHub = "";
+  String photo = '';
   List<String> selectedOptionList = [];
 
   @override
@@ -44,6 +45,7 @@ class _viewprofileState extends State<viewotherprofile> {
     await for (var snapshot in fillterd)
       for (var user in snapshot.docs) {
         setState(() {
+          photo = user["Profile"].toString();
           fname = user["FirstName"].toString();
           lname = user["LastName"].toString();
           about = user["about"].toString();
@@ -88,7 +90,7 @@ class _viewprofileState extends State<viewotherprofile> {
               width: double.infinity,
               child: Image(
                 image: AssetImage(
-                  "assets/images/header.jpg",
+                  "assets/images/header_profile.png",
                 ),
                 fit: BoxFit.cover,
               ),
@@ -173,9 +175,7 @@ class _viewprofileState extends State<viewotherprofile> {
                           ],
                           borderRadius: BorderRadius.circular(10),
                           image: DecorationImage(
-                            image: AssetImage(
-                              "assets/images/layanP.jpg",
-                            ),
+                            image: NetworkImage("$photo"),
                             fit: BoxFit.cover,
                           ),
                         ),
