@@ -148,17 +148,36 @@ class _viewprofileState extends State<viewprofile> {
                                         },
                                       ),
                                       GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    userProjects(
-                                                        userEmail: userEmail)),
-                                          );
-                                        },
-                                        child: Text("My Projects"),
-                                      )
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      userProjects(
+                                                          userEmail:
+                                                              userEmail)),
+                                            );
+                                          },
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            height: 30,
+                                            width: 100,
+                                            decoration: BoxDecoration(
+                                              color: Color.fromARGB(
+                                                  201, 231, 229, 229),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Text(
+                                              "My projects",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Color.fromARGB(
+                                                    255, 96, 51, 104),
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ))
                                     ]))
                                   ]),
                                 ],
