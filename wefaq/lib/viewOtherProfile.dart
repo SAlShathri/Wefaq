@@ -149,7 +149,7 @@ class _viewprofileState extends State<viewotherprofile> {
                                             child: Container(
                                               alignment: Alignment.center,
                                               height: 30,
-                                              width: 100,
+                                              width: 120,
                                               decoration: BoxDecoration(
                                                 color: Color.fromARGB(
                                                     201, 231, 229, 229),
