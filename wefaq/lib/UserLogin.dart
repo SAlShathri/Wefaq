@@ -150,10 +150,33 @@ class _UserLogin extends State<UserLogin> {
                         .where("Email", isEqualTo: email)
                         .where("status", isEqualTo: "inactive")
                         .get();
+                        final del = await FirebaseFirestore.instance
+                        .collection('users')
+                        .where("Email", isEqualTo: email)
+                        .where("status", isEqualTo: "deleted")
+                        .get();
                     //if ( rec.docs.isEmpty)
 
                     if (rec.docs.isNotEmpty) {
                       showDialogFunc();
+                    }
+                    
+                   else
+
+                    if (del.docs.isNotEmpty) {
+                       CoolAlert.show(
+                            context: context,
+                            title: "Sorry",
+                            confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
+                            //cancelBtnColor: Color.fromARGB(144, 64, 6, 87),
+                            type: CoolAlertType.error,
+                            backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                            text: "Incorrect username or password",
+                            confirmBtnText: 'Try again',
+                            onConfirmBtnTap: () {
+                              Navigator.of(context).pop();
+                            },
+                          );
                     }
 
                     //loding indicator
@@ -335,6 +358,11 @@ for (var i =0 ;i<names.length;i++) {
                             Text("        "),
                             ElevatedButton(
                               onPressed: () async {
+                                 FirebaseFirestore.instance
+                                      .collection('users')
+                                      .doc(FirebaseAuth
+                                          .instance.currentUser!.email)
+                                      .update({'status': 'deleted'});
                                 deleteprofile();
                                 Navigator.push(
                                     context,
