@@ -396,7 +396,7 @@ class _viewprofileState extends State<viewprofile> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => viewprofile(
-                                              userEmail: 'Email',
+                                              userEmail: userEmail,
                                             )));
                               },
                               style: ElevatedButton.styleFrom(
