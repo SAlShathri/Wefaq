@@ -164,7 +164,7 @@ class _viewprofileState extends State<viewprofile> {
                                             width: 100,
                                             decoration: BoxDecoration(
                                               color: Color.fromARGB(
-                                                  202, 206, 203, 203),
+                                                  201, 231, 229, 229),
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                             ),

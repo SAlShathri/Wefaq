@@ -399,9 +399,9 @@ class _editprofileState extends State<editprofile> {
                           child: Center(
                             child: GestureDetector(
                               behavior: HitTestBehavior.translucent,
-                              onTap: () {
-                                imageOptions(context);
-                              },
+                              // onTap: () {
+                              //   imageOptions(context);
+                              // },
                               child: Column(
                                 children: [
                                   SizedBox(
@@ -608,9 +608,9 @@ class _editprofileState extends State<editprofile> {
                                   decoration: const BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: <Color>[
-                                        Color.fromARGB(255, 89, 13, 161),
-                                        Color.fromARGB(255, 101, 42, 155),
-                                        Color.fromARGB(255, 117, 85, 148),
+                                        Color.fromARGB(255, 173, 156, 184),
+                                        Color.fromARGB(255, 173, 156, 184),
+                                        Color.fromARGB(255, 173, 156, 184),
                                       ],
                                     ),
                                   ),
@@ -696,9 +696,9 @@ class _editprofileState extends State<editprofile> {
                                       decoration: const BoxDecoration(
                                         gradient: LinearGradient(
                                           colors: <Color>[
-                                            Color.fromARGB(255, 152, 152, 152),
-                                            Color.fromARGB(255, 186, 180, 191),
-                                            Color.fromARGB(255, 152, 152, 152),
+                                            Color.fromARGB(255, 182, 179, 179),
+                                            Color.fromARGB(255, 182, 179, 179),
+                                            Color.fromARGB(255, 182, 179, 179),
                                           ],
                                         ),
                                       ),
