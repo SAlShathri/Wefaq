@@ -211,12 +211,21 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => viewotherprofile(
-                                            userEmail: ownerEmail,
-                                          )));
+                              if (ownerEmail == Email) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => viewprofile(
+                                            userEmail: FirebaseAuth.instance
+                                                .currentUser!.email!)));
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => viewotherprofile(
+                                              userEmail: ownerEmail,
+                                            )));
+                              }
                             },
                             child: Container(
                               height: 35.0,
