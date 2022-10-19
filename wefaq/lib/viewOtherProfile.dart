@@ -20,7 +20,6 @@ class _viewprofileState extends State<viewotherprofile> {
   final auth = FirebaseAuth.instance;
   late User signedInUser;
   final _firestore = FirebaseFirestore.instance;
-
   String fname = "";
   String lname = "";
   String about = "";

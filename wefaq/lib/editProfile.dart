@@ -337,7 +337,7 @@ class _editprofileState extends State<editprofile> {
                                 ),
                                 controller: _aboutEditingController,
                                 validator: (value) {
-                                  if (value?.trim() == '') {
+                                  if (value?.trim() == ' ') {
                                     return 'Space is not allowed';
                                   } else if (RegExp("^[0-9]").hasMatch(value!))
                                     return 'Numbers are not allowed';
@@ -384,7 +384,7 @@ class _editprofileState extends State<editprofile> {
                                 ),
                                 controller: _experienceEditingController,
                                 validator: (value) {
-                                  if (value?.trim() == '') {
+                                  if (value?.trim() == ' ') {
                                     return 'Space is not allowed';
                                   } else if (RegExp("^[0-9]").hasMatch(value!))
                                     return 'Numbers are not allowed';
@@ -428,7 +428,7 @@ class _editprofileState extends State<editprofile> {
                                 ),
                                 controller: _certificationsEditingController,
                                 validator: (value) {
-                                  if (value?.trim() == '') {
+                                  if (value?.trim() == ' ') {
                                     return 'Space is not allowed';
                                   } else if (RegExp("^[0-9]").hasMatch(value!))
                                     return 'Numbers are not allowed';

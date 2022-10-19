@@ -17,6 +17,7 @@ import 'package:wefaq/photo.dart';
 import 'package:wefaq/service/local_push_notification.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wefaq/viewOtherProfile.dart';
 // import 'package:open_file/open_file.dart';
 
 String FileText = 'test';
@@ -51,6 +52,7 @@ class ChatScreenState extends State<ChatScreen> {
   var name = '${FirebaseAuth.instance.currentUser!.displayName}'.split(' ');
   get FName => name.first;
   get LName => name.last;
+  var senderEmail;
 
   @override
   void initState() {
@@ -325,7 +327,7 @@ class ChatScreenState extends State<ChatScreen> {
                   for (var message in messages) {
                     var messageText = message.get("message");
                     final messageSender = message.get("senderName");
-                    final senderEmail = message.get("email");
+                    senderEmail = message.get("email");
                     if (message.get("time") != null) {
                       timeH = message.get("time").toDate().hour;
                       timeM = message.get("time").toDate().minute;
@@ -342,7 +344,8 @@ class ChatScreenState extends State<ChatScreen> {
                         img: imageFile,
                         isMe: signedInUser.email == senderEmail,
                         date: dateM.toString(),
-                        time: timestamp);
+                        time: timestamp,
+                        email: senderEmail.toString());
                     messageWidgets.add(messageWidget);
                   }
                   return Expanded(
@@ -387,6 +390,36 @@ class ChatScreenState extends State<ChatScreen> {
                                     fontSize: 12,
                                     color: Color.fromARGB(255, 84, 17, 115),
                                   )),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => viewotherprofile(
+                                              userEmail: message.email,
+                                            )));
+                              },
+                              child: Container(
+                                height: 35.0,
+                                width: 35.0,
+                                margin: const EdgeInsets.only(right: 8.0),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: const DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/PlaceHolder.png'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      offset: const Offset(0, 4),
+                                      blurRadius: 4.0,
+                                      color: Colors.black.withOpacity(0.25),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                             if (!message.text!.startsWith(
                                 'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/'))
                               Material(
@@ -623,13 +656,15 @@ class MessageLine {
       this.sender,
       required this.isMe,
       required this.date,
-      required this.time});
+      required this.time,
+      required this.email});
   final File? img;
   final int? hour;
   final int? minute;
   final String? sender;
   final String? text;
   final String date;
+  final String email;
 
   final bool isMe;
   final Timestamp? time;
