@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wefaq/ProjectsTapScreen.dart';
 import 'package:wefaq/config/colors.dart';
-import 'package:wefaq/profileuser.dart';
+import 'package:wefaq/screens/detail_screens/widgets/appbar.dart';
 import 'package:wefaq/screens/detail_screens/widgets/project_detail_appbar.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:wefaq/projectsScreen.dart';
@@ -20,19 +20,24 @@ import '../../viewOtherProfile.dart';
 
 final _formKey = GlobalKey<FormState>();
 
-class projectDetailScreen extends StatefulWidget {
+class projectDetail extends StatefulWidget {
   String projecName;
+  String email;
 
-  projectDetailScreen({required this.projecName});
+  projectDetail({
+    required this.projecName,
+    required this.email,
+  });
 
   @override
-  State<projectDetailScreen> createState() =>
-      _projectDetailScreenState(projecName);
+  State<projectDetail> createState() =>
+      projectDetailScreenState(projecName, email);
 }
 
-class _projectDetailScreenState extends State<projectDetailScreen> {
+class projectDetailScreenState extends State<projectDetail> {
   @override
   void initState() {
+    // TODO: implement initState
     getCurrentUser();
     getProjects();
     getRequests();
@@ -40,7 +45,8 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
   }
 
   String projecName;
-  _projectDetailScreenState(this.projecName);
+  String email;
+  projectDetailScreenState(this.projecName, this.email);
 
   final TextEditingController _JoiningASController = TextEditingController();
   final TextEditingController _ParticipantNoteController =
@@ -155,7 +161,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
         body: Scrollbar(
       child: CustomScrollView(
         slivers: <Widget>[
-          const DetailAppBar(),
+          appBar(email: email),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -181,7 +187,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                             ),
-                            /* child: IconButton(
+                            child: IconButton(
                               icon: (isPressed)
                                   ? const Icon(Icons.favorite,
                                       color: Color.fromARGB(172, 136, 98, 146))
@@ -198,7 +204,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                                   }
                                 });
                               },
-                            ),*/
+                            ),
                           ),
                         ],
                       ),
@@ -211,21 +217,12 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              if (ownerEmail == Email) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => viewprofile(
-                                            userEmail: FirebaseAuth.instance
-                                                .currentUser!.email!)));
-                              } else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => viewotherprofile(
-                                              userEmail: ownerEmail,
-                                            )));
-                              }
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => viewotherprofile(
+                                            userEmail: ownerEmail,
+                                          )));
                             },
                             child: Container(
                               height: 35.0,
@@ -525,11 +522,6 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                     ),
                     child: ElevatedButton(
                       onPressed: () async {
-                        //disable joining your own projects
-                        if (ownerEmail == Email) {
-                          CantJoin();
-                          return null;
-                        }
                         //send a notification to the one who posted the project
                         sendNotification(
                             "You received a join request on your project!",
@@ -703,14 +695,6 @@ Future<void> _signOut() async {
   await FirebaseAuth.instance.signOut();
 }
 
-void CantJoin() => Fluttertoast.showToast(
-      msg: "You can't join your own project",
-      fontSize: 18,
-      gravity: ToastGravity.CENTER,
-      toastLength: Toast.LENGTH_SHORT,
-      backgroundColor: Color.fromARGB(172, 136, 98, 146),
-    );
-/*
 void ShowToastRemove() => Fluttertoast.showToast(
       msg: "Project is removed form favorite",
       fontSize: 18,
@@ -726,4 +710,3 @@ void ShowToastAdd() => Fluttertoast.showToast(
       toastLength: Toast.LENGTH_SHORT,
       backgroundColor: Color.fromARGB(172, 136, 98, 146),
     );
-*/

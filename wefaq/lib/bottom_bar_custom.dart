@@ -1,22 +1,13 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:full_screen_menu/full_screen_menu.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:wefaq/HomePage.dart';
-import 'package:wefaq/eventsScreen.dart';
 import 'package:wefaq/eventsTabs.dart';
-import 'package:wefaq/myProjects.dart';
 import 'package:wefaq/postEvent.dart';
 import 'package:wefaq/postProject.dart';
-import 'package:wefaq/profile.dart';
-import 'package:wefaq/projectsScreen.dart';
-import 'package:wefaq/selectionScreen.dart';
-import 'package:wefaq/TabScreen.dart';
-import 'package:wefaq/HomePage.dart';
-
 import 'ProjectsTapScreen.dart';
+import 'chats.dart';
 
 class CustomNavigationBar extends StatefulWidget {
   const CustomNavigationBar(
@@ -54,7 +45,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                 BottomBarButton(widget.currentHomeScreen, 3,
                     CupertinoIcons.collections, widget.updatePage),
                 BottomBarButton(widget.currentHomeScreen, 4,
-                    CupertinoIcons.person_fill, widget.updatePage),
+                    CupertinoIcons.chat_bubble, widget.updatePage),
               ],
             ),
           ),
@@ -183,10 +174,8 @@ class BottomBarButton extends StatelessWidget {
                   }
                 else if (index == 4)
                   {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => profileScreen()))
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => chatScreen()))
                   }
                 else if (index == 1)
                   {

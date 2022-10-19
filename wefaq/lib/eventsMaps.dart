@@ -6,7 +6,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
 import 'package:wefaq/screens/detail_screens/event_detail_screen.dart';
-import 'package:wefaq/screens/detail_screens/project_detail_screen.dart';
 
 class MapSampleEvents extends StatefulWidget {
   @override
@@ -83,7 +82,7 @@ class MapSampleState extends State<MapSampleEvents> {
 
   //get markers
   Future getMarkers() async {
-    await for (var snapshot in _firestore.collection('AllEvents').snapshots())
+    await for (var snapshot in _firestore.collection('AllEvent').snapshots())
       for (var project in snapshot.docs) {
         setState(() {
           markers.add(new Marker(

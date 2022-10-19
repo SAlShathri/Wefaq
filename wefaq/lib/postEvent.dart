@@ -1,20 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:intl/intl.dart';
-import 'package:wefaq/TabScreen.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'dart:async';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:multiselect/multiselect.dart';
-import 'package:get/get.dart';
 import 'package:google_place/google_place.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:wefaq/eventsScreen.dart';
 import 'package:wefaq/eventsTabs.dart';
-import 'package:wefaq/projectsScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class PostEvent extends StatefulWidget {
@@ -26,6 +20,9 @@ class PostEvent extends StatefulWidget {
 
 class _PostEventState extends State<PostEvent> {
   final _firestore = FirebaseFirestore.instance;
+  final auth = FirebaseAuth.instance;
+  late User? signedInUser = auth.currentUser;
+
   final TextEditingController _nameEditingController = TextEditingController();
   final TextEditingController _descriptionEditingController =
       TextEditingController();
@@ -486,10 +483,11 @@ class _PostEventState extends State<PostEvent> {
                               var formatter = new DateFormat('yyyy-MM-dd');
 
                               _firestore
-                                  .collection('AllEvents')
+                                  .collection('AllEvent')
                                   .doc(_nameEditingController.text)
                                   .set({
                                 'name': _nameEditingController.text,
+                                'email': signedInUser?.email,
                                 'location': _startSearchFieldController.text,
                                 'description':
                                     _descriptionEditingController.text,

@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wefaq/HomePage.dart';
 import 'package:wefaq/UserLogin.dart';
+import 'package:wefaq/background.dart';
 import 'bottom_bar_custom.dart';
+import 'package:wefaq/models/user.dart';
 
 class myProjects extends StatefulWidget {
   @override
@@ -44,7 +46,7 @@ class _myProjectState extends State<myProjects> {
       final user = auth.currentUser;
       if (user != null) {
         signedInUser = user;
-        Email = signedInUser.email;
+        Email = signedInUser.uid;
         print(signedInUser.email);
       }
     } catch (e) {

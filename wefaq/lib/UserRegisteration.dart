@@ -1,11 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:async';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/backgroundLogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -507,12 +504,15 @@ class _UserRegistratin extends State<UserRegistratin> {
       await userCredential.user!.updateDisplayName(Fullname);
       final uid = userCredential.user!.uid;
       final userData = {
+        "Profile":
+            "https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images%2FScreen%20Shot%202022-10-19%20at%204.03.24%20PM.png?alt=media&token=fb592318-b262-4fdf-96f2-48fed928f5b5",
         'Email': email,
         'FirstName': FirstName,
         'LastName': LastName,
-        'password': password
+        'password': password,
+        'status': 'active',
       };
-      final docRef = FirebaseFirestore.instance.collection('users').doc(uid);
+      final docRef = FirebaseFirestore.instance.collection('users').doc(email);
       await docRef.set(userData, SetOptions(merge: true));
       isLoading = false;
       setState(() {});

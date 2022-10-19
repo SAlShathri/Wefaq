@@ -1,4 +1,5 @@
 import 'dart:convert';
+//import 'dart:js_util';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -14,6 +15,9 @@ import 'package:http/http.dart' as http;
 import 'package:wefaq/eventsTabs.dart';
 import 'package:wefaq/screens/detail_screens/widgets/event_detail_appbar.dart';
 import 'package:wefaq/service/local_push_notification.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../Report.dart';
 
 class eventDetailScreen extends StatefulWidget {
   String eventName;
@@ -25,11 +29,27 @@ class eventDetailScreen extends StatefulWidget {
 }
 
 class _eventDetailScreenState extends State<eventDetailScreen> {
+  String? Email;
   @override
   void initState() {
     // TODO: implement initState
+    getCurrentUser();
     getProjects();
+    isLiked();
     super.initState();
+  }
+
+  void getCurrentUser() {
+    try {
+      final user = auth.currentUser;
+      if (user != null) {
+        signedInUser = user;
+        Email = signedInUser?.email;
+        print(signedInUser?.email);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   String eventName;
@@ -54,10 +74,37 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
   String dateTimeList = "";
 
   String TimeList = "";
+/////////////////////////////////////////////////////////////////////////////////////////
+  //String favoriteEmail = "";
+
+  String ownerEmail = "";
+
+  String EventName = "";
 
   bool _isSelected1 = false;
   bool _isSelected2 = false;
   bool _isSelected3 = false;
+  bool isPressed = false;
+
+  Future isLiked() async {
+    var collectionRef = FirebaseFirestore.instance.collection('FavoriteEvents');
+
+    var docu = await collectionRef
+        .doc(Email! + '-' + EventName + '-' + ownerEmail)
+        .get();
+
+    if (docu.exists) {
+      print("exist");
+      setState(() {
+        isPressed = true;
+      });
+    } else {
+      print("doesnt exist");
+      setState(() {
+        isPressed = false;
+      });
+    }
+  }
 
   var ProjectTitleList = [];
 
@@ -77,7 +124,8 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
   var creatDate = [];
 
   final _firestore = FirebaseFirestore.instance;
-  late User signedInUser;
+  final auth = FirebaseAuth.instance;
+  late User? signedInUser = auth.currentUser;
 
   //get all projects
   Future getProjects() async {
@@ -90,9 +138,12 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
       categoryList = "";
       dateTimeList = "";
       TimeList = "";
+      //favoriteEmail = "";
+      ownerEmail = "";
+      EventName = "";
     });
     await for (var snapshot in _firestore
-        .collection('AllEvents')
+        .collection('AllEvent')
         .orderBy('created', descending: true)
         .where('name', isEqualTo: eventName)
         .snapshots())
@@ -105,11 +156,27 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
           categoryList = events['category'].toString();
           dateTimeList = events['date'].toString();
           TimeList = events['time'].toString();
-
+          EventName = events['name'].toString();
+          ownerEmail = events['email'].toString();
           //  dateTimeList.add(project['dateTime ']);
         });
       }
   }
+/*
+  final auth = FirebaseAuth.instance;
+  String? Email;
+  void getCurrentUser() {
+    try {
+      final user = auth.currentUser;
+      if (user != null) {
+        signedInUser = user;
+        Email = signedInUser.email;
+        print(signedInUser.email);
+      }
+    } catch (e) {
+      print(e);
+    }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -123,12 +190,99 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    nameList,
-                    style: Theme.of(context).textTheme.titleLarge,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        nameList,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(height: 8.0),
+                      const SizedBox(height: 16.0),
+                      Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(right: 0),
+                            height: 56.0,
+                            width: 56.0,
+                            child: IconButton(
+                                icon: Icon(
+                                  Icons.error_outline,
+                                  color: Color.fromARGB(255, 186, 48, 48),
+                                  size: 30,
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => reportEvent(
+                                              eventName: nameList,
+                                              eventOwner: ownerEmail)));
+//showDialogFunc(context);
+                                }),
+                          ),
+                          Container(
+                            height: 50.0,
+                            width: 50.0,
+                            alignment: Alignment.center,
+                            margin: const EdgeInsets.only(right: 8.0),
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: IconButton(
+                              icon: (isPressed)
+                                  ? const Icon(Icons.favorite,
+                                      color: Color.fromARGB(172, 136, 98, 146))
+                                  : const Icon(Icons.favorite_border,
+                                      color: Color.fromARGB(172, 136, 98, 146)),
+                              onPressed: () {
+                                setState(() {
+                                  print(isPressed);
+                                  if (isPressed) {
+                                    isPressed = false;
+                                    print(isPressed);
+                                    ShowToastRemove();
+
+                                    FirebaseFirestore.instance
+                                        .collection('FavoriteEvents')
+                                        .doc(Email! +
+                                            '-' +
+                                            EventName +
+                                            '-' +
+                                            ownerEmail)
+                                        .delete();
+                                  } else {
+                                    isPressed = true;
+                                    print(isPressed);
+                                    ShowToastAdd();
+
+                                    _firestore
+                                        .collection('FavoriteEvents')
+                                        .doc(Email! +
+                                            '-' +
+                                            EventName +
+                                            '-' +
+                                            ownerEmail)
+                                        .set({
+                                      'favoriteEmail': Email,
+                                      'ownerEmail': ownerEmail,
+                                      'eventName': EventName,
+                                      'description': descList,
+                                      'location': locList,
+                                      'URL': urlList,
+                                      'category': categoryList,
+                                      'date': dateTimeList,
+                                      'time': TimeList,
+                                    });
+                                  }
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 8.0),
-                  const SizedBox(height: 16.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -288,3 +442,19 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
 Future<void> _signOut() async {
   await FirebaseAuth.instance.signOut();
 }
+
+void ShowToastRemove() => Fluttertoast.showToast(
+      msg: "Project is removed form favorite",
+      fontSize: 18,
+      gravity: ToastGravity.CENTER,
+      toastLength: Toast.LENGTH_SHORT,
+      backgroundColor: Color.fromARGB(172, 136, 98, 146),
+    );
+
+void ShowToastAdd() => Fluttertoast.showToast(
+      msg: "Project is added to favorite",
+      fontSize: 18,
+      gravity: ToastGravity.CENTER,
+      toastLength: Toast.LENGTH_SHORT,
+      backgroundColor: Color.fromARGB(172, 136, 98, 146),
+    );

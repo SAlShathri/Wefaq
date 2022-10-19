@@ -4,11 +4,20 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wefaq/ProjectsTapScreen.dart';
 import 'package:wefaq/config/colors.dart';
+import 'package:wefaq/profileuser.dart';
 import 'package:wefaq/projectsScreen.dart';
 
-class DetailAppBar extends StatelessWidget {
-  const DetailAppBar({Key? key}) : super(key: key);
+class appBar extends StatefulWidget {
+  String email;
+  appBar({Key? key, required this.email});
 
+  @override
+  State<appBar> createState() => DetailAppBarState(this.email);
+}
+
+class DetailAppBarState extends State<appBar> {
+  String email;
+  DetailAppBarState(this.email);
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -77,7 +86,9 @@ class DetailAppBar extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ProjectsTabs()));
+                            builder: (context) => viewprofile(
+                                  userEmail: email,
+                                )));
                   }),
             ),
           ),

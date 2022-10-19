@@ -1,21 +1,12 @@
-import 'dart:io';
 import 'dart:math';
-
 import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:wefaq/bottom_bar_custom.dart';
 import 'package:wefaq/eventsTabs.dart';
-import 'package:wefaq/models/project.dart';
-import 'package:wefaq/profile.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/link.dart';
 import 'package:wefaq/screens/detail_screens/event_detail_screen.dart';
-import 'package:wefaq/screens/detail_screens/project_detail_screen.dart';
-
-import 'UserLogin.dart';
 
 // Main Stateful Widget Start
 class EventsListViewPage extends StatefulWidget {
@@ -54,6 +45,8 @@ class _ListViewPageState extends State<EventsListViewPage> {
 
   //category list
   var dateTimeList = [];
+
+  List<String> ownerEmail = [];
 
   var TimeList = [];
   var latList = [];
@@ -120,10 +113,11 @@ class _ListViewPageState extends State<EventsListViewPage> {
       latList = [];
       lngList = [];
       creatDate = [];
+      ownerEmail = [];
     });
 
     await for (var snapshot in _firestore
-        .collection('AllEvents')
+        .collection('AllEvent')
         .where('category', isEqualTo: category)
         .snapshots())
       for (var events in snapshot.docs) {
@@ -135,6 +129,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
           categoryList.add(events['category']);
           dateTimeList.add(events['date']);
           TimeList.add(events['time']);
+          ownerEmail.add(events['email']);
           latList.add(events['lat']);
           lngList.add(events['lng']);
           creatDate.add(events['cdate']);
@@ -156,9 +151,10 @@ class _ListViewPageState extends State<EventsListViewPage> {
       latList = [];
       lngList = [];
       creatDate = [];
+      ownerEmail = [];
     });
     await for (var snapshot in _firestore
-        .collection('AllEvents')
+        .collection('AllEvent')
         .orderBy('created', descending: true)
         .snapshots())
       for (var events in snapshot.docs) {
@@ -173,6 +169,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
           latList.add(events['lat']);
           lngList.add(events['lng']);
           creatDate.add(events['cdate']);
+          ownerEmail.add(events['email']);
 
           //  dateTimeList.add(project['dateTime ']);
         });
@@ -196,7 +193,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
     });
 
     await for (var snapshot in _firestore
-        .collection('AllEvents')
+        .collection('AllEvent')
         .orderBy('dis', descending: false)
         .snapshots())
       for (var events in snapshot.docs) {
@@ -272,7 +269,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
     for (var i = 0; i < latList.length; i++) {
       setState(() {
         FirebaseFirestore.instance
-            .collection('AllEvents')
+            .collection('AllEvent')
             .doc(nameList[i].toString())
             .set({'dis': calculateDistance(latList[i], lngList[i], lat, lng)},
                 SetOptions(merge: true));
