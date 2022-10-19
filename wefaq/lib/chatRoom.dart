@@ -226,29 +226,64 @@ class ChatScreenState extends State<ChatScreen> {
   //   } else
   //     Navigator.of(context).pop();
   // }
-
   options(BuildContext context) {
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text('Choose'),
               content: SingleChildScrollView(
                   child: Column(
                 children: [
-                  ListTile(
-                    leading: Icon(Icons.photo_library_sharp),
-                    title: Text("Photos"),
-                    onTap: () => uploadImageToFirebase(),
+                  Row(
+                    children: [
+                      Text("Choose",
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 127, 127, 127),
+                              fontWeight: FontWeight.bold)),
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: 134,
+                        ),
+                        child: IconButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          icon: Icon(Icons.close),
+                          color: Color.fromARGB(255, 141, 168, 170),
+                        ),
+                      ),
+                    ],
                   ),
-                  ListTile(
-                    leading: Icon(Icons.camera_alt),
-                    title: Text("Camera"),
-                    onTap: () => uploadCameraImageToFirebase(),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.library_books),
-                    title: Text("Files"),
-                    onTap: () => uploadFileToFirebase(),
+                  Column(
+                    children: [
+                      ListTile(
+                        leading: Icon(
+                          Icons.photo_library_sharp,
+                          color: Color.fromARGB(255, 141, 168, 170),
+                        ),
+                        title: Text("Browse Gallery",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 141, 114, 151))),
+                        onTap: () => uploadImageToFirebase(),
+                      ),
+                      ListTile(
+                        leading: Icon(
+                          Icons.camera_alt,
+                          color: Color.fromARGB(255, 141, 168, 170),
+                        ),
+                        title: Text("Take a photo",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 141, 114, 151))),
+                        onTap: () => uploadCameraImageToFirebase(),
+                      ),
+                      ListTile(
+                        leading: Icon(
+                          Icons.library_books,
+                          color: Color.fromARGB(255, 141, 168, 170),
+                        ),
+                        title: Text("Send a file",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 141, 114, 151))),
+                        onTap: () => uploadFileToFirebase(),
+                      ),
+                    ],
                   ),
                 ],
               )),
