@@ -181,7 +181,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                             ),
-                            child: IconButton(
+                            /* child: IconButton(
                               icon: (isPressed)
                                   ? const Icon(Icons.favorite,
                                       color: Color.fromARGB(172, 136, 98, 146))
@@ -198,7 +198,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                                   }
                                 });
                               },
-                            ),
+                            ),*/
                           ),
                         ],
                       ),
@@ -686,7 +686,7 @@ void sendNotification(String title, String token) async {
 Future<void> _signOut() async {
   await FirebaseAuth.instance.signOut();
 }
-
+/*
 void ShowToastRemove() => Fluttertoast.showToast(
       msg: "Project is removed form favorite",
       fontSize: 18,
@@ -702,3 +702,4 @@ void ShowToastAdd() => Fluttertoast.showToast(
       toastLength: Toast.LENGTH_SHORT,
       backgroundColor: Color.fromARGB(172, 136, 98, 146),
     );
+*/
