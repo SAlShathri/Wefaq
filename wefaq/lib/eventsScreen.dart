@@ -117,7 +117,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
     });
 
     await for (var snapshot in _firestore
-        .collection('AllEvents')
+        .collection('AllEvent')
         .where('category', isEqualTo: category)
         .snapshots())
       for (var events in snapshot.docs) {
@@ -154,7 +154,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
       ownerEmail = [];
     });
     await for (var snapshot in _firestore
-        .collection('AllEvents')
+        .collection('AllEvent')
         .orderBy('created', descending: true)
         .snapshots())
       for (var events in snapshot.docs) {
@@ -193,7 +193,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
     });
 
     await for (var snapshot in _firestore
-        .collection('AllEvents')
+        .collection('AllEvent')
         .orderBy('dis', descending: false)
         .snapshots())
       for (var events in snapshot.docs) {
@@ -269,7 +269,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
     for (var i = 0; i < latList.length; i++) {
       setState(() {
         FirebaseFirestore.instance
-            .collection('AllEvents')
+            .collection('AllEvent')
             .doc(nameList[i].toString())
             .set({'dis': calculateDistance(latList[i], lngList[i], lat, lng)},
                 SetOptions(merge: true));
