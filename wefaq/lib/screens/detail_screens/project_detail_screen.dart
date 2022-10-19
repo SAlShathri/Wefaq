@@ -525,6 +525,11 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                     ),
                     child: ElevatedButton(
                       onPressed: () async {
+                        //disable joining your own projects
+                        if (ownerEmail == Email) {
+                          CantJoin();
+                          return null;
+                        }
                         //send a notification to the one who posted the project
                         sendNotification(
                             "You received a join request on your project!",
@@ -697,6 +702,14 @@ void sendNotification(String title, String token) async {
 Future<void> _signOut() async {
   await FirebaseAuth.instance.signOut();
 }
+
+void CantJoin() => Fluttertoast.showToast(
+      msg: "You can't join your own project",
+      fontSize: 18,
+      gravity: ToastGravity.CENTER,
+      toastLength: Toast.LENGTH_SHORT,
+      backgroundColor: Color.fromARGB(172, 136, 98, 146),
+    );
 /*
 void ShowToastRemove() => Fluttertoast.showToast(
       msg: "Project is removed form favorite",
