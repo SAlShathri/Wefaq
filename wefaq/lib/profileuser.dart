@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/background.dart';
 import 'package:wefaq/editProfile.dart';
@@ -42,6 +43,7 @@ class _viewprofileState extends State<viewprofile> {
     super.initState();
   }
 
+  String profilepic = '';
   Future getUser() async {
     var fillterd = _firestore
         .collection('users')
@@ -50,6 +52,7 @@ class _viewprofileState extends State<viewprofile> {
     await for (var snapshot in fillterd)
       for (var user in snapshot.docs) {
         setState(() {
+          profilepic = user["Profile"].toString();
           fname = user["FirstName"].toString();
           lname = user["LastName"].toString();
           about = user["about"].toString();
@@ -95,7 +98,7 @@ class _viewprofileState extends State<viewprofile> {
               width: double.infinity,
               child: Image(
                 image: AssetImage(
-                  "assets/images/header.jpg",
+                  "assets/images/header_profile.png",
                 ),
                 fit: BoxFit.cover,
               ),
@@ -168,7 +171,7 @@ class _viewprofileState extends State<viewprofile> {
                         width: 80,
                         height: 80,
                         margin: EdgeInsets.only(left: 15, top: 10),
-                        decoration: BoxDecoration(
+                        decoration: new BoxDecoration(
                           boxShadow: [
                             BoxShadow(
                               offset: Offset(0, 0),
@@ -177,11 +180,11 @@ class _viewprofileState extends State<viewprofile> {
                             ),
                           ],
                           borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            image: AssetImage(
-                              "assets/images/layanP.jpg",
-                            ),
+                          image: new DecorationImage(
                             fit: BoxFit.cover,
+                            image: NetworkImage(
+                              profilepic,
+                            ),
                           ),
                         ),
                       ),
@@ -208,7 +211,7 @@ class _viewprofileState extends State<viewprofile> {
                         ),
                         ListTile(
                           title: Text("GitHub"),
-                          subtitle: Text("$gitHub"),
+                          onTap: () => launch("$gitHub"),
                           leading: Icon(
                             LineIcons.github,
                             size: 35,

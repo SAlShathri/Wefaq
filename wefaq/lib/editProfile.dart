@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -78,23 +79,80 @@ class _editprofileState extends State<editprofile> {
     getCurrentUser();
     getCategoryList();
     getUser();
-
     super.initState();
   }
 
-  Future _pickImage(ImageSource source) async {
-    try {
-      final image = await ImagePicker().pickImage(source: source);
-      if (image == null) return;
-      File? img = File(image.path);
-      img = await _cropImage(imageFile: img);
+  // Future _pickImage(ImageSource source) async {
+  //   try {
+  //     final image = await ImagePicker().pickImage(source: source);
+  //     if (image == null) return;
+  //     File? img = File(image.path);
+  //     img = await _cropImage(imageFile: img);
+  //     setState(() {
+  //       _image = img;
+  //       Navigator.of(context).pop();
+  //     });
+  //   } on PlatformException catch (e) {
+  //     print(e);
+  //     Navigator.of(context).pop();
+  //   }
+  // }
+
+  File? imageFile;
+  ImagePicker _picker = ImagePicker();
+
+  Future uploadImageToFirebase() async {
+    print("Getting Image from Gallery.");
+    XFile? result = await _picker.pickImage(source: ImageSource.gallery);
+    Navigator.of(context).pop();
+    if (result != null) {
+      print(result);
       setState(() {
-        _image = img;
-        Navigator.of(context).pop();
+        imageFile = File(result!.path);
       });
-    } on PlatformException catch (e) {
-      print(e);
-      Navigator.of(context).pop();
+      String fileName = imageFile!.path;
+      final reference =
+          FirebaseStorage.instance.ref().child('images/$fileName');
+      UploadTask uploadTask = reference.putFile(imageFile!);
+      await uploadTask.whenComplete(() => null);
+      print('File Uploaded');
+      reference.getDownloadURL().then((fileURL) {
+        setState(() {
+          _firestore.collection('users').doc(signedInUser.email).update({
+            "Profile": fileURL,
+          });
+        });
+        print(
+            "--------------------------------------- Url $fileURL -------------------------------------");
+      });
+    }
+  }
+
+  Future uploadCameraImageToFirebase() async {
+    print("Getting Image from Gallery.");
+    XFile? result = await _picker.pickImage(source: ImageSource.camera);
+    Navigator.of(context).pop();
+
+    if (result != null) {
+      print(result);
+      setState(() {
+        imageFile = File(result!.path);
+      });
+      String fileName = imageFile!.path;
+      final reference =
+          FirebaseStorage.instance.ref().child('images/$fileName');
+      UploadTask uploadTask = reference.putFile(imageFile!);
+      await uploadTask.whenComplete(() => null);
+      print('File Uploaded');
+      reference.getDownloadURL().then((fileURL) {
+        setState(() {
+          _firestore.collection('users').doc(signedInUser.email).update({
+            "Profile": fileURL,
+          });
+        });
+        print(
+            "--------------------------------------- Url $fileURL -------------------------------------");
+      });
     }
   }
 
@@ -105,30 +163,30 @@ class _editprofileState extends State<editprofile> {
     return File(croppedImage.path);
   }
 
-  void _showSelectPhotoOptions(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(25.0),
-        ),
-      ),
-      builder: (context) => DraggableScrollableSheet(
-          initialChildSize: 0.28,
-          maxChildSize: 0.4,
-          minChildSize: 0.28,
-          expand: false,
-          builder: (context, scrollController) {
-            return SingleChildScrollView(
-              controller: scrollController,
-              child: SelectPhotoOptionsScreen(
-                onTap: _pickImage,
-              ),
-            );
-          }),
-    );
-  }
+  // void _showSelectPhotoOptions(BuildContext context) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     isScrollControlled: true,
+  //     shape: const RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.vertical(
+  //         top: Radius.circular(25.0),
+  //       ),
+  //     ),
+  //     builder: (context) => DraggableScrollableSheet(
+  //         initialChildSize: 0.28,
+  //         maxChildSize: 0.4,
+  //         minChildSize: 0.28,
+  //         expand: false,
+  //         builder: (context, scrollController) {
+  //           return SingleChildScrollView(
+  //             controller: scrollController,
+  //             child: SelectPhotoOptionsScreen(
+  //               onTap: _pickImage,
+  //             ),
+  //           );
+  //         }),
+  //   );
+  // }
 
   void getCurrentUser() {
     try {
@@ -153,6 +211,61 @@ class _editprofileState extends State<editprofile> {
     }
   }
 
+  imageOptions(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              content: SingleChildScrollView(
+                  child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Text("Change Profile Picture",
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 127, 127, 127),
+                              fontWeight: FontWeight.bold)),
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: 36,
+                        ),
+                        child: IconButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          icon: Icon(Icons.close),
+                          color: Color.fromARGB(255, 141, 168, 170),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      ListTile(
+                        leading: Icon(
+                          Icons.photo_library_sharp,
+                          color: Color.fromARGB(255, 141, 168, 170),
+                        ),
+                        title: Text("Browse Gallery",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 141, 114, 151))),
+                        onTap: () => uploadImageToFirebase(),
+                      ),
+                      ListTile(
+                        leading: Icon(
+                          Icons.camera_alt,
+                          color: Color.fromARGB(255, 141, 168, 170),
+                        ),
+                        title: Text("Take a photo",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 141, 114, 151))),
+                        onTap: () => uploadCameraImageToFirebase(),
+                      ),
+                    ],
+                  ),
+                ],
+              )),
+            ));
+  }
+
+  String profilepic = "";
   Future getUser() async {
     var fillterd = _firestore
         .collection('users')
@@ -161,6 +274,7 @@ class _editprofileState extends State<editprofile> {
     await for (var snapshot in fillterd)
       for (var user in snapshot.docs) {
         setState(() {
+          profilepic = user["Profile"].toString();
           fname = user["FirstName"].toString();
           lname = user["LastName"].toString();
           about = user["about"].toString();
@@ -213,7 +327,7 @@ class _editprofileState extends State<editprofile> {
               width: double.infinity,
               child: Image(
                 image: AssetImage(
-                  "assets/images/header.jpg",
+                  "assets/images/header_profile.png",
                 ),
                 fit: BoxFit.cover,
               ),
@@ -254,57 +368,72 @@ class _editprofileState extends State<editprofile> {
                             leading: Icon(Icons.format_align_center),
                           ),
                         ),
-                        /*Container(
+                        Container(
                           width: 80,
                           height: 80,
                           margin: EdgeInsets.only(left: 15, top: 10),
                           decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                offset: Offset(0, 0),
-                                blurRadius: 10,
-                                color: Colors.black.withOpacity(0.15),
-                              ),
-                            ],
+                            // boxShadow: [
+                            //   BoxShadow(
+                            //     offset: Offset(0, 0),
+                            //     blurRadius: 10,
+                            //     color: Colors.black.withOpacity(0.15),
+                            //   ),
+                            // ],
                             borderRadius: BorderRadius.circular(10),
-                            image: DecorationImage(
-                              image: AssetImage(
-                                "/Users/layanalwadie/Desktop/Wefaq/wefaq/assets/images/layanP.jpg",
-                              ),
-                              fit: BoxFit.cover,
-                            ),
+                            // image: DecorationImage(
+                            //   image:
+                            //   CircleAvatar(
+                            //     child: Image.network(profilepic),
+                            //     radius: 100.0,
+                            //   ),
+                            //   fit: BoxFit.cover,
+                            // ),
                           ),
-                        ),*/
+                        ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8),
                           child: Center(
                             child: GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () {
-                                //   _showSelectPhotoOptions(context);
+                                imageOptions(context);
                               },
                               child: Column(
                                 children: [
+                                  SizedBox(
+                                    height: 10,
+                                  ),
                                   Row(
                                     children: [
                                       Container(
-                                          height: 50,
-                                          width: 50,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.grey.shade200,
+                                          height: 60,
+                                          width: 60,
+                                          decoration: new BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.grey.shade200,
+                                              image: new DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: NetworkImage(
+                                                    profilepic,
+                                                  ))),
+                                          child: IconButton(
+                                            onPressed: () =>
+                                                imageOptions(context),
+                                            icon: Icon(Icons.camera_enhance),
+                                            color: Color.fromARGB(
+                                                255, 141, 168, 170),
+                                          )
+                                          // child: Center(
+                                          //     child: CircleAvatar(
+                                          //   child: Image.network(
+                                          //     profilepic,
+                                          //     width: 70,
+                                          //     height: 70,
+                                          //   ),
+                                          //   radius: 100.0,
+                                          // ))
                                           ),
-                                          child: Center(
-                                            child: _image == null
-                                                ? Image.asset(
-                                                    "assets/images/layanP.jpg",
-                                                  )
-                                                : CircleAvatar(
-                                                    backgroundImage:
-                                                        FileImage(_image!),
-                                                    radius: 100.0,
-                                                  ),
-                                          )),
                                     ],
                                   ),
                                 ],
@@ -485,6 +614,8 @@ class _editprofileState extends State<editprofile> {
                                         .collection('users')
                                         .doc(signedInUser.email)
                                         .set({
+                                      "ProfilePic":
+                                          "https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images%2FScreen%20Shot%202022-10-19%20at%204.03.24%20PM.png?alt=media&token=fb592318-b262-4fdf-96f2-48fed928f5b5",
                                       "FirstName": _nameEditingController.text
                                           .substring(
                                               0,
