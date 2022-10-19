@@ -27,6 +27,29 @@ class _UserLogin extends State<UserLogin> {
 
   late String email;
   late String password;
+  var names = [];
+  var emails = [];
+
+  @override
+  void initState() {
+   get();
+    super.initState();
+  }
+
+  Future get() async {
+    var fillterd = FirebaseFirestore.instance
+        .collection("AllProjects")
+        .where("email", isEqualTo: FirebaseAuth.instance.currentUser!.email)
+        .snapshots();
+    await for (var snapshot in fillterd)
+      for (var project in snapshot.docs) {
+        setState(() {
+         names.add(project["name"]);
+        
+         
+        });
+      }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,6 +261,17 @@ class _UserLogin extends State<UserLogin> {
     //                              .doc(FirebaseAuth.instance.currentUser!.email)
     //                              .delete();
 
+for (var i =0 ;i<names.length;i++) {
+        FirebaseFirestore.instance
+            .collection('AllProjects')
+            .doc(names[i].toString() + "-" + FirebaseAuth.instance.currentUser!.email!)
+            .delete();
+        FirebaseFirestore.instance
+            .collection("AllJoinRequests")
+            .doc(names[i].toString() + "-" +  FirebaseAuth.instance.currentUser!.email!)
+            .delete();
+      }
+
     FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.email)
@@ -245,21 +279,10 @@ class _UserLogin extends State<UserLogin> {
 
     await FirebaseAuth.instance.currentUser!.delete();
 
-    var fillterd = FirebaseFirestore.instance
-        .collection("AllProjects")
-        .where("email", isEqualTo: FirebaseAuth.instance.currentUser!.email)
-        .snapshots();
-    await for (var snapshot in fillterd)
-      for (var project in snapshot.docs) {
-        FirebaseFirestore.instance
-            .collection('Allprojects')
-            .doc(project["name"] + "-" + project["email"])
-            .delete();
-        FirebaseFirestore.instance
-            .collection("AllJoinRequests")
-            .doc(project["name"] + "-" + project["email"])
-            .delete();
-      }
+    
+    
+      
+    
   }
 
   showDialogFunc() {
