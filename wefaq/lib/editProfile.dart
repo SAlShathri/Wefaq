@@ -636,7 +636,7 @@ class _editprofileState extends State<editprofile> {
                                         .collection('users')
                                         .doc(signedInUser.email)
                                         .set({
-                                      "ProfilePic":
+                                      "Profile":
                                           "https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images%2FScreen%20Shot%202022-10-19%20at%204.03.24%20PM.png?alt=media&token=fb592318-b262-4fdf-96f2-48fed928f5b5",
                                       "FirstName": _nameEditingController.text
                                           .substring(

@@ -433,34 +433,36 @@ class ChatScreenState extends State<ChatScreen> {
                                                       userEmail: message.email,
                                                     )));
                                       },
-                                      child: Container(
-                                        height: 22.0,
-                                        width: 22.0,
-                                        margin:
-                                            const EdgeInsets.only(right: 8.0),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: const DecorationImage(
-                                            image: AssetImage(
-                                                'assets/images/PlaceHolder.png'),
-                                            fit: BoxFit.cover,
-                                          ),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              offset: const Offset(0, 4),
-                                              blurRadius: 4.0,
-                                              color: Colors.black
-                                                  .withOpacity(0.25),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                                      // child: Container(
+                                      //   height: 22.0,
+                                      //   width: 22.0,
+                                      //   margin:
+                                      //       const EdgeInsets.only(right: 8.0),
+                                      //   decoration: BoxDecoration(
+                                      //     shape: BoxShape.circle,
+                                      //     image: const DecorationImage(
+                                      //       image: AssetImage(
+                                      //           'assets/images/PlaceHolder.png'),
+                                      //       fit: BoxFit.cover,
+                                      //     ),
+                                      //     boxShadow: [
+                                      //       BoxShadow(
+                                      //         offset: const Offset(0, 4),
+                                      //         blurRadius: 4.0,
+                                      //         color: Colors.black
+                                      //             .withOpacity(0.25),
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // ),
+
+                                      child: Text(message.sender.toString(),
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Color.fromARGB(
+                                                255, 84, 17, 115),
+                                          )),
                                     ),
-                                  Text(message.sender.toString(),
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Color.fromARGB(255, 84, 17, 115),
-                                      )),
                                 ],
                               ),
                             if (!message.text!.startsWith(
