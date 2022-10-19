@@ -492,9 +492,11 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                               ],
                             ),
                           ),
-                          Text(
-                            ParticipantNameList.join(","),
-                            style: Theme.of(context).textTheme.titleSmall,
+                          Expanded(
+                            child: Text(
+                              ParticipantNameList.join(","),
+                              style: Theme.of(context).textTheme.titleSmall,
+                            ),
                           ),
                           SizedBox(
                             width: 130,

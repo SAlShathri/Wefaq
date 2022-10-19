@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -547,7 +548,7 @@ class ChatScreenState extends State<ChatScreen> {
                       decoration: InputDecoration(
                         suffixIcon: messageTextEditingControlle.text.isNotEmpty
                             ? TextButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   setState(() {
                                     messageTextEditingControlle.clear();
                                   });
@@ -562,6 +563,9 @@ class ChatScreenState extends State<ChatScreen> {
                                     "email": userEmail,
                                     "time": FieldValue.serverTimestamp(),
                                   });
+                                  String? token = await FirebaseMessaging
+                                      .instance
+                                      .getToken();
                                   for (int i = 0; i < tokens.length; i++) {
                                     if (messageText!.contains(
                                         'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images')) {
@@ -570,8 +574,9 @@ class ChatScreenState extends State<ChatScreen> {
                                         'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/files')) {
                                       messageText = 'File';
                                     }
-                                    sendNotification(
-                                        FName + ":" + messageText, tokens[i]);
+                                    if (tokens[i].toString() != token)
+                                      sendNotification(
+                                          FName + ":" + messageText, tokens[i]);
                                   }
                                   setState(() {
                                     messageText = "";
