@@ -35,6 +35,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
     // TODO: implement initState
     getCurrentUser();
     getProjects();
+    isLiked();
     super.initState();
   }
 
@@ -84,6 +85,26 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
   bool _isSelected2 = false;
   bool _isSelected3 = false;
   bool isPressed = false;
+
+  Future isLiked() async {
+    var collectionRef = FirebaseFirestore.instance.collection('FavoriteEvent');
+
+    var docu = await collectionRef
+        .doc(Email! + '-' + EventName + '-' + ownerEmail)
+        .get();
+
+    if (docu.exists) {
+      print("exist");
+      setState(() {
+        isPressed = true;
+      });
+    } else {
+      print("doesnt exist");
+      setState(() {
+        isPressed = false;
+      });
+    }
+  }
 
   var ProjectTitleList = [];
 
@@ -181,26 +202,25 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                       Row(
                         children: [
                           Container(
-                margin: EdgeInsets.only(right: 0),
-              height: 56.0,
-              width: 56.0,
-         
-              child: IconButton(
-                  icon: Icon(
-                    Icons.error_outline,
-                    color: Color.fromARGB(255, 186, 48, 48),
-                    size: 30,
-                  ),
-                  
-                  onPressed: () {
-                     Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => reportEvent( eventName:
-                                                                nameList, eventOwner: ownerEmail  )));
+                            margin: EdgeInsets.only(right: 0),
+                            height: 56.0,
+                            width: 56.0,
+                            child: IconButton(
+                                icon: Icon(
+                                  Icons.error_outline,
+                                  color: Color.fromARGB(255, 186, 48, 48),
+                                  size: 30,
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => reportEvent(
+                                              eventName: nameList,
+                                              eventOwner: ownerEmail)));
 //showDialogFunc(context);
-                  }
-                  
-                  ),
-            ),
+                                }),
+                          ),
                           Container(
                             height: 50.0,
                             width: 50.0,
@@ -217,8 +237,10 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                                       color: Color.fromARGB(172, 136, 98, 146)),
                               onPressed: () {
                                 setState(() {
+                                  print(isPressed);
                                   if (isPressed) {
                                     isPressed = false;
+                                    print(isPressed);
                                     ShowToastRemove();
 
                                     FirebaseFirestore.instance
@@ -231,6 +253,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                                         .delete();
                                   } else {
                                     isPressed = true;
+                                    print(isPressed);
                                     ShowToastAdd();
 
                                     _firestore
