@@ -350,6 +350,8 @@ class _editprofileState extends State<editprofile> {
                           child: ListTile(
                             title: Text("Name"),
                             subtitle: TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               decoration: const InputDecoration(
                                 border: UnderlineInputBorder(),
                                 //  labelText: 'About',
@@ -358,9 +360,10 @@ class _editprofileState extends State<editprofile> {
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return "required";
-                                } else if (!RegExp(r'^[a-z A-Z]+$')
+                                }
+                                if (!RegExp(r'^[a-z A-Z . ,]+$')
                                         .hasMatch(value!) &&
-                                    !RegExp(r'^[ أ-ي]+$').hasMatch(value!)) {
+                                    !RegExp(r'^[, . أ-ي]+$').hasMatch(value!)) {
                                   return "Only English or Arabic letters";
                                 }
                               },
@@ -460,17 +463,22 @@ class _editprofileState extends State<editprofile> {
                           ListTile(
                             title: Text("About"),
                             subtitle: TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                                 decoration: const InputDecoration(
                                   border: UnderlineInputBorder(),
                                   //  labelText: 'About',
                                 ),
                                 controller: _aboutEditingController,
                                 validator: (value) {
-                                  if (value?.trim() == ' ') {
-                                    return 'Space is not allowed';
-                                  } else if (RegExp("^[0-9]").hasMatch(value!))
-                                    return 'Numbers are not allowed';
-
+                                  if (value!.isNotEmpty) {
+                                    if (!RegExp(r'^[a-z A-Z . , -]+$')
+                                            .hasMatch(value!) &&
+                                        !RegExp(r'^[, . - أ-ي]+$')
+                                            .hasMatch(value!)) {
+                                      return "Only English or Arabic letters";
+                                    }
+                                  }
                                   return null;
                                 }),
                             leading: Icon(Icons.format_align_center),
@@ -484,16 +492,18 @@ class _editprofileState extends State<editprofile> {
                           ListTile(
                             title: Text("GitHub"),
                             subtitle: TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                                 decoration: const InputDecoration(
                                   border: UnderlineInputBorder(),
                                   //  labelText: 'About',
                                 ),
                                 controller: _gitHubEditingController,
                                 validator: (value) {
-                                  if (value?.trim() == '') {
-                                    return 'Space is not allowed';
-                                  } else if (RegExp("^[0-9]").hasMatch(value!))
-                                    return 'Numbers are not allowed';
+                                  if (value!.isNotEmpty) {
+                                    if (!value.startsWith("https://github.com"))
+                                      return 'The url must start with " https://github.com"';
+                                  }
                                 }),
                             leading: Icon(
                               LineIcons.github,
@@ -507,16 +517,22 @@ class _editprofileState extends State<editprofile> {
                           ListTile(
                             title: Text("Experience"),
                             subtitle: TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                                 decoration: const InputDecoration(
                                   border: UnderlineInputBorder(),
                                   //  labelText: 'About',
                                 ),
                                 controller: _experienceEditingController,
                                 validator: (value) {
-                                  if (value?.trim() == ' ') {
-                                    return 'Space is not allowed';
-                                  } else if (RegExp("^[0-9]").hasMatch(value!))
-                                    return 'Numbers are not allowed';
+                                  if (value!.isNotEmpty) {
+                                    if (!RegExp(r'^[a-z A-Z . , -]+$')
+                                            .hasMatch(value!) &&
+                                        !RegExp(r'^[, . - أ-ي]+$')
+                                            .hasMatch(value!)) {
+                                      return "Only English or Arabic letters";
+                                    }
+                                  }
                                 }),
                             leading: Icon(Icons.calendar_view_day),
                           ),
@@ -557,10 +573,16 @@ class _editprofileState extends State<editprofile> {
                                 ),
                                 controller: _certificationsEditingController,
                                 validator: (value) {
-                                  if (value?.trim() == ' ') {
-                                    return 'Space is not allowed';
-                                  } else if (RegExp("^[0-9]").hasMatch(value!))
-                                    return 'Numbers are not allowed';
+                                  if (value != null) {
+                                    if (value!.isNotEmpty) {
+                                      if (!RegExp(r'^[a-z A-Z . , -]+$')
+                                              .hasMatch(value!) &&
+                                          !RegExp(r'^[, . - أ-ي]+$')
+                                              .hasMatch(value!)) {
+                                        return "Only English or Arabic letters";
+                                      }
+                                    }
+                                  }
                                 }),
                             leading: Icon(
                               Icons.workspace_premium,
