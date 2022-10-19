@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/userProjects.dart';
 import 'bottom_bar_custom.dart';
@@ -119,7 +120,7 @@ class _viewprofileState extends State<viewotherprofile> {
                                   Row(children: <Widget>[
                                     Expanded(
                                         child: Column(children: [
-                                      Text("$fname" + " $lname",
+                                      Text("      " + "$fname" + " $lname",
                                           style: TextStyle(fontSize: 18)),
                                     ])),
                                   ]),
@@ -135,23 +136,36 @@ class _viewprofileState extends State<viewotherprofile> {
                                     Column(
                                       children: <Widget>[
                                         GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      userProjects(
-                                                          userEmail:
-                                                              userEmail)),
-                                            );
-                                          },
-                                          child: Text(
-                                            "View projects",
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        )
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        userProjects(
+                                                            userEmail:
+                                                                userEmail)),
+                                              );
+                                            },
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              height: 30,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                color: Color.fromARGB(
+                                                    201, 231, 229, 229),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Text(
+                                                "View projects",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color.fromARGB(
+                                                      255, 96, 51, 104),
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ))
                                       ],
                                     ),
                                   ])
@@ -203,7 +217,7 @@ class _viewprofileState extends State<viewotherprofile> {
                         ),
                         ListTile(
                           title: Text("GitHub"),
-                          subtitle: Text("$gitHub"),
+                          onTap: () => launch("$gitHub"),
                           leading: Icon(
                             LineIcons.github,
                             size: 35,
