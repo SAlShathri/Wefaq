@@ -48,7 +48,7 @@ class _favoritePageState extends State<favoritePage> {
   void initState() {
     getCurrentUser();
 
-    getFavoriteEvent();
+    getFavoriteEvents();
     super.initState();
   }
 
@@ -70,7 +70,7 @@ class _favoritePageState extends State<favoritePage> {
   }
 
   //get all projects
-  Future getFavoriteEvent() async {
+  Future getFavoriteEvents() async {
     setState(() {
       nameList = [];
       descList = [];
@@ -87,7 +87,7 @@ class _favoritePageState extends State<favoritePage> {
     });
     if (Email != null) {
       var fillterd = _firestore
-          .collection('FavoriteEvent')
+          .collection('FavoriteEvents')
           .where('favoriteEmail', isEqualTo: Email)
           .orderBy('date', descending: true)
           .snapshots();

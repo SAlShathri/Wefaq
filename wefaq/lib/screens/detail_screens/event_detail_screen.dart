@@ -87,7 +87,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
   bool isPressed = false;
 
   Future isLiked() async {
-    var collectionRef = FirebaseFirestore.instance.collection('FavoriteEvent');
+    var collectionRef = FirebaseFirestore.instance.collection('FavoriteEvents');
 
     var docu = await collectionRef
         .doc(Email! + '-' + EventName + '-' + ownerEmail)
@@ -244,7 +244,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                                     ShowToastRemove();
 
                                     FirebaseFirestore.instance
-                                        .collection('FavoriteEvent')
+                                        .collection('FavoriteEvents')
                                         .doc(Email! +
                                             '-' +
                                             EventName +
@@ -257,7 +257,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                                     ShowToastAdd();
 
                                     _firestore
-                                        .collection('FavoriteEvent')
+                                        .collection('FavoriteEvents')
                                         .doc(Email! +
                                             '-' +
                                             EventName +
