@@ -89,7 +89,7 @@ class _favoritePageState extends State<favoritePage> {
       var fillterd = _firestore
           .collection('FavoriteEvents')
           .where('favoriteEmail', isEqualTo: Email)
-          .orderBy('date', descending: true)
+          .orderBy('date', descending: false)
           .snapshots();
       await for (var snapshot in fillterd)
         for (var events in snapshot.docs) {
