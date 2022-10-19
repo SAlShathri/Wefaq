@@ -70,6 +70,14 @@ class _viewprofileState extends State<viewotherprofile> {
       home: Scaffold(
         backgroundColor: Color.fromARGB(255, 238, 237, 240),
         appBar: AppBar(
+          leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
           title: Text('Profile', style: TextStyle(color: Colors.white)),
           actions: <Widget>[
             IconButton(
