@@ -385,41 +385,49 @@ class ChatScreenState extends State<ChatScreen> {
                                     color: Color.fromARGB(255, 147, 160, 166),
                                   )),
                             if (!message.isMe)
-                              Text(message.sender.toString(),
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color.fromARGB(255, 84, 17, 115),
-                                  )),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => viewotherprofile(
-                                              userEmail: message.email,
-                                            )));
-                              },
-                              child: Container(
-                                height: 35.0,
-                                width: 35.0,
-                                margin: const EdgeInsets.only(right: 8.0),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: const DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/PlaceHolder.png'),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      offset: const Offset(0, 4),
-                                      blurRadius: 4.0,
-                                      color: Colors.black.withOpacity(0.25),
+                              Row(
+                                children: [
+                                  if (!message.isMe)
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    viewotherprofile(
+                                                      userEmail: message.email,
+                                                    )));
+                                      },
+                                      child: Container(
+                                        height: 22.0,
+                                        width: 22.0,
+                                        margin:
+                                            const EdgeInsets.only(right: 8.0),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: const DecorationImage(
+                                            image: AssetImage(
+                                                'assets/images/PlaceHolder.png'),
+                                            fit: BoxFit.cover,
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              offset: const Offset(0, 4),
+                                              blurRadius: 4.0,
+                                              color: Colors.black
+                                                  .withOpacity(0.25),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                  ],
-                                ),
+                                  Text(message.sender.toString(),
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color.fromARGB(255, 84, 17, 115),
+                                      )),
+                                ],
                               ),
-                            ),
                             if (!message.text!.startsWith(
                                 'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/'))
                               Material(
