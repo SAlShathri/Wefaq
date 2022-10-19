@@ -28,7 +28,6 @@ class _UserLogin extends State<UserLogin> {
   late String email;
   late String password;
   var names = [];
-  var names1 = [];
   var emails = [];
 
   @override
@@ -46,7 +45,7 @@ class _UserLogin extends State<UserLogin> {
       for (var project in snapshot.docs) {
         setState(() {
          names.add(project["name"]);
-        names1.add(project["name"]);
+        
          
         });
       }
@@ -290,16 +289,9 @@ for (var i =0 ;i<names.length;i++) {
             .collection('AllProjects')
             .doc(names[i].toString() + "-" + FirebaseAuth.instance.currentUser!.email!)
             .delete();
-        // FirebaseFirestore.instance
-        //     .collection("AllJoinRequests")
-        //     .doc(names[i].toString() + "-" +  FirebaseAuth.instance.currentUser!.email!)
-        //     .delete();
-      }
-
-      for (var i =0 ;i<names1.length;i++){
-FirebaseFirestore.instance
+        FirebaseFirestore.instance
             .collection("AllJoinRequests")
-            .doc(names1[i].toString() + "-" +  FirebaseAuth.instance.currentUser!.email!)
+            .doc(names[i].toString() + "-" +  FirebaseAuth.instance.currentUser!.email!)
             .delete();
       }
 
