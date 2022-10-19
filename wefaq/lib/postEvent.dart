@@ -483,7 +483,7 @@ class _PostEventState extends State<PostEvent> {
                               var formatter = new DateFormat('yyyy-MM-dd');
 
                               _firestore
-                                  .collection('AllEvents')
+                                  .collection('AllEvent')
                                   .doc(_nameEditingController.text)
                                   .set({
                                 'name': _nameEditingController.text,

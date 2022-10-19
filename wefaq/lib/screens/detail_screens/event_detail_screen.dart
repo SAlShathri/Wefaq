@@ -143,7 +143,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
       EventName = "";
     });
     await for (var snapshot in _firestore
-        .collection('AllEvents')
+        .collection('AllEvent')
         .orderBy('created', descending: true)
         .where('name', isEqualTo: eventName)
         .snapshots())

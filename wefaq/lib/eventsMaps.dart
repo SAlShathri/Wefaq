@@ -82,7 +82,7 @@ class MapSampleState extends State<MapSampleEvents> {
 
   //get markers
   Future getMarkers() async {
-    await for (var snapshot in _firestore.collection('AllEvents').snapshots())
+    await for (var snapshot in _firestore.collection('AllEvent').snapshots())
       for (var project in snapshot.docs) {
         setState(() {
           markers.add(new Marker(
