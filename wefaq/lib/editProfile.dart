@@ -301,17 +301,6 @@ class _editprofileState extends State<editprofile> {
       backgroundColor: Color.fromARGB(255, 238, 237, 240),
       appBar: AppBar(
         title: Text('Edit Profile', style: TextStyle(color: Colors.white)),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(
-                Icons.logout,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => UserLogin()));
-              }),
-        ],
         backgroundColor: Color.fromARGB(255, 162, 148, 183),
       ),
       bottomNavigationBar: CustomNavigationBar(

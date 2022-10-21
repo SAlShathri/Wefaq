@@ -90,18 +90,6 @@ class _PostProjectState extends State<PostProject> {
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(
-                  Icons.logout,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
-                onPressed: () {
-                  _signOut();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => UserLogin()));
-                }),
-          ],
           backgroundColor: Color.fromARGB(255, 182, 168, 203),
           title: Text('Post Project',
               style: TextStyle(

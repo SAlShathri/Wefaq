@@ -16,20 +16,18 @@ import 'eventsScreen.dart';
 
 class reportEvent extends StatefulWidget {
   String eventName;
-  String eventOwner ;
-  reportEvent({required this.eventName , required this.eventOwner});
+  String eventOwner;
+  reportEvent({required this.eventName, required this.eventOwner});
 
   @override
-  State<reportEvent> createState() => _reportEventState(eventName , eventOwner);
+  State<reportEvent> createState() => _reportEventState(eventName, eventOwner);
 }
 
 class _reportEventState extends State<reportEvent> {
   final _firestore = FirebaseFirestore.instance;
-  
-  final TextEditingController _noteEditingController =
-      TextEditingController();
- 
-  
+
+  final TextEditingController _noteEditingController = TextEditingController();
+
   // Project category list
   List<String> options = [];
 
@@ -47,18 +45,16 @@ class _reportEventState extends State<reportEvent> {
     getreasonList();
 
     super.initState();
-   
   }
+
   String eventName;
-  String eventOwner ;
-  _reportEventState(this.eventName , this.eventOwner);
+  String eventOwner;
+  _reportEventState(this.eventName, this.eventOwner);
 
   @override
   void dispose() {
     super.dispose();
   }
-
-  
 
   void getreasonList() async {
     final categories = await _firestore.collection('reportreasons').get();
@@ -77,7 +73,7 @@ class _reportEventState extends State<reportEvent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //  automaticallyImplyLeading: false,
+          //  automaticallyImplyLeading: false,
           actions: <Widget>[
             IconButton(
                 icon: Icon(
@@ -85,9 +81,7 @@ class _reportEventState extends State<reportEvent> {
                   color: Color.fromARGB(255, 255, 255, 255),
                 ),
                 onPressed: () {
-                  _signOut();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => UserLogin()));
+                  showDialogFunc(context);
                 }),
           ],
           backgroundColor: Color.fromARGB(255, 145, 124, 178),
@@ -107,25 +101,23 @@ class _reportEventState extends State<reportEvent> {
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
             children: <Widget>[
-             Container(
+              Container(
                 margin: EdgeInsets.only(left: 5, top: 1),
                 alignment: Alignment.topLeft,
                 child: Text("Why are you reporting $eventName event? ",
                     style: TextStyle(
-                   //     fontWeight: FontWeight.w600,
+                        //     fontWeight: FontWeight.w600,
                         color: Color.fromARGB(144, 64, 7, 87),
                         fontSize: 19),
                     textAlign: TextAlign.left),
               ),
               SizedBox(height: 25.0),
-             
-              
+
               DropdownButtonFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 hint: RichText(
                   text: TextSpan(
                       text: 'Report reason  ',
-                      
                       style: const TextStyle(
                           fontSize: 18, color: Color.fromARGB(144, 64, 7, 87)),
                       children: [
@@ -169,17 +161,17 @@ class _reportEventState extends State<reportEvent> {
                 },
               ),
               SizedBox(height: 25.0),
-            //  SizedBox(height: 4.0),
-            
-           //  SizedBox(height: 33.0),
+              //  SizedBox(height: 4.0),
+
+              //  SizedBox(height: 33.0),
               Scrollbar(
                 thumbVisibility: true,
                 child: TextFormField(
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     maxLength: 500,
                     maxLines: 12,
                     decoration: InputDecoration(
-                       floatingLabelBehavior: FloatingLabelBehavior.always,
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
                       hintText: 'Add a comment to your report (optional)',
                       hintStyle: TextStyle(
                           fontSize: 18,
@@ -211,7 +203,8 @@ class _reportEventState extends State<reportEvent> {
                     controller: _noteEditingController,
                     validator: (value) {
                       if (!RegExp(r'^[a-z A-Z . ,]+$').hasMatch(value!) &&
-                          !RegExp(r'^[, . أ-ي]+$').hasMatch(value!) && value.isNotEmpty) {
+                          !RegExp(r'^[, . أ-ي]+$').hasMatch(value!) &&
+                          value.isNotEmpty) {
                         return "Only English or Arabic letters";
                       }
                       // if (value == null ||
@@ -224,28 +217,26 @@ class _reportEventState extends State<reportEvent> {
                     }),
               ),
               SizedBox(height: 15),
-             
-            
+
               SizedBox(
                 width: 50,
                 height: 50.0,
                 child: ElevatedButton(
-                  
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color.fromARGB(144, 238, 22, 22),
-                     shape: RoundedRectangleBorder(
+                      shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(80.0)),
                       padding: const EdgeInsets.all(0),
-                      
                     ),
-                    child: Container (
-                //      margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                       alignment: Alignment.center,
+                    child: Container(
+                      //      margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                      alignment: Alignment.center,
                       height: 50.0,
                       //width: 33,
                       padding: const EdgeInsets.all(0),
-                    child: Text('Report',
-                        style: TextStyle(color: Colors.white, fontSize: 16.0)),
+                      child: Text('Report',
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 16.0)),
                     ),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
@@ -258,41 +249,37 @@ class _reportEventState extends State<reportEvent> {
                             await FirebaseMessaging.instance.getToken();
                         _firestore
                             .collection('reportedevents')
-                            .doc(eventName + '-' +
-                                Email.toString())
+                            .doc(eventName + '-' + Email.toString())
                             .set({
-                          
-                          
                           'reason': selectedreason,
-                          'note': _noteEditingController.text,                                                                           
+                          'note': _noteEditingController.text,
                           'user who reported': Email.toString(),
                           'token': token,
                           'created': now,
                           'cdate': formatter.format(now),
-                          'reported event name' : eventName ,
+                          'reported event name': eventName,
                           "event owner": eventOwner,
                         });
-                                              
+
                         _noteEditingController.clear();
-                        
+
                         selectedreason = "";
 
                         //sucess message
                         CoolAlert.show(
                           context: context,
                           title: "Thanks for letting us know!",
-                          
                           confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
                           onConfirmBtnTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomeScreen() ));
+                                    builder: (context) => HomeScreen()));
                           },
                           type: CoolAlertType.success,
                           backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          
-                          text: "We'll review your report and take action if there is a voilation of our guidelines",
+                          text:
+                              "We'll review your report and take action if there is a voilation of our guidelines",
                         );
                       }
                     }),
@@ -303,8 +290,151 @@ class _reportEventState extends State<reportEvent> {
       ),
     );
   }
+}
 
-  Future<void> _signOut() async {
-    await FirebaseAuth.instance.signOut();
-  }
+Future<void> _signOut() async {
+  await FirebaseAuth.instance.signOut();
+}
+
+showDialogFunc(context) {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return Center(
+            child: Material(
+                type: MaterialType.transparency,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                  ),
+                  padding: const EdgeInsets.all(15),
+                  height: 150,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      // Code for acceptance role
+                      Row(children: <Widget>[
+                        Expanded(
+                          flex: 2,
+                          child: GestureDetector(
+                            child: Text(
+                              " Are you sure you want to log out? ",
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(159, 64, 7, 87),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onTap: () {
+                              // go to participant's profile
+                            },
+                          ),
+                        ),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                      ]),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      //----------------------------------------------------------------------------
+                      Row(
+                        children: <Widget>[
+                          Text("   "),
+                          Text("     "),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              surfaceTintColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(80.0)),
+                              padding: const EdgeInsets.all(0),
+                            ),
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 40.0,
+                              width: 100,
+                              decoration: new BoxDecoration(
+                                  borderRadius: BorderRadius.circular(9.0),
+                                  gradient: new LinearGradient(colors: [
+                                    Color.fromARGB(144, 176, 175, 175),
+                                    Color.fromARGB(144, 176, 175, 175),
+                                  ])),
+                              padding: const EdgeInsets.all(0),
+                              child: Text(
+                                "Cancel",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color.fromARGB(255, 255, 255, 255)),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 40),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _signOut();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => UserLogin()));
+                                // CoolAlert.show(
+                                //   context: context,
+                                //   title: "Success!",
+                                //   confirmBtnColor:
+                                //       Color.fromARGB(144, 64, 6, 87),
+                                //   type: CoolAlertType.success,
+                                //   backgroundColor:
+                                //       Color.fromARGB(221, 212, 189, 227),
+                                //   text: "You have logged out successfully",
+                                //   confirmBtnText: 'Done',
+                                //   onConfirmBtnTap: () {
+                                //     //send join requist
+                                //     _signOut();
+                                //     Navigator.push(
+                                //         context,
+                                //         MaterialPageRoute(
+                                //             builder: (context) => UserLogin()));
+                                //   },
+                                // );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                surfaceTintColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(80.0)),
+                                padding: const EdgeInsets.all(0),
+                              ),
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 40.0,
+                                width: 100,
+                                decoration: new BoxDecoration(
+                                    borderRadius: BorderRadius.circular(9.0),
+                                    gradient: new LinearGradient(colors: [
+                                      Color.fromARGB(144, 210, 2, 2),
+                                      Color.fromARGB(144, 210, 2, 2)
+                                    ])),
+                                padding: const EdgeInsets.all(0),
+                                child: Text(
+                                  "Log out",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color:
+                                          Color.fromARGB(255, 255, 255, 255)),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                )));
+      });
 }
