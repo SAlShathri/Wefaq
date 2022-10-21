@@ -279,12 +279,7 @@ class _UserLogin extends State<UserLogin> {
 
   Future<void> deleteprofile() async {
     print(FirebaseAuth.instance.currentUser!.email);
-    //FirebaseFirestore.instance
-    //                              .collection('AllPrpjects')
-    //                              .doc(FirebaseAuth.instance.currentUser!.email)
-    //                              .delete();
-
-for (var i =0 ;i<names.length;i++) {
+     for (var i =0 ;i<names.length;i++) {
         FirebaseFirestore.instance
             .collection('AllProjects')
             .doc(names[i].toString() + "-" + FirebaseAuth.instance.currentUser!.email!)
@@ -300,11 +295,7 @@ for (var i =0 ;i<names.length;i++) {
         .doc(FirebaseAuth.instance.currentUser!.email)
         .delete();
 
-    await FirebaseAuth.instance.currentUser!.delete();
-
-    
-    
-      
+    await FirebaseAuth.instance.currentUser!.delete();    
     
   }
 
@@ -321,7 +312,7 @@ for (var i =0 ;i<names.length;i++) {
                       color: const Color.fromARGB(255, 255, 255, 255),
                     ),
                     padding: const EdgeInsets.all(15),
-                    height: 190,
+                    height: 210,
                     width: MediaQuery.of(context).size.width * 0.85,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -332,9 +323,9 @@ for (var i =0 ;i<names.length;i++) {
                             flex: 2,
                             child: GestureDetector(
                               child: Text(
-                                "your account is inactive, do you want to restore it or delete it immediately ?",
+                                "your account is inactive, do you want to restore it or delete it immediately?",
                                 style: const TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 18,
                                   color: Color.fromARGB(159, 64, 7, 87),
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -358,49 +349,7 @@ for (var i =0 ;i<names.length;i++) {
                             Text("        "),
                             ElevatedButton(
                               onPressed: () async {
-                                 FirebaseFirestore.instance
-                                      .collection('users')
-                                      .doc(FirebaseAuth
-                                          .instance.currentUser!.email)
-                                      .update({'status': 'deleted'});
-                                deleteprofile();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => UserLogin()));
-                              },
-                              style: ElevatedButton.styleFrom(
-                                surfaceTintColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(80.0)),
-                                padding: const EdgeInsets.all(0),
-                              ),
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 40.0,
-                                width: 100,
-                                decoration: new BoxDecoration(
-                                    borderRadius: BorderRadius.circular(9.0),
-                                    gradient: new LinearGradient(colors: [
-                                      Color.fromARGB(144, 210, 2, 2),
-                                      Color.fromARGB(144, 210, 2, 2)
-                                    ])),
-                                padding: const EdgeInsets.all(0),
-                                child: Text(
-                                  "delete",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color:
-                                          Color.fromARGB(255, 255, 255, 255)),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 40),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  FirebaseFirestore.instance
+                                FirebaseFirestore.instance
                                       .collection('users')
                                       .doc(FirebaseAuth
                                           .instance.currentUser!.email)
@@ -423,6 +372,59 @@ for (var i =0 ;i<names.length;i++) {
                                         Color.fromARGB(221, 212, 189, 227),
                                     text: "you can login",
                                   );
+                                //  FirebaseFirestore.instance
+                                //       .collection('users')
+                                //       .doc(FirebaseAuth
+                                //           .instance.currentUser!.email)
+                                //       .update({'status': 'deleted'});
+                                // deleteprofile();
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) => UserLogin()));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                surfaceTintColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(80.0)),
+                                padding: const EdgeInsets.all(0),
+                              ),
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 40.0,
+                                width: 100,
+                                decoration: new BoxDecoration(
+                                    borderRadius: BorderRadius.circular(9.0),
+                                    gradient: new LinearGradient(colors: [
+                                      Color.fromARGB(152, 24, 205, 33),
+                                        Color.fromARGB(152, 24, 205, 33)
+                                    ])),
+                                padding: const EdgeInsets.all(0),
+                                child: Text(
+                                  "restore",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color:
+                                          Color.fromARGB(255, 255, 255, 255)),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 40),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                   FirebaseFirestore.instance
+                                      .collection('users')
+                                      .doc(FirebaseAuth
+                                          .instance.currentUser!.email)
+                                      .update({'status': 'deleted'});
+                                deleteprofile();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => UserLogin()));
+                                  
                                   // deleteprofile();
                                   // Navigator.push(context,
                                   // MaterialPageRoute(builder: (context) => UserLogin()));
@@ -441,12 +443,13 @@ for (var i =0 ;i<names.length;i++) {
                                   decoration: new BoxDecoration(
                                       borderRadius: BorderRadius.circular(9.0),
                                       gradient: new LinearGradient(colors: [
-                                        Color.fromARGB(152, 24, 205, 33),
-                                        Color.fromARGB(152, 24, 205, 33)
+                                         Color.fromARGB(144, 210, 2, 2),
+                                      Color.fromARGB(144, 210, 2, 2)
+                                       
                                       ])),
                                   padding: const EdgeInsets.all(0),
                                   child: Text(
-                                    "restore",
+                                    "delete",
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
