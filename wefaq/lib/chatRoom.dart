@@ -18,6 +18,7 @@ import 'package:wefaq/service/local_push_notification.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wefaq/viewOtherProfile.dart';
+import 'package:wefaq/viewProfileTeamMembers.dart';
 // import 'package:open_file/open_file.dart';
 
 String FileText = 'test';
@@ -429,7 +430,7 @@ class ChatScreenState extends State<ChatScreen> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    viewotherprofile(
+                                                    viewProfileTeamMembers(
                                                       userEmail: message.email,
                                                     )));
                                       },
