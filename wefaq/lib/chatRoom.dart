@@ -61,6 +61,11 @@ class ChatScreenState extends State<ChatScreen> {
     getCurrentUser();
     getTokens();
     getTokensOwner();
+
+    FirebaseMessaging.instance.getInitialMessage();
+    FirebaseMessaging.onMessage.listen((event) {
+      LocalNotificationService.display(event);
+    });
   }
 
   PlatformFile? pickedFile;
