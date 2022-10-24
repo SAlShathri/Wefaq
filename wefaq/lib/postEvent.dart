@@ -30,7 +30,7 @@ class _PostEventState extends State<PostEvent> {
       TextEditingController();
   static final TextEditingController _startSearchFieldController =
       TextEditingController();
-  DateTime dateTime = DateTime.now();
+  DateTime dateTime = new DateTime.now();
 
   final TextEditingController _urlEditingController = TextEditingController();
 
@@ -81,7 +81,6 @@ class _PostEventState extends State<PostEvent> {
   }
 
   final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -336,8 +335,8 @@ class _PostEventState extends State<PostEvent> {
                         DateTime? newDate = await showDatePicker(
                             context: context,
                             initialDate: dateTime,
-                            firstDate: DateTime(2022),
-                            lastDate: DateTime(2100));
+                            firstDate: dateTime,
+                            lastDate: DateTime(2025));
                         if (newDate == null) return;
 
                         TimeOfDay? newTime = await showTimePicker(

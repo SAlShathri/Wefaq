@@ -145,9 +145,11 @@ class _PostProjectState extends State<PostProject> {
                   ),
                   controller: _nameEditingController,
                   validator: (value) {
-                    if (value == null || value.isEmpty || value.trim() == '') {
+                    if (value == null || value.isEmpty || value.trim() == '')
                       return 'required';
-                    }
+                    else if (!RegExp(r'^[a-z A-Z . , -]+$').hasMatch(value!) &&
+                        !RegExp(r'^[, . - أ-ي]+$').hasMatch(value!))
+                      return "Only English or Arabic letters";
                   }),
               SizedBox(height: 25.0),
               TextFormField(

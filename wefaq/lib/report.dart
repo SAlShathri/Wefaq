@@ -28,7 +28,7 @@ class _reportEventState extends State<reportEvent> {
 
   final TextEditingController _noteEditingController = TextEditingController();
 
-  // Project category list
+  
   List<String> options = [];
 
   String? selectedreason;
@@ -154,13 +154,20 @@ class _reportEventState extends State<reportEvent> {
                     ),
                   ),
                 ),
+                
+
+
                 validator: (value) {
                   if (value == null || value == "") {
                     return 'required';
                   }
                 },
+                               
               ),
-              SizedBox(height: 25.0),
+              SizedBox(height: 25.0,              
+              ),
+
+             
               //  SizedBox(height: 4.0),
 
               //  SizedBox(height: 33.0),
@@ -239,6 +246,29 @@ class _reportEventState extends State<reportEvent> {
                               TextStyle(color: Colors.white, fontSize: 16.0)),
                     ),
                     onPressed: () async {
+                      final rec = await FirebaseFirestore.instance
+                        .collection('reportedevents')
+                        //.where(eventName + '-' + Email.toString(), isEqualTo: )
+                        .where("user who reported" , isEqualTo: Email)
+                        .where("reported event name", isEqualTo: eventName)
+                        .get();
+                        if (rec.docs.isNotEmpty) {
+                       CoolAlert.show(
+                            context: context,
+                            title: "",
+                            confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
+                            //cancelBtnColor: Color.fromARGB(144, 64, 6, 87),
+                            type: CoolAlertType.error,
+                            backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                            text: "you already reported this account, your report will be overr",
+                            confirmBtnText: 'OK',
+                            onConfirmBtnTap: () {
+                              Navigator.of(context).pop();
+                            },
+                          );
+                       }
+                       
+
                       if (_formKey.currentState!.validate()) {
                         // If the form is valid, display a snackbar. In the real world,
                         // you'd often call a server or save the information in a database.

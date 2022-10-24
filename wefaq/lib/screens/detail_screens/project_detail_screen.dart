@@ -530,6 +530,8 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                           CantJoin();
                           return null;
                         }
+                        var P;
+
                         //send a notification to the one who posted the project
                         sendNotification(
                             "You received a join request on your project!",
@@ -553,25 +555,31 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                             backgroundColor: Color.fromARGB(221, 212, 189, 227),
                             text: "Your join request is sent successfuly",
                           );
-
-                          //saving the request in join request collection
-                          String? token_Participant =
-                              await FirebaseMessaging.instance.getToken();
                           FirebaseFirestore.instance
-                              .collection('AllJoinRequests')
-                              .doc(nameList + '-' + signedInUser.email!)
-                              .set({
-                            'project_title': nameList,
-                            'participant_email': signedInUser.email,
-                            'owner_email': ownerEmail,
-                            'participant_name':
-                                FirebaseAuth.instance.currentUser!.displayName,
-                            'participant_token': token_Participant,
-                            'Status': 'Pending',
-                            'joiningAs': selection(
-                                _isSelected1, _isSelected2, _isSelected3),
-                            'Participant_note': _ParticipantNoteController.text,
-                            'Participant_role': 'No Role'
+                              .collection('users')
+                              .doc(signedInUser.email)
+                              .get()
+                              .then((snapshot) async {
+                            String? token_Participant =
+                                await FirebaseMessaging.instance.getToken();
+                            FirebaseFirestore.instance
+                                .collection('AllJoinRequests')
+                                .doc(nameList + '-' + signedInUser.email!)
+                                .set({
+                              'project_title': nameList,
+                              'participant_email': signedInUser.email,
+                              'owner_email': ownerEmail,
+                              'participant_name': FirebaseAuth
+                                  .instance.currentUser!.displayName,
+                              'participant_token': token_Participant,
+                              'Status': 'Pending',
+                              'joiningAs': selection(
+                                  _isSelected1, _isSelected2, _isSelected3),
+                              'Participant_note':
+                                  _ParticipantNoteController.text,
+                              'Participant_role': "",
+                              "Photo": snapshot.data()!['Profile'].toString()
+                            });
                           });
                           _JoiningASController.clear();
                           _ParticipantNoteController.clear();
@@ -613,21 +621,37 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
   }
 
   selection(bool _isSelected1, bool _isSelected2, bool _isSelected3) {
-    String JoiningAs = 'No Role';
+    String JoiningAs;
+
     if (_isSelected1 == true && _isSelected2 == false && _isSelected3 == false)
       JoiningAs = Role1;
-    if (_isSelected1 == false && _isSelected2 == true && _isSelected3 == false)
+    else if (_isSelected1 == false &&
+        _isSelected2 == true &&
+        _isSelected3 == false)
       JoiningAs = Role2;
-    if (_isSelected1 == true && _isSelected2 == false && _isSelected3 == true)
+    else if (_isSelected1 == false &&
+        _isSelected2 == false &&
+        _isSelected3 == true)
       JoiningAs = Role3;
-    if (_isSelected1 == true && _isSelected2 == true && _isSelected3 == false)
+    else if (_isSelected1 == true &&
+        _isSelected2 == true &&
+        _isSelected3 == false)
       JoiningAs = Role1 + " - " + Role2;
-    if (_isSelected1 == true && _isSelected2 == false && _isSelected3 == true)
+    else if (_isSelected1 == true &&
+        _isSelected2 == false &&
+        _isSelected3 == true)
       JoiningAs = Role1 + " - " + Role3;
-    if (_isSelected1 == false && _isSelected2 == true && _isSelected3 == true)
+    else if (_isSelected1 == false &&
+        _isSelected2 == true &&
+        _isSelected3 == true)
       JoiningAs = Role2 + " - " + Role3;
-    if (_isSelected1 == true && _isSelected2 == true && _isSelected3 == true)
+    else if (_isSelected1 == true &&
+        _isSelected2 == true &&
+        _isSelected3 == true)
       JoiningAs = Role1 + " - " + Role2 + " - " + Role3;
+    else
+      JoiningAs = 'No Role';
+
     print(JoiningAs);
 
     return JoiningAs;
