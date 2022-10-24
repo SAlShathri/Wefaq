@@ -3,9 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:google_place/google_place.dart';
 import 'package:wefaq/HomePage.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/config/colors.dart';
+import 'package:wefaq/viewOtherProfile.dart';
 import 'bottom_bar_custom.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:http/http.dart' as http;
@@ -15,6 +17,8 @@ class RequestListViewPageProject extends StatefulWidget {
   @override
   _RequestListProject createState() => _RequestListProject();
 }
+
+String P = '-';
 
 final TextEditingController _AcceptingAsASController = TextEditingController();
 final _formKey = GlobalKey<FormState>();
@@ -35,6 +39,7 @@ class _RequestListProject extends State<RequestListViewPageProject> {
   var ParticipantjoiningAsList = [];
   var ParticipantNameList = [];
   var tokens = [];
+  var ProfilePicList = [];
 
   String? Email;
   @override
@@ -87,6 +92,7 @@ class _RequestListProject extends State<RequestListViewPageProject> {
       ParticipantEmailList = [];
       ParticipantNameList = [];
       tokens = [];
+      ProfilePicList = [];
     });
     if (Email != null) {
       var fillterd = _firestore
@@ -103,6 +109,7 @@ class _RequestListProject extends State<RequestListViewPageProject> {
             ParticipantjoiningAsList.add(Request['joiningAs']);
             ParticipantNoteList.add(Request['Participant_note']);
             tokens.add(Request['participant_token']);
+            ProfilePicList.add(Request['Photo']);
           });
         }
     }
@@ -128,7 +135,6 @@ class _RequestListProject extends State<RequestListViewPageProject> {
       );
       return;
     }
-
     setState(() {
       ProjectTitleList = [];
       ParticipantEmailList = [];
@@ -150,6 +156,7 @@ class _RequestListProject extends State<RequestListViewPageProject> {
           ParticipantjoiningAsList.add(Request['joiningAs']);
           ParticipantNoteList.add(Request['Participant_note']);
           tokens.add(Request['participant_token']);
+          ProfilePicList.add(Request['Photo']);
         });
       }
   }
@@ -251,6 +258,8 @@ class _RequestListProject extends State<RequestListViewPageProject> {
     );
   }
 
+  String Photo = "";
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -318,15 +327,35 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                                   ),
                                 ]),
                                 Row(children: <Widget>[
-                                  IconButton(
-                                    icon: const Icon(
-                                      Icons.account_circle,
-                                      color: Color.fromARGB(255, 112, 82, 149),
-                                      size: 32,
-                                    ),
-                                    onPressed: () {
-                                      // go to participant's profile
+                                  TextButton(
+                                    onPressed: () async {
+                                      // var fillterd = _firestore
+                                      //     .collection('users')
+                                      //     .where("Email",
+                                      //         isEqualTo:
+                                      //             ParticipantEmailList[index])
+                                      //     .snapshots();
+                                      // await for (var snapshot in fillterd)
+                                      //   for (var user in snapshot.docs) {
+                                      //     setState(() {
+                                      //       Photo = user["Profile"].toString();
+                                      //     });
+                                      //   }
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  viewotherprofile(
+                                                    userEmail:
+                                                        ParticipantEmailList[
+                                                            index],
+                                                  )));
                                     },
+                                    child: CircleAvatar(
+                                      radius: 15,
+                                      backgroundImage:
+                                          NetworkImage(ProfilePicList[index]),
+                                    ),
                                   ),
                                   Text(
                                     ParticipantNameList[index],
@@ -392,6 +421,16 @@ class _RequestListProject extends State<RequestListViewPageProject> {
   }
 }
 
+// getImage(email) async {
+//   FirebaseFirestore.instance
+//       .collection('users')
+//       .doc(email)
+//       .get()
+//       .then((snapshot) {
+//     P = snapshot.data()!['Profile'].toString();
+//   });
+// }
+
 // This is a block of Model Dialog
 showDialogFunc(
     context,
@@ -418,14 +457,14 @@ showDialogFunc(
               color: const Color.fromARGB(255, 255, 255, 255),
             ),
             padding: const EdgeInsets.all(15),
-            height: 320,
+            height: 350,
             width: MediaQuery.of(context).size.width * 0.9,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Row(children: <Widget>[
                   Container(
-                      margin: EdgeInsets.only(left: 290, top: 0),
+                      margin: EdgeInsets.only(left: 270, top: 0),
                       child: IconButton(
                           icon: const Icon(
                             Icons.close,
@@ -438,8 +477,25 @@ showDialogFunc(
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         RequestListViewPageProject()));
+                            _AcceptingAsASController.clear();
                           }))
                 ]),
+                Row(children: <Widget>[
+                  Expanded(
+                    flex: 5,
+                    child: Text(
+                      " Name:  " + Name,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Color.fromARGB(159, 30, 27, 31),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ]),
+                const SizedBox(height: 10.0),
+                const Divider(color: kOutlineColor, height: 1.0),
+                const SizedBox(height: 10.0),
                 Row(children: <Widget>[
                   Expanded(
                     flex: 5,
@@ -567,23 +623,32 @@ showDialogFunc(
                       margin: EdgeInsets.only(left: 50),
                       child: ElevatedButton(
                         onPressed: () {
-                          // if (_formKey.currentState!.validate()) {
-                          if (_AcceptingAsASController.text != "") {
+                          // this will changw to new roles once editted
+                          List<String> Roles = JoinAs.split(" - ");
+                          if (_AcceptingAsASController.text != "" &&
+                                  Roles.contains(
+                                      _AcceptingAsASController.text.toString())
+
+                              //     _AcceptingAsASController.text == "Tester" ||
+                              // _AcceptingAsASController.text == "Designer" ||
+                              // _AcceptingAsASController.text == "Developer"
+
+                              ) {
                             sendNotification(
                                 "Your Join request has been accepted ", token);
-                            // ACCEPT ONE Reject ALL
-                            for (var i = 0;
-                                i < ParticipantEmailList.length;
-                                i++) {
-                              if (i != index &&
-                                  ParticipantjoiningAsList[i] ==
-                                      _AcceptingAsASController) {
-                                FirebaseFirestore.instance
-                                    .collection('AllJoinRequests')
-                                    .doc(title + "-" + ParticipantEmailList[i])
-                                    .update({'Status': 'Rejected'});
-                              }
-                            }
+                            // // ACCEPT ONE Reject ALL
+                            // for (var i = 0;
+                            //     i < ParticipantEmailList.length;
+                            //     i++) {
+                            //   if (i != index &&
+                            //       ParticipantjoiningAsList[i] ==
+                            //           _AcceptingAsASController) {
+                            //     FirebaseFirestore.instance
+                            //         .collection('AllJoinRequests')
+                            //         .doc(title + "-" + ParticipantEmailList[i])
+                            //         .update({'Status': 'Rejected'});
+                            //   }
+                            // }
                             FirebaseFirestore.instance
                                 .collection('AllJoinRequests')
                                 .doc(ProjectTitleList[index] +
@@ -618,17 +683,18 @@ showDialogFunc(
                                               RequestListViewPageProject()));
                                 });
                             _AcceptingAsASController.clear();
-                            // }
                           } else {
+                            print(Roles);
+
                             CoolAlert.show(
                               context: context,
-                              title: "Accepting As",
+                              title: "Choose Role",
                               confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
                               type: CoolAlertType.error,
                               backgroundColor:
                                   Color.fromARGB(221, 212, 189, 227),
                               text:
-                                  "please Write down the role you want to accept the participant as",
+                                  "please choose one of the roles the participant requested to join as, and enter it as its shown in (joining as)",
                               confirmBtnText: 'Try again',
                               onConfirmBtnTap: () {
                                 Navigator.of(context).pop();
