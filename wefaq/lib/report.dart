@@ -247,12 +247,13 @@ class _reportEventState extends State<reportEvent> {
                     ),
                     onPressed: () async {
                       final rec = await FirebaseFirestore.instance
-                        .collection('reportedevents')
+                        .collection('reportedevents').doc(eventName.toString()+"-"+Email.toString()).get();
                         //.where(eventName + '-' + Email.toString(), isEqualTo: )
-                        .where("user who reported" , isEqualTo: Email)
-                        .where("reported event name", isEqualTo: eventName)
-                        .get();
-                        if (rec.docs.isNotEmpty) {
+                        //.where("user who reported" , isEqualTo: Email)
+                       // .where("reported event name", isEqualTo: eventName)
+                        //.get();
+                        if (rec.exists) {
+                          print("hiiiii");
                        CoolAlert.show(
                             context: context,
                             title: "",
@@ -260,7 +261,7 @@ class _reportEventState extends State<reportEvent> {
                             //cancelBtnColor: Color.fromARGB(144, 64, 6, 87),
                             type: CoolAlertType.error,
                             backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                            text: "you already reported this account, your report will be overr",
+                            text: "you already reported this account, you can't report it again ",
                             confirmBtnText: 'OK',
                             onConfirmBtnTap: () {
                               Navigator.of(context).pop();
@@ -268,7 +269,7 @@ class _reportEventState extends State<reportEvent> {
                           );
                        }
                        
-
+else{
                       if (_formKey.currentState!.validate()) {
                         // If the form is valid, display a snackbar. In the real world,
                         // you'd often call a server or save the information in a database.
@@ -311,7 +312,7 @@ class _reportEventState extends State<reportEvent> {
                           text:
                               "We'll review your report and take action if there is a voilation of our guidelines",
                         );
-                      }
+                      }}
                     }),
               ),
             ],
