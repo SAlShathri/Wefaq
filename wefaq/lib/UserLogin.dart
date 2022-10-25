@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:wefaq/AdminHomePage.dart';
 import 'package:wefaq/HomePage.dart';
 
 import 'package:wefaq/UserRegisteration.dart';
@@ -32,7 +33,7 @@ class _UserLogin extends State<UserLogin> {
 
   @override
   void initState() {
-   get();
+    get();
     super.initState();
   }
 
@@ -44,9 +45,7 @@ class _UserLogin extends State<UserLogin> {
     await for (var snapshot in fillterd)
       for (var project in snapshot.docs) {
         setState(() {
-         names.add(project["name"]);
-        
-         
+          names.add(project["name"]);
         });
       }
   }
@@ -150,7 +149,7 @@ class _UserLogin extends State<UserLogin> {
                         .where("Email", isEqualTo: email)
                         .where("status", isEqualTo: "inactive")
                         .get();
-                        final del = await FirebaseFirestore.instance
+                    final del = await FirebaseFirestore.instance
                         .collection('users')
                         .where("Email", isEqualTo: email)
                         .where("status", isEqualTo: "deleted")
@@ -159,24 +158,20 @@ class _UserLogin extends State<UserLogin> {
 
                     if (rec.docs.isNotEmpty) {
                       showDialogFunc();
-                    }
-                    
-                   else
-
-                    if (del.docs.isNotEmpty) {
-                       CoolAlert.show(
-                            context: context,
-                            title: "Sorry",
-                            confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
-                            //cancelBtnColor: Color.fromARGB(144, 64, 6, 87),
-                            type: CoolAlertType.error,
-                            backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                            text: "Incorrect username or password",
-                            confirmBtnText: 'Try again',
-                            onConfirmBtnTap: () {
-                              Navigator.of(context).pop();
-                            },
-                          );
+                    } else if (del.docs.isNotEmpty) {
+                      CoolAlert.show(
+                        context: context,
+                        title: "Sorry",
+                        confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
+                        //cancelBtnColor: Color.fromARGB(144, 64, 6, 87),
+                        type: CoolAlertType.error,
+                        backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                        text: "Incorrect username or password",
+                        confirmBtnText: 'Try again',
+                        onConfirmBtnTap: () {
+                          Navigator.of(context).pop();
+                        },
+                      );
                     }
 
                     //loding indicator
@@ -192,10 +187,15 @@ class _UserLogin extends State<UserLogin> {
                           final user = await _auth.signInWithEmailAndPassword(
                               email: email, password: password);
                           if (user != null) {
+                            // if (email == "admin@wefaq.com")
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomeScreen()));
+                                    builder: (context) => adminHomeScreen()));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => HomeScreen()));
                             print("Logged in Succesfully");
                           }
                         } catch (e) {
@@ -279,24 +279,27 @@ class _UserLogin extends State<UserLogin> {
 
   Future<void> deleteprofile() async {
     print(FirebaseAuth.instance.currentUser!.email);
-     for (var i =0 ;i<names.length;i++) {
-        FirebaseFirestore.instance
-            .collection('AllProjects')
-            .doc(names[i].toString() + "-" + FirebaseAuth.instance.currentUser!.email!)
-            .delete();
-        FirebaseFirestore.instance
-            .collection("AllJoinRequests")
-            .doc(names[i].toString() + "-" +  FirebaseAuth.instance.currentUser!.email!)
-            .delete();
-      }
+    for (var i = 0; i < names.length; i++) {
+      FirebaseFirestore.instance
+          .collection('AllProjects')
+          .doc(names[i].toString() +
+              "-" +
+              FirebaseAuth.instance.currentUser!.email!)
+          .delete();
+      FirebaseFirestore.instance
+          .collection("AllJoinRequests")
+          .doc(names[i].toString() +
+              "-" +
+              FirebaseAuth.instance.currentUser!.email!)
+          .delete();
+    }
 
     FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.email)
         .delete();
 
-    await FirebaseAuth.instance.currentUser!.delete();    
-    
+    await FirebaseAuth.instance.currentUser!.delete();
   }
 
   showDialogFunc() {
@@ -350,28 +353,27 @@ class _UserLogin extends State<UserLogin> {
                             ElevatedButton(
                               onPressed: () async {
                                 FirebaseFirestore.instance
-                                      .collection('users')
-                                      .doc(FirebaseAuth
-                                          .instance.currentUser!.email)
-                                      .update({'status': 'active'});
+                                    .collection('users')
+                                    .doc(FirebaseAuth
+                                        .instance.currentUser!.email)
+                                    .update({'status': 'active'});
 
-                                  CoolAlert.show(
-                                    context: context,
-                                    title: "your account is active now",
-                                    confirmBtnColor:
-                                        Color.fromARGB(144, 64, 7, 87),
-                                    onConfirmBtnTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  UserLogin()));
-                                    },
-                                    type: CoolAlertType.success,
-                                    backgroundColor:
-                                        Color.fromARGB(221, 212, 189, 227),
-                                    text: "you can login",
-                                  );
+                                CoolAlert.show(
+                                  context: context,
+                                  title: "your account is active now",
+                                  confirmBtnColor:
+                                      Color.fromARGB(144, 64, 7, 87),
+                                  onConfirmBtnTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => UserLogin()));
+                                  },
+                                  type: CoolAlertType.success,
+                                  backgroundColor:
+                                      Color.fromARGB(221, 212, 189, 227),
+                                  text: "you can login",
+                                );
                                 //  FirebaseFirestore.instance
                                 //       .collection('users')
                                 //       .doc(FirebaseAuth
@@ -397,7 +399,7 @@ class _UserLogin extends State<UserLogin> {
                                     borderRadius: BorderRadius.circular(9.0),
                                     gradient: new LinearGradient(colors: [
                                       Color.fromARGB(152, 24, 205, 33),
-                                        Color.fromARGB(152, 24, 205, 33)
+                                      Color.fromARGB(152, 24, 205, 33)
                                     ])),
                                 padding: const EdgeInsets.all(0),
                                 child: Text(
@@ -414,17 +416,17 @@ class _UserLogin extends State<UserLogin> {
                               margin: EdgeInsets.only(left: 40),
                               child: ElevatedButton(
                                 onPressed: () {
-                                   FirebaseFirestore.instance
+                                  FirebaseFirestore.instance
                                       .collection('users')
                                       .doc(FirebaseAuth
                                           .instance.currentUser!.email)
                                       .update({'status': 'deleted'});
-                                deleteprofile();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => UserLogin()));
-                                  
+                                  deleteprofile();
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => UserLogin()));
+
                                   // deleteprofile();
                                   // Navigator.push(context,
                                   // MaterialPageRoute(builder: (context) => UserLogin()));
@@ -443,9 +445,8 @@ class _UserLogin extends State<UserLogin> {
                                   decoration: new BoxDecoration(
                                       borderRadius: BorderRadius.circular(9.0),
                                       gradient: new LinearGradient(colors: [
-                                         Color.fromARGB(144, 210, 2, 2),
-                                      Color.fromARGB(144, 210, 2, 2)
-                                       
+                                        Color.fromARGB(144, 210, 2, 2),
+                                        Color.fromARGB(144, 210, 2, 2)
                                       ])),
                                   padding: const EdgeInsets.all(0),
                                   child: Text(

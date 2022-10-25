@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wefaq/AdminuserProject.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/userProjects.dart';
 import 'bottom_bar_custom.dart';
@@ -78,10 +79,11 @@ class _viewprofileState extends State<viewotherprofile> {
         ],
         backgroundColor: Color.fromARGB(255, 162, 148, 183),
       ),
-      bottomNavigationBar: CustomNavigationBar(
-        currentHomeScreen: 0,
-        updatePage: () {},
-      ),
+
+      // bottomNavigationBar: CustomNavigationBar(
+      //   currentHomeScreen: 0,
+      //   updatePage: () {},
+      // ),
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
@@ -136,14 +138,26 @@ class _viewprofileState extends State<viewotherprofile> {
                                       children: <Widget>[
                                         GestureDetector(
                                             onTap: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        userProjects(
-                                                            userEmail:
-                                                                userEmail)),
-                                              );
+                                              if (FirebaseAuth.instance
+                                                      .currentUser!.email ==
+                                                  "admin@wefaq.com") {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          adminuserProjects(
+                                                              userEmail:
+                                                                  userEmail)),
+                                                );
+                                              } else
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          userProjects(
+                                                              userEmail:
+                                                                  userEmail)),
+                                                );
                                             },
                                             child: Container(
                                               alignment: Alignment.center,
