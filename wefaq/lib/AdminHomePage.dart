@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wefaq/AdminEventList.dart';
 import 'package:wefaq/AdminProjectList.dart';
 import 'package:wefaq/FavoritePage.dart';
 import 'package:wefaq/ReportedAcc.dart';
@@ -161,7 +162,7 @@ class HomeScreenState extends State<adminHomeScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => EventsTabs()));
+                                      builder: (context) => adminEventsListViewPage()));
                             }),
                         CategoryCard(
                             title: "Reported Events",
