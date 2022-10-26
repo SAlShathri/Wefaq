@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:wefaq/AdminNavBar.dart';
 import 'package:wefaq/AdminProjectDetailsAppBar.dart';
 import 'package:wefaq/AdminProjectList.dart';
 import 'package:wefaq/ProjectsTapScreen.dart';
@@ -311,36 +312,40 @@ class _projectDetailScreenState extends State<adminprojectDetailScreen> {
     adminDetailAppBar();
 
     return Scaffold(
+        bottomNavigationBar: AdminCustomNavigationBar(
+          currentHomeScreen: 0,
+          updatePage: () {},
+        ),
         body: Scrollbar(
-      child: CustomScrollView(
-        slivers: <Widget>[
-          const adminDetailAppBar(),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: CustomScrollView(
+            slivers: <Widget>[
+              const adminDetailAppBar(),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        nameList,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(height: 8.0),
-                      const SizedBox(height: 16.0),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            height: 50.0,
-                            width: 50.0,
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.only(right: 8.0),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            /* child: IconButton(
+                          Text(
+                            nameList,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          const SizedBox(height: 8.0),
+                          const SizedBox(height: 16.0),
+                          Row(
+                            children: [
+                              Container(
+                                height: 50.0,
+                                width: 50.0,
+                                alignment: Alignment.center,
+                                margin: const EdgeInsets.only(right: 8.0),
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                /* child: IconButton(
                               icon: (isPressed)
                                   ? const Icon(Icons.favorite,
                                       color: Color.fromARGB(172, 136, 98, 146))
@@ -358,231 +363,232 @@ class _projectDetailScreenState extends State<adminprojectDetailScreen> {
                                 });
                               },
                             ),*/
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          TextButton(
-                            onPressed: () {
-                              if (ownerEmail == Email) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => viewprofile(
-                                            userEmail: FirebaseAuth.instance
-                                                .currentUser!.email!)));
-                              } else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => viewotherprofile(
-                                              userEmail: ownerEmail,
-                                            )));
-                              }
-                            },
-                            child: Container(
-                              height: 35.0,
-                              width: 35.0,
-                              margin: const EdgeInsets.only(right: 8.0),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: NetworkImage(Photo),
-                                  fit: BoxFit.cover,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: const Offset(0, 4),
-                                    blurRadius: 4.0,
-                                    color: Colors.black.withOpacity(0.25),
+                          Row(
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  if (ownerEmail == Email) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => viewprofile(
+                                                userEmail: FirebaseAuth.instance
+                                                    .currentUser!.email!)));
+                                  } else {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                viewotherprofile(
+                                                  userEmail: ownerEmail,
+                                                )));
+                                  }
+                                },
+                                child: Container(
+                                  height: 35.0,
+                                  width: 35.0,
+                                  margin: const EdgeInsets.only(right: 8.0),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: NetworkImage(Photo),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        offset: const Offset(0, 4),
+                                        blurRadius: 4.0,
+                                        color: Colors.black.withOpacity(0.25),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Text(
-                            fName + " " + Lname,
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            height: 32.0,
-                            width: 32.0,
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.only(right: 8.0),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(Icons.location_pin,
-                                color: Color.fromARGB(172, 136, 98, 146)),
-                          ),
-                          Text(
-                            locList,
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16.0),
-                  const Divider(color: kOutlineColor, height: 1.0),
-                  const SizedBox(height: 16.0),
-                  Text(
-                    'Description',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    descList,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(color: kSecondaryTextColor),
-                  ),
-                  const SizedBox(height: 16.0),
-                  const Divider(color: kOutlineColor, height: 1.0),
-                  const SizedBox(height: 16.0),
-                  Text(
-                    'Category',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 16.0),
-                  _buildIngredientItem(context, categoryList),
-                  const Divider(color: kOutlineColor, height: 1.0),
-                  const SizedBox(height: 16.0),
-                  Text(
-                    'Looking For',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 8.0),
-                  Row(children: <Widget>[
-                    Text(
-                      lookingForList,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: kSecondaryTextColor),
-                    ),
-                  ]),
-                  const Divider(color: kOutlineColor, height: 1.0),
-                  const SizedBox(height: 16.0),
-                  Text(
-                    'Duration',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 8.0),
-                  Row(children: <Widget>[
-                    const Icon(
-                      Icons.timelapse_outlined,
-                      color: Color.fromARGB(172, 136, 98, 146),
-                      size: 21,
-                    ),
-                    Text(
-                      duration,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: kSecondaryTextColor),
-                    ),
-                  ]),
-                  const SizedBox(height: 16.0),
-                  const Divider(color: kOutlineColor, height: 1.0),
-                  const SizedBox(height: 16.0),
-                  Text(
-                    "Team Members ",
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 10.0),
-                  Column(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 35.0,
-                            width: 35.0,
-                            margin: const EdgeInsets.only(right: 8.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: const DecorationImage(
-                                image: AssetImage('assets/images/team.png'),
-                                fit: BoxFit.cover,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: const Offset(0, 4),
-                                  blurRadius: 4.0,
-                                  color: Colors.black.withOpacity(0.25),
                                 ),
-                              ],
-                            ),
+                              ),
+                              Text(
+                                fName + " " + Lname,
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            child: Text(
-                              ParticipantNameList.join(","),
-                              style: Theme.of(context).textTheme.titleSmall,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 130,
+                          Row(
+                            children: [
+                              Container(
+                                height: 32.0,
+                                width: 32.0,
+                                alignment: Alignment.center,
+                                margin: const EdgeInsets.only(right: 8.0),
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(Icons.location_pin,
+                                    color: Color.fromARGB(172, 136, 98, 146)),
+                              ),
+                              Text(
+                                locList,
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                            ],
                           ),
                         ],
                       ),
+                      const SizedBox(height: 16.0),
+                      const Divider(color: kOutlineColor, height: 1.0),
+                      const SizedBox(height: 16.0),
+                      Text(
+                        'Description',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 8.0),
+                      Text(
+                        descList,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: kSecondaryTextColor),
+                      ),
+                      const SizedBox(height: 16.0),
+                      const Divider(color: kOutlineColor, height: 1.0),
+                      const SizedBox(height: 16.0),
+                      Text(
+                        'Category',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 16.0),
+                      _buildIngredientItem(context, categoryList),
+                      const Divider(color: kOutlineColor, height: 1.0),
+                      const SizedBox(height: 16.0),
+                      Text(
+                        'Looking For',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 8.0),
+                      Row(children: <Widget>[
+                        Text(
+                          lookingForList,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: kSecondaryTextColor),
+                        ),
+                      ]),
+                      const Divider(color: kOutlineColor, height: 1.0),
+                      const SizedBox(height: 16.0),
+                      Text(
+                        'Duration',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 8.0),
+                      Row(children: <Widget>[
+                        const Icon(
+                          Icons.timelapse_outlined,
+                          color: Color.fromARGB(172, 136, 98, 146),
+                          size: 21,
+                        ),
+                        Text(
+                          duration,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: kSecondaryTextColor),
+                        ),
+                      ]),
+                      const SizedBox(height: 16.0),
+                      const Divider(color: kOutlineColor, height: 1.0),
+                      const SizedBox(height: 16.0),
+                      Text(
+                        "Team Members ",
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 10.0),
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                height: 35.0,
+                                width: 35.0,
+                                margin: const EdgeInsets.only(right: 8.0),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: const DecorationImage(
+                                    image: AssetImage('assets/images/team.png'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      offset: const Offset(0, 4),
+                                      blurRadius: 4.0,
+                                      color: Colors.black.withOpacity(0.25),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  ParticipantNameList.join(","),
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 130,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            showDialogFunc(context);
+                            // deleteprofile();
+                            //   Navigator.push(context,
+                            //     MaterialPageRoute(builder: (context) => UserLogin()));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            surfaceTintColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(80.0)),
+                            padding: const EdgeInsets.all(0),
+                          ),
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 50.0,
+                            width: 150,
+                            // width: size.width * 0.5,
+                            decoration: new BoxDecoration(
+                              borderRadius: BorderRadius.circular(80.0),
+                              color: Color.fromARGB(204, 109, 46, 154),
+                            ),
+                            padding: const EdgeInsets.all(0),
+                            child: Text(
+                              "Delete Project",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 255, 255, 255)),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        showDialogFunc(context);
-                        // deleteprofile();
-                        //   Navigator.push(context,
-                        //     MaterialPageRoute(builder: (context) => UserLogin()));
-                      },
-                      style: ElevatedButton.styleFrom(
-                        surfaceTintColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(80.0)),
-                        padding: const EdgeInsets.all(0),
-                      ),
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 50.0,
-                        width: 150,
-                        // width: size.width * 0.5,
-                        decoration: new BoxDecoration(
-                          borderRadius: BorderRadius.circular(80.0),
-                          color: Color.fromARGB(204, 109, 46, 154),
-                        ),
-                        padding: const EdgeInsets.all(0),
-                        child: Text(
-                          "Delete Project",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 255, 255, 255)),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
-    ));
+        ));
   }
 
   Widget _buildIngredientItem(

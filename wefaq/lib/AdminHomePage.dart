@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wefaq/AdminBackground.dart';
 import 'package:wefaq/AdminEventList.dart';
+import 'package:wefaq/AdminNavBar.dart';
 import 'package:wefaq/AdminProjectList.dart';
 import 'package:wefaq/FavoritePage.dart';
 import 'package:wefaq/ReportedAcc.dart';
@@ -95,131 +97,145 @@ class HomeScreenState extends State<adminHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        bottomNavigationBar: AdminCustomNavigationBar(
+          currentHomeScreen: 0,
+          updatePage: () {},
+        ),
         // bottomNavigationBar: CustomNavigationBar(
         //   currentHomeScreen: 0,
         //   updatePage: () {},
         // ),
-        body: Stack(
-      children: <Widget>[
-        SizedBox(
-          height: 33,
-        ),
-        Container(
-          margin: EdgeInsets.only(left: 310, top: 40),
-          child: IconButton(
-              icon: Icon(
-                Icons.logout,
-                size: 30,
-                color: Color.fromARGB(255, 0, 0, 0),
-              ),
-              onPressed: () {
-                showDialogFunc(context);
-              }),
-        ),
-        SizedBox(
-          height: 130,
-        ),
-        Container(
-          margin: EdgeInsets.only(left: 10, top: 125),
-          alignment: Alignment.topCenter,
-          child: Text("Hello!",
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  fontSize: 32),
-              textAlign: TextAlign.left),
-        ),
-        SizedBox(
-          height: 200,
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 290),
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      childAspectRatio: .85,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                      children: <Widget>[
-                        CategoryCard(
-                            title: "Upcoming Projects",
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          adminProjectsListViewPage()));
-                            }),
-                        CategoryCard(
-                            title: "Upcoming Events",
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => adminEventsListViewPage()));
-                            }),
-                        CategoryCard(
-                            title: "Reported Events",
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          ReportedEventsList()));
-                            }),
-                        CategoryCard(
-                            title: "Reported Accounts",
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ReportedAccList()));
-                            }),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+        backgroundColor: Color.fromARGB(255, 244, 243, 255),
+        body: adminBackgroundHome(
+            child: Stack(
+          children: <Widget>[
+            SizedBox(
+              height: 33,
             ),
-          ),
-        )
-      ],
-    ));
+            Container(
+              margin: EdgeInsets.only(left: 310, top: 40),
+              child: IconButton(
+                  icon: Icon(
+                    Icons.logout,
+                    size: 30,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
+                  onPressed: () {
+                    showDialogFunc(context);
+                  }),
+            ),
+            SizedBox(
+              height: 130,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 10, top: 125),
+              alignment: Alignment.topCenter,
+            ),
+            SizedBox(
+              height: 200,
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 290),
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 70,
+                      ),
+                      Expanded(
+                        child: GridView.count(
+                          crossAxisCount: 2,
+                          childAspectRatio: .85,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 20,
+                          children: <Widget>[
+                            CategoryCard(
+                                title: "Upcoming Projects",
+                                imgSrc: "01.png",
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              adminProjectsListViewPage()));
+                                }),
+                            CategoryCard(
+                                title: "Upcoming Events",
+                                imgSrc: "02.png",
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              adminEventsListViewPage()));
+                                }),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
+        )));
   }
 }
 
 class CategoryCard extends StatelessWidget {
   final String title;
+  final String imgSrc;
+
   final Function() onTap;
 
   const CategoryCard({
     required this.title,
+    required this.imgSrc,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(13),
-        child: Container(
-          color: Color.fromARGB(255, 129, 154, 160),
-          height: 90,
-          width: 150,
-          alignment: Alignment.center,
-          child: TextButton(
-            onPressed: onTap,
-            child: Text("$title",
-                style: TextStyle(
-                    fontSize: 15,
-                    color: Color.fromARGB(221, 26, 26, 26),
-                    fontWeight: FontWeight.bold)),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(13),
+      child: Container(
+        // padding: EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(13),
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(20, 17),
+              blurRadius: 30,
+              spreadRadius: -23,
+              color: Color.fromARGB(255, 46, 36, 50),
+            ),
+          ],
+          image: new DecorationImage(
+            image: new AssetImage("assets/images/$imgSrc"),
+          ),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: <Widget>[
+                  Spacer(),
+                  Spacer(),
+                  Text("$title",
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: Color.fromARGB(221, 73, 105, 119),
+                          fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ),
           ),
         ),
       ),

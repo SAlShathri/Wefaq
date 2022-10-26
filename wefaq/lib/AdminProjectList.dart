@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:wefaq/AdminHomePage.dart';
+import 'package:wefaq/AdminNavBar.dart';
 import 'package:wefaq/AdminProjectDetails.dart';
 import 'package:wefaq/ProjectsTapScreen.dart';
 import 'package:wefaq/screens/detail_screens/project_detail_screen.dart';
@@ -313,6 +314,10 @@ class _ListViewPageState extends State<adminProjectsListViewPage> {
       children: [
         Expanded(
           child: Scaffold(
+            bottomNavigationBar: AdminCustomNavigationBar(
+              currentHomeScreen: 0,
+              updatePage: () {},
+            ),
             appBar: AppBar(
               leading: IconButton(
                   icon: Icon(
@@ -342,53 +347,7 @@ class _ListViewPageState extends State<adminProjectsListViewPage> {
                     color: Colors.white,
                   )),
             ),
-            floatingActionButton: PopupMenuButton(
-              tooltip: "Filter by",
-              icon: Icon(
-                Icons.filter_list,
-                color: Color.fromARGB(221, 81, 122, 140),
-                size: 40,
-              ),
-              itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                PopupMenuItem(
-                  child: ListTile(
-                    leading: Icon(Icons.date_range,
-                        color: Color.fromARGB(144, 64, 7, 87)),
-                    title: Text(
-                      'Created date',
-                      style: TextStyle(
-                        color: Color.fromARGB(221, 81, 122, 140),
-                      ),
-                    ),
-                    onTap: () {
-                      setState(() {
-                        //Filter by created date
-                        getProjects();
-                      });
-                    },
-                    selectedTileColor: Color.fromARGB(255, 252, 243, 243),
-                  ),
-                ),
-                PopupMenuItem(
-                  child: ListTile(
-                    leading: Icon(Icons.location_on,
-                        color: Color.fromARGB(144, 64, 7, 87)),
-                    title: Text(
-                      'Nearest',
-                      style: TextStyle(
-                        color: Color.fromARGB(221, 81, 122, 140),
-                      ),
-                    ),
-                    onTap: () {
-                      //Filter by nearest
-                      setDistance();
-                      getProjectsLoc();
-                    },
-                  ),
-                ),
-              ],
-            ),
-            // Main List View With Builder
+            //Main List View With Builder
             body: Scrollbar(
               thumbVisibility: true,
               child: ListView.builder(

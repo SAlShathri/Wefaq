@@ -17,6 +17,7 @@ import 'package:wefaq/eventsTabs.dart';
 import 'package:wefaq/screens/detail_screens/widgets/event_detail_appbar.dart';
 import 'package:wefaq/service/local_push_notification.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wefaq/AdminNavBar.dart';
 
 import '../../Report.dart';
 
@@ -387,6 +388,10 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: AdminCustomNavigationBar(
+          currentHomeScreen: 0,
+          updatePage: () {},
+        ),
       body: CustomScrollView(
         slivers: <Widget>[
           const eventDetailAppBar(),
@@ -604,7 +609,10 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                                   )),
                             )),
                   ),
-                  Container(
+              
+                                                   SizedBox(
+height: 20),
+    Container(
                     alignment: Alignment.center,
                     child: ElevatedButton(
                       onPressed: () async {
@@ -639,6 +647,8 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                       ),
                     ),
                   ),
+                 
+              
                 ],
               ),
             ),

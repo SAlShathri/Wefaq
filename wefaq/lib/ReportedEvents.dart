@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wefaq/AdminHomePage.dart';
+import 'package:wefaq/AdminNavBar.dart';
 import 'dart:async';
 import 'package:wefaq/UserLogin.dart';
 
@@ -24,16 +25,11 @@ class ReportedEventsState extends State<ReportedEventsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: AdminCustomNavigationBar(
+        currentHomeScreen: 1,
+        updatePage: () {},
+      ),
       appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Color.fromARGB(255, 255, 255, 255),
-            ),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => adminHomeScreen()));
-            }),
         backgroundColor: Color.fromARGB(255, 145, 124, 178),
         title: Text('Reported Events',
             style: TextStyle(

@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:wefaq/AdminNavBar.dart';
 import 'package:wefaq/AdminOtherusersProjects.dart';
 import 'package:wefaq/ProjectsTapScreen.dart';
 import 'package:wefaq/screens/detail_screens/projectDetail.dart';
@@ -85,6 +86,10 @@ class ListViewPageState extends State<adminuserProjects> {
       children: [
         Expanded(
           child: Scaffold(
+            bottomNavigationBar: AdminCustomNavigationBar(
+              currentHomeScreen: 0,
+              updatePage: () {},
+            ),
             appBar: AppBar(
               title: Text(' Projects', style: TextStyle(color: Colors.white)),
               actions: <Widget>[

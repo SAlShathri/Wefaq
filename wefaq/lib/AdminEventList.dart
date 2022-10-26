@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:wefaq/AdminEventDetails.dart';
 import 'package:wefaq/AdminHomePage.dart';
+import 'package:wefaq/AdminNavBar.dart';
 import 'package:wefaq/eventsTabs.dart';
 import 'package:url_launcher/link.dart';
 import 'package:wefaq/screens/detail_screens/event_detail_screen.dart';
@@ -284,40 +285,38 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
     // MediaQuery to get Device Width
     double width = MediaQuery.of(context).size.width * 0.6;
     return Scaffold(
-              appBar: AppBar(
-              leading: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_ios,
-                    color: Color.fromARGB(255, 255, 255, 255),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => adminHomeScreen()));
-                  }),
-              backgroundColor: Color.fromARGB(255, 145, 124, 178),
-              actions: <Widget>[
-                IconButton(
-                    icon: Icon(
-                      Icons.logout,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                    onPressed: () {
-                      showDialogFunc2(context);
-                    }),
-              ],
-              title: Text('Upcoming Events',
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    color: Colors.white,
-                  )),
+      bottomNavigationBar: AdminCustomNavigationBar(
+        currentHomeScreen: 0,
+        updatePage: () {},
+      ),
+      appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Color.fromARGB(255, 255, 255, 255),
             ),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => adminHomeScreen()));
+            }),
+        backgroundColor: Color.fromARGB(255, 145, 124, 178),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
+              onPressed: () {
+                showDialogFunc2(context);
+              }),
+        ],
+        title: Text('Upcoming Events',
+            style: TextStyle(
+              fontWeight: FontWeight.normal,
+              color: Colors.white,
+            )),
+      ),
 
-
-
-
-      
       // floatingActionButton: PopupMenuButton(
       //   tooltip: "Filter by",
       //   icon: Icon(
@@ -370,55 +369,55 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
       // Main List View With Builder
       body: Column(
         children: [
-         // _searchBar(),
+          // _searchBar(),
           Expanded(
             child: Scaffold(
-              floatingActionButton: PopupMenuButton(
-                tooltip: "Filter by",
-                icon: Icon(
-                  Icons.filter_list,
-                  color: Color.fromARGB(221, 81, 122, 140),
-                  size: 40,
-                ),
-                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                  PopupMenuItem(
-                    child: ListTile(
-                      leading: Icon(Icons.date_range,
-                          color: Color.fromARGB(144, 64, 7, 87)),
-                      title: Text(
-                        'Created date',
-                        style: TextStyle(
-                          color: Color.fromARGB(221, 81, 122, 140),
-                        ),
-                      ),
-                      onTap: () {
-                        setState(() {
-                          //Filter by created date
-                          getProjects();
-                        });
-                      },
-                      selectedTileColor: Color.fromARGB(255, 252, 243, 243),
-                    ),
-                  ),
-                  PopupMenuItem(
-                    child: ListTile(
-                      leading: Icon(Icons.location_on,
-                          color: Color.fromARGB(144, 64, 7, 87)),
-                      title: Text(
-                        'Nearest',
-                        style: TextStyle(
-                          color: Color.fromARGB(221, 81, 122, 140),
-                        ),
-                      ),
-                      onTap: () {
-                        //Filter by nearest
-                        setDistance();
-                        getEventsLoc();
-                      },
-                    ),
-                  ),
-                ],
-              ),
+              // floatingActionButton: PopupMenuButton(
+              //   tooltip: "Filter by",
+              //   icon: Icon(
+              //     Icons.filter_list,
+              //     color: Color.fromARGB(221, 81, 122, 140),
+              //     size: 40,
+              //   ),
+              //   itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+              //     PopupMenuItem(
+              //       child: ListTile(
+              //         leading: Icon(Icons.date_range,
+              //             color: Color.fromARGB(144, 64, 7, 87)),
+              //         title: Text(
+              //           'Created date',
+              //           style: TextStyle(
+              //             color: Color.fromARGB(221, 81, 122, 140),
+              //           ),
+              //         ),
+              //         onTap: () {
+              //           setState(() {
+              //             //Filter by created date
+              //             getProjects();
+              //           });
+              //         },
+              //         selectedTileColor: Color.fromARGB(255, 252, 243, 243),
+              //       ),
+              //     ),
+              //     PopupMenuItem(
+              //       child: ListTile(
+              //         leading: Icon(Icons.location_on,
+              //             color: Color.fromARGB(144, 64, 7, 87)),
+              //         title: Text(
+              //           'Nearest',
+              //           style: TextStyle(
+              //             color: Color.fromARGB(221, 81, 122, 140),
+              //           ),
+              //         ),
+              //         onTap: () {
+              //           //Filter by nearest
+              //           setDistance();
+              //           getEventsLoc();
+              //         },
+              //       ),
+              //     ),
+              //   ],
+              // ),
               // Main List View With Builder
               body: Scrollbar(
                 thumbVisibility: true,
@@ -515,7 +514,8 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AdmineventDetailScreen(
+                                    builder: (context) =>
+                                        AdmineventDetailScreen(
                                           eventName: nameList[index],
                                         )));
                           }),

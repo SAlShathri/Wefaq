@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wefaq/AdminNavBar.dart';
 import 'package:wefaq/AdminuserProject.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/userProjects.dart';
@@ -79,8 +80,11 @@ class _viewprofileState extends State<viewotherprofile> {
         ],
         backgroundColor: Color.fromARGB(255, 162, 148, 183),
       ),
-
       // bottomNavigationBar: CustomNavigationBar(
+      //   currentHomeScreen: 0,
+      //   updatePage: () {},
+      // ),
+      //  bottomNavigationBar: AdminCustomNavigationBar(
       //   currentHomeScreen: 0,
       //   updatePage: () {},
       // ),

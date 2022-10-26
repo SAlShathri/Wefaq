@@ -187,7 +187,7 @@ class _UserLogin extends State<UserLogin> {
                           final user = await _auth.signInWithEmailAndPassword(
                               email: email, password: password);
                           if (user != null) {
-                            if (email == 'admin@wefaq.com') {
+                            if (email.toLowerCase() == 'admin@wefaq.com') {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
