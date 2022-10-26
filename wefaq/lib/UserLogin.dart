@@ -187,15 +187,17 @@ class _UserLogin extends State<UserLogin> {
                           final user = await _auth.signInWithEmailAndPassword(
                               email: email, password: password);
                           if (user != null) {
-                            // if (email == "admin@wefaq.com")
+                           
+                             Navigator.push(
+                                 context,
+                                 MaterialPageRoute(
+                                     builder: (context) => HomeScreen()));
+                            if(email =='admin@wefaq.com'  )
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => adminHomeScreen()));
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => HomeScreen()));
+                               
                             print("Logged in Succesfully");
                           }
                         } catch (e) {
