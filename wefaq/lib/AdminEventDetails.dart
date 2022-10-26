@@ -71,6 +71,7 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
 
   //category list
   String categoryList = "";
+  String favoriteEmail = "";
 
   //category list
   String dateTimeList = "";
@@ -82,7 +83,31 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
   String ownerEmail = "";
 
   String EventName = "";
+  var fnameList = [];
 
+  // Description list
+  var fdescList = [];
+
+  // location list
+  var flocList = [];
+
+  //url list
+  var furlList = [];
+
+  //category list
+  var fcategoryList = [];
+
+  //category list
+  var fdateTimeList = [];
+
+  var fTimeList = [];
+  //var latList = [];
+
+  //var lngList = [];
+  //List<String> creatDate = [];
+
+  var fownerEmail = [];
+  var fEventName = [];
   bool _isSelected1 = false;
   bool _isSelected2 = false;
   bool _isSelected3 = false;
@@ -160,6 +185,24 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
           TimeList = events['time'].toString();
           EventName = events['name'].toString();
           ownerEmail = events['email'].toString();
+          //  dateTimeList.add(project['dateTime ']);
+        });
+      }
+  }
+
+  Future getFav() async {
+    //clear first
+    setState(() {
+      favoriteEmail = "";
+    });
+    await for (var snapshot in _firestore
+        .collection('AllEvent')
+        .orderBy('created', descending: true)
+        .where('name', isEqualTo: eventName)
+        .snapshots())
+      for (var events in snapshot.docs) {
+        setState(() {
+          favoriteEmail = events['email'].toString();
           //  dateTimeList.add(project['dateTime ']);
         });
       }
@@ -272,6 +315,15 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                                   FirebaseFirestore.instance
                                       .collection('AllEvent')
                                       .doc(eventName)
+                                      .delete();
+
+                                  FirebaseFirestore.instance
+                                      .collection('FavoriteEvents')
+                                      .doc(favoriteEmail +
+                                          "-" +
+                                          eventName +
+                                          "-" +
+                                          ownerEmail)
                                       .delete();
 
                                   CoolAlert.show(
