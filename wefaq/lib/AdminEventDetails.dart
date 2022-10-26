@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/link.dart';
+import 'package:wefaq/AdminEventList.dart';
 import 'package:wefaq/config/colors.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:wefaq/eventsScreen.dart';
@@ -25,7 +26,8 @@ class AdmineventDetailScreen extends StatefulWidget {
   AdmineventDetailScreen({required this.eventName});
 
   @override
-  State<AdmineventDetailScreen> createState() => _eventDetailScreenState(eventName);
+  State<AdmineventDetailScreen> createState() =>
+      _eventDetailScreenState(eventName);
 }
 
 class _eventDetailScreenState extends State<AdmineventDetailScreen> {
@@ -162,6 +164,7 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
         });
       }
   }
+
 /*
   final auth = FirebaseAuth.instance;
   String? Email;
@@ -177,6 +180,157 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
       print(e);
     }
   } */
+  showDialogFunc(context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+              child: Material(
+                  type: MaterialType.transparency,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    padding: const EdgeInsets.all(15),
+                    height: 190,
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        // Code for acceptance role
+                        Row(children: <Widget>[
+                          Expanded(
+                            flex: 2,
+                            child: GestureDetector(
+                              child: Text(
+                                "Are you sure you want to delete event?",
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(159, 64, 7, 87),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              onTap: () {
+                                // go to participant's profile
+                              },
+                            ),
+                          ),
+                          // const SizedBox(
+                          //   height: 10,
+                          // ),
+                        ]),
+                        SizedBox(
+                          height: 35,
+                        ),
+                        //----------------------------------------------------------------------------
+                        Row(
+                          children: <Widget>[
+                            Text(""),
+                            Text("        "),
+                            ElevatedButton(
+                              onPressed: () async {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            AdmineventDetailScreen(
+                                              eventName: eventName,
+                                            )));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                surfaceTintColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(80.0)),
+                                padding: const EdgeInsets.all(0),
+                              ),
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 40.0,
+                                width: 100,
+                                decoration: new BoxDecoration(
+                                    borderRadius: BorderRadius.circular(9.0),
+                                    gradient: new LinearGradient(colors: [
+                                      Color.fromARGB(144, 176, 175, 175),
+                                      Color.fromARGB(144, 176, 175, 175),
+                                    ])),
+                                padding: const EdgeInsets.all(0),
+                                child: Text(
+                                  "Cancel",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color:
+                                          Color.fromARGB(255, 255, 255, 255)),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 40),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  FirebaseFirestore.instance
+                                      .collection('AllEvent')
+                                      .doc(eventName)
+                                      .delete();
+
+                                  CoolAlert.show(
+                                    context: context,
+                                    title:
+                                        "the event was deleted successfully ",
+                                    confirmBtnColor:
+                                        Color.fromARGB(144, 64, 7, 87),
+                                    onConfirmBtnTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  adminEventsListViewPage()));
+                                    },
+                                    type: CoolAlertType.success,
+                                    backgroundColor:
+                                        Color.fromARGB(221, 212, 189, 227),
+                                  );
+                                  // deleteprofile();
+                                  // Navigator.push(context,
+                                  // MaterialPageRoute(builder: (context) => UserLogin()));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  surfaceTintColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(80.0)),
+                                  padding: const EdgeInsets.all(0),
+                                ),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: 40.0,
+                                  width: 100,
+                                  decoration: new BoxDecoration(
+                                      borderRadius: BorderRadius.circular(9.0),
+                                      gradient: new LinearGradient(colors: [
+                                        Color.fromARGB(144, 210, 2, 2),
+                                        Color.fromARGB(144, 210, 2, 2)
+                                      ])),
+                                  padding: const EdgeInsets.all(0),
+                                  child: Text(
+                                    "Delete",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255)),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  )));
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -397,6 +551,41 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                                     borderRadius: BorderRadius.circular(16),
                                   )),
                             )),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        showDialogFunc(context);
+                        // deleteprofile();
+                        //   Navigator.push(context,
+                        //     MaterialPageRoute(builder: (context) => UserLogin()));
+                      },
+                      style: ElevatedButton.styleFrom(
+                        surfaceTintColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(80.0)),
+                        padding: const EdgeInsets.all(0),
+                      ),
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 50.0,
+                        width: 150,
+                        // width: size.width * 0.5,
+                        decoration: new BoxDecoration(
+                          borderRadius: BorderRadius.circular(80.0),
+                          color: Color.fromARGB(204, 109, 46, 154),
+                        ),
+                        padding: const EdgeInsets.all(0),
+                        child: Text(
+                          "Delete Event",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 255, 255, 255)),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
