@@ -1,10 +1,10 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wefaq/AdminProjectDetailsAppBar.dart';
+import 'package:wefaq/AdminProjectList.dart';
 import 'package:wefaq/ProjectsTapScreen.dart';
 import 'package:wefaq/config/colors.dart';
 import 'package:wefaq/profileuser.dart';
@@ -139,6 +139,158 @@ class _projectDetailScreenState extends State<adminprojectDetailScreen> {
     } catch (e) {
       print(e);
     }
+  }
+
+  showDialogFunc(context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+              child: Material(
+                  type: MaterialType.transparency,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    padding: const EdgeInsets.all(15),
+                    height: 190,
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        // Code for acceptance role
+                        Row(children: <Widget>[
+                          Expanded(
+                            flex: 2,
+                            child: GestureDetector(
+                              child: Text(
+                                "Are you sure you want to delete project?",
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(159, 64, 7, 87),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              onTap: () {
+                                // go to participant's profile
+                              },
+                            ),
+                          ),
+                          // const SizedBox(
+                          //   height: 10,
+                          // ),
+                        ]),
+                        SizedBox(
+                          height: 35,
+                        ),
+                        //----------------------------------------------------------------------------
+                        Row(
+                          children: <Widget>[
+                            Text(""),
+                            Text("        "),
+                            ElevatedButton(
+                              onPressed: () async {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            adminprojectDetailScreen(
+                                              projecName: projecName,
+                                            )));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                surfaceTintColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(80.0)),
+                                padding: const EdgeInsets.all(0),
+                              ),
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 40.0,
+                                width: 100,
+                                decoration: new BoxDecoration(
+                                    borderRadius: BorderRadius.circular(9.0),
+                                    gradient: new LinearGradient(colors: [
+                                      Color.fromARGB(144, 176, 175, 175),
+                                      Color.fromARGB(144, 176, 175, 175),
+                                    ])),
+                                padding: const EdgeInsets.all(0),
+                                child: Text(
+                                  "Cancel",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color:
+                                          Color.fromARGB(255, 255, 255, 255)),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 40),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  FirebaseFirestore.instance
+                                      .collection('AllProjects')
+                                      .doc(projecName + "-" + ownerEmail)
+                                      .delete();
+
+                                  CoolAlert.show(
+                                    context: context,
+                                    title:
+                                        "the project was deleted successfully ",
+                                    confirmBtnColor:
+                                        Color.fromARGB(144, 64, 7, 87),
+                                    onConfirmBtnTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  adminProjectsListViewPage()));
+                                    },
+                                    type: CoolAlertType.success,
+                                    backgroundColor:
+                                        Color.fromARGB(221, 212, 189, 227),
+                                  );
+                                  // deleteprofile();
+                                  // Navigator.push(context,
+                                  // MaterialPageRoute(builder: (context) => UserLogin()));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  surfaceTintColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(80.0)),
+                                  padding: const EdgeInsets.all(0),
+                                ),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: 40.0,
+                                  width: 100,
+                                  decoration: new BoxDecoration(
+                                      borderRadius: BorderRadius.circular(9.0),
+                                      gradient: new LinearGradient(colors: [
+                                        Color.fromARGB(144, 210, 2, 2),
+                                        Color.fromARGB(144, 210, 2, 2)
+                                      ])),
+                                  padding: const EdgeInsets.all(0),
+                                  child: Text(
+                                    "Delete",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255)),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  )));
+        });
   }
 
   @override
@@ -385,6 +537,44 @@ class _projectDetailScreenState extends State<adminprojectDetailScreen> {
                         ],
                       ),
                     ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        showDialogFunc(context);
+                        // deleteprofile();
+                        //   Navigator.push(context,
+                        //     MaterialPageRoute(builder: (context) => UserLogin()));
+                      },
+                      style: ElevatedButton.styleFrom(
+                        surfaceTintColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(80.0)),
+                        padding: const EdgeInsets.all(0),
+                      ),
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 50.0,
+                        width: 150,
+                        // width: size.width * 0.5,
+                        decoration: new BoxDecoration(
+                          borderRadius: BorderRadius.circular(80.0),
+                          color: Color.fromARGB(204, 109, 46, 154),
+                        ),
+                        padding: const EdgeInsets.all(0),
+                        child: Text(
+                          "Delete Project",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 255, 255, 255)),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
