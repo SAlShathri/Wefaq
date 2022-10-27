@@ -274,13 +274,7 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                             Text("        "),
                             ElevatedButton(
                               onPressed: () async {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            AdmineventDetailScreen(
-                                              eventName: eventName,
-                                            )));
+                                Navigator.pop(context);
                               },
                               style: ElevatedButton.styleFrom(
                                 surfaceTintColor: Colors.white,

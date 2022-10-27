@@ -192,13 +192,7 @@ class _projectDetailScreenState extends State<adminprojectDetailScreen> {
                             Text("        "),
                             ElevatedButton(
                               onPressed: () async {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            adminprojectDetailScreen(
-                                              projecName: projecName,
-                                            )));
+                                Navigator.pop(context);
                               },
                               style: ElevatedButton.styleFrom(
                                 surfaceTintColor: Colors.white,
