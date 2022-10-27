@@ -109,6 +109,14 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
 
   var fownerEmail = [];
   var fEventName = [];
+
+  
+  // String reasons = "";
+  // String notes = "";
+   List<String> reasons = [];
+  List<String> notes = [];
+
+
   bool _isSelected1 = false;
   bool _isSelected2 = false;
   bool _isSelected3 = false;
@@ -191,22 +199,27 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
       }
   }
 
-  Future getFav() async {
-    //clear first
+
+  Future getReports() async {
+    
     setState(() {
-      favoriteEmail = "";
+      
+      reasons = [];
+      notes = [];
     });
+
     await for (var snapshot in _firestore
-        .collection('AllEvent')
-        .orderBy('created', descending: true)
-        .where('name', isEqualTo: eventName)
-        .snapshots())
-      for (var events in snapshot.docs) {
+        .collection('reportedevents')
+        .where('reported event name', isEqualTo: eventName)
+        .snapshots()) {
+      for (var report in snapshot.docs) {
         setState(() {
-          favoriteEmail = events['email'].toString();
-          //  dateTimeList.add(project['dateTime ']);
+         
+          reasons.add(report['reason']);
+          notes.add(report['note']);
         });
       }
+    }
   }
 
 /*
@@ -603,7 +616,125 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                                   )),
                             )),
                   ),
-              
+              Container(
+child:  Scrollbar(
+                  thumbVisibility: true,
+                  child: ListView.builder(
+                     
+                      itemCount: reasons.length,
+                      itemBuilder: (context, index) {
+                        // Card Which Holds Layout Of ListView Item
+
+                        return SizedBox(
+                          height: 180,
+                          child: GestureDetector(
+                              child: Card(
+                                  color: Color.fromARGB(235, 255, 255, 255),
+                                  //shadowColor: Color.fromARGB(255, 255, 255, 255),
+                                  //  elevation: 7,
+
+                                  child: Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                      child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                          
+                                            const SizedBox(height: 16.0),
+                                            const Divider(
+                                                color: Color.fromARGB(
+                                                    255, 156, 185, 182),
+                                                height: 1.0),
+                                            const SizedBox(height: 16.0),
+                                            Row(children: <Widget>[
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Icon(
+                                                Icons.report_gmailerrorred,
+                                                color: Color.fromARGB(
+                                                    255, 202, 51, 41),
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                "Report Reason: ",
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  color: Color.fromARGB(
+                                                      212, 82, 10, 111),
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Text(
+                                                reasons[index],
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  color: Color.fromARGB(
+                                                      212, 82, 10, 111),
+                                                  fontWeight: FontWeight.normal,
+                                                ),
+                                              ),
+                                            ]),
+                                            const SizedBox(height: 16.0),
+                                            const Divider(
+                                                color: Color.fromARGB(
+                                                    255, 156, 185, 182),
+                                                height: 1.0),
+                                            Expanded(
+                                              child: Row(children: <Widget>[
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Icon(
+                                                  Icons.event_note_outlined,
+                                                  color: Color.fromARGB(
+                                                      255, 156, 185, 182),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  "Report Note: ",
+                                                  style: const TextStyle(
+                                                    fontSize: 16,
+                                                    color: Color.fromARGB(
+                                                        212, 82, 10, 111),
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    notes[index] == ''
+                                                        ? "No note"
+                                                        : notes[index],
+                                                    style: const TextStyle(
+                                                      fontSize: 16,
+                                                      color: Color.fromARGB(
+                                                          212, 82, 10, 111),
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                    ),
+                                                  ),
+                                                )
+                                              ]),
+                                            ),
+                                          ]))),
+                         
+                              ),
+                        );
+                      })
+                      )
+              ),
+
+
+
+
                                                    SizedBox(
 height: 20),
     Container(
@@ -621,6 +752,7 @@ height: 20),
                             borderRadius: BorderRadius.circular(80.0)),
                         padding: const EdgeInsets.all(0),
                       ),
+
                       child: Container(
                         alignment: Alignment.center,
                         height: 50.0,

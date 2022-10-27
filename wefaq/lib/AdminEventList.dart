@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:math';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -56,6 +57,9 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
   var latList = [];
 
   var lngList = [];
+  List <int> countlist= [] ;
+
+
   List<String> creatDate = [];
   Position? _currentPosition;
   var lat;
@@ -156,6 +160,7 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
       lngList = [];
       creatDate = [];
       ownerEmail = [];
+      countlist = [];
     });
     await for (var snapshot in _firestore
         .collection('AllEvent')
@@ -174,6 +179,7 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
           lngList.add(events['lng']);
           creatDate.add(events['cdate']);
           ownerEmail.add(events['email']);
+          countlist.add(events['count']);
 
           //  dateTimeList.add(project['dateTime ']);
         });
@@ -194,6 +200,7 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
       latList = [];
       lngList = [];
       creatDate = [];
+      countlist = [];
     });
 
     await for (var snapshot in _firestore
@@ -212,6 +219,7 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
           latList.add(events['lat']);
           lngList.add(events['lng']);
           creatDate.add(events['cdate']);
+          countlist.add(events['count']);
         });
       }
   }
@@ -440,6 +448,7 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
                                             width: 240,
                                           ),
                                         ),
+                                        
                                         Text(
                                           creatDate[index],
                                           style: const TextStyle(
@@ -466,6 +475,20 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
                                                   255, 34, 94, 120),
                                             )),
                                         Expanded(
+                                            child: SizedBox(
+                                          width: 100,
+                                        )),
+                                          const Icon(Icons.report_gmailerrorred,
+                                            color:
+                                                Color.fromARGB(238, 212, 18, 4)),
+                                        Text('countlist[index]',
+
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Color.fromARGB(
+                                                  255, 34, 94, 120),
+                                            )),
+                                         Expanded(
                                             child: SizedBox(
                                           width: 100,
                                         )),
