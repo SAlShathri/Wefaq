@@ -184,40 +184,44 @@ class ReportedEventsState extends State<ReportedEventsList> {
                                                 color: Color.fromARGB(
                                                     255, 156, 185, 182),
                                                 height: 1.0),
-                                            const SizedBox(height: 16.0),
-                                            Row(children: <Widget>[
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Icon(
-                                                Icons.event_note_outlined,
-                                                color: Color.fromARGB(
-                                                    255, 156, 185, 182),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Text(
-                                                "Report Note: ",
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                  color: Color.fromARGB(
-                                                      212, 82, 10, 111),
-                                                  fontWeight: FontWeight.bold,
+                                            Expanded(
+                                              child: Row(children: <Widget>[
+                                                SizedBox(
+                                                  width: 10,
                                                 ),
-                                              ),
-                                              Text(
-                                                Note[index] == ''
-                                                    ? "No note"
-                                                    : Note[index],
-                                                style: const TextStyle(
-                                                  fontSize: 16,
+                                                Icon(
+                                                  Icons.event_note_outlined,
                                                   color: Color.fromARGB(
-                                                      212, 82, 10, 111),
-                                                  fontWeight: FontWeight.normal,
+                                                      255, 156, 185, 182),
                                                 ),
-                                              ),
-                                            ]),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  "Report Note: ",
+                                                  style: const TextStyle(
+                                                    fontSize: 16,
+                                                    color: Color.fromARGB(
+                                                        212, 82, 10, 111),
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    Note[index] == ''
+                                                        ? "No note"
+                                                        : Note[index],
+                                                    style: const TextStyle(
+                                                      fontSize: 16,
+                                                      color: Color.fromARGB(
+                                                          212, 82, 10, 111),
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                    ),
+                                                  ),
+                                                )
+                                              ]),
+                                            ),
                                           ]))),
                               onTap: () {
                                 Navigator.push(
