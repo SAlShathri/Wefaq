@@ -487,7 +487,8 @@ class _PostEventState extends State<PostEvent> {
                                 'created': now,
                                 'lng': startPosition?.geometry?.location?.lng,
                                 'lat': startPosition?.geometry?.location?.lat,
-                                'cdate': formatter.format(now)
+                                'cdate': formatter.format(now),
+                                'count': 0
                               });
                               //Clear
 

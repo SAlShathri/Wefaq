@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -291,6 +292,14 @@ else{
                           'reported event name': eventName,
                           "event owner": eventOwner,
                         });
+                        var fillterd = _firestore
+                        .collection('AllEvent')
+                        .doc(eventName)
+                        .get()
+                        .then((snapshot) {
+                      int  Counter = snapshot.data()!['count']; 
+                                                _firestore.collection('AllEvent').doc(eventName).update({"count": Counter + 1});
+});
 
                         _noteEditingController.clear();
 
@@ -312,7 +321,8 @@ else{
                           text:
                               "We'll review your report and take action if there is a voilation of our guidelines",
                         );
-                      }}
+                      }
+                      }
                     }),
               ),
             ],
