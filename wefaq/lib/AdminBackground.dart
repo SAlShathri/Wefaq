@@ -17,11 +17,7 @@ class adminBackgroundHome extends StatelessWidget {
       child: Stack(
         alignment: Alignment.topCenter,
         children: <Widget>[
-          Positioned(
-            child: Image.asset(
-              "assets/images/Admin.png",
-            ),
-          ),
+         
           child
         ],
       ),

@@ -105,7 +105,7 @@ class HomeScreenState extends State<adminHomeScreen> {
         //   currentHomeScreen: 0,
         //   updatePage: () {},
         // ),
-        backgroundColor: Color.fromARGB(255, 244, 243, 255),
+        backgroundColor: Color.fromARGB(255, 245, 244, 255),
         body: adminBackgroundHome(
             child: Stack(
           children: <Widget>[
