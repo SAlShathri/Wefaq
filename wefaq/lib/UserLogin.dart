@@ -367,14 +367,14 @@ class _UserLogin extends State<UserLogin> {
                                       Color.fromARGB(144, 64, 7, 87),
                                   onConfirmBtnTap: () {
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => UserLogin()));
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeScreen()));
                                   },
                                   type: CoolAlertType.success,
                                   backgroundColor:
                                       Color.fromARGB(221, 212, 189, 227),
-                                  text: "you can login",
+                                  text: "you will be logged in",
                                 );
                                 //  FirebaseFirestore.instance
                                 //       .collection('users')
@@ -423,11 +423,31 @@ class _UserLogin extends State<UserLogin> {
                                       .doc(FirebaseAuth
                                           .instance.currentUser!.email)
                                       .update({'status': 'deleted'});
+                                      CoolAlert.show(
+                                    context: context,
+                                    title: "your account is deleted now",
+                                    confirmBtnColor:
+                                        Color.fromARGB(144, 64, 7, 87),
+                                    onConfirmBtnTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  UserLogin()));
+                                    },
+                                    type: CoolAlertType.success,
+                                    backgroundColor:
+                                        Color.fromARGB(221, 212, 189, 227),
+                                    text:
+                                        "your account is deleted successfully, you are no longer a user ",
+                                  ); 
+
                                   deleteprofile();
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => UserLogin()));
+                                   
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) => UserLogin()));
 
                                   // deleteprofile();
                                   // Navigator.push(context,

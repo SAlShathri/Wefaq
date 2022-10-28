@@ -618,10 +618,14 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                             )),
                   ),
     
-       Container(
-          
-child: SizedBox(
+                          Container(
+       //   child: ListView.builder(
+                     
+                 //     itemCount: reasons.length,
+                 //     itemBuilder: (context, index) {
+                           child: SizedBox(
                           height: 180,
+                           
                           child: GestureDetector(
                               child: Card(
                                   color: Color.fromARGB(235, 255, 255, 255),
@@ -641,7 +645,7 @@ child: SizedBox(
                                           
                                             Row(children: <Widget>[
                                               SizedBox(
-                                                width: 5,
+                                                width: 10,
                                               ),
                                               Icon(
                                                 Icons.report_gmailerrorred,
@@ -649,7 +653,7 @@ child: SizedBox(
                                                     255, 202, 51, 41),
                                               ),
                                               SizedBox(
-                                                width: 5,
+                                                width: 10,
                                               ),
                                               Text(
                                                 "Report Reason: ",
@@ -662,6 +666,7 @@ child: SizedBox(
                                               ),
                                               Text(
                                                "test",
+                                              // reasons[index]
                                                 style: const TextStyle(
                                                   fontSize: 16,
                                                   color: Color.fromARGB(
@@ -678,7 +683,7 @@ child: SizedBox(
                                             Expanded(
                                               child: Row(children: <Widget>[
                                                 SizedBox(
-                                                  width: 5,
+                                                  width: 10,
                                                 ),
                                                 Icon(
                                                   Icons.event_note_outlined,
@@ -686,10 +691,11 @@ child: SizedBox(
                                                       255, 156, 185, 182),
                                                 ),
                                                 SizedBox(
-                                                  width: 5,
+                                                  width: 10,
                                                 ),
                                                 Text(
                                                   "Report Note: ",
+                                                 // notes[index]
                                                   style: const TextStyle(
                                                     fontSize: 16,
                                                     color: Color.fromARGB(
@@ -703,7 +709,10 @@ child: SizedBox(
                                           ]))),
                          
                               ),
-               )      ),
+               )   
+  //  }
+  //  ) 
+     ),
 
                   
                 
