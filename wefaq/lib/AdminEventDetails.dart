@@ -411,6 +411,7 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+
                       Text(
                         nameList,
                         style: Theme.of(context).textTheme.titleLarge,
@@ -616,16 +617,10 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                                   )),
                             )),
                   ),
-              Container(
-child:  Scrollbar(
-                  thumbVisibility: true,
-                  child: ListView.builder(
-                     
-                      itemCount: reasons.length,
-                      itemBuilder: (context, index) {
-                        // Card Which Holds Layout Of ListView Item
-
-                        return SizedBox(
+    
+       Container(
+          
+child: SizedBox(
                           height: 180,
                           child: GestureDetector(
                               child: Card(
@@ -644,12 +639,6 @@ child:  Scrollbar(
                                               height: 10,
                                             ),
                                           
-                                            const SizedBox(height: 16.0),
-                                            const Divider(
-                                                color: Color.fromARGB(
-                                                    255, 156, 185, 182),
-                                                height: 1.0),
-                                            const SizedBox(height: 16.0),
                                             Row(children: <Widget>[
                                               SizedBox(
                                                 width: 5,
@@ -672,7 +661,7 @@ child:  Scrollbar(
                                                 ),
                                               ),
                                               Text(
-                                                reasons[index],
+                                               "test",
                                                 style: const TextStyle(
                                                   fontSize: 16,
                                                   color: Color.fromARGB(
@@ -708,33 +697,16 @@ child:  Scrollbar(
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                                Expanded(
-                                                  child: Text(
-                                                    notes[index] == ''
-                                                        ? "No note"
-                                                        : notes[index],
-                                                    style: const TextStyle(
-                                                      fontSize: 16,
-                                                      color: Color.fromARGB(
-                                                          212, 82, 10, 111),
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                    ),
-                                                  ),
-                                                )
+                                              
                                               ]),
                                             ),
                                           ]))),
                          
                               ),
-                        );
-                      })
-                      )
-              ),
+               )      ),
 
-
-
-
+                  
+                
                                                    SizedBox(
 height: 20),
     Container(
@@ -780,8 +752,8 @@ height: 20),
             ),
           ),
         ],
-      ),
-    );
+      ))
+;
   }
 
   Widget _buildIngredientItem(

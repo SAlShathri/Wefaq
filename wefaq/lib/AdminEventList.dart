@@ -57,8 +57,7 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
   var latList = [];
 
   var lngList = [];
-  List <int> countlist= [] ;
-
+  List<int> countlist = [];
 
   List<String> creatDate = [];
   Position? _currentPosition;
@@ -414,7 +413,7 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
                 child: ListView.builder(
                   itemBuilder: (context, index) {
                     // Card Which Holds Layout Of ListView Item
-
+                    int count = countlist[index];
                     return SizedBox(
                       height: 100,
                       child: GestureDetector(
@@ -448,7 +447,6 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
                                             width: 240,
                                           ),
                                         ),
-                                        
                                         Text(
                                           creatDate[index],
                                           style: const TextStyle(
@@ -478,17 +476,16 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
                                             child: SizedBox(
                                           width: 100,
                                         )),
-                                          const Icon(Icons.report_gmailerrorred,
-                                            color:
-                                                Color.fromARGB(238, 212, 18, 4)),
-                                        Text('countlist[index]',
-
+                                        const Icon(Icons.report_gmailerrorred,
+                                            color: Color.fromARGB(
+                                                238, 212, 18, 4)),
+                                        Text("$count",
                                             style: const TextStyle(
                                               fontSize: 16,
                                               color: Color.fromARGB(
                                                   255, 34, 94, 120),
                                             )),
-                                         Expanded(
+                                        Expanded(
                                             child: SizedBox(
                                           width: 100,
                                         )),
