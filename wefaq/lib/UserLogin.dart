@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:wefaq/resetPassword.dart';
 
 import 'main.dart';
 
@@ -138,7 +139,26 @@ class _UserLogin extends State<UserLogin> {
                   ),
                 ),
               ),
-              SizedBox(height: size.height * 0.05),
+              SizedBox(height: size.height * 0.03),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 70, vertical: 0),
+                child: GestureDetector(
+                  onTap: () => {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ResetScreen()))
+                  },
+                  child: Text(
+                    "Forget password ?",
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(123, 11, 13, 18)),
+                  ),
+                ),
+              ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 child: ElevatedButton(
