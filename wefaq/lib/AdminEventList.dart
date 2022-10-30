@@ -25,7 +25,7 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
     getProjects();
     getCategoryList();
     _getCurrentPosition();
-
+    getProjectsHi();
     super.initState();
   }
 
@@ -145,6 +145,46 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
   // }
 
 //get all projects
+  Future getProjectsHi() async {
+    //clear first
+    setState(() {
+      nameList = [];
+      descList = [];
+      locList = [];
+      urlList = [];
+      categoryList = [];
+      dateTimeList = [];
+      TimeList = [];
+      latList = [];
+      lngList = [];
+      creatDate = [];
+      ownerEmail = [];
+      countlist = [];
+    });
+    await for (var snapshot in _firestore
+        .collection('AllEvent')
+        .orderBy('count', descending: true)
+        .snapshots())
+      for (var events in snapshot.docs) {
+        setState(() {
+          nameList.add(events['name']);
+          descList.add(events['description']);
+          locList.add(events['location']);
+          urlList.add(events['regstretion url ']);
+          categoryList.add(events['category']);
+          dateTimeList.add(events['date']);
+          TimeList.add(events['time']);
+          latList.add(events['lat']);
+          lngList.add(events['lng']);
+          creatDate.add(events['cdate']);
+          ownerEmail.add(events['email']);
+          countlist.add(events['count']);
+
+          //  dateTimeList.add(project['dateTime ']);
+        });
+      }
+  }
+
   Future getProjects() async {
     //clear first
     setState(() {
@@ -347,6 +387,25 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
                 setState(() {
                   //Filter by created date
                   getProjects();
+                });
+              },
+              selectedTileColor: Color.fromARGB(255, 252, 243, 243),
+            ),
+          ),
+          PopupMenuItem(
+            child: ListTile(
+              leading:
+                  Icon(Icons.date_range, color: Color.fromARGB(144, 64, 7, 87)),
+              title: Text(
+                'Highest reports',
+                style: TextStyle(
+                  color: Color.fromARGB(221, 81, 122, 140),
+                ),
+              ),
+              onTap: () {
+                setState(() {
+                  //Filter by created date
+                  getProjectsHi();
                 });
               },
               selectedTileColor: Color.fromARGB(255, 252, 243, 243),
