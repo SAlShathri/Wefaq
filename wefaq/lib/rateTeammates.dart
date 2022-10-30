@@ -119,14 +119,31 @@ class _rateTeammates extends State<rateTeammates> {
                         Column(
                           children: [
                             Row(children: <Widget>[
-                              IconButton(
-                                  icon: Icon(
-                                    Icons.account_circle,
-                                    color: Color.fromARGB(255, 85, 85, 85),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  }),
+                              Container(
+                                height: 70,
+                                width: 70,
+                                margin: const EdgeInsets.only(right: 5.0),
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                child: IconButton(
+                                    icon: Icon(
+                                      Icons.account_circle,
+                                      color: Color.fromARGB(255, 85, 85, 85),
+                                      size: 44.4,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  viewProfileTeamMembers(
+                                                      userEmail:
+                                                          usersEmails[index],
+                                                      projectName:
+                                                          projectName)));
+                                    }),
+                              ),
                               Text(
                                 usersNames[index],
                                 style: const TextStyle(
