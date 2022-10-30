@@ -363,9 +363,8 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                                             EventName +
                                             '-' +
                                             ownerEmail)
-                                        .update({
-                                      'status': "unactive",
-                                    });
+                                        .delete();
+
                                     CoolAlert.show(
                                       context: context,
                                       title:
