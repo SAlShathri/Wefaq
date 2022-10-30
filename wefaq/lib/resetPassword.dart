@@ -30,12 +30,12 @@ Future passwordReset() async {
                                   title: "link sent",
                                   confirmBtnColor:
                                       Color.fromARGB(144, 64, 7, 87),
-                                  // onConfirmBtnTap: () {
-                                  //   Navigator.push(
-                                  // context,
-                                  // MaterialPageRoute(
-                                  //     builder: (context) => HomeScreen()));
-                                  // },
+                                  onConfirmBtnTap: () {
+                                    Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => UserLogin()));
+                                  },
                                   type: CoolAlertType.success,
                                   backgroundColor:
                                       Color.fromARGB(221, 212, 189, 227),
@@ -79,7 +79,7 @@ CoolAlert.show(
               Icons.arrow_back_ios,
               color: Color.fromARGB(199, 66, 23, 139),
               size: 30,
-              
+
             ),
             onPressed: () {
               Navigator.push(context,
