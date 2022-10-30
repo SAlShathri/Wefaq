@@ -110,8 +110,9 @@ class _chatScreenState extends State<chatScreen> {
                         Row(children: <Widget>[
                           Container(
                             padding: EdgeInsets.all(10.0),
-                            width: 40,
-                            height: 40,
+                            width: 50,
+                            height: 50,
+                            margin: const EdgeInsets.only(right: 8.0),
                             decoration: BoxDecoration(
                               border: Border.all(
                                   color: Color.fromARGB(255, 143, 132, 159),
@@ -166,7 +167,10 @@ class _chatScreenState extends State<chatScreen> {
                                     if (senders[index] != " ")
                                       Expanded(
                                         child: Text(
-                                          senders[index] + ": " + "Photo",
+                                          "       " +
+                                              senders[index] +
+                                              ": " +
+                                              "Photo",
                                           style: const TextStyle(
                                             overflow: TextOverflow.ellipsis,
                                             fontSize: 12,
@@ -189,7 +193,10 @@ class _chatScreenState extends State<chatScreen> {
                                     if (senders[index] != " ")
                                       Expanded(
                                         child: Text(
-                                          senders[index] + ": " + "File",
+                                          "       " +
+                                              senders[index] +
+                                              ": " +
+                                              "File",
                                           style: const TextStyle(
                                             overflow: TextOverflow.ellipsis,
                                             fontSize: 12,
@@ -212,7 +219,8 @@ class _chatScreenState extends State<chatScreen> {
                                       if (senders[index] != " ")
                                         Expanded(
                                           child: Text(
-                                            senders[index] +
+                                            "       " +
+                                                senders[index] +
                                                 ": " +
                                                 lastMessage[index],
                                             style: const TextStyle(
