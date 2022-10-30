@@ -78,9 +78,9 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
   //String favoriteEmail = "";
 
   String ownerEmail = "";
-
+  String status = "Active";
   String EventName = "";
-
+  int count = 0;
   bool _isSelected1 = false;
   bool _isSelected2 = false;
   bool _isSelected3 = false;
@@ -141,6 +141,8 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
       //favoriteEmail = "";
       ownerEmail = "";
       EventName = "";
+      count:
+      0;
     });
     await for (var snapshot in _firestore
         .collection('AllEvent')
@@ -158,6 +160,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
           TimeList = events['time'].toString();
           EventName = events['name'].toString();
           ownerEmail = events['email'].toString();
+          count = events['count'];
           //  dateTimeList.add(project['dateTime ']);
         });
       }
@@ -273,6 +276,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                                       'category': categoryList,
                                       'date': dateTimeList,
                                       'time': TimeList,
+                                      'status': "Active"
                                     });
                                   }
                                 });

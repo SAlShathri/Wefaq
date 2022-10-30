@@ -42,7 +42,7 @@ class _favoritePageState extends State<favoritePage> {
 
   var ownerEmail = [];
   var EventName = [];
-
+  var status = [];
   String? Email;
   @override
   void initState() {
@@ -80,6 +80,7 @@ class _favoritePageState extends State<favoritePage> {
       //creatDate = [];
       ownerEmail = [];
       EventName = [];
+      status = [];
     });
     if (Email != null) {
       var fillterd = _firestore
@@ -99,6 +100,7 @@ class _favoritePageState extends State<favoritePage> {
             TimeList.add(events['time']);
             EventName.add(events['eventName']);
             ownerEmail.add(events['ownerEmail']);
+            status.add(events['status']);
             // latList.add(events['lat']);
             // lngList.add(events['lng']);
             // creatDate.add(events['cdate']);
