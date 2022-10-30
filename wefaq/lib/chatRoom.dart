@@ -14,6 +14,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/link.dart';
 import 'package:wefaq/photo.dart';
+import 'package:wefaq/rateTeammates.dart';
 import 'package:wefaq/service/local_push_notification.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -335,7 +336,22 @@ class ChatScreenState extends State<ChatScreen> {
             Text(
               projectName,
               style: TextStyle(color: Colors.grey[800]),
-            )
+            ),
+            Expanded(
+                child: Container(
+              margin: EdgeInsets.only(left: 120),
+              child: IconButton(
+                  icon: const Icon(Icons.star_border_purple500_outlined,
+                      color: Color.fromARGB(172, 49, 31, 53)),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => rateTeammates(
+                                  projectName: projectName,
+                                )));
+                  }),
+            ))
           ],
         ),
       ),

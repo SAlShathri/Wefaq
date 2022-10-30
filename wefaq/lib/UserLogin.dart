@@ -62,6 +62,20 @@ class _UserLogin extends State<UserLogin> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+               SizedBox(height: size.height * 0.02),
+                  Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.symmetric(horizontal: 25 , vertical: 5),
+                child: Text(
+                  "Welcome to Wefaq ",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(199, 66, 23, 139),
+                      fontSize: 36),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+               SizedBox(height: size.height * 0.02),
               Container(
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.symmetric(horizontal: 40),
@@ -70,7 +84,7 @@ class _UserLogin extends State<UserLogin> {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(199, 66, 23, 139),
-                      fontSize: 36),
+                      fontSize: 34),
                   textAlign: TextAlign.left,
                 ),
               ),
@@ -155,10 +169,11 @@ class _UserLogin extends State<UserLogin> {
                         decoration: TextDecoration.underline,
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(123, 11, 13, 18)),
+                        color: Color.fromARGB(199, 66, 23, 139)),
                   ),
                 ),
               ),
+              SizedBox(height: size.height * 0.01),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 child: ElevatedButton(
@@ -273,9 +288,20 @@ class _UserLogin extends State<UserLogin> {
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 70, vertical: 0),
-                child: GestureDetector(
+              SizedBox(height: size.height * 0.01),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children:[
+                Text(
+                    "New User? ",
+                    style: TextStyle(
+                       // decoration: TextDecoration.underline,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(123, 11, 13, 18)),
+                  ),
+                
+                 GestureDetector(
                   onTap: () => {
                     Navigator.push(
                         context,
@@ -283,15 +309,15 @@ class _UserLogin extends State<UserLogin> {
                             builder: (context) => UserRegistratin()))
                   },
                   child: Text(
-                    "New User? Register",
+                    "Register",
                     style: TextStyle(
                         decoration: TextDecoration.underline,
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(123, 11, 13, 18)),
+                        color: Color.fromARGB(199, 66, 23, 139)),
                   ),
                 ),
-              )
+             ], )
             ],
           ),
         ),
@@ -510,3 +536,4 @@ class _UserLogin extends State<UserLogin> {
         });
   }
 }
+

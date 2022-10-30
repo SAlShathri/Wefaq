@@ -1,6 +1,7 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/backgroundLogin.dart';
 
 
@@ -29,12 +30,12 @@ Future passwordReset() async {
                                   title: "link sent",
                                   confirmBtnColor:
                                       Color.fromARGB(144, 64, 7, 87),
-                                  // onConfirmBtnTap: () {
-                                  //   Navigator.push(
-                                  // context,
-                                  // MaterialPageRoute(
-                                  //     builder: (context) => HomeScreen()));
-                                  // },
+                                  onConfirmBtnTap: () {
+                                    Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => UserLogin()));
+                                  },
                                   type: CoolAlertType.success,
                                   backgroundColor:
                                       Color.fromARGB(221, 212, 189, 227),
@@ -65,10 +66,31 @@ CoolAlert.show(
   Widget build(BuildContext context) {
         Size size = MediaQuery.of(context).size;
 
-    return Scaffold(  
-      // appBar: AppBar(
-      //   backgroundColor: Colors.deepPurple,
-      //   title: Text('Reset Password'),),
+    return Scaffold( 
+      extendBodyBehindAppBar: true ,
+    
+         appBar: AppBar(
+           backgroundColor: Colors.transparent,
+           elevation:0,
+   
+        leading: IconButton(
+          
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Color.fromARGB(199, 66, 23, 139),
+              size: 30,
+
+            ),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => UserLogin()));
+            }),
+        // title: Text('',
+        //     style: TextStyle(
+        //       fontWeight: FontWeight.normal,
+        //       color: Colors.white,
+        //     )),
+      ),
       body:Background(
          child: Column(
          mainAxisAlignment: MainAxisAlignment.center,
