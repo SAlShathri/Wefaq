@@ -7,6 +7,7 @@ import 'package:wefaq/AdminNavBar.dart';
 import 'package:wefaq/AdminuserProject.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/userProjects.dart';
+import 'package:wefaq/userReport.dart';
 import 'bottom_bar_custom.dart';
 
 class viewotherprofile extends StatefulWidget {
@@ -32,6 +33,7 @@ class _viewprofileState extends State<viewotherprofile> {
   String role = "";
   String gitHub = "";
   String photo = '';
+  double rating = 0.0;
   List<String> selectedOptionList = [];
 
   @override
@@ -56,6 +58,7 @@ class _viewprofileState extends State<viewotherprofile> {
           cerifi = user["cerifi"].toString();
           role = user["role"].toString();
           gitHub = user["gitHub"].toString();
+          rating = user["rating"];
           for (var skill in user["skills"])
             selectedOptionList.add(skill.toString());
         });
@@ -80,14 +83,10 @@ class _viewprofileState extends State<viewotherprofile> {
         ],
         backgroundColor: Color.fromARGB(255, 162, 148, 183),
       ),
-      // bottomNavigationBar: CustomNavigationBar(
-      //   currentHomeScreen: 0,
-      //   updatePage: () {},
-      // ),
-      //  bottomNavigationBar: AdminCustomNavigationBar(
-      //   currentHomeScreen: 0,
-      //   updatePage: () {},
-      // ),
+      bottomNavigationBar: CustomNavigationBar(
+        currentHomeScreen: 0,
+        updatePage: () {},
+      ),
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
@@ -123,11 +122,38 @@ class _viewprofileState extends State<viewotherprofile> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Row(children: <Widget>[
+                                    SizedBox(
+                                      width: 60,
+                                    ),
+                                    Text("      " + "$fname" + " $lname",
+                                        style: TextStyle(fontSize: 18)),
                                     Expanded(
-                                        child: Column(children: [
-                                      Text("      " + "$fname" + " $lname",
-                                          style: TextStyle(fontSize: 18)),
-                                    ])),
+                                      child: SizedBox(
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(right: 0),
+                                      height: 56.0,
+                                      width: 56.0,
+                                      child: IconButton(
+                                          icon: Icon(
+                                            Icons.error_outline,
+                                            color: Color.fromARGB(
+                                                255, 186, 48, 48),
+                                            size: 30,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        reportUser(
+                                                          userEmail: userEmail,
+                                                          userName: fname,
+                                                        )));
+                                          }),
+                                    ),
                                   ]),
                                   Row(children: <Widget>[
                                     Expanded(
@@ -142,26 +168,14 @@ class _viewprofileState extends State<viewotherprofile> {
                                       children: <Widget>[
                                         GestureDetector(
                                             onTap: () {
-                                              if (FirebaseAuth.instance
-                                                      .currentUser!.email ==
-                                                  "admin@wefaq.com") {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          adminuserProjects(
-                                                              userEmail:
-                                                                  userEmail)),
-                                                );
-                                              } else
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          userProjects(
-                                                              userEmail:
-                                                                  userEmail)),
-                                                );
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        userProjects(
+                                                            userEmail:
+                                                                userEmail)),
+                                              );
                                             },
                                             child: Container(
                                               alignment: Alignment.center,
@@ -206,7 +220,8 @@ class _viewprofileState extends State<viewotherprofile> {
                           ],
                           borderRadius: BorderRadius.circular(10),
                           image: DecorationImage(
-                            image: NetworkImage("$photo"),
+                            image: NetworkImage(
+                                "https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images%2Fdata%2Fuser%2F0%2Fcom.swe444.wefaq%2Fcache%2Fimage_picker2743050244236619318.jpg?alt=media&token=037de374-37b0-4d0f-ae46-95f89c79b225"),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -223,10 +238,6 @@ class _viewprofileState extends State<viewotherprofile> {
                     ),
                     child: Column(
                       children: <Widget>[
-                        ListTile(
-                          title: Text("General Information"),
-                        ),
-                        Divider(),
                         ListTile(
                           title: Text("About"),
                           subtitle: Text("$about"),
@@ -259,6 +270,13 @@ class _viewprofileState extends State<viewotherprofile> {
                             size: 33,
                           ),
                         ),
+                        ListTile(
+                            title: Text("Rating"),
+                            subtitle: Text("$rating/5.0"),
+                            leading: Icon(
+                              Icons.star,
+                              size: 33,
+                            )),
                       ],
                     ),
                   ),
