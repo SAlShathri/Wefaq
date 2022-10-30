@@ -1,28 +1,48 @@
+import 'dart:async';
+
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/userProjects.dart';
+import 'package:wefaq/userReport.dart';
 import 'bottom_bar_custom.dart';
 
 class viewProfileTeamMembers extends StatefulWidget {
   String userEmail;
-  viewProfileTeamMembers({required this.userEmail});
+  String projectName;
+
+  viewProfileTeamMembers({required this.userEmail, required this.projectName});
 
   @override
   State<viewProfileTeamMembers> createState() =>
-      _viewprofileState(this.userEmail);
+      _viewprofileState(this.userEmail, this.projectName);
 }
 
 class _viewprofileState extends State<viewProfileTeamMembers> {
   String userEmail;
-  _viewprofileState(this.userEmail);
+  String projectName;
+  _viewprofileState(this.userEmail, this.projectName);
+
+  @override
+  void initState() {
+    getUser();
+
+    super.initState();
+  }
+
   final auth = FirebaseAuth.instance;
   late User signedInUser;
+  var currentUserEmail = FirebaseAuth.instance.currentUser!.email;
   final _firestore = FirebaseFirestore.instance;
+
   String fname = "";
   String lname = "";
   String about = "";
@@ -32,13 +52,9 @@ class _viewprofileState extends State<viewProfileTeamMembers> {
   String role = "";
   String gitHub = "";
   String photo = '';
+  double rating = 0.0;
   List<String> selectedOptionList = [];
-
-  @override
-  void initState() {
-    getUser();
-    super.initState();
-  }
+  var userWhoRated = [];
 
   Future getUser() async {
     var fillterd = _firestore
@@ -56,8 +72,16 @@ class _viewprofileState extends State<viewProfileTeamMembers> {
           cerifi = user["cerifi"].toString();
           role = user["role"].toString();
           gitHub = user["gitHub"].toString();
-          for (var skill in user["skills"])
-            selectedOptionList.add(skill.toString());
+          rating = user["rating"];
+
+          for (var user in user["userWhoRated"]) {
+            userWhoRated.add(user.toString());
+          }
+
+          for (var skill in user["skills"]) {
+            if (!selectedOptionList.contains(skill.toString()))
+              selectedOptionList.add(skill.toString());
+          }
         });
       }
   }
@@ -119,11 +143,38 @@ class _viewprofileState extends State<viewProfileTeamMembers> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Row(children: <Widget>[
+                                    SizedBox(
+                                      width: 60,
+                                    ),
+                                    Text("      " + "$fname" + " $lname",
+                                        style: TextStyle(fontSize: 18)),
                                     Expanded(
-                                        child: Column(children: [
-                                      Text("      " + "$fname" + " $lname",
-                                          style: TextStyle(fontSize: 18)),
-                                    ])),
+                                      child: SizedBox(
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(right: 0),
+                                      height: 56.0,
+                                      width: 56.0,
+                                      child: IconButton(
+                                          icon: Icon(
+                                            Icons.error_outline,
+                                            color: Color.fromARGB(
+                                                255, 186, 48, 48),
+                                            size: 30,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        reportUser(
+                                                          userEmail: userEmail,
+                                                          userName: fname,
+                                                        )));
+                                          }),
+                                    ),
                                   ]),
                                   Row(children: <Widget>[
                                     Expanded(
@@ -190,7 +241,8 @@ class _viewprofileState extends State<viewProfileTeamMembers> {
                           ],
                           borderRadius: BorderRadius.circular(10),
                           image: DecorationImage(
-                            image: NetworkImage("$photo"),
+                            image: NetworkImage(
+                                "https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images%2Fdata%2Fuser%2F0%2Fcom.swe444.wefaq%2Fcache%2Fimage_picker2743050244236619318.jpg?alt=media&token=037de374-37b0-4d0f-ae46-95f89c79b225"),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -207,29 +259,73 @@ class _viewprofileState extends State<viewProfileTeamMembers> {
                     ),
                     child: Column(
                       children: <Widget>[
-                        ListTile(
-                          title: Text(
-                            "     Rate your work experience with $fname ! ",
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 144, 120, 155)),
+                        //add to userWhoRated
+                        if (!userWhoRated.contains(
+                            "$currentUserEmail-$projectName-$userEmail"))
+                          ListTile(
+                            title: Text(
+                              "     Rate your work experience with $fname ! ",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 144, 120, 155)),
+                            ),
                           ),
-                        ),
-                        RatingBar.builder(
-                          initialRating: 3,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                          itemBuilder: (context, _) => Icon(
-                            Icons.star,
-                            color: Color.fromARGB(255, 144, 120, 155),
+                        //add to userWhoRated
+                        if (!userWhoRated.contains(
+                            "$currentUserEmail-$projectName-$userEmail"))
+                          RatingBar.builder(
+                            initialRating: 0,
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: false,
+                            itemCount: 5,
+                            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                            itemBuilder: (context, _) => Icon(
+                              Icons.star,
+                              color: Color.fromARGB(255, 144, 120, 155),
+                            ),
+                            onRatingUpdate: (newRating) {
+                              setState(() {
+                                FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(userEmail)
+                                    .update({
+                                  'rating': (((rating * userWhoRated.length +
+                                              newRating)) /
+                                          (userWhoRated.length + 1))
+                                      .roundToDouble()
+                                });
+
+                                Timer(Duration(seconds: 3), () {
+                                  Fluttertoast.showToast(
+                                    msg:
+                                        "Thank you! your rating has been submitted successfully",
+                                    fontSize: 18,
+                                    gravity: ToastGravity.CENTER,
+                                    toastLength: Toast.LENGTH_LONG,
+                                    backgroundColor:
+                                        Color.fromARGB(172, 136, 98, 146),
+                                  );
+                                  if (!userWhoRated.contains(
+                                      "$currentUserEmail-$projectName-$userEmail")) {
+                                    userWhoRated.add(
+                                        "$currentUserEmail-$projectName-$userEmail");
+                                    //update on the db
+
+                                    FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(userEmail)
+                                        .update({'userWhoRated': userWhoRated});
+                                  }
+                                });
+
+                                //add to userWhoRated
+                              });
+                            },
                           ),
-                          onRatingUpdate: (rating) {
-                            print(rating);
-                          },
-                        ),
-                        Divider(),
+                        //add to userWhoRated
+                        if (!userWhoRated.contains(
+                            "$currentUserEmail-$projectName-$userEmail"))
+                          Divider(),
                         ListTile(
                           title: Text("About"),
                           subtitle: Text("$about"),
@@ -262,6 +358,13 @@ class _viewprofileState extends State<viewProfileTeamMembers> {
                             size: 33,
                           ),
                         ),
+                        ListTile(
+                            title: Text("Rating"),
+                            subtitle: Text("$rating/5.0"),
+                            leading: Icon(
+                              Icons.star,
+                              size: 33,
+                            )),
                       ],
                     ),
                   ),

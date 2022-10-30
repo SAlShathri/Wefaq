@@ -437,6 +437,7 @@ class ChatScreenState extends State<ChatScreen> {
                                                 builder: (context) =>
                                                     viewProfileTeamMembers(
                                                       userEmail: message.email,
+                                                      projectName: projectName,
                                                     )));
                                       },
                                       // child: Container(
