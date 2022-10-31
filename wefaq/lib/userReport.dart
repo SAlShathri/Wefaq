@@ -263,7 +263,17 @@ class _reportEventState extends State<reportUser> {
                             'user_who_reporting': Email.toString(),
                             'created': now,
                           });
-
+                          var fillterd = _firestore
+                              .collection('users')
+                              .doc(userEmail)
+                              .get()
+                              .then((snapshot) {
+                            int Counter = snapshot.data()!['count'];
+                            _firestore
+                                .collection('users')
+                                .doc(userEmail)
+                                .update({"count": Counter + 1});
+                          });
                           _noteEditingController.clear();
 
                           selectedreason = "";
