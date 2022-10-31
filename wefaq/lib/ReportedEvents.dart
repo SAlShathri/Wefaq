@@ -132,17 +132,43 @@ class ReportedEventsState extends State<ReportedEventsList> {
                                             SizedBox(
                                               height: 10,
                                             ),
-                                            Container(
-                                              alignment: Alignment.center,
-                                              child: Text(EventnameList[index],
-                                                  style: const TextStyle(
-                                                    fontSize: 17,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color.fromARGB(
-                                                        212, 82, 10, 111),
-                                                  )),
+                                            Row(
+                                              children: [
+                                                SizedBox(width: 10),
+                                                Container(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                      EventnameList[index],
+                                                      style: const TextStyle(
+                                                        fontSize: 17,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Color.fromARGB(
+                                                            212, 82, 10, 111),
+                                                      )),
+                                                ),
+                                                Expanded(
+                                                    child: SizedBox(
+                                                  width: 100,
+                                                )),
+                                                IconButton(
+                                                    icon: Icon(
+                                                      Icons.arrow_forward_ios,
+                                                      color: Color.fromARGB(
+                                                          255, 170, 169, 179),
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  AdmineventDetailScreen(
+                                                                      eventName:
+                                                                          EventnameList[
+                                                                              index])));
+                                                    }),
+                                              ],
                                             ),
-                                            const SizedBox(height: 16.0),
                                             const Divider(
                                                 color: Color.fromARGB(
                                                     255, 156, 185, 182),
