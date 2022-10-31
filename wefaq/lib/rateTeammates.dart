@@ -103,69 +103,96 @@ class _rateTeammates extends State<rateTeammates> {
 
             return SizedBox(
               height: 100,
-              child: Card(
-                color: const Color.fromARGB(255, 255, 255, 255),
-                //shadowColor: Color.fromARGB(255, 255, 255, 255),
-                //  elevation: 7,
-
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Column(
-                        children: [
-                          Row(children: <Widget>[
-                            IconButton(
-                                icon: Icon(
-                                  Icons.account_circle,
-                                  color: Color.fromARGB(255, 85, 85, 85),
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                }),
-                            Text(
-                              usersNames[index],
-                              style: const TextStyle(
-                                fontSize: 19,
-                                color: Color.fromARGB(212, 82, 10, 111),
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 120,
-                            ),
-                            Expanded(
-                              child: IconButton(
-                                  icon: Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    color: Color.fromARGB(255, 85, 85, 85),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                viewProfileTeamMembers(
-                                                    userEmail:
-                                                        usersEmails[index],
-                                                    projectName: projectName)));
-                                  }),
-                            ),
-                          ]),
-                        ],
-                      ),
-                      Expanded(
-                        child: Row(
-                          children: <Widget>[],
+              child: GestureDetector(
+                child: Card(
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  //shadowColor: Color.fromARGB(255, 255, 255, 255),
+                  //  elevation: 7,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 10,
                         ),
-                      ),
-                    ],
+                        Column(
+                          children: [
+                            Row(children: <Widget>[
+                              Container(
+                                height: 70,
+                                width: 70,
+                                margin: const EdgeInsets.only(right: 5.0),
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                child: IconButton(
+                                    icon: Icon(
+                                      Icons.account_circle,
+                                      color: Color.fromARGB(255, 85, 85, 85),
+                                      size: 44.4,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  viewProfileTeamMembers(
+                                                      userEmail:
+                                                          usersEmails[index],
+                                                      projectName:
+                                                          projectName)));
+                                    }),
+                              ),
+                              Text(
+                                usersNames[index],
+                                style: const TextStyle(
+                                  fontSize: 19,
+                                  color: Color.fromARGB(212, 82, 10, 111),
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 120,
+                              ),
+                              Expanded(
+                                child: IconButton(
+                                    icon: Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      color: Color.fromARGB(255, 85, 85, 85),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  viewProfileTeamMembers(
+                                                      userEmail:
+                                                          usersEmails[index],
+                                                      projectName:
+                                                          projectName)));
+                                    }),
+                              ),
+                            ]),
+                          ],
+                        ),
+                        Expanded(
+                          child: Row(
+                            children: <Widget>[],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => viewProfileTeamMembers(
+                              userEmail: usersEmails[index],
+                              projectName: projectName)));
+                },
               ),
             );
           },
