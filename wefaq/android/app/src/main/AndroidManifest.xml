@@ -60,4 +60,8 @@
             <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyCkRaPfvVejBlQIAWEjc9klnkqk6olnhuc"/>
                <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+               <uses-permission android:name="android.permission.RECORD_AUDIO" />
+<!-- Optional, you'll have to check this permission by yourself. -->
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 </manifest>
