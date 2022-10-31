@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/link.dart';
 import 'package:wefaq/AdminEventList.dart';
+import 'package:wefaq/Adminreportedevent.dart';
 import 'package:wefaq/config/colors.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:wefaq/eventsScreen.dart';
@@ -108,6 +109,8 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
   // String notes = "";
   List<String> reasons = [];
   List<String> notes = [];
+//List<int> countlist = [];
+
 
   bool _isSelected1 = false;
   bool _isSelected2 = false;
@@ -478,84 +481,61 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                         const SizedBox(height: 16.0),
                         Row(
                           children: [
-//                           Container(
-//                             margin: EdgeInsets.only(right: 0),
-//                             height: 56.0,
-//                             width: 56.0,
-//                             child: IconButton(
-//                                 icon: Icon(
-//                                   Icons.error_outline,
-//                                   color: Color.fromARGB(255, 186, 48, 48),
-//                                   size: 30,
-//                                 ),
-//                                 onPressed: () {
-//                                   Navigator.push(
-//                                       context,
-//                                       MaterialPageRoute(
-//                                           builder: (context) => reportEvent(
-//                                               eventName: nameList,
-//                                               eventOwner: ownerEmail)));
-// //showDialogFunc(context);
-//                                 }),
-//                           ),
-                            // Container(
-                            //   height: 50.0,
-                            //   width: 50.0,
-                            //   alignment: Alignment.center,
-                            //   margin: const EdgeInsets.only(right: 8.0),
-                            //   decoration: const BoxDecoration(
-                            //     shape: BoxShape.circle,
-                            //   ),
-                            //   child: IconButton(
-                            //     icon: (isPressed)
-                            //         ? const Icon(Icons.favorite,
-                            //             color: Color.fromARGB(172, 136, 98, 146))
-                            //         : const Icon(Icons.favorite_border,
-                            //             color: Color.fromARGB(172, 136, 98, 146)),
-                            //     onPressed: () {
-                            //       setState(() {
-                            //         print(isPressed);
-                            //         if (isPressed) {
-                            //           isPressed = false;
-                            //           print(isPressed);
-                            //           ShowToastRemove();
+                              Text("$count",
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Color.fromARGB(
+                                                  255, 34, 94, 120),
+                                            )),
+                          Container(
+                            margin: EdgeInsets.only(right: 0 , left: 0),
+                            height: 56.0,
+                            width: 32.0,
+                            child: IconButton(
+                                icon: Icon(
+                                  Icons.error_outline,
+                                  color: Color.fromARGB(255, 186, 48, 48),
+                                  size: 30,
+                                  
+                                ),
+                                
+                                
+                                onPressed: () {
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) => reportEvent(
+                                  //             eventName: nameList,
+                                  //             eventOwner: ownerEmail)));
 
-                            //           FirebaseFirestore.instance
-                            //               .collection('FavoriteEvents')
-                            //               .doc(Email! +
-                            //                   '-' +
-                            //                   EventName +
-                            //                   '-' +
-                            //                   ownerEmail)
-                            //               .delete();
-                            //         } else {
-                            //           isPressed = true;
-                            //           print(isPressed);
-                            //           ShowToastAdd();
+                                }
+                                
+                                ),
+                                
+                          ),
+                         
+                             Container(
+                           height: 50.0,
+                            width: 44.0,
+                            alignment: Alignment.center,
+                            margin: const EdgeInsets.only(right: 0),
+                            child: IconButton(
+                                icon: Icon(
+                                  Icons.arrow_forward_ios, 
+                                  color: Color.fromARGB(255, 112, 71, 168),
+                                  size: 30,
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AdminReportedEvent(
+                                              eventName: nameList,
+                                              )));
 
-                            //           _firestore
-                            //               .collection('FavoriteEvents')
-                            //               .doc(Email! +
-                            //                   '-' +
-                            //                   EventName +
-                            //                   '-' +
-                            //                   ownerEmail)
-                            //               .set({
-                            //             'favoriteEmail': Email,
-                            //             'ownerEmail': ownerEmail,
-                            //             'eventName': EventName,
-                            //             'description': descList,
-                            //             'location': locList,
-                            //             'URL': urlList,
-                            //             'category': categoryList,
-                            //             'date': dateTimeList,
-                            //             'time': TimeList,
-                            //           });
-                            //         }
-                            //       });
-                            //     },
-                            //   ),
-                            // ),
+                                }
+                                ),
+                          ),
                           ],
                         ),
                       ],
@@ -675,96 +655,7 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                                     )),
                               )),
                     ),
-                    Container(
-                        //   child: ListView.builder(
-
-                        //     itemCount: reasons.length,
-                        //     itemBuilder: (context, index) {
-                        child: SizedBox(
-                      height: 180,
-                      child: GestureDetector(
-                        child: Card(
-                            color: Color.fromARGB(235, 255, 255, 255),
-                            //shadowColor: Color.fromARGB(255, 255, 255, 255),
-                            //  elevation: 7,
-
-                            child: Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(children: <Widget>[
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Icon(
-                                          Icons.report_gmailerrorred,
-                                          color:
-                                              Color.fromARGB(255, 202, 51, 41),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          "Report Reason: ",
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            color: Color.fromARGB(
-                                                212, 82, 10, 111),
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text(
-                                          "test",
-                                          // reasons[index]
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            color: Color.fromARGB(
-                                                212, 82, 10, 111),
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ]),
-                                      const SizedBox(height: 16.0),
-                                      const Divider(
-                                          color: Color.fromARGB(
-                                              255, 156, 185, 182),
-                                          height: 1.0),
-                                      Expanded(
-                                        child: Row(children: <Widget>[
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Icon(
-                                            Icons.event_note_outlined,
-                                            color: Color.fromARGB(
-                                                255, 156, 185, 182),
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            "Report Note: ",
-                                            // notes[index]
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                              color: Color.fromARGB(
-                                                  212, 82, 10, 111),
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ]),
-                                      ),
-                                    ]))),
-                      ),
-                    )
-                        //  }
-                        //  )
-                        ),
+                  
                     SizedBox(height: 20),
                     Container(
                       alignment: Alignment.center,
