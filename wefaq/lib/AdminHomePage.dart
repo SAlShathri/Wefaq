@@ -147,10 +147,10 @@ class HomeScreenState extends State<adminHomeScreen> {
                       ),
                       Expanded(
                         child: GridView.count(
-                          crossAxisCount: 2,
-                          childAspectRatio: .85,
-                          crossAxisSpacing: 20,
-                          mainAxisSpacing: 20,
+                          crossAxisCount: 1,
+                          childAspectRatio: 3,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 50,
                           children: <Widget>[
                             CategoryCard(
                                 title: "Upcoming Projects",
@@ -200,18 +200,18 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(13),
+      borderRadius: BorderRadius.circular(20),
       child: Container(
         // padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(13),
+          borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              offset: Offset(20, 17),
+              offset: Offset(40, 20),
               blurRadius: 30,
               spreadRadius: -23,
-              color: Color.fromARGB(255, 46, 36, 50),
+              color: Color.fromARGB(218, 161, 158, 162),
             ),
           ],
           image: new DecorationImage(
@@ -219,20 +219,20 @@ class CategoryCard extends StatelessWidget {
           ),
         ),
         child: Material(
-          color: Colors.transparent,
+          color: Color.fromARGB(0, 167, 22, 22),
           child: InkWell(
             onTap: onTap,
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(5.0),
               child: Column(
                 children: <Widget>[
                   Spacer(),
                   Spacer(),
                   Text("$title",
                       style: TextStyle(
-                          fontSize: 12,
-                          color: Color.fromARGB(221, 73, 105, 119),
-                          fontWeight: FontWeight.bold)),
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 61, 132, 163),
+                          fontWeight: FontWeight.w600)),
                 ],
               ),
             ),
