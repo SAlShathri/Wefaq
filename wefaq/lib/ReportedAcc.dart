@@ -59,7 +59,7 @@ class ReportedAccState extends State<ReportedAccList> {
         .snapshots()) {
       for (var report in snapshot.docs) {
         setState(() {
-          user_who_reporting_List.add(report['user_who_reporting']);
+          user_who_reporting_List.add(report['user_who_reported']);
           Reason.add(report['reason']);
           Note.add(report['note']);
         });
