@@ -56,26 +56,27 @@ class _UserLogin extends State<UserLogin> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 244, 243, 255),
       body: Background(
         child: Form(
           key: _FormKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-               SizedBox(height: size.height * 0.02),
-                  Container(
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.symmetric(horizontal: 25 , vertical: 5),
-                child: Text(
-                  "Welcome to Wefaq ",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(199, 66, 23, 139),
-                      fontSize: 36),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-               SizedBox(height: size.height * 0.02),
+              SizedBox(height: size.height * 0.02),
+              //     Container(
+              //   alignment: Alignment.centerLeft,
+              //   padding: EdgeInsets.symmetric(horizontal: 25 , vertical: 5),
+              //   child: Text(
+              //     "Welcome to Wefaq ",
+              //     style: TextStyle(
+              //         fontWeight: FontWeight.bold,
+              //         color: Color.fromARGB(199, 66, 23, 139),
+              //         fontSize: 36),
+              //     textAlign: TextAlign.left,
+              //   ),
+              // ),
+              SizedBox(height: size.height * 0.2),
               Container(
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.symmetric(horizontal: 40),
@@ -158,10 +159,8 @@ class _UserLogin extends State<UserLogin> {
                 margin: EdgeInsets.symmetric(horizontal: 70, vertical: 0),
                 child: GestureDetector(
                   onTap: () => {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ResetScreen()))
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ResetScreen()))
                   },
                   child: Text(
                     "Forget password ?",
@@ -291,33 +290,33 @@ class _UserLogin extends State<UserLogin> {
               SizedBox(height: size.height * 0.01),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children:[
-                Text(
+                children: [
+                  Text(
                     "New User? ",
                     style: TextStyle(
-                       // decoration: TextDecoration.underline,
+                        // decoration: TextDecoration.underline,
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: Color.fromARGB(123, 11, 13, 18)),
                   ),
-                
-                 GestureDetector(
-                  onTap: () => {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => UserRegistratin()))
-                  },
-                  child: Text(
-                    "Register",
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(199, 66, 23, 139)),
+                  GestureDetector(
+                    onTap: () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UserRegistratin()))
+                    },
+                    child: Text(
+                      "Register",
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(199, 66, 23, 139)),
+                    ),
                   ),
-                ),
-             ], )
+                ],
+              )
             ],
           ),
         ),
@@ -413,9 +412,10 @@ class _UserLogin extends State<UserLogin> {
                                       Color.fromARGB(144, 64, 7, 87),
                                   onConfirmBtnTap: () {
                                     Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomeScreen()));
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                HomeScreen()));
                                   },
                                   type: CoolAlertType.success,
                                   backgroundColor:
@@ -469,7 +469,7 @@ class _UserLogin extends State<UserLogin> {
                                       .doc(FirebaseAuth
                                           .instance.currentUser!.email)
                                       .update({'status': 'deleted'});
-                                      CoolAlert.show(
+                                  CoolAlert.show(
                                     context: context,
                                     title: "your account is deleted now",
                                     confirmBtnColor:
@@ -486,10 +486,10 @@ class _UserLogin extends State<UserLogin> {
                                         Color.fromARGB(221, 212, 189, 227),
                                     text:
                                         "your account is deleted successfully, you are no longer a user ",
-                                  ); 
+                                  );
 
                                   deleteprofile();
-                                   
+
                                   // Navigator.push(
                                   //     context,
                                   //     MaterialPageRoute(
@@ -536,4 +536,3 @@ class _UserLogin extends State<UserLogin> {
         });
   }
 }
-

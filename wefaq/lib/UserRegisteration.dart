@@ -3,8 +3,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wefaq/RBackground.dart';
 import 'package:wefaq/UserLogin.dart';
-import 'package:wefaq/backgroundLogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -56,10 +56,11 @@ class _UserRegistratin extends State<UserRegistratin> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 249, 249, 251),
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         // padding: const EdgeInsets.all(8.0),
-        child: Background(
+        child: RBackground(
           child: Form(
             key: _FormKey,
             child: Column(
@@ -460,6 +461,9 @@ class _UserRegistratin extends State<UserRegistratin> {
                       ),
                     ),
                   ),
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
