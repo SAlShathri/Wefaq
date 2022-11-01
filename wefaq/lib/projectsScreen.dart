@@ -316,10 +316,14 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
           child: Scaffold(
             floatingActionButton: PopupMenuButton(
               tooltip: "Filter by",
-              icon: Icon(
-                Icons.filter_list,
-                color: Color.fromARGB(221, 81, 122, 140),
-                size: 40,
+              icon: CircleAvatar(
+                radius: 27,
+                backgroundColor: Color.fromARGB(255, 72, 115, 134),
+                child: Icon(
+                  Icons.filter_list,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  size: 40,
+                ),
               ),
               itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                 PopupMenuItem(
@@ -481,10 +485,11 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
         Padding(
           padding: const EdgeInsets.all(7.0),
           child: TextFormField(
-            onEditingComplete:(){   getCategory(_searchEditingController!.text);},
+            onEditingComplete: () {
+              getCategory(_searchEditingController!.text);
+            },
             controller: _searchEditingController,
             decoration: InputDecoration(
-              
               contentPadding: EdgeInsets.symmetric(vertical: 15.0),
 
               border: OutlineInputBorder(

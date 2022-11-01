@@ -145,9 +145,12 @@ class _PostEventState extends State<PostEvent> {
                         validator: (value) {
                           if (value == null ||
                               value.isEmpty ||
-                              value.trim() == '') {
+                              value.trim() == '')
                             return 'required';
-                          }
+                          else if (!RegExp(r'^[a-z A-Z . , -]+$')
+                                  .hasMatch(value!) &&
+                              !RegExp(r'^[, . - أ-ي]+$').hasMatch(value!))
+                            return "Only English or Arabic letters";
                         }),
                     SizedBox(height: 20.0),
                     TextFormField(

@@ -284,10 +284,14 @@ class _ListViewPageState extends State<EventsListViewPage> {
     return Scaffold(
       floatingActionButton: PopupMenuButton(
         tooltip: "Filter by",
-        icon: Icon(
-          Icons.filter_list,
-          color: Color.fromARGB(221, 81, 122, 140),
-          size: 40,
+        icon: CircleAvatar(
+          radius: 27,
+          backgroundColor: Color.fromARGB(255, 72, 115, 134),
+          child: Icon(
+            Icons.filter_list,
+            color: Color.fromARGB(255, 255, 255, 255),
+            size: 40,
+          ),
         ),
         itemBuilder: (BuildContext context) => <PopupMenuEntry>[
           PopupMenuItem(
