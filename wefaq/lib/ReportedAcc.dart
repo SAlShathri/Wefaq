@@ -31,6 +31,7 @@ class ReportedAccState extends State<ReportedAccList> {
   List<String> Reason = [];
   List<String> Note = [];
   List<String> status = [];
+  List<String> name = [];
 
   String? Email;
   void getCurrentUser() {
@@ -63,6 +64,7 @@ class ReportedAccState extends State<ReportedAccList> {
           user_who_reporting_List.add(report['user_who_reported']);
           Reason.add(report['reason']);
           Note.add(report['note']);
+          name.add(report['name']);
         });
       }
     }
@@ -120,14 +122,13 @@ class ReportedAccState extends State<ReportedAccList> {
                                       ),
                                       Container(
                                         alignment: Alignment.center,
-                                        child:
-                                            Text(user_who_reporting_List[index],
-                                                style: const TextStyle(
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color.fromARGB(
-                                                      212, 82, 10, 111),
-                                                )),
+                                        child: Text(name[index],
+                                            style: const TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color.fromARGB(
+                                                  212, 82, 10, 111),
+                                            )),
                                       ),
                                       const SizedBox(height: 16.0),
                                       const Divider(
@@ -156,15 +157,17 @@ class ReportedAccState extends State<ReportedAccList> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        Text(
-                                          Reason[index],
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            color: Color.fromARGB(
-                                                212, 82, 10, 111),
-                                            fontWeight: FontWeight.normal,
+                                        Expanded(
+                                          child: Text(
+                                            Reason[index],
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Color.fromARGB(
+                                                  212, 82, 10, 111),
+                                              fontWeight: FontWeight.normal,
+                                            ),
                                           ),
-                                        ),
+                                        )
                                       ]),
                                       const SizedBox(height: 16.0),
                                       const Divider(

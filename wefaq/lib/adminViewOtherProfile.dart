@@ -309,28 +309,6 @@ class _viewprofileState extends State<adminviewotherprofile> {
                                         width: 20,
                                       ),
                                     ),
-                                    Container(
-                                      margin: EdgeInsets.only(right: 0),
-                                      height: 56.0,
-                                      width: 56.0,
-                                      child: IconButton(
-                                          icon: Icon(
-                                            Icons.error_outline,
-                                            color: Color.fromARGB(
-                                                255, 186, 48, 48),
-                                            size: 30,
-                                          ),
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        reportUser(
-                                                          userEmail: userEmail,
-                                                          userName: fname,
-                                                        )));
-                                          }),
-                                    ),
                                   ]),
                                   Row(children: <Widget>[
                                     Expanded(

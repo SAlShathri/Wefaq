@@ -150,7 +150,9 @@ class _viewprofileState extends State<viewotherprofile> {
                                                     builder: (context) =>
                                                         reportUser(
                                                           userEmail: userEmail,
-                                                          userName: fname,
+                                                          userName: fname +
+                                                              " " +
+                                                              lname,
                                                         )));
                                           }),
                                     ),
