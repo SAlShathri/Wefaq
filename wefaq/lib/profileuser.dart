@@ -93,7 +93,7 @@ class _viewprofileState extends State<viewprofile> {
         child: Stack(
           children: <Widget>[
             SizedBox(
-              height: 220,
+              height: 180,
               width: double.infinity,
               child: Image(
                 image: AssetImage(
@@ -102,224 +102,220 @@ class _viewprofileState extends State<viewprofile> {
                 fit: BoxFit.cover,
               ),
             ),
-            Container(
-              margin: EdgeInsets.fromLTRB(15, 200, 15, 15),
-              child: Column(
-                children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.all(15),
-                        margin: EdgeInsets.only(top: 0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(left: 95),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(children: <Widget>[
-                                    Expanded(
-                                        child: Column(children: <Widget>[
-                                      Text("$fname" + " $lname",
-                                          style: TextStyle(fontSize: 18)),
-                                    ])),
-                                    Expanded(
-                                        child: Column(children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.edit,
-                                          color: Color.fromARGB(
-                                              255, 141, 136, 146),
-                                        ),
-                                        onPressed: () {
+            Column(
+              children: <Widget>[
+                Stack(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.all(15),
+                      margin: EdgeInsets.only(top: 120),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(left: 95),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Row(children: <Widget>[
+                                  Expanded(
+                                      child: Column(children: <Widget>[
+                                    Text("$fname" + " $lname",
+                                        style: TextStyle(fontSize: 18)),
+                                  ])),
+                                  Expanded(
+                                      child: Column(children: <Widget>[
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.edit,
+                                        color:
+                                            Color.fromARGB(255, 141, 136, 146),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  editprofile()),
+                                        );
+                                      },
+                                    ),
+                                    GestureDetector(
+                                        onTap: () {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    editprofile()),
+                                                    userProjects(
+                                                        userEmail: userEmail)),
                                           );
                                         },
-                                      ),
-                                      GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      userProjects(
-                                                          userEmail:
-                                                              userEmail)),
-                                            );
-                                          },
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            height: 30,
-                                            width: 100,
-                                            decoration: BoxDecoration(
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          height: 30,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            color: Color.fromARGB(
+                                                201, 231, 229, 229),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Text(
+                                            "My projects",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
                                               color: Color.fromARGB(
-                                                  201, 231, 229, 229),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
+                                                  255, 96, 51, 104),
+                                              fontSize: 14,
                                             ),
-                                            child: Text(
-                                              "My projects",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Color.fromARGB(
-                                                    255, 96, 51, 104),
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ))
-                                    ]))
-                                  ]),
-                                ],
-                              ),
+                                          ),
+                                        ))
+                                  ]))
+                                ]),
+                              ],
                             ),
-                          ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 80,
+                      height: 80,
+                      margin: EdgeInsets.only(left: 15, top: 135),
+                      decoration: new BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(0, 0),
+                            blurRadius: 10,
+                            color: Colors.black.withOpacity(0.15),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(10),
+                        image: new DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                            profilepic,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      ListTile(
+                        title: Text("General Information"),
+                      ),
+                      Divider(),
+                      ListTile(
+                        title: Text("About"),
+                        subtitle: Text("$about"),
+                        leading: Icon(Icons.format_align_center),
+                      ),
+                      ListTile(
+                        title: Text("GitHub"),
+                        onTap: () => launch("$gitHub"),
+                        leading: Icon(
+                          LineIcons.github,
+                          size: 35,
+                          color: Color.fromARGB(255, 93, 18, 107),
+                        ),
+                      ),
+                      ListTile(
+                        title: Text("Experience"),
+                        subtitle: Text("$experince"),
+                        leading: Icon(Icons.calendar_view_day),
+                      ),
+                      ListTile(
+                        title: Text("Skills"),
+                        subtitle: Text(selectedOptionList.join(",")),
+                        leading: Icon(Icons.schema_rounded),
+                      ),
+                      ListTile(
+                        title: Text("Licenses & certifications"),
+                        subtitle: Text("$cerifi"),
+                        leading: Icon(
+                          Icons.workspace_premium,
+                          size: 33,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                  width: 80,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned.fill(
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: <Color>[
+                                Color.fromARGB(255, 89, 13, 161),
+                                Color.fromARGB(255, 101, 42, 155),
+                                Color.fromARGB(255, 117, 85, 148),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                       Container(
-                        width: 80,
-                        height: 80,
-                        margin: EdgeInsets.only(left: 15, top: 10),
-                        decoration: new BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              offset: Offset(0, 0),
-                              blurRadius: 10,
-                              color: Colors.black.withOpacity(0.15),
-                            ),
-                          ],
-                          borderRadius: BorderRadius.circular(10),
-                          image: new DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                              profilepic,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            showDialogFunc();
+                            // deleteprofile();
+                            //   Navigator.push(context,
+                            //     MaterialPageRoute(builder: (context) => UserLogin()));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            surfaceTintColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(80.0)),
+                            padding: const EdgeInsets.all(0),
+                          ),
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 50.0,
+                            width: 150,
+                            // width: size.width * 0.5,
+                            decoration: new BoxDecoration(
+                                borderRadius: BorderRadius.circular(80.0),
+                                gradient: new LinearGradient(colors: [
+                                  Color.fromARGB(144, 67, 7, 87),
+                                  Color.fromARGB(221, 137, 171, 187)
+                                ])),
+                            padding: const EdgeInsets.all(0),
+                            child: Text(
+                              "Delete Account",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 255, 255, 255)),
                             ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        ListTile(
-                          title: Text("General Information"),
-                        ),
-                        Divider(),
-                        ListTile(
-                          title: Text("About"),
-                          subtitle: Text("$about"),
-                          leading: Icon(Icons.format_align_center),
-                        ),
-                        ListTile(
-                          title: Text("GitHub"),
-                          onTap: () => launch("$gitHub"),
-                          leading: Icon(
-                            LineIcons.github,
-                            size: 35,
-                            color: Color.fromARGB(255, 93, 18, 107),
-                          ),
-                        ),
-                        ListTile(
-                          title: Text("Experience"),
-                          subtitle: Text("$experince"),
-                          leading: Icon(Icons.calendar_view_day),
-                        ),
-                        ListTile(
-                          title: Text("Skills"),
-                          subtitle: Text(selectedOptionList.join(",")),
-                          leading: Icon(Icons.schema_rounded),
-                        ),
-                        ListTile(
-                          title: Text("Licenses & certifications"),
-                          subtitle: Text("$cerifi"),
-                          leading: Icon(
-                            Icons.workspace_premium,
-                            size: 33,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                    width: 80,
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Stack(
-                      children: <Widget>[
-                        Positioned.fill(
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: <Color>[
-                                  Color.fromARGB(255, 89, 13, 161),
-                                  Color.fromARGB(255, 101, 42, 155),
-                                  Color.fromARGB(255, 117, 85, 148),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              showDialogFunc();
-                              // deleteprofile();
-                              //   Navigator.push(context,
-                              //     MaterialPageRoute(builder: (context) => UserLogin()));
-                            },
-                            style: ElevatedButton.styleFrom(
-                              surfaceTintColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(80.0)),
-                              padding: const EdgeInsets.all(0),
-                            ),
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 50.0,
-                              width: 150,
-                              // width: size.width * 0.5,
-                              decoration: new BoxDecoration(
-                                  borderRadius: BorderRadius.circular(80.0),
-                                  gradient: new LinearGradient(colors: [
-                                    Color.fromARGB(144, 67, 7, 87),
-                                    Color.fromARGB(221, 137, 171, 187)
-                                  ])),
-                              padding: const EdgeInsets.all(0),
-                              child: Text(
-                                "Delete Account",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 255, 255, 255)),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            )
+                ),
+              ],
+            ),
           ],
         ),
       ),

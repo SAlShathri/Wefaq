@@ -277,208 +277,205 @@ class _viewprofileState extends State<adminviewotherprofile> {
                 fit: BoxFit.cover,
               ),
             ),
-            Container(
-              margin: EdgeInsets.fromLTRB(15, 200, 15, 15),
-              child: Column(
-                children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.all(15),
-                        margin: EdgeInsets.only(top: 0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(left: 5),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(children: <Widget>[
-                                    SizedBox(
-                                      width: 60,
+            Column(
+              children: <Widget>[
+                Stack(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.all(15),
+                      margin: EdgeInsets.only(top: 0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(left: 5),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Row(children: <Widget>[
+                                  SizedBox(
+                                    width: 60,
+                                  ),
+                                  Text("      " + "$fname" + " $lname",
+                                      style: TextStyle(fontSize: 18)),
+                                  Expanded(
+                                    child: SizedBox(
+                                      width: 20,
                                     ),
-                                    Text("      " + "$fname" + " $lname",
-                                        style: TextStyle(fontSize: 18)),
-                                    Expanded(
-                                      child: SizedBox(
-                                        width: 20,
-                                      ),
-                                    ),
-                                  ]),
-                                  Row(children: <Widget>[
-                                    Expanded(
-                                        child: Column(children: <Widget>[
-                                      ListTile(
-                                        contentPadding: EdgeInsets.all(0),
+                                  ),
+                                ]),
+                                Row(children: <Widget>[
+                                  Expanded(
+                                      child: Column(children: <Widget>[
+                                    ListTile(
+                                      contentPadding: EdgeInsets.all(0),
 
-                                        //You can add Subtitle here
-                                      ),
-                                    ])),
-                                    Column(
-                                      children: <Widget>[
-                                        GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        userProjects(
-                                                            userEmail:
-                                                                userEmail)),
-                                              );
-                                            },
-                                            child: Container(
-                                              alignment: Alignment.center,
-                                              height: 30,
-                                              width: 120,
-                                              decoration: BoxDecoration(
-                                                color: Color.fromARGB(
-                                                    201, 231, 229, 229),
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              child: Text(
-                                                "View projects",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color.fromARGB(
-                                                      255, 96, 51, 104),
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                            ))
-                                      ],
+                                      //You can add Subtitle here
                                     ),
-                                  ])
-                                ],
-                              ),
+                                  ])),
+                                  Column(
+                                    children: <Widget>[
+                                      GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      userProjects(
+                                                          userEmail:
+                                                              userEmail)),
+                                            );
+                                          },
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            height: 30,
+                                            width: 120,
+                                            decoration: BoxDecoration(
+                                              color: Color.fromARGB(
+                                                  201, 231, 229, 229),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Text(
+                                              "View projects",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Color.fromARGB(
+                                                    255, 96, 51, 104),
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ))
+                                    ],
+                                  ),
+                                ])
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: 80,
-                        height: 80,
-                        margin: EdgeInsets.only(left: 15, top: 10),
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              offset: Offset(0, 0),
-                              blurRadius: 10,
-                              color: Colors.black.withOpacity(0.15),
-                            ),
-                          ],
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                "https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images%2Fdata%2Fuser%2F0%2Fcom.swe444.wefaq%2Fcache%2Fimage_picker2743050244236619318.jpg?alt=media&token=037de374-37b0-4d0f-ae46-95f89c79b225"),
-                            fit: BoxFit.cover,
                           ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 80,
+                      height: 80,
+                      margin: EdgeInsets.only(left: 15, top: 140),
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(0, 0),
+                            blurRadius: 10,
+                            color: Colors.black.withOpacity(0.15),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          image: NetworkImage(
+                              "https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images%2Fdata%2Fuser%2F0%2Fcom.swe444.wefaq%2Fcache%2Fimage_picker2743050244236619318.jpg?alt=media&token=037de374-37b0-4d0f-ae46-95f89c79b225"),
+                          fit: BoxFit.cover,
                         ),
                       ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      ListTile(
+                        title: Text("About"),
+                        subtitle: Text("$about"),
+                        leading: Icon(Icons.format_align_center),
+                      ),
+                      ListTile(
+                        title: Text("GitHub"),
+                        onTap: () => launch("$gitHub"),
+                        leading: Icon(
+                          LineIcons.github,
+                          size: 35,
+                          color: Color.fromARGB(255, 93, 18, 107),
+                        ),
+                      ),
+                      ListTile(
+                        title: Text("Experience"),
+                        subtitle: Text("$experince"),
+                        leading: Icon(Icons.calendar_view_day),
+                      ),
+                      ListTile(
+                        title: Text("Skills"),
+                        subtitle: Text(selectedOptionList.join(",")),
+                        leading: Icon(Icons.schema_rounded),
+                      ),
+                      ListTile(
+                        title: Text("Licenses & certifications"),
+                        subtitle: Text("$cerifi"),
+                        leading: Icon(
+                          Icons.workspace_premium,
+                          size: 33,
+                        ),
+                      ),
+                      ListTile(
+                          title: Text("Rating"),
+                          subtitle: Text("$rating/5.0"),
+                          leading: Icon(
+                            Icons.star,
+                            size: 33,
+                          )),
                     ],
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
+                ),
+                const SizedBox(
+                  height: 30,
+                  width: 80,
+                ),
+                SizedBox(height: 20),
+                Container(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      showDialogFunc2(context);
+                      //  showDialogFunc(context);
+                      // deleteprofile();
+                      //   Navigator.push(context,
+                      //     MaterialPageRoute(builder: (context) => UserLogin()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      surfaceTintColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(80.0)),
+                      padding: const EdgeInsets.all(0),
                     ),
-                    child: Column(
-                      children: <Widget>[
-                        ListTile(
-                          title: Text("About"),
-                          subtitle: Text("$about"),
-                          leading: Icon(Icons.format_align_center),
-                        ),
-                        ListTile(
-                          title: Text("GitHub"),
-                          onTap: () => launch("$gitHub"),
-                          leading: Icon(
-                            LineIcons.github,
-                            size: 35,
-                            color: Color.fromARGB(255, 93, 18, 107),
-                          ),
-                        ),
-                        ListTile(
-                          title: Text("Experience"),
-                          subtitle: Text("$experince"),
-                          leading: Icon(Icons.calendar_view_day),
-                        ),
-                        ListTile(
-                          title: Text("Skills"),
-                          subtitle: Text(selectedOptionList.join(",")),
-                          leading: Icon(Icons.schema_rounded),
-                        ),
-                        ListTile(
-                          title: Text("Licenses & certifications"),
-                          subtitle: Text("$cerifi"),
-                          leading: Icon(
-                            Icons.workspace_premium,
-                            size: 33,
-                          ),
-                        ),
-                        ListTile(
-                            title: Text("Rating"),
-                            subtitle: Text("$rating/5.0"),
-                            leading: Icon(
-                              Icons.star,
-                              size: 33,
-                            )),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                    width: 80,
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    alignment: Alignment.center,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        showDialogFunc2(context);
-                        //  showDialogFunc(context);
-                        // deleteprofile();
-                        //   Navigator.push(context,
-                        //     MaterialPageRoute(builder: (context) => UserLogin()));
-                      },
-                      style: ElevatedButton.styleFrom(
-                        surfaceTintColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(80.0)),
-                        padding: const EdgeInsets.all(0),
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 50.0,
+                      width: 150,
+                      // width: size.width * 0.5,
+                      decoration: new BoxDecoration(
+                        borderRadius: BorderRadius.circular(80.0),
+                        color: Color.fromARGB(204, 109, 46, 154),
                       ),
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 50.0,
-                        width: 150,
-                        // width: size.width * 0.5,
-                        decoration: new BoxDecoration(
-                          borderRadius: BorderRadius.circular(80.0),
-                          color: Color.fromARGB(204, 109, 46, 154),
-                        ),
-                        padding: const EdgeInsets.all(0),
-                        child: Text(
-                          "Delete account",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 255, 255, 255)),
-                        ),
+                      padding: const EdgeInsets.all(0),
+                      child: Text(
+                        "Delete account",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 255, 255, 255)),
                       ),
                     ),
                   ),
-                ],
-              ),
-            )
+                ),
+              ],
+            ),
           ],
         ),
       ),

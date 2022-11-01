@@ -323,404 +323,399 @@ class _editprofileState extends State<editprofile> {
             ),
             Form(
               key: _formKey,
-              child: Container(
-                margin: EdgeInsets.fromLTRB(15, 200, 15, 15),
-                child: Column(
-                  children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(15),
-                          margin: EdgeInsets.only(top: 0),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5.0),
+              child: Column(
+                children: <Widget>[
+                  Stack(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.all(15),
+                        margin: EdgeInsets.only(top: 120),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        child: ListTile(
+                          title: Text("Name"),
+                          subtitle: TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            decoration: const InputDecoration(
+                              border: UnderlineInputBorder(),
+                              //  labelText: 'About',
+                            ),
+                            controller: _nameEditingController,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "required";
+                              }
+                              if (!RegExp(r'^[a-z A-Z . ,]+$')
+                                      .hasMatch(value!) &&
+                                  !RegExp(r'^[, . أ-ي]+$').hasMatch(value!)) {
+                                return "Only English or Arabic letters";
+                              }
+                            },
                           ),
-                          child: ListTile(
-                            title: Text("Name"),
-                            subtitle: TextFormField(
+                          leading: Icon(Icons.format_align_center),
+                        ),
+                      ),
+                      Container(
+                        width: 80,
+                        height: 80,
+                        margin: EdgeInsets.only(left: 15, top: 10),
+                        decoration: BoxDecoration(
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //     offset: Offset(0, 0),
+                          //     blurRadius: 10,
+                          //     color: Colors.black.withOpacity(0.15),
+                          //   ),
+                          // ],
+                          borderRadius: BorderRadius.circular(10),
+                          // image: DecorationImage(
+                          //   image:
+                          //   CircleAvatar(
+                          //     child: Image.network(profilepic),
+                          //     radius: 100.0,
+                          //   ),
+                          //   fit: BoxFit.cover,
+                          // ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Center(
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            // onTap: () {
+                            //   imageOptions(context);
+                            // },
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                        margin:
+                                            EdgeInsets.only(left: 15, top: 128),
+                                        height: 60,
+                                        width: 60,
+                                        decoration: new BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.grey.shade200,
+                                            image: new DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                  profilepic,
+                                                ))),
+                                        child: IconButton(
+                                          onPressed: () =>
+                                              imageOptions(context),
+                                          icon: Icon(Icons.camera_enhance),
+                                          color: Color.fromARGB(
+                                              255, 141, 168, 170),
+                                        )
+                                        // child: Center(
+                                        //     child: CircleAvatar(
+                                        //   child: Image.network(
+                                        //     profilepic,
+                                        //     width: 70,
+                                        //     height: 70,
+                                        //   ),
+                                        //   radius: 100.0,
+                                        // ))
+                                        ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        ListTile(
+                          title: Text("General Information"),
+                        ),
+                        Divider(),
+                        ListTile(
+                          title: Text("About"),
+                          subtitle: TextFormField(
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               decoration: const InputDecoration(
                                 border: UnderlineInputBorder(),
                                 //  labelText: 'About',
                               ),
-                              controller: _nameEditingController,
+                              controller: _aboutEditingController,
                               validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "required";
+                                if (value!.isNotEmpty) {
+                                  if (!RegExp(r'^[a-z A-Z . , -]+$')
+                                          .hasMatch(value!) &&
+                                      !RegExp(r'^[, . - أ-ي]+$')
+                                          .hasMatch(value!)) {
+                                    return "Only English or Arabic letters";
+                                  }
                                 }
-                                if (!RegExp(r'^[a-z A-Z . ,]+$')
-                                        .hasMatch(value!) &&
-                                    !RegExp(r'^[, . أ-ي]+$').hasMatch(value!)) {
-                                  return "Only English or Arabic letters";
-                                }
-                              },
-                            ),
-                            leading: Icon(Icons.format_align_center),
-                          ),
+                                return null;
+                              }),
+                          leading: Icon(Icons.format_align_center),
                         ),
-                        Container(
-                          width: 80,
-                          height: 80,
-                          margin: EdgeInsets.only(left: 15, top: 10),
-                          decoration: BoxDecoration(
-                            // boxShadow: [
-                            //   BoxShadow(
-                            //     offset: Offset(0, 0),
-                            //     blurRadius: 10,
-                            //     color: Colors.black.withOpacity(0.15),
-                            //   ),
-                            // ],
-                            borderRadius: BorderRadius.circular(10),
-                            // image: DecorationImage(
-                            //   image:
-                            //   CircleAvatar(
-                            //     child: Image.network(profilepic),
-                            //     radius: 100.0,
-                            //   ),
-                            //   fit: BoxFit.cover,
-                            // ),
-                          ),
+                        Divider(
+                          color: Color.fromARGB(115, 176, 176, 176),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Center(
-                            child: GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              // onTap: () {
-                              //   imageOptions(context);
-                              // },
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                          height: 60,
-                                          width: 60,
-                                          decoration: new BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.grey.shade200,
-                                              image: new DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: NetworkImage(
-                                                    profilepic,
-                                                  ))),
-                                          child: IconButton(
-                                            onPressed: () =>
-                                                imageOptions(context),
-                                            icon: Icon(Icons.camera_enhance),
-                                            color: Color.fromARGB(
-                                                255, 141, 168, 170),
-                                          )
-                                          // child: Center(
-                                          //     child: CircleAvatar(
-                                          //   child: Image.network(
-                                          //     profilepic,
-                                          //     width: 70,
-                                          //     height: 70,
-                                          //   ),
-                                          //   radius: 100.0,
-                                          // ))
-                                          ),
-                                    ],
-                                  ),
-                                ],
+                        Divider(
+                          color: Color.fromARGB(115, 176, 176, 176),
+                        ),
+                        ListTile(
+                          title: Text("GitHub"),
+                          subtitle: TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              decoration: const InputDecoration(
+                                border: UnderlineInputBorder(),
+                                //  labelText: 'About',
                               ),
-                            ),
+                              controller: _gitHubEditingController,
+                              validator: (value) {
+                                if (value!.isNotEmpty) {
+                                  if (!value.startsWith("https://github.com"))
+                                    return 'The url must start with " https://github.com"';
+                                }
+                              }),
+                          leading: Icon(
+                            LineIcons.github,
+                            size: 35,
+                            color: Color.fromARGB(255, 93, 18, 107),
+                          ),
+                        ),
+                        Divider(
+                          color: Color.fromARGB(115, 176, 176, 176),
+                        ),
+                        ListTile(
+                          title: Text("Experience"),
+                          subtitle: TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              decoration: const InputDecoration(
+                                border: UnderlineInputBorder(),
+                                //  labelText: 'About',
+                              ),
+                              controller: _experienceEditingController,
+                              validator: (value) {
+                                if (value!.isNotEmpty) {
+                                  if (!RegExp(r'^[a-z A-Z . , -]+$')
+                                          .hasMatch(value!) &&
+                                      !RegExp(r'^[, . - أ-ي]+$')
+                                          .hasMatch(value!)) {
+                                    return "Only English or Arabic letters";
+                                  }
+                                }
+                              }),
+                          leading: Icon(Icons.calendar_view_day),
+                        ),
+                        Divider(
+                          color: Color.fromARGB(115, 176, 176, 176),
+                        ),
+                        ListTile(
+                          title: Text("Skills"),
+                          subtitle: Column(
+                            children: [
+                              DropDownMultiSelect(
+                                  options: options,
+                                  whenEmpty: 'Select your skills',
+                                  onChanged: (value) {
+                                    selectedOptionList = value;
+                                    selectedOption = "";
+                                    selectedOptionList.forEach((element) {
+                                      selectedOption =
+                                          selectedOption + " " + element;
+                                    });
+                                  },
+                                  selectedValues: selectedOptionList),
+                            ],
+                          ),
+                          leading: Icon(Icons.schema_rounded),
+                        ),
+                        Divider(
+                          color: Color.fromARGB(115, 176, 176, 176),
+                        ),
+                        ListTile(
+                          title: Text("Licenses & certifications"),
+                          subtitle: TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              decoration: const InputDecoration(
+                                border: UnderlineInputBorder(),
+                                //  labelText: 'About',
+                              ),
+                              controller: _certificationsEditingController,
+                              validator: (value) {
+                                if (value != null) {
+                                  if (value!.isNotEmpty) {
+                                    if (!RegExp(r'^[a-z A-Z . , -]+$')
+                                            .hasMatch(value!) &&
+                                        !RegExp(r'^[, . - أ-ي]+$')
+                                            .hasMatch(value!)) {
+                                      return "Only English or Arabic letters";
+                                    }
+                                  }
+                                }
+                              }),
+                          leading: Icon(
+                            Icons.workspace_premium,
+                            size: 33,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                    width: 80,
+                  ),
+                  Row(children: <Widget>[
+                    Expanded(
+                        child: Column(children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Stack(
+                          children: <Widget>[
+                            Positioned.fill(
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: <Color>[
+                                      Color.fromARGB(255, 173, 156, 184),
+                                      Color.fromARGB(255, 173, 156, 184),
+                                      Color.fromARGB(255, 173, 156, 184),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.only(
+                                    top: 15.0, left: 40, right: 40, bottom: 15),
+                                textStyle: const TextStyle(fontSize: 20),
+                              ),
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  // If the form is valid, display a snackbar. In the real world,
+                                  // you'd often call a server or save the information in a database.
+                                  // for sorting purpose
+
+                                  _firestore
+                                      .collection('users')
+                                      .doc(signedInUser.email)
+                                      .set({
+                                    "FirstName": _nameEditingController.text
+                                        .substring(
+                                            0,
+                                            _nameEditingController.text
+                                                .indexOf(" ")),
+                                    "LastName": _nameEditingController.text
+                                        .substring(_nameEditingController.text
+                                                .indexOf(" ") +
+                                            1),
+                                    "about": _aboutEditingController.text,
+                                    "experince":
+                                        _experienceEditingController.text,
+                                    "cerifi":
+                                        _certificationsEditingController.text,
+                                    "skills": selectedOptionList,
+                                    "gitHub": _gitHubEditingController.text,
+                                  }, SetOptions(merge: true));
+
+                                  //sucess message
+                                  CoolAlert.show(
+                                    context: context,
+                                    title: "Success!",
+                                    confirmBtnColor:
+                                        Color.fromARGB(144, 64, 7, 87),
+                                    onConfirmBtnTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => viewprofile(
+                                                    userEmail: userEmail,
+                                                  )));
+                                    },
+                                    type: CoolAlertType.success,
+                                    backgroundColor:
+                                        Color.fromARGB(221, 212, 189, 227),
+                                    text: "Profile edited successfuly",
+                                  );
+                                }
+                              },
+                              child: const Text('Save'),
+                            ),
+                          ],
+                        ),
                       ),
+                    ])),
+                    Expanded(
                       child: Column(
                         children: <Widget>[
-                          ListTile(
-                            title: Text("General Information"),
-                          ),
-                          Divider(),
-                          ListTile(
-                            title: Text("About"),
-                            subtitle: TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                decoration: const InputDecoration(
-                                  border: UnderlineInputBorder(),
-                                  //  labelText: 'About',
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Stack(
+                              children: <Widget>[
+                                Positioned.fill(
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: <Color>[
+                                          Color.fromARGB(255, 182, 179, 179),
+                                          Color.fromARGB(255, 182, 179, 179),
+                                          Color.fromARGB(255, 182, 179, 179),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                                controller: _aboutEditingController,
-                                validator: (value) {
-                                  if (value!.isNotEmpty) {
-                                    if (!RegExp(r'^[a-z A-Z . , -]+$')
-                                            .hasMatch(value!) &&
-                                        !RegExp(r'^[, . - أ-ي]+$')
-                                            .hasMatch(value!)) {
-                                      return "Only English or Arabic letters";
-                                    }
-                                  }
-                                  return null;
-                                }),
-                            leading: Icon(Icons.format_align_center),
-                          ),
-                          Divider(
-                            color: Color.fromARGB(115, 176, 176, 176),
-                          ),
-                          Divider(
-                            color: Color.fromARGB(115, 176, 176, 176),
-                          ),
-                          ListTile(
-                            title: Text("GitHub"),
-                            subtitle: TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                decoration: const InputDecoration(
-                                  border: UnderlineInputBorder(),
-                                  //  labelText: 'About',
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                    padding: const EdgeInsets.only(
+                                        top: 15.0,
+                                        left: 40,
+                                        right: 40,
+                                        bottom: 15),
+                                    textStyle: const TextStyle(fontSize: 20),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => viewprofile(
+                                                userEmail: userEmail,
+                                              )),
+                                    );
+                                  },
+                                  child: const Text('Cancel'),
                                 ),
-                                controller: _gitHubEditingController,
-                                validator: (value) {
-                                  if (value!.isNotEmpty) {
-                                    if (!value.startsWith("https://github.com"))
-                                      return 'The url must start with " https://github.com"';
-                                  }
-                                }),
-                            leading: Icon(
-                              LineIcons.github,
-                              size: 35,
-                              color: Color.fromARGB(255, 93, 18, 107),
-                            ),
-                          ),
-                          Divider(
-                            color: Color.fromARGB(115, 176, 176, 176),
-                          ),
-                          ListTile(
-                            title: Text("Experience"),
-                            subtitle: TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                decoration: const InputDecoration(
-                                  border: UnderlineInputBorder(),
-                                  //  labelText: 'About',
-                                ),
-                                controller: _experienceEditingController,
-                                validator: (value) {
-                                  if (value!.isNotEmpty) {
-                                    if (!RegExp(r'^[a-z A-Z . , -]+$')
-                                            .hasMatch(value!) &&
-                                        !RegExp(r'^[, . - أ-ي]+$')
-                                            .hasMatch(value!)) {
-                                      return "Only English or Arabic letters";
-                                    }
-                                  }
-                                }),
-                            leading: Icon(Icons.calendar_view_day),
-                          ),
-                          Divider(
-                            color: Color.fromARGB(115, 176, 176, 176),
-                          ),
-                          ListTile(
-                            title: Text("Skills"),
-                            subtitle: Column(
-                              children: [
-                                DropDownMultiSelect(
-                                    options: options,
-                                    whenEmpty: 'Select your skills',
-                                    onChanged: (value) {
-                                      selectedOptionList = value;
-                                      selectedOption = "";
-                                      selectedOptionList.forEach((element) {
-                                        selectedOption =
-                                            selectedOption + " " + element;
-                                      });
-                                    },
-                                    selectedValues: selectedOptionList),
                               ],
-                            ),
-                            leading: Icon(Icons.schema_rounded),
-                          ),
-                          Divider(
-                            color: Color.fromARGB(115, 176, 176, 176),
-                          ),
-                          ListTile(
-                            title: Text("Licenses & certifications"),
-                            subtitle: TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                decoration: const InputDecoration(
-                                  border: UnderlineInputBorder(),
-                                  //  labelText: 'About',
-                                ),
-                                controller: _certificationsEditingController,
-                                validator: (value) {
-                                  if (value != null) {
-                                    if (value!.isNotEmpty) {
-                                      if (!RegExp(r'^[a-z A-Z . , -]+$')
-                                              .hasMatch(value!) &&
-                                          !RegExp(r'^[, . - أ-ي]+$')
-                                              .hasMatch(value!)) {
-                                        return "Only English or Arabic letters";
-                                      }
-                                    }
-                                  }
-                                }),
-                            leading: Icon(
-                              Icons.workspace_premium,
-                              size: 33,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 30,
-                      width: 80,
-                    ),
-                    Row(children: <Widget>[
-                      Expanded(
-                          child: Column(children: <Widget>[
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Stack(
-                            children: <Widget>[
-                              Positioned.fill(
-                                child: Container(
-                                  decoration: const BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: <Color>[
-                                        Color.fromARGB(255, 173, 156, 184),
-                                        Color.fromARGB(255, 173, 156, 184),
-                                        Color.fromARGB(255, 173, 156, 184),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.only(
-                                      top: 15.0,
-                                      left: 40,
-                                      right: 40,
-                                      bottom: 15),
-                                  textStyle: const TextStyle(fontSize: 20),
-                                ),
-                                onPressed: () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    // If the form is valid, display a snackbar. In the real world,
-                                    // you'd often call a server or save the information in a database.
-                                    // for sorting purpose
-
-                                    _firestore
-                                        .collection('users')
-                                        .doc(signedInUser.email)
-                                        .set({
-                                      "FirstName": _nameEditingController.text
-                                          .substring(
-                                              0,
-                                              _nameEditingController.text
-                                                  .indexOf(" ")),
-                                      "LastName": _nameEditingController.text
-                                          .substring(_nameEditingController.text
-                                                  .indexOf(" ") +
-                                              1),
-                                      "about": _aboutEditingController.text,
-                                      "experince":
-                                          _experienceEditingController.text,
-                                      "cerifi":
-                                          _certificationsEditingController.text,
-                                      "skills": selectedOptionList,
-                                      "gitHub": _gitHubEditingController.text,
-                                    }, SetOptions(merge: true));
-
-                                    //sucess message
-                                    CoolAlert.show(
-                                      context: context,
-                                      title: "Success!",
-                                      confirmBtnColor:
-                                          Color.fromARGB(144, 64, 7, 87),
-                                      onConfirmBtnTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    viewprofile(
-                                                      userEmail: userEmail,
-                                                    )));
-                                      },
-                                      type: CoolAlertType.success,
-                                      backgroundColor:
-                                          Color.fromARGB(221, 212, 189, 227),
-                                      text: "Profile edited successfuly",
-                                    );
-                                  }
-                                },
-                                child: const Text('Save'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ])),
-                      Expanded(
-                        child: Column(
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Stack(
-                                children: <Widget>[
-                                  Positioned.fill(
-                                    child: Container(
-                                      decoration: const BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: <Color>[
-                                            Color.fromARGB(255, 182, 179, 179),
-                                            Color.fromARGB(255, 182, 179, 179),
-                                            Color.fromARGB(255, 182, 179, 179),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TextButton(
-                                    style: TextButton.styleFrom(
-                                      foregroundColor: Colors.white,
-                                      padding: const EdgeInsets.only(
-                                          top: 15.0,
-                                          left: 40,
-                                          right: 40,
-                                          bottom: 15),
-                                      textStyle: const TextStyle(fontSize: 20),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => viewprofile(
-                                                  userEmail: userEmail,
-                                                )),
-                                      );
-                                    },
-                                    child: const Text('Cancel'),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ]),
-                  ],
-                ),
+                  ]),
+                ],
               ),
             )
           ],
