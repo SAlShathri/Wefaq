@@ -26,7 +26,7 @@ class _myProjectState extends State<myProjects> {
 
   //Looking for list
   var lookingForList = [];
-
+  var project_title = [];
   //category list
   var categoryList = [];
 
@@ -34,7 +34,7 @@ class _myProjectState extends State<myProjects> {
   @override
   void initState() {
     getCurrentUser();
-
+    getRequests();
     getProjects();
     super.initState();
   }
@@ -77,11 +77,81 @@ class _myProjectState extends State<myProjects> {
     }
   }
 
+  Future getRequests() async {
+    if (signedInUser.email != null) {
+      var fillterd = _firestore
+          .collection('AllJoinRequests')
+          .where('participant_email', isEqualTo: Email)
+          .where('Status', isEqualTo: 'Accepted')
+          .snapshots();
+      await for (var snapshot in fillterd)
+        for (var Request in snapshot.docs) {
+          setState(() {
+            nameList.add(Request['project_title']);
+            descList.add(Request['Participant_role']);
+            locList.add(Request['Status']);
+            lookingForList.add(Request['Participant_role']);
+            categoryList.add(Request['Participant_role']);
+          });
+        }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      floatingActionButton: PopupMenuButton(
+        tooltip: "Filter by",
+        icon: CircleAvatar(
+          radius: 27,
+          backgroundColor: Color.fromARGB(255, 72, 115, 134),
+          child: Icon(
+            Icons.filter_list,
+            color: Color.fromARGB(255, 255, 255, 255),
+            size: 40,
+          ),
+        ),
+        itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+          PopupMenuItem(
+            child: ListTile(
+              leading:
+                  Icon(Icons.date_range, color: Color.fromARGB(144, 64, 7, 87)),
+              title: Text(
+                'My Own Projects',
+                style: TextStyle(
+                  color: Color.fromARGB(221, 81, 122, 140),
+                ),
+              ),
+              onTap: () {
+                setState(() {
+                  //Filter by created date
+                  getProjects();
+                });
+              },
+              selectedTileColor: Color.fromARGB(255, 252, 243, 243),
+            ),
+          ),
+          PopupMenuItem(
+            child: ListTile(
+              leading: Icon(Icons.location_on,
+                  color: Color.fromARGB(144, 64, 7, 87)),
+              title: Text(
+                'Participate projects',
+                style: TextStyle(
+                  color: Color.fromARGB(221, 81, 122, 140),
+                ),
+              ),
+              onTap: () {
+                //Filter by nearest
+                getRequests();
+                //getProjectsLoc();
+              },
+            ),
+          ),
+        ],
+      ),
       appBar: AppBar(
         leading: IconButton(
             icon: Icon(

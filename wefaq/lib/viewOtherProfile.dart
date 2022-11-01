@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wefaq/AdminNavBar.dart';
 import 'package:wefaq/AdminuserProject.dart';
 import 'package:wefaq/UserLogin.dart';
+import 'package:wefaq/userPeojectsTap.dart';
 import 'package:wefaq/userProjects.dart';
 import 'package:wefaq/userReport.dart';
 import 'bottom_bar_custom.dart';
@@ -171,7 +172,7 @@ class _viewprofileState extends State<viewotherprofile> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      userProjects(
+                                                      userProjectsTabs(
                                                           userEmail:
                                                               userEmail)),
                                             );

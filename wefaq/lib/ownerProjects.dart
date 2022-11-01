@@ -15,14 +15,14 @@ import 'package:http/http.dart' as http;
 import 'UserLogin.dart';
 
 // Main Stateful Widget Start
-class userProjects extends StatefulWidget {
+class owneruserProjects extends StatefulWidget {
   String userEmail;
-  userProjects({required this.userEmail});
+  owneruserProjects({required this.userEmail});
 
   ListViewPageState createState() => ListViewPageState(this.userEmail);
 }
 
-class ListViewPageState extends State<userProjects> {
+class ListViewPageState extends State<owneruserProjects> {
   String userEmail;
   ListViewPageState(this.userEmail);
 
@@ -43,6 +43,16 @@ class ListViewPageState extends State<userProjects> {
 
   // Title list
   List<String> nameList = [];
+  var descList = [];
+
+  // location list
+  var locList = [];
+
+  //Looking for list
+  var lookingForList = [];
+
+  //category list
+  var categoryList = [];
 
   List<String> joiningAs = [];
 
@@ -60,20 +70,26 @@ class ListViewPageState extends State<userProjects> {
     }
   }
 
-  //get all projects
   Future getProjects() async {
-    await for (var snapshot in _firestore
-        .collection("AllJoinRequests")
-        .where("participant_email", isEqualTo: userEmail)
-        .where("Status", isEqualTo: "Accepted")
-        .snapshots())
-      for (var r in snapshot.docs) {
-        setState(() {
-          nameList.add(r['project_title']);
-          joiningAs.add(r["joiningAs"]);
-        });
-      }
+    if (Email != null) {
+      var fillterd = _firestore
+          .collection('AllProjects')
+          .where('email', isEqualTo: userEmail)
+          .orderBy('created', descending: true)
+          .snapshots();
+      await for (var snapshot in fillterd)
+        for (var project in snapshot.docs) {
+          setState(() {
+            nameList.add(project['name']);
+            descList.add(project['description']);
+            locList.add(project['location']);
+            lookingForList.add(project['lookingFor']);
+            categoryList.add(project['category']);
+          });
+        }
+    }
   }
+  //get all projects
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +151,7 @@ class ListViewPageState extends State<userProjects> {
                                       const Icon(Icons.person,
                                           color:
                                               Color.fromARGB(173, 64, 7, 87)),
-                                      Text(joiningAs[index],
+                                      Text(lookingForList[index],
                                           style: const TextStyle(
                                             fontSize: 16,
                                             color: Color.fromARGB(
