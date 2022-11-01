@@ -27,18 +27,20 @@ class _rateTeammates extends State<rateTeammates> {
   late User signedInUser;
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
+  var Email = FirebaseAuth.instance.currentUser!.email;
 
-  String? Email;
   var usersNames = [];
   var usersEmails = [];
+
   var userWhoRated = [];
   var ratings = [];
+  var photos = [];
   var currentUserEmail = FirebaseAuth.instance.currentUser!.email;
   @override
   void initState() {
-    getCurrentUser();
     getUsersNames();
-
+    getOwnerNames();
+    getPhoto();
     super.initState();
   }
 
@@ -52,24 +54,48 @@ class _rateTeammates extends State<rateTeammates> {
       await for (var snapshot in fillterd)
         for (var Request in snapshot.docs) {
           setState(() {
-            usersNames.add(Request['participant_name'].toString());
-            usersEmails.add(Request['participant_email'].toString());
+            if (Request['participant_email'].toString() != Email) {
+              usersNames.add(Request['participant_name'].toString());
+
+              usersEmails.add(Request['participant_email'].toString());
+            }
           });
         }
     }
   }
 
-  void getCurrentUser() {
-    try {
-      final user = auth.currentUser;
-      if (user != null) {
-        signedInUser = user;
-        Email = signedInUser.uid;
-        print(signedInUser.email);
-      }
-    } catch (e) {
-      print(e);
+  Future getOwnerNames() async {
+    if (Email != null) {
+      var fillterd = _firestore
+          .collection("AllProjects")
+          .where('name', isEqualTo: projectName)
+          .snapshots();
+      await for (var snapshot in fillterd)
+        for (var project in snapshot.docs) {
+          setState(() {
+            if (project['email'].toString() != Email) {
+              usersNames.add(project['fname'].toString());
+              usersEmails.add(project['email'].toString());
+            }
+          });
+        }
     }
+  }
+
+  Future getPhoto() async {
+    for (var email in usersEmails)
+      if (Email != null) {
+        var fillterd = _firestore
+            .collection("users")
+            .where('email', isEqualTo: email)
+            .snapshots();
+        await for (var snapshot in fillterd)
+          for (var user in snapshot.docs) {
+            setState(() {
+              photos.add(user['Profile'].toString());
+            });
+          }
+      }
   }
 
   Widget build(BuildContext context) {
@@ -86,7 +112,7 @@ class _rateTeammates extends State<rateTeammates> {
         backgroundColor: Color.fromARGB(255, 182, 168, 203),
         title: Row(
           children: [
-            Image.asset('assets/images/logo.png', height: 70),
+            Image.network('assets/images/logo.png', height: 70),
             SizedBox(width: 10),
             Text(
               "Rate Teammeate",
@@ -119,39 +145,25 @@ class _rateTeammates extends State<rateTeammates> {
                         Column(
                           children: [
                             Row(children: <Widget>[
-                              Container(
-                                height: 70,
-                                width: 70,
-                                margin: const EdgeInsets.only(right: 5.0),
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                child: IconButton(
-                                    icon: Icon(
-                                      Icons.account_circle,
-                                      color: Color.fromARGB(255, 85, 85, 85),
-                                      size: 44.4,
+                              TextButton(
+                                  child: Text(
+                                    usersNames[index],
+                                    style: const TextStyle(
+                                      fontSize: 19,
+                                      color: Color.fromARGB(212, 82, 10, 111),
+                                      fontWeight: FontWeight.w700,
                                     ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  viewProfileTeamMembers(
-                                                      userEmail:
-                                                          usersEmails[index],
-                                                      projectName:
-                                                          projectName)));
-                                    }),
-                              ),
-                              Text(
-                                usersNames[index],
-                                style: const TextStyle(
-                                  fontSize: 19,
-                                  color: Color.fromARGB(212, 82, 10, 111),
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                viewProfileTeamMembers(
+                                                    userEmail:
+                                                        usersEmails[index],
+                                                    projectName: projectName)));
+                                  }),
                               SizedBox(
                                 width: 120,
                               ),

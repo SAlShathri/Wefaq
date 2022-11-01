@@ -557,29 +557,35 @@ class ChatScreenState extends State<ChatScreen> {
                               ),
                             if (!message.text!.startsWith(
                                 'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/'))
-                              Material(
-                                borderRadius: message.isMe
-                                    ? BorderRadius.only(
-                                        topLeft: Radius.circular(30),
-                                        bottomLeft: Radius.circular(30),
-                                        bottomRight: Radius.circular(30),
-                                      )
-                                    : BorderRadius.only(
-                                        topRight: Radius.circular(30),
-                                        bottomLeft: Radius.circular(30),
-                                        bottomRight: Radius.circular(30),
+                              Container(
+                                margin: message.isMe
+                                    ? EdgeInsets.only(left: 80)
+                                    : EdgeInsets.only(right: 80),
+                                child: Material(
+                                  borderRadius: message.isMe
+                                      ? BorderRadius.only(
+                                          topLeft: Radius.circular(30),
+                                          bottomLeft: Radius.circular(30),
+                                          bottomRight: Radius.circular(30),
+                                        )
+                                      : BorderRadius.only(
+                                          topRight: Radius.circular(30),
+                                          bottomLeft: Radius.circular(30),
+                                          bottomRight: Radius.circular(30),
+                                        ),
+                                  color: message.isMe
+                                      ? Color.fromARGB(255, 182, 168, 203)
+                                      : Color.fromARGB(255, 178, 195, 202),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 10),
+                                    child: Text(
+                                      message.text.toString(),
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
                                       ),
-                                color: message.isMe
-                                    ? Color.fromARGB(255, 182, 168, 203)
-                                    : Color.fromARGB(255, 178, 195, 202),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 10),
-                                  child: Text(
-                                    message.text.toString(),
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: Color.fromARGB(255, 255, 255, 255),
                                     ),
                                   ),
                                 ),
