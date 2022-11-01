@@ -12,6 +12,7 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:record/record.dart';
 import 'package:url_launcher/link.dart';
 import 'package:wefaq/photo.dart';
 import 'package:wefaq/rateTeammates.dart';
@@ -20,6 +21,8 @@ import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wefaq/viewOtherProfile.dart';
 import 'package:wefaq/viewProfileTeamMembers.dart';
+import 'package:voice_message_package/voice_message_package.dart';
+
 // import 'package:open_file/open_file.dart';
 
 String FileText = 'test';
@@ -82,10 +85,72 @@ class ChatScreenState extends State<ChatScreen> {
       print(e);
     }
   }
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   super.dispose();
+  //   ?.dispose();
+  //   _audioRecorder.dispose();
+  // }
 
+  bool startRecord = false;
+  final _audioRecorder = Record();
   File? imageFile;
   ImagePicker _picker = ImagePicker();
   String uploadedFileURL = '';
+
+  Future uploadAudioToFirebase(@required bool start) async {
+    if (start) {
+      ///
+      if (await _audioRecorder.hasPermission()) {
+        try {
+          if (await _audioRecorder.hasPermission()) {
+            final isSupported = await _audioRecorder.isEncoderSupported(
+              AudioEncoder.aacLc,
+            );
+            if (kDebugMode) {
+              print('${AudioEncoder.aacLc.name} supported: $isSupported');
+            }
+            await _audioRecorder.start();
+          }
+        } catch (e) {
+          if (kDebugMode) {
+            print(e);
+          }
+        }
+      }
+    } else {
+      final path = await _audioRecorder.stop();
+      print("Getting recording");
+
+      if (path != null) {
+        print(path);
+        setState(() {
+          imageFile = File(path);
+        });
+        String fileName = imageFile!.path;
+        final reference =
+            FirebaseStorage.instance.ref().child('Recordings/$fileName');
+        UploadTask uploadTask = reference.putFile(imageFile!);
+        await uploadTask.whenComplete(() => null);
+        print('File Uploaded');
+        reference.getDownloadURL().then((fileURL) {
+          setState(() {
+            uploadedFileURL = fileURL;
+            messageText = uploadedFileURL;
+
+            _firestore.collection(projectName + " project").add({
+              "message": messageText,
+              "senderName": FName + " " + LName,
+              "email": userEmail,
+              "time": FieldValue.serverTimestamp(),
+            });
+          });
+        });
+        print(
+            "--------------------------------------- Url $uploadedFileURL -------------------------------------");
+      }
+    }
+  }
 
   Future uploadImageToFirebase() async {
     print("Getting Image from Gallery.");
@@ -311,6 +376,8 @@ class ChatScreenState extends State<ChatScreen> {
       }
   }
 
+  bool played = false;
+
   Future getTokensOwner() async {
     var fillterd = _firestore
         .collection("AllProjects")
@@ -503,7 +570,7 @@ class ChatScreenState extends State<ChatScreen> {
                                         bottomRight: Radius.circular(30),
                                       ),
                                 color: message.isMe
-                                    ? Colors.grey[200]
+                                    ? Color.fromARGB(255, 182, 168, 203)
                                     : Color.fromARGB(255, 178, 195, 202),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -512,11 +579,37 @@ class ChatScreenState extends State<ChatScreen> {
                                     message.text.toString(),
                                     style: TextStyle(
                                       fontSize: 15,
-                                      color: Colors.grey[800],
+                                      color: Color.fromARGB(255, 255, 255, 255),
                                     ),
                                   ),
                                 ),
                               ),
+                            if (message.text!.startsWith(
+                                'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/Recordings'))
+                              VoiceMessage(
+                                audioSrc: message.text.toString(),
+                                played: played, // To show played badge or not.
+                                me: message.isMe ? true : false,
+                                onPlay: () {
+                                  played = true;
+                                },
+                                meBgColor: Color.fromARGB(255, 182, 168, 203),
+                                contactBgColor:
+                                    Color.fromARGB(255, 178, 195, 202),
+                                contactFgColor:
+                                    Color.fromARGB(255, 255, 255, 255),
+                                meFgColor: Color.fromARGB(255, 255, 255, 255),
+                              ),
+                            // VoiceMessage(
+                            //   audioSrc: message.text.toString(),
+                            //   played: played,
+                            //   me: message.isMe ? true : false,
+                            //   onPlay: () {
+                            //     played = true;
+                            //   },
+                            //   meFgColor: Colors.white,
+                            //   meBgColor: Colors.transparent,
+                            // ),
                             if (message.text!.startsWith(
                                 'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images'))
                               Material(
@@ -675,6 +768,9 @@ class ChatScreenState extends State<ChatScreen> {
                                     } else if (messageText!.contains(
                                         'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/files')) {
                                       messageText = 'File';
+                                    } else if (messageText!.contains(
+                                        'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/Recordings')) {
+                                      messageText = ' VoiceNote';
                                     }
                                     if (tokens[i].toString() != token)
                                       sendNotification(
@@ -693,10 +789,24 @@ class ChatScreenState extends State<ChatScreen> {
                                   backgroundColor:
                                       Color.fromARGB(255, 182, 168, 203),
                                 ))
-                            : IconButton(
-                                onPressed: () => options(context),
-                                icon: Icon(Icons.more_vert),
-                              ),
+                            : Row(children: [
+                                IconButton(
+                                    onPressed: () {
+                                      uploadAudioToFirebase(
+                                          startRecord ? false : true);
+                                      setState(() {
+                                        startRecord =
+                                            startRecord ? false : true;
+                                      });
+                                    },
+                                    icon: Icon(startRecord
+                                        ? Icons.stop_circle
+                                        : Icons.mic)),
+                                IconButton(
+                                  onPressed: () => options(context),
+                                  icon: Icon(Icons.attach_file_outlined),
+                                ),
+                              ]),
                         contentPadding: EdgeInsets.symmetric(
                           vertical: 10,
                           horizontal: 20,

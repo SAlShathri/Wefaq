@@ -183,6 +183,32 @@ class _chatScreenState extends State<chatScreen> {
                         if (ProjectTitleList.length != 0)
                           if (index < senders.length)
                             if (lastMessage[index]!.contains(
+                                'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/Recordings'))
+                              Row(children: [
+                                SizedBox(
+                                  width: 40,
+                                ),
+                                if (ProjectTitleList.length != 0)
+                                  if (index < senders.length)
+                                    if (senders[index] != " ")
+                                      Expanded(
+                                        child: Text(
+                                          "       " +
+                                              senders[index] +
+                                              ": " +
+                                              "VoiceNote",
+                                          style: const TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                              ]),
+                        if (ProjectTitleList.length != 0)
+                          if (index < senders.length)
+                            if (lastMessage[index]!.contains(
                                 'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/files'))
                               Row(children: [
                                 SizedBox(
