@@ -544,10 +544,6 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
                                               color: Color.fromARGB(
                                                   255, 34, 94, 120),
                                             )),
-                                        Expanded(
-                                            child: SizedBox(
-                                          width: 100,
-                                        )),
                                         IconButton(
                                             icon: Icon(
                                               Icons.arrow_forward_ios,

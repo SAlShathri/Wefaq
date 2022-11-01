@@ -155,10 +155,12 @@ class _favoritePageState extends State<favoritePage> {
               height: 100,
               child: GestureDetector(
                   child: Card(
-                    color: const Color.fromARGB(255, 255, 255, 255),
+                    //color: const Color.fromARGB(255, 255, 255, 255),
                     //shadowColor: Color.fromARGB(255, 255, 255, 255),
                     //  elevation: 7,
-
+                    color: status[index] == "Active"
+                        ? const Color.fromARGB(255, 255, 255, 255)
+                        : Color.fromARGB(228, 120, 124, 128),
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       child: Column(
@@ -179,10 +181,18 @@ class _favoritePageState extends State<favoritePage> {
                                   ),
                                 ),
                                 Expanded(
-                                  child: SizedBox(
-                                    width: 240,
+                                    child: SizedBox(
+                                  width: 100,
+                                )),
+                                Text(
+                                  status[index],
+                                  style: const TextStyle(
+                                    fontSize: 19,
+                                    color: Color.fromARGB(212, 82, 10, 111),
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
+
                                 /* Text(
                                           creatDate[index],
                                           style: const TextStyle(

@@ -39,7 +39,9 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
     // TODO: implement initState
     getCurrentUser();
     getProjects();
+    getFav();
     isLiked();
+
     super.initState();
   }
 
@@ -110,7 +112,6 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
   List<String> reasons = [];
   List<String> notes = [];
 //List<int> countlist = [];
-
 
   bool _isSelected1 = false;
   bool _isSelected2 = false;
@@ -210,23 +211,14 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
       //favoriteEmail = "";
       ownerEmail = "";
       EventName = "";
-      count = 0;
     });
     await for (var snapshot in _firestore
         .collection('FavoriteEvents')
         .orderBy('created', descending: true)
-        .where('name', isEqualTo: eventName)
+        .where('favoriteEmail', isEqualTo: Email)
         .snapshots())
       for (var fav in snapshot.docs) {
         setState(() {
-          fnameList = fav['eventName'].toString();
-          descList = fav['description'].toString();
-          locList = fav['location'].toString();
-          urlList = fav['URL'].toString();
-          categoryList = fav['category'].toString();
-          dateTimeList = fav['date'].toString();
-          TimeList = fav['time'].toString();
-          EventName = fav['name'].toString();
           ownerEmail = fav['ownerEmail'].toString();
           favoriteEmail = fav['favoriteEmail'].toString();
           status = fav['status'].toString();
@@ -354,18 +346,19 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                               margin: EdgeInsets.only(left: 40),
                               child: ElevatedButton(
                                 onPressed: () {
-                                  if (count >= 3) {
-                                    FirebaseFirestore.instance
-                                        .collection('AllEvent')
-                                        .doc(eventName)
-                                        .delete();
+                                  if (count >= 1) {
+                                    //check here
                                     FirebaseFirestore.instance
                                         .collection('FavoriteEvents')
-                                        .doc(favoriteEmail +
+                                        .doc(Email! +
                                             '-' +
                                             EventName +
                                             '-' +
                                             ownerEmail)
+                                        .update({'status': 'inactive'});
+                                    FirebaseFirestore.instance
+                                        .collection('AllEvent')
+                                        .doc(eventName)
                                         .delete();
 
                                     CoolAlert.show(
@@ -481,61 +474,51 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                         const SizedBox(height: 16.0),
                         Row(
                           children: [
-                              Text("$count",
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                              color: Color.fromARGB(
-                                                  255, 34, 94, 120),
-                                            )),
-                          Container(
-                            margin: EdgeInsets.only(right: 0 , left: 0),
-                            height: 56.0,
-                            width: 32.0,
-                            child: IconButton(
-                                icon: Icon(
-                                  Icons.error_outline,
-                                  color: Color.fromARGB(255, 186, 48, 48),
-                                  size: 30,
-                                  
-                                ),
-                                
-                                
-                                onPressed: () {
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) => reportEvent(
-                                  //             eventName: nameList,
-                                  //             eventOwner: ownerEmail)));
-
-                                }
-                                
-                                ),
-                                
-                          ),
-                         
-                             Container(
-                           height: 50.0,
-                            width: 44.0,
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.only(right: 0),
-                            child: IconButton(
-                                icon: Icon(
-                                  Icons.arrow_forward_ios, 
-                                  color: Color.fromARGB(255, 112, 71, 168),
-                                  size: 30,
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => AdminReportedEvent(
-                                              eventName: nameList,
-                                              )));
-
-                                }
-                                ),
-                          ),
+                            Text("$count",
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromARGB(255, 34, 94, 120),
+                                )),
+                            Container(
+                              margin: EdgeInsets.only(right: 0, left: 0),
+                              height: 56.0,
+                              width: 32.0,
+                              child: IconButton(
+                                  icon: Icon(
+                                    Icons.error_outline,
+                                    color: Color.fromARGB(255, 186, 48, 48),
+                                    size: 30,
+                                  ),
+                                  onPressed: () {
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) => reportEvent(
+                                    //             eventName: nameList,
+                                    //             eventOwner: ownerEmail)));
+                                  }),
+                            ),
+                            Container(
+                              height: 50.0,
+                              width: 44.0,
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.only(right: 0),
+                              child: IconButton(
+                                  icon: Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Color.fromARGB(255, 112, 71, 168),
+                                    size: 30,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AdminReportedEvent(
+                                                  eventName: nameList,
+                                                )));
+                                  }),
+                            ),
                           ],
                         ),
                       ],
@@ -655,7 +638,6 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                                     )),
                               )),
                     ),
-                  
                     SizedBox(height: 20),
                     Container(
                       alignment: Alignment.center,
