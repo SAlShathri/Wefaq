@@ -226,13 +226,15 @@ class _favoritePageState extends State<favoritePage> {
                                       color: Color.fromARGB(255, 170, 169, 179),
                                     ),
                                     onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  eventDetailScreen(
-                                                    eventName: nameList[index],
-                                                  )));
+                                      if (status[index] == "Active")
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    eventDetailScreen(
+                                                      eventName:
+                                                          nameList[index],
+                                                    )));
                                     }),
                               ],
                             ),
@@ -242,12 +244,13 @@ class _favoritePageState extends State<favoritePage> {
                     ),
                   ),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => eventDetailScreen(
-                                  eventName: nameList[index],
-                                )));
+                    if (status[index] == "Active")
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => eventDetailScreen(
+                                    eventName: nameList[index],
+                                  )));
                   }),
             );
           },
