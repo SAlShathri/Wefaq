@@ -30,6 +30,7 @@ class ReportedAccState extends State<ReportedAccList> {
   List<String> user_who_reporting_List = [];
   List<String> Reason = [];
   List<String> Note = [];
+  List<String> status = [];
 
   String? Email;
   void getCurrentUser() {

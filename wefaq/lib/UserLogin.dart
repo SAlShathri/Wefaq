@@ -188,6 +188,11 @@ class _UserLogin extends State<UserLogin> {
                         .where("Email", isEqualTo: email)
                         .where("status", isEqualTo: "deleted")
                         .get();
+                    final deltedByAdmin = await FirebaseFirestore.instance
+                        .collection('users')
+                        .where("Email", isEqualTo: email)
+                        .where("status", isEqualTo: "deletedByAdmin")
+                        .get();
                     //if ( rec.docs.isEmpty)
 
                     if (rec.docs.isNotEmpty) {
@@ -206,6 +211,8 @@ class _UserLogin extends State<UserLogin> {
                           Navigator.of(context).pop();
                         },
                       );
+                    } else if (deltedByAdmin.docs.isNotEmpty) {
+                      showDialogFunc2();
                     }
 
                     //loding indicator
@@ -525,6 +532,94 @@ class _UserLogin extends State<UserLogin> {
                                         color:
                                             Color.fromARGB(255, 255, 255, 255)),
                                   ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  )));
+        });
+  }
+
+  showDialogFunc2() {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+              child: Material(
+                  type: MaterialType.transparency,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    padding: const EdgeInsets.all(15),
+                    height: 190,
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        // Code for acceptance role
+
+                        Row(children: <Widget>[
+                          Expanded(
+                            flex: 2,
+                            child: GestureDetector(
+                              child: Text(
+                                "your account is deleted by the admin ",
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(159, 64, 7, 87),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              onTap: () {
+                                // go to participant's profile
+                              },
+                            ),
+                          ),
+                          // const SizedBox(
+                          //   height: 10,
+                          // ),
+                        ]),
+                        SizedBox(
+                          height: 35,
+                        ),
+                        //----------------------------------------------------------------------------
+                        Row(
+                          children: <Widget>[
+                            Text(""),
+                            Text("        "),
+                            ElevatedButton(
+                              onPressed: () async {
+                                Navigator.pop(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                surfaceTintColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(80.0)),
+                                padding: const EdgeInsets.all(0),
+                              ),
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 40.0,
+                                width: 100,
+                                decoration: new BoxDecoration(
+                                    borderRadius: BorderRadius.circular(9.0),
+                                    gradient: new LinearGradient(colors: [
+                                      Color.fromARGB(144, 176, 175, 175),
+                                      Color.fromARGB(144, 176, 175, 175),
+                                    ])),
+                                padding: const EdgeInsets.all(0),
+                                child: Text(
+                                  "Ok",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color:
+                                          Color.fromARGB(255, 255, 255, 255)),
                                 ),
                               ),
                             ),
