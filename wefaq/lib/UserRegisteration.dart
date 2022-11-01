@@ -465,23 +465,52 @@ class _UserRegistratin extends State<UserRegistratin> {
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                  child: GestureDetector(
+                 Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Already Have an Account? ",
+                    style: TextStyle(
+                        // decoration: TextDecoration.underline,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(123, 11, 13, 18)),
+                  ),
+                  GestureDetector(
                     onTap: () => {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => UserLogin()))
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UserLogin()))
                     },
                     child: Text(
-                      "Already Have an Account? Log in",
+                      "Log in",
                       style: TextStyle(
                           decoration: TextDecoration.underline,
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(123, 11, 13, 18)),
+                          color: Color.fromARGB(199, 66, 23, 139)),
                     ),
                   ),
-                )
+                ],
+              )
+                // Container(
+                //   margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                //   child: GestureDetector(
+                //     onTap: () => {
+                //       Navigator.push(context,
+                //           MaterialPageRoute(builder: (context) => UserLogin()))
+                //     },
+                //     child: Text(
+                //       "Already Have an Account? Log in",
+                //       style: TextStyle(
+                //           decoration: TextDecoration.underline,
+                //           fontSize: 12,
+                //           fontWeight: FontWeight.bold,
+                //           color: Color.fromARGB(123, 11, 13, 18)),
+                //     ),
+                //   ),
+                // )
               ],
             ),
           ),
