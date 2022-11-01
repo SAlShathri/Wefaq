@@ -18,7 +18,7 @@ class RBackground extends StatelessWidget {
         alignment: Alignment.center,
         children: <Widget>[
           Positioned(
-            top: 182,
+            top: 286,
             right: 0,
             child: Image.asset("assets/images/ii.png", width: size.width),
           ),

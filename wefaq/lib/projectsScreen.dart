@@ -481,8 +481,10 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
         Padding(
           padding: const EdgeInsets.all(7.0),
           child: TextFormField(
+            onEditingComplete:(){   getCategory(_searchEditingController!.text);},
             controller: _searchEditingController,
             decoration: InputDecoration(
+              
               contentPadding: EdgeInsets.symmetric(vertical: 15.0),
 
               border: OutlineInputBorder(
