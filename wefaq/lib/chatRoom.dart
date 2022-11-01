@@ -143,6 +143,7 @@ class ChatScreenState extends State<ChatScreen> {
               "senderName": FName + " " + LName,
               "email": userEmail,
               "time": FieldValue.serverTimestamp(),
+              "FileNameI": '',
             });
           });
         });
@@ -177,6 +178,7 @@ class ChatScreenState extends State<ChatScreen> {
             "senderName": FName + " " + LName,
             "email": userEmail,
             "time": FieldValue.serverTimestamp(),
+            "FileNameI": '',
           });
         });
       });
@@ -213,6 +215,7 @@ class ChatScreenState extends State<ChatScreen> {
             "senderName": FName + " " + LName,
             "email": userEmail,
             "time": FieldValue.serverTimestamp(),
+            "FileNameI": '',
           });
         });
       });
@@ -231,7 +234,6 @@ class ChatScreenState extends State<ChatScreen> {
       print(f.bytes);
       print(f.size);
       print(f.extension);
-
       print(f.path);
       File file = File(result.files.single.path!);
       setState(() {
@@ -252,6 +254,7 @@ class ChatScreenState extends State<ChatScreen> {
             "senderName": FName + " " + LName,
             "email": userEmail,
             "time": FieldValue.serverTimestamp(),
+            "FileNameI": f.name,
           });
         });
       });
@@ -451,6 +454,8 @@ class ChatScreenState extends State<ChatScreen> {
                   for (var message in messages) {
                     var messageText = message.get("message");
                     final messageSender = message.get("senderName");
+                    final messageFileName = message.get("FileNameI");
+
                     senderEmail = message.get("email");
                     if (message.get("time") != null) {
                       timeH = message.get("time").toDate().hour;
@@ -460,11 +465,13 @@ class ChatScreenState extends State<ChatScreen> {
                           .format(message.get("time").toDate());
                     }
                     if (messageText == null) messageText = ' ';
+
                     final messageWidget = MessageLine(
                         hour: timeH,
                         minute: timeM,
                         text: messageText,
                         sender: messageSender,
+                        filename: messageFileName,
                         img: imageFile,
                         isMe: signedInUser.email == senderEmail,
                         date: dateM.toString(),
@@ -697,15 +704,25 @@ class ChatScreenState extends State<ChatScreen> {
                                     uri: Uri.parse(
                                       message.text.toString(),
                                     ),
-                                    builder: (context, followLink) =>
+                                    builder: (context, followLink) => Column(
+                                      children: [
                                         IconButton(
-                                      onPressed: () =>
-                                          launch(message.text.toString()),
-                                      icon: Icon(
-                                        Icons.file_present_outlined,
-                                        size: 40,
-                                      ),
-                                      color: Color.fromARGB(255, 150, 138, 169),
+                                          onPressed: () =>
+                                              launch(message.text.toString()),
+                                          icon: Icon(
+                                            Icons.file_present_outlined,
+                                            size: 40,
+                                          ),
+                                          color: Color.fromARGB(
+                                              255, 150, 138, 169),
+                                        ),
+                                        Text(message.filename.toString(),
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                              color: Color.fromARGB(
+                                                  255, 109, 107, 110),
+                                            )),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -763,6 +780,7 @@ class ChatScreenState extends State<ChatScreen> {
                                     "senderName": FName + " " + LName,
                                     "email": userEmail,
                                     "time": FieldValue.serverTimestamp(),
+                                    "FileNameI": '',
                                   });
                                   String? token = await FirebaseMessaging
                                       .instance
@@ -839,6 +857,7 @@ class MessageLine {
       this.hour,
       this.minute,
       this.sender,
+      this.filename,
       required this.isMe,
       required this.date,
       required this.time,
@@ -847,6 +866,8 @@ class MessageLine {
   final int? hour;
   final int? minute;
   final String? sender;
+  final String? filename;
+
   final String? text;
   final String date;
   final String email;
