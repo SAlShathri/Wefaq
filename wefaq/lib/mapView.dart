@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -206,6 +208,11 @@ class MapSampleState extends State<MapSample> {
           ),
           Expanded(
             child: GoogleMap(
+              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+                new Factory<OneSequenceGestureRecognizer>(
+                  () => new EagerGestureRecognizer(),
+                ),
+              ].toSet(),
               mapType: MapType.normal,
               markers: markers.toSet(),
               onMapCreated: (GoogleMapController controller) {

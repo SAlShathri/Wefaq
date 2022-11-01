@@ -25,8 +25,6 @@
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSApplicationQueriesSchemes</key>
-	<key>NSMicrophoneUsageDescription</key>
-<string>We need to access to the microphone to record audio file</string>
 	<array>
 		<string>https</string>
 		<string>http</string>

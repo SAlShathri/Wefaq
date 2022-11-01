@@ -73,7 +73,7 @@ class _ListViewTabsState extends State<Tabs> {
               ],
             ),
           ),
-          body: TabBarView(children: [
+          body: TabBarView(physics: NeverScrollableScrollPhysics(), children: [
             PsentJoinRequestListViewPage(),
             AsentJoinRequestListViewPage(),
             DsentJoinRequestListViewPage()

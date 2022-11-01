@@ -58,7 +58,9 @@ class _ListViewTabsState extends State<EventsTabs> {
               ],
             ),
           ),
-          body: TabBarView(children: [EventsListViewPage(), MapSampleEvents()]),
+          body: TabBarView(
+              physics: NeverScrollableScrollPhysics(),
+              children: [EventsListViewPage(), MapSampleEvents()]),
           bottomNavigationBar: CustomNavigationBar(
             currentHomeScreen: 3,
             updatePage: () {},
