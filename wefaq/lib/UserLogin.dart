@@ -212,7 +212,19 @@ class _UserLogin extends State<UserLogin> {
                         },
                       );
                     } else if (deltedByAdmin.docs.isNotEmpty) {
-                      showDialogFunc2();
+                        CoolAlert.show(
+                            context: context,
+                            title: "Sorry",
+                            confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
+                            //cancelBtnColor: Color.fromARGB(144, 64, 6, 87),
+                            type: CoolAlertType.error,
+                            backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                            text: "your account is deleted by the admin due to voialtion been detected on your account",
+                            confirmBtnText: 'ok',
+                            onConfirmBtnTap: () {
+                              Navigator.of(context).pop();
+                            },
+                          );
                     }
 
                     //loding indicator
