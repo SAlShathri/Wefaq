@@ -93,7 +93,7 @@ class _viewprofileState extends State<adminviewotherprofile> {
                             flex: 2,
                             child: GestureDetector(
                               child: Text(
-                                "Are you sure you want to delete event?",
+                                "Are you sure you want to delete account?",
                                 style: const TextStyle(
                                   fontSize: 18,
                                   color: Color.fromARGB(159, 64, 7, 87),
@@ -155,12 +155,12 @@ class _viewprofileState extends State<adminviewotherprofile> {
                                   FirebaseFirestore.instance
                                       .collection('users')
                                       .doc(userEmail)
-                                      .delete();
+                                      .update({'status': 'deletedByAdmin'});
 
                                   CoolAlert.show(
                                     context: context,
                                     title:
-                                        "the event was deleted successfully ",
+                                        "the account was deleted successfully ",
                                     confirmBtnColor:
                                         Color.fromARGB(144, 64, 7, 87),
                                     onConfirmBtnTap: () {
