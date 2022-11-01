@@ -640,6 +640,7 @@ class ChatScreenState extends State<ChatScreen> {
                 children: [
                   Expanded(
                     child: TextFormField(
+                      maxLines: null,
                       controller: messageTextEditingControlle,
                       onChanged: (value) {
                         setState(() {
