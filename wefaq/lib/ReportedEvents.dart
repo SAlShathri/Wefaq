@@ -88,6 +88,7 @@ class ReportedEventsState extends State<ReportedEventsList> {
                 updatePage: () {},
               ),
               appBar: AppBar(
+                automaticallyImplyLeading: false,
                 backgroundColor: Color.fromARGB(255, 145, 124, 178),
                 actions: <Widget>[
                   IconButton(
