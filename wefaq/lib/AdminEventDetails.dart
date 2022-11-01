@@ -15,6 +15,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:wefaq/eventsTabs.dart';
+import 'package:wefaq/models/user.dart';
 import 'package:wefaq/screens/detail_screens/widgets/event_detail_appbar.dart';
 import 'package:wefaq/service/local_push_notification.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -56,6 +57,24 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
     } catch (e) {
       print(e);
     }
+  }
+
+  var userEmail = [];
+
+  Future getFav() async {
+    //clear first
+    setState(() {
+      userEmail = [];
+    });
+    await for (var snapshot in _firestore
+        .collection('FavoriteEvents')
+        .where('eventName', isEqualTo: eventName)
+        .snapshots())
+      for (var events in snapshot.docs) {
+        setState(() {
+          userEmail.add(events['favoriteEmail']);
+        });
+      }
   }
 
   String eventName;
@@ -198,36 +217,6 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
       }
   }
 
-  Future getFav() async {
-    //clear first
-    setState(() {
-      nameList = "";
-      descList = "";
-      locList = "";
-      urlList = "";
-      categoryList = "";
-      dateTimeList = "";
-      TimeList = "";
-      //favoriteEmail = "";
-      ownerEmail = "";
-      EventName = "";
-    });
-    await for (var snapshot in _firestore
-        .collection('FavoriteEvents')
-        .orderBy('created', descending: true)
-        .where('favoriteEmail', isEqualTo: Email)
-        .snapshots())
-      for (var fav in snapshot.docs) {
-        setState(() {
-          ownerEmail = fav['ownerEmail'].toString();
-          favoriteEmail = fav['favoriteEmail'].toString();
-          status = fav['status'].toString();
-
-          //  dateTimeList.add(project['dateTime ']);
-        });
-      }
-  }
-
   Future getReports() async {
     setState(() {
       reasons = [];
@@ -347,15 +336,15 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   if (count >= 1) {
-                                    //check here
-                                    FirebaseFirestore.instance
-                                        .collection('FavoriteEvents')
-                                        .doc(Email! +
-                                            '-' +
-                                            EventName +
-                                            '-' +
-                                            ownerEmail)
-                                        .update({'status': 'inactive'});
+                                    for (var i = 0; i < userEmail.length; i++)
+                                      FirebaseFirestore.instance
+                                          .collection('FavoriteEvents')
+                                          .doc(userEmail[i]! +
+                                              '-' +
+                                              EventName +
+                                              '-' +
+                                              ownerEmail)
+                                          .update({'status': 'inactive'});
                                     FirebaseFirestore.instance
                                         .collection('AllEvent')
                                         .doc(eventName)
