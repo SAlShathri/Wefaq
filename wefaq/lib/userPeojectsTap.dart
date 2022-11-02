@@ -63,7 +63,7 @@ class _ListViewTabsState extends State<userProjectsTabs> {
               tabs: [
                 Tab(text: 'participated Projects'),
                 Tab(
-                  text: 'My projects',
+                  text: 'Owned projects',
                 ),
               ],
             ),
