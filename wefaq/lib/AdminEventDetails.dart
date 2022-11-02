@@ -257,90 +257,16 @@ var Reporter = [];
     }
   } */
   showDialogFunc(context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return Center(
-              child: Material(
-                  type: MaterialType.transparency,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                    ),
-                    padding: const EdgeInsets.all(15),
-                    height: 190,
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        // Code for acceptance role
-
-                        Row(children: <Widget>[
-                          Expanded(
-                            flex: 2,
-                            child: GestureDetector(
-                              child: Text(
-                                "Are you sure you want to delete event?",
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Color.fromARGB(159, 64, 7, 87),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              onTap: () {
-                                // go to participant's profile
-                              },
-                            ),
-                          ),
-                          // const SizedBox(
-                          //   height: 10,
-                          // ),
-                        ]),
-                        SizedBox(
-                          height: 35,
-                        ),
-                        //----------------------------------------------------------------------------
-                        Row(
-                          children: <Widget>[
-                            Text(""),
-                            Text("        "),
-                            ElevatedButton(
-                              onPressed: () async {
-                                Navigator.pop(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                surfaceTintColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(80.0)),
-                                padding: const EdgeInsets.all(0),
-                              ),
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 40.0,
-                                width: 100,
-                                decoration: new BoxDecoration(
-                                    borderRadius: BorderRadius.circular(9.0),
-                                    gradient: new LinearGradient(colors: [
-                                      Color.fromARGB(144, 176, 175, 175),
-                                      Color.fromARGB(144, 176, 175, 175),
-                                    ])),
-                                padding: const EdgeInsets.all(0),
-                                child: Text(
-                                  "Cancel",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color:
-                                          Color.fromARGB(255, 255, 255, 255)),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 40),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  if (count >= 1) {
+     CoolAlert.show(
+                          context: context,
+                          title: "",
+                          confirmBtnColor: Color.fromARGB(255, 181, 47, 47),
+                        //  cancelBtnColor: Colors.black,
+                        //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
+                          confirmBtnText: 'Delete ',
+                          //cancelBtnText: 'Delete' ,
+                             onConfirmBtnTap: () {
+                            if (count >= 1) {
                                     for (var i = 0; i < userEmail.length; i++)
                                       FirebaseFirestore.instance
                                           .collection('FavoriteEvents')
@@ -405,45 +331,201 @@ var Reporter = [];
                                       backgroundColor:
                                           Color.fromARGB(221, 212, 189, 227),
                                     );
-                                  // deleteprofile();
-                                  // Navigator.push(context,
-                                  // MaterialPageRoute(builder: (context) => UserLogin()));
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  surfaceTintColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(80.0)),
-                                  padding: const EdgeInsets.all(0),
-                                ),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  height: 40.0,
-                                  width: 100,
-                                  decoration: new BoxDecoration(
-                                      borderRadius: BorderRadius.circular(9.0),
-                                      gradient: new LinearGradient(colors: [
-                                        Color.fromARGB(144, 210, 2, 2),
-                                        Color.fromARGB(144, 210, 2, 2)
-                                      ])),
-                                  padding: const EdgeInsets.all(0),
-                                  child: Text(
-                                    "Delete",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  )));
-        });
+                          },
+                    
+                          type: CoolAlertType.confirm,
+                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                          text:
+                              "Are you sure you want to delete event?",
+                        );
+   
+//     return showDialog(
+//         context: context,
+//         builder: (context) {
+//           return Center(
+//               child: Material(
+//                   type: MaterialType.transparency,
+//                   child: Container(
+//                     decoration: BoxDecoration(
+//                       borderRadius: BorderRadius.circular(10),
+//                       color: const Color.fromARGB(255, 255, 255, 255),
+//                     ),
+//                     padding: const EdgeInsets.all(15),
+//                     height: 190,
+//                     width: MediaQuery.of(context).size.width * 0.85,
+//                     child: Column(
+//                       crossAxisAlignment: CrossAxisAlignment.center,
+//                       children: <Widget>[
+//                         // Code for acceptance role
+
+//                         Row(children: <Widget>[
+//                           Expanded(
+//                             flex: 2,
+//                             child: GestureDetector(
+//                               child: Text(
+//                                 "Are you sure you want to delete event?",
+//                                 style: const TextStyle(
+//                                   fontSize: 18,
+//                                   color: Color.fromARGB(159, 64, 7, 87),
+//                                   fontWeight: FontWeight.bold,
+//                                 ),
+//                               ),
+//                               onTap: () {
+//                                 // go to participant's profile
+//                               },
+//                             ),
+//                           ),
+//                           // const SizedBox(
+//                           //   height: 10,
+//                           // ),
+//                         ]),
+//                         SizedBox(
+//                           height: 35,
+//                         ),
+//                         //----------------------------------------------------------------------------
+//                         Row(
+//                           children: <Widget>[
+//                             Text(""),
+//                             Text("        "),
+//                             ElevatedButton(
+//                               onPressed: () async {
+//                                 Navigator.pop(context);
+//                               },
+//                               style: ElevatedButton.styleFrom(
+//                                 surfaceTintColor: Colors.white,
+//                                 shape: RoundedRectangleBorder(
+//                                     borderRadius: BorderRadius.circular(80.0)),
+//                                 padding: const EdgeInsets.all(0),
+//                               ),
+//                               child: Container(
+//                                 alignment: Alignment.center,
+//                                 height: 40.0,
+//                                 width: 100,
+//                                 decoration: new BoxDecoration(
+//                                     borderRadius: BorderRadius.circular(9.0),
+//                                     gradient: new LinearGradient(colors: [
+//                                       Color.fromARGB(144, 176, 175, 175),
+//                                       Color.fromARGB(144, 176, 175, 175),
+//                                     ])),
+//                                 padding: const EdgeInsets.all(0),
+//                                 child: Text(
+//                                   "Cancel",
+//                                   style: TextStyle(
+//                                       fontSize: 16,
+//                                       fontWeight: FontWeight.w600,
+//                                       color:
+//                                           Color.fromARGB(255, 255, 255, 255)),
+//                                 ),
+//                               ),
+//                             ),
+//                             Container(
+//                               margin: EdgeInsets.only(left: 40),
+//                               child: ElevatedButton(
+//                                 onPressed: () {
+//                                   if (count >= 1) {
+//                                     for (var i = 0; i < userEmail.length; i++)
+//                                       FirebaseFirestore.instance
+//                                           .collection('FavoriteEvents')
+//                                           .doc(userEmail[i]! +
+//                                               '-' +
+//                                               EventName +
+//                                               '-' +
+//                                               ownerEmail)
+//                                           .update({'status': 'inactive'});
+//                                     FirebaseFirestore.instance
+//                                         .collection('AllEvent')
+//                                         .doc(eventName)
+//                                         .delete();
+//  for (var i = 0; i < Reporter.length; i++)
+//                                       FirebaseFirestore.instance
+//                                           .collection('reportedevents')
+//                                           .doc(EventName + '-' + Reporter[i]!)
+//                                           .update({'status': 'resolved'});
+
+//                                     CoolAlert.show(
+//                                       context: context,
+//                                       title:
+//                                           "the event was deleted successfully ",
+//                                       confirmBtnColor:
+//                                           Color.fromARGB(144, 64, 7, 87),
+//                                       onConfirmBtnTap: () {
+//                                         Navigator.push(
+//                                             context,
+//                                             MaterialPageRoute(
+//                                                 builder: (context) =>
+//                                                     AdminTabs()));
+//                                       },
+//                                       type: CoolAlertType.success,
+//                                       backgroundColor:
+//                                           Color.fromARGB(221, 212, 189, 227),
+//                                     );
+//                                   }
+
+//                                   /*FirebaseFirestore.instance
+//                                       .collection('FavoriteEvents')
+//                                       .doc(favoriteEmail +
+//                                           "-" +
+//                                           eventName +
+//                                           "-" +
+//                                           ownerEmail)
+//                                       .delete();*/
+//                                   else
+//                                     CoolAlert.show(
+//                                       context: context,
+//                                       title:
+//                                           "You cannot delete the event because the number of reports is less than 3",
+//                                       confirmBtnColor:
+//                                           Color.fromARGB(144, 64, 7, 87),
+//                                       onConfirmBtnTap: () {
+//                                         Navigator.push(
+//                                             context,
+//                                             MaterialPageRoute(
+//                                                 builder: (context) =>
+//                                                     adminEventsListViewPage()));
+//                                       },
+//                                       type: CoolAlertType.error,
+//                                       backgroundColor:
+//                                           Color.fromARGB(221, 212, 189, 227),
+//                                     );
+//                                   // deleteprofile();
+//                                   // Navigator.push(context,
+//                                   // MaterialPageRoute(builder: (context) => UserLogin()));
+//                                 },
+//                                 style: ElevatedButton.styleFrom(
+//                                   surfaceTintColor: Colors.white,
+//                                   shape: RoundedRectangleBorder(
+//                                       borderRadius:
+//                                           BorderRadius.circular(80.0)),
+//                                   padding: const EdgeInsets.all(0),
+//                                 ),
+//                                 child: Container(
+//                                   alignment: Alignment.center,
+//                                   height: 40.0,
+//                                   width: 100,
+//                                   decoration: new BoxDecoration(
+//                                       borderRadius: BorderRadius.circular(9.0),
+//                                       gradient: new LinearGradient(colors: [
+//                                         Color.fromARGB(144, 210, 2, 2),
+//                                         Color.fromARGB(144, 210, 2, 2)
+//                                       ])),
+//                                   padding: const EdgeInsets.all(0),
+//                                   child: Text(
+//                                     "Delete",
+//                                     style: TextStyle(
+//                                         fontSize: 16,
+//                                         fontWeight: FontWeight.w600,
+//                                         color:
+//                                             Color.fromARGB(255, 255, 255, 255)),
+//                                   ),
+//                                 ),
+//                               ),
+//                             ),
+//                           ],
+//                         )
+//                       ],
+//                     ),
+//                   )));
+//         });
   }
 
   @override
