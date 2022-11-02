@@ -369,55 +369,16 @@ class _UserLogin extends State<UserLogin> {
   }
 
   showDialogFunc() {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return Center(
-              child: Material(
-                  type: MaterialType.transparency,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                    ),
-                    padding: const EdgeInsets.all(15),
-                    height: 210,
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        // Code for acceptance role
-                        Row(children: <Widget>[
-                          Expanded(
-                            flex: 2,
-                            child: GestureDetector(
-                              child: Text(
-                                "your account is inactive, do you want to restore it or delete it immediately?",
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Color.fromARGB(159, 64, 7, 87),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              onTap: () {
-                                // go to participant's profile
-                              },
-                            ),
-                          ),
-                          // const SizedBox(
-                          //   height: 10,
-                          // ),
-                        ]),
-                        SizedBox(
-                          height: 35,
-                        ),
-                        //----------------------------------------------------------------------------
-                        Row(
-                          children: <Widget>[
-                            Text(""),
-                            Text("        "),
-                            ElevatedButton(
-                              onPressed: () async {
+               CoolAlert.show(
+                          context: context,
+                          title: "",
+                          confirmBtnColor: Color.fromARGB(144, 74, 234, 90),
+                        //  cancelBtnColor: Colors.black,
+                          cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
+                          confirmBtnText: 'restore ',
+                          cancelBtnText: 'Delete' ,
+                             onConfirmBtnTap: () {
+                            print("restore");
                                 FirebaseFirestore.instance
                                     .collection('users')
                                     .doc(FirebaseAuth
@@ -441,49 +402,9 @@ class _UserLogin extends State<UserLogin> {
                                       Color.fromARGB(221, 212, 189, 227),
                                   text: "you will be logged in",
                                 );
-                                //  FirebaseFirestore.instance
-                                //       .collection('users')
-                                //       .doc(FirebaseAuth
-                                //           .instance.currentUser!.email)
-                                //       .update({'status': 'deleted'});
-                                // deleteprofile();
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => UserLogin()));
-                              },
-                              style: ElevatedButton.styleFrom(
-                                surfaceTintColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(80.0)),
-                                padding: const EdgeInsets.all(0),
-                              ),
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 40.0,
-                                width: 100,
-                                decoration: new BoxDecoration(
-                                    borderRadius: BorderRadius.circular(9.0),
-                                    gradient: new LinearGradient(colors: [
-                                      Color.fromARGB(152, 24, 205, 33),
-                                      Color.fromARGB(152, 24, 205, 33)
-                                    ])),
-                                padding: const EdgeInsets.all(0),
-                                child: Text(
-                                  "restore",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color:
-                                          Color.fromARGB(255, 255, 255, 255)),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 40),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  FirebaseFirestore.instance
+                          },
+                          onCancelBtnTap: (){
+           FirebaseFirestore.instance
                                       .collection('users')
                                       .doc(FirebaseAuth
                                           .instance.currentUser!.email)
@@ -508,51 +429,14 @@ class _UserLogin extends State<UserLogin> {
                                   );
 
                                   deleteprofile();
-
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) => UserLogin()));
-
-                                  // deleteprofile();
-                                  // Navigator.push(context,
-                                  // MaterialPageRoute(builder: (context) => UserLogin()));
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  surfaceTintColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(80.0)),
-                                  padding: const EdgeInsets.all(0),
-                                ),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  height: 40.0,
-                                  width: 100,
-                                  decoration: new BoxDecoration(
-                                      borderRadius: BorderRadius.circular(9.0),
-                                      gradient: new LinearGradient(colors: [
-                                        Color.fromARGB(144, 210, 2, 2),
-                                        Color.fromARGB(144, 210, 2, 2)
-                                      ])),
-                                  padding: const EdgeInsets.all(0),
-                                  child: Text(
-                                    "delete",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  )));
-        });
+                          },
+                       
+                          type: CoolAlertType.confirm,
+                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                          text:
+                              "your account is inactive, do you want to restore it or delete it immediately?",
+                        );
+   
   }
 
   showDialogFunc2() {
