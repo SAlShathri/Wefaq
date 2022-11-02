@@ -17,16 +17,18 @@ import 'package:wefaq/screens/detail_screens/project_detail_screen.dart';
 import 'package:wefaq/service/local_push_notification.dart';
 import 'package:http/http.dart' as http;
 
+import 'AdminEventList.dart';
+
 // Main Stateful Widget Start
 class AdminReportedEvent extends StatefulWidget {
   @override
 //  AdminReportedEventState createState() => AdminReportedEventState();
-    String eventName;
-  
-   AdminReportedEvent({required this.eventName});
+  String eventName;
 
-   @override
-   State<AdminReportedEvent> createState() => AdminReportedEventState(eventName);
+  AdminReportedEvent({required this.eventName});
+
+  @override
+  State<AdminReportedEvent> createState() => AdminReportedEventState(eventName);
 }
 
 class AdminReportedEventState extends State<AdminReportedEvent> {
@@ -34,11 +36,14 @@ class AdminReportedEventState extends State<AdminReportedEvent> {
   void initState() {
     getCurrentUser();
     getReportedEvents();
+    getFav();
+    getProjects();
     super.initState();
   }
-    String eventName;
- 
-   AdminReportedEventState(this.eventName);
+
+  String eventName;
+
+  AdminReportedEventState(this.eventName);
 
   @override
   void dispose() {
@@ -66,22 +71,247 @@ class AdminReportedEventState extends State<AdminReportedEvent> {
     }
   }
 
-  
+  var userEmail = [];
+  int count = 0;
+  String ownerEmail = "";
+
+  Future getProjects() async {
+    //clear first
+    setState(() {
+      //favoriteEmail = "";
+      ownerEmail = "";
+      count = 0;
+    });
+    await for (var snapshot in _firestore
+        .collection('AllEvent')
+        .orderBy('created', descending: true)
+        .where('name', isEqualTo: eventName)
+        .snapshots())
+      for (var events in snapshot.docs) {
+        setState(() {
+          ownerEmail = events['email'].toString();
+          count = events['count'];
+
+          //  dateTimeList.add(project['dateTime ']);
+        });
+      }
+  }
+
+  Future getFav() async {
+    //clear first
+    setState(() {
+      userEmail = [];
+    });
+    await for (var snapshot in _firestore
+        .collection('FavoriteEvents')
+        .where('eventName', isEqualTo: eventName)
+        .snapshots())
+      for (var events in snapshot.docs) {
+        setState(() {
+          userEmail.add(events['favoriteEmail']);
+        });
+      }
+  }
+
+  showDialogFunc() {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+              child: Material(
+                  type: MaterialType.transparency,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    padding: const EdgeInsets.all(15),
+                    height: 190,
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        // Code for acceptance role
+
+                        Row(children: <Widget>[
+                          Expanded(
+                            flex: 2,
+                            child: GestureDetector(
+                              child: Text(
+                                "Are you sure you want to delete event?",
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(159, 64, 7, 87),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              onTap: () {
+                                // go to participant's profile
+                              },
+                            ),
+                          ),
+                          // const SizedBox(
+                          //   height: 10,
+                          // ),
+                        ]),
+                        SizedBox(
+                          height: 35,
+                        ),
+                        //----------------------------------------------------------------------------
+                        Row(
+                          children: <Widget>[
+                            Text(""),
+                            Text("        "),
+                            ElevatedButton(
+                              onPressed: () async {
+                                Navigator.pop(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                surfaceTintColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(80.0)),
+                                padding: const EdgeInsets.all(0),
+                              ),
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 40.0,
+                                width: 100,
+                                decoration: new BoxDecoration(
+                                    borderRadius: BorderRadius.circular(9.0),
+                                    gradient: new LinearGradient(colors: [
+                                      Color.fromARGB(144, 176, 175, 175),
+                                      Color.fromARGB(144, 176, 175, 175),
+                                    ])),
+                                padding: const EdgeInsets.all(0),
+                                child: Text(
+                                  "Cancel",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color:
+                                          Color.fromARGB(255, 255, 255, 255)),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 40),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  if (count >= 1) {
+                                    for (var i = 0; i < userEmail.length; i++)
+                                      FirebaseFirestore.instance
+                                          .collection('FavoriteEvents')
+                                          .doc(userEmail[i]! +
+                                              '-' +
+                                              eventName +
+                                              '-' +
+                                              ownerEmail)
+                                          .update({'status': 'inactive'});
+                                    FirebaseFirestore.instance
+                                        .collection('AllEvent')
+                                        .doc(eventName)
+                                        .delete();
+
+                                    CoolAlert.show(
+                                      context: context,
+                                      title:
+                                          "the event was deleted successfully ",
+                                      confirmBtnColor:
+                                          Color.fromARGB(144, 64, 7, 87),
+                                      onConfirmBtnTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    adminEventsListViewPage()));
+                                      },
+                                      type: CoolAlertType.success,
+                                      backgroundColor:
+                                          Color.fromARGB(221, 212, 189, 227),
+                                    );
+                                  }
+
+                                  /*FirebaseFirestore.instance
+                                      .collection('FavoriteEvents')
+                                      .doc(favoriteEmail +
+                                          "-" +
+                                          eventName +
+                                          "-" +
+                                          ownerEmail)
+                                      .delete();*/
+                                  else
+                                    CoolAlert.show(
+                                      context: context,
+                                      title:
+                                          "You cannot delete the event because the number of reports is less than 3",
+                                      confirmBtnColor:
+                                          Color.fromARGB(144, 64, 7, 87),
+                                      onConfirmBtnTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AdminReportedEvent(
+                                                        eventName: eventName)));
+                                      },
+                                      type: CoolAlertType.error,
+                                      backgroundColor:
+                                          Color.fromARGB(221, 212, 189, 227),
+                                    );
+                                  // deleteprofile();
+                                  // Navigator.push(context,
+                                  // MaterialPageRoute(builder: (context) => UserLogin()));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  surfaceTintColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(80.0)),
+                                  padding: const EdgeInsets.all(0),
+                                ),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: 40.0,
+                                  width: 100,
+                                  decoration: new BoxDecoration(
+                                      borderRadius: BorderRadius.circular(9.0),
+                                      gradient: new LinearGradient(colors: [
+                                        Color.fromARGB(144, 210, 2, 2),
+                                        Color.fromARGB(144, 210, 2, 2)
+                                      ])),
+                                  padding: const EdgeInsets.all(0),
+                                  child: Text(
+                                    "Delete",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255)),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  )));
+        });
+  }
+
   Future getReportedEvents() async {
     //clear first
     setState(() {
-      
       Reason = [];
       Note = [];
     });
 
     await for (var snapshot in _firestore
         .collection('reportedevents')
-       .where('reported event name', isEqualTo: eventName)
-         .snapshots()) {
+        .where('reported event name', isEqualTo: eventName)
+        .snapshots()) {
       for (var report in snapshot.docs) {
         setState(() {
-          
           Reason.add(report['reason']);
           Note.add(report['note']);
         });
@@ -96,6 +326,18 @@ class AdminReportedEventState extends State<AdminReportedEvent> {
     return Column(children: [
       Expanded(
           child: Scaffold(
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  showDialogFunc();
+                  // Add your onPressed code here!
+                },
+                backgroundColor: Color.fromARGB(255, 206, 53, 53),
+                child: const Icon(
+                  Icons.delete_outlined,
+                  color: Colors.white,
+                  size: 35,
+                ),
+              ),
               bottomNavigationBar: AdminCustomNavigationBar(
                 currentHomeScreen: 1,
                 updatePage: () {},
@@ -142,8 +384,6 @@ class AdminReportedEventState extends State<AdminReportedEvent> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: <Widget>[
-                                           
-                                           
                                             const SizedBox(height: 16.0),
                                             const Divider(
                                                 color: Colors.transparent,
