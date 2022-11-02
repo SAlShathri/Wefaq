@@ -78,6 +78,7 @@ class ReportedAccState extends State<ReportedAccList> {
           updatePage: () {},
         ),
         appBar: AppBar(
+         automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(255, 145, 124, 178),
           title: Text('Reported Accounts',
               style: TextStyle(
