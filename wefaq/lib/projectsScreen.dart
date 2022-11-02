@@ -118,6 +118,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
 
     await for (var snapshot in _firestore
         .collection('AllProjects')
+        .where('status', isEqualTo: "active")
         .orderBy('created', descending: true)
         .snapshots())
       for (var project in snapshot.docs) {

@@ -31,6 +31,8 @@ class _myProjectState extends State<myProjects> {
   //category list
   var categoryList = [];
 
+  var statusList = [];
+
   String? Email;
   @override
   void initState() {
@@ -73,6 +75,7 @@ class _myProjectState extends State<myProjects> {
             locList.add(project['location']);
             lookingForList.add(project['lookingFor']);
             categoryList.add(project['category']);
+            statusList.add(project['status']);
           });
         }
     }
@@ -204,11 +207,13 @@ class _myProjectState extends State<myProjects> {
                             onPressed: () {
                               showDialogFunc(
                                   context,
+                                  Email,
                                   nameList[index],
                                   descList[index],
                                   categoryList[index],
                                   locList[index],
-                                  lookingForList[index]);
+                                  lookingForList[index],
+                                  statusList[index]);
                             },
                           ))
                         ],
@@ -218,11 +223,13 @@ class _myProjectState extends State<myProjects> {
                   onTap: () {
                     showDialogFunc(
                         context,
+                        Email,
                         nameList[index],
                         descList[index],
                         categoryList[index],
                         locList[index],
-                        lookingForList[index]);
+                        lookingForList[index],
+                        statusList[index]);
                   },
                 ));
           },
@@ -235,11 +242,13 @@ class _myProjectState extends State<myProjects> {
 // This is a block of Model Dialog
 showDialogFunc(
   context,
+  email,
   title,
   desc,
   category,
   loc,
   lookingFor,
+  status,
 ) {
   return showDialog(
     context: context,
@@ -398,36 +407,61 @@ showDialogFunc(
                   ),
                 ),
                 SizedBox(height: 25),
-                SizedBox(
-                  width: 150,
-                  height: 50.0,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(144, 64, 7, 87),
+                if (status == "active")
+                  SizedBox(
+                    width: 150,
+                    height: 50.0,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(144, 64, 7, 87),
+                        ),
+                        child: Text('End post',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16.0)),
+                        onPressed: () async {
+                          CoolAlert.show(
+                            context: context,
+                            title: "Confirm",
+                            confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+                            confirmBtnText: 'End post',
+                            onConfirmBtnTap: () {
+                              //status = 'inactive';
+                              //inactive
+
+                              FirebaseFirestore.instance
+                                  .collection('AllProjects')
+                                  .doc(title + '-' + email)
+                                  .update({
+                                'status': "inactive",
+                              });
+                              //_endPost('status': status);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => myProjects()));
+                            },
+                            type: CoolAlertType.confirm,
+                            backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                            text:
+                                "After ending the post You will not receive any new join requests",
+                          );
+                        }),
+                  )
+                else
+                  Container(
+                    // width: 200,
+                    child: const Align(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        "Post Ended",
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Color.fromARGB(230, 64, 7, 87),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      child: Text('End post',
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 16.0)),
-                      onPressed: () async {
-                        CoolAlert.show(
-                          context: context,
-                          title: "Confirm",
-                          confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
-                          confirmBtnText: 'End post',
-                          onConfirmBtnTap: () {
-                            //inactive
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => myProjects()));
-                          },
-                          type: CoolAlertType.confirm,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text:
-                              "After ending the post You will not receive any new join requests",
-                        );
-                      }),
-                )
+                    ),
+                  ),
               ],
             ),
           ),
@@ -442,147 +476,170 @@ Future<void> _signOut() async {
 }
 
 showDialogFunc2(context) {
-  return showDialog(
-      context: context,
-      builder: (context) {
-        return Center(
-            child: Material(
-                type: MaterialType.transparency,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                  ),
-                  padding: const EdgeInsets.all(15),
-                  height: 150,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      // Code for acceptance role
-                      Row(children: <Widget>[
-                        Expanded(
-                          flex: 2,
-                          child: GestureDetector(
-                            child: Text(
-                              " Are you sure you want to log out? ",
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(159, 64, 7, 87),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            onTap: () {
-                              // go to participant's profile
-                            },
-                          ),
-                        ),
-                        // const SizedBox(
-                        //   height: 10,
-                        // ),
-                      ]),
-                      SizedBox(
-                        height: 35,
-                      ),
-                      //----------------------------------------------------------------------------
-                      Row(
-                        children: <Widget>[
-                          Text("   "),
-                          Text("     "),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => myProjects()));
-                            },
-                            style: ElevatedButton.styleFrom(
-                              surfaceTintColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(80.0)),
-                              padding: const EdgeInsets.all(0),
-                            ),
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 40.0,
-                              width: 100,
-                              decoration: new BoxDecoration(
-                                  borderRadius: BorderRadius.circular(9.0),
-                                  gradient: new LinearGradient(colors: [
-                                    Color.fromARGB(144, 176, 175, 175),
-                                    Color.fromARGB(144, 176, 175, 175),
-                                  ])),
-                              padding: const EdgeInsets.all(0),
-                              child: Text(
-                                "Cancel",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color.fromARGB(255, 255, 255, 255)),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 40),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                _signOut();
+   CoolAlert.show(
+                          context: context,
+                          title: "",
+                          confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
+                        //  cancelBtnColor: Colors.black,
+                        //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
+                          confirmBtnText: 'log out ',
+                          //cancelBtnText: 'Delete' ,
+                             onConfirmBtnTap: () {
+                 
+                           _signOut();
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => UserLogin()));
-                                // CoolAlert.show(
-                                //   context: context,
-                                //   title: "Success!",
-                                //   confirmBtnColor:
-                                //       Color.fromARGB(144, 64, 6, 87),
-                                //   type: CoolAlertType.success,
-                                //   backgroundColor:
-                                //       Color.fromARGB(221, 212, 189, 227),
-                                //   text: "You have logged out successfully",
-                                //   confirmBtnText: 'Done',
-                                //   onConfirmBtnTap: () {
-                                //     //send join requist
-                                //     _signOut();
-                                //     Navigator.push(
-                                //         context,
-                                //         MaterialPageRoute(
-                                //             builder: (context) => UserLogin()));
-                                //   },
-                                // );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                surfaceTintColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(80.0)),
-                                padding: const EdgeInsets.all(0),
-                              ),
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 40.0,
-                                width: 100,
-                                decoration: new BoxDecoration(
-                                    borderRadius: BorderRadius.circular(9.0),
-                                    gradient: new LinearGradient(colors: [
-                                      Color.fromARGB(144, 210, 2, 2),
-                                      Color.fromARGB(144, 210, 2, 2)
-                                    ])),
-                                padding: const EdgeInsets.all(0),
-                                child: Text(
-                                  "Log out",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color:
-                                          Color.fromARGB(255, 255, 255, 255)),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                )));
-      });
+                              
+                          },
+                    
+                          type: CoolAlertType.confirm,
+                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                          text:
+                              "Are you sure you want to log out?",
+                        );
+  // return showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return Center(
+  //           child: Material(
+  //               type: MaterialType.transparency,
+  //               child: Container(
+  //                 decoration: BoxDecoration(
+  //                   borderRadius: BorderRadius.circular(10),
+  //                   color: const Color.fromARGB(255, 255, 255, 255),
+  //                 ),
+  //                 padding: const EdgeInsets.all(15),
+  //                 height: 150,
+  //                 width: MediaQuery.of(context).size.width * 0.9,
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.center,
+  //                   children: <Widget>[
+  //                     // Code for acceptance role
+  //                     Row(children: <Widget>[
+  //                       Expanded(
+  //                         flex: 2,
+  //                         child: GestureDetector(
+  //                           child: Text(
+  //                             " Are you sure you want to log out? ",
+  //                             style: const TextStyle(
+  //                               fontSize: 14,
+  //                               color: Color.fromARGB(159, 64, 7, 87),
+  //                               fontWeight: FontWeight.bold,
+  //                             ),
+  //                           ),
+  //                           onTap: () {
+  //                             // go to participant's profile
+  //                           },
+  //                         ),
+  //                       ),
+  //                       // const SizedBox(
+  //                       //   height: 10,
+  //                       // ),
+  //                     ]),
+  //                     SizedBox(
+  //                       height: 35,
+  //                     ),
+  //                     //----------------------------------------------------------------------------
+  //                     Row(
+  //                       children: <Widget>[
+  //                         Text("   "),
+  //                         Text("     "),
+  //                         ElevatedButton(
+  //                           onPressed: () {
+  //                             Navigator.push(
+  //                                 context,
+  //                                 MaterialPageRoute(
+  //                                     builder: (context) => myProjects()));
+  //                           },
+  //                           style: ElevatedButton.styleFrom(
+  //                             surfaceTintColor: Colors.white,
+  //                             shape: RoundedRectangleBorder(
+  //                                 borderRadius: BorderRadius.circular(80.0)),
+  //                             padding: const EdgeInsets.all(0),
+  //                           ),
+  //                           child: Container(
+  //                             alignment: Alignment.center,
+  //                             height: 40.0,
+  //                             width: 100,
+  //                             decoration: new BoxDecoration(
+  //                                 borderRadius: BorderRadius.circular(9.0),
+  //                                 gradient: new LinearGradient(colors: [
+  //                                   Color.fromARGB(144, 176, 175, 175),
+  //                                   Color.fromARGB(144, 176, 175, 175),
+  //                                 ])),
+  //                             padding: const EdgeInsets.all(0),
+  //                             child: Text(
+  //                               "Cancel",
+  //                               style: TextStyle(
+  //                                   fontSize: 16,
+  //                                   fontWeight: FontWeight.w600,
+  //                                   color: Color.fromARGB(255, 255, 255, 255)),
+  //                             ),
+  //                           ),
+  //                         ),
+  //                         Container(
+  //                           margin: EdgeInsets.only(left: 40),
+  //                           child: ElevatedButton(
+  //                             onPressed: () {
+  //                               _signOut();
+  //                               Navigator.push(
+  //                                   context,
+  //                                   MaterialPageRoute(
+  //                                       builder: (context) => UserLogin()));
+  //                               // CoolAlert.show(
+  //                               //   context: context,
+  //                               //   title: "Success!",
+  //                               //   confirmBtnColor:
+  //                               //       Color.fromARGB(144, 64, 6, 87),
+  //                               //   type: CoolAlertType.success,
+  //                               //   backgroundColor:
+  //                               //       Color.fromARGB(221, 212, 189, 227),
+  //                               //   text: "You have logged out successfully",
+  //                               //   confirmBtnText: 'Done',
+  //                               //   onConfirmBtnTap: () {
+  //                               //     //send join requist
+  //                               //     _signOut();
+  //                               //     Navigator.push(
+  //                               //         context,
+  //                               //         MaterialPageRoute(
+  //                               //             builder: (context) => UserLogin()));
+  //                               //   },
+  //                               // );
+  //                             },
+  //                             style: ElevatedButton.styleFrom(
+  //                               surfaceTintColor: Colors.white,
+  //                               shape: RoundedRectangleBorder(
+  //                                   borderRadius: BorderRadius.circular(80.0)),
+  //                               padding: const EdgeInsets.all(0),
+  //                             ),
+  //                             child: Container(
+  //                               alignment: Alignment.center,
+  //                               height: 40.0,
+  //                               width: 100,
+  //                               decoration: new BoxDecoration(
+  //                                   borderRadius: BorderRadius.circular(9.0),
+  //                                   gradient: new LinearGradient(colors: [
+  //                                     Color.fromARGB(144, 210, 2, 2),
+  //                                     Color.fromARGB(144, 210, 2, 2)
+  //                                   ])),
+  //                               padding: const EdgeInsets.all(0),
+  //                               child: Text(
+  //                                 "Log out",
+  //                                 style: TextStyle(
+  //                                     fontSize: 16,
+  //                                     fontWeight: FontWeight.w600,
+  //                                     color:
+  //                                         Color.fromARGB(255, 255, 255, 255)),
+  //                               ),
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     )
+  //                   ],
+  //                 ),
+  //               )));
+  //     });
 }
