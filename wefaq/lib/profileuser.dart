@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -34,7 +36,7 @@ class _viewprofileState extends State<viewprofile> {
   String experince = "";
   String cerifi = "";
   String skills = "";
-
+  double rating = 0.0;
   String gitHub = "";
   List<String> selectedOptionList = [];
 
@@ -59,7 +61,7 @@ class _viewprofileState extends State<viewprofile> {
           about = user["about"].toString();
           experince = user["experince"].toString();
           cerifi = user["cerifi"].toString();
-
+          rating = user["rating"];
           gitHub = user["gitHub"].toString();
           for (var skill in user["skills"])
             selectedOptionList.add(skill.toString());
@@ -252,6 +254,13 @@ class _viewprofileState extends State<viewprofile> {
                           size: 33,
                         ),
                       ),
+                      ListTile(
+                          title: Text("Rating"),
+                          subtitle: Text("$rating/5.0"),
+                          leading: Icon(
+                            Icons.star,
+                            size: 33,
+                          )),
                     ],
                   ),
                 ),
@@ -279,46 +288,46 @@ class _viewprofileState extends State<viewprofile> {
                       Container(
                         child: ElevatedButton(
                           onPressed: () async {
-                             CoolAlert.show(
-                          context: context,
-                          title: "Confirm",
-                          confirmBtnColor: Color.fromARGB(144, 237, 42, 42),
-                          
-                          //cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 62, 208, 14)),
-                          confirmBtnText: 'Delete ',
-                          onConfirmBtnTap: () {
-                            //inactive
-                                   FirebaseFirestore.instance
-                                      .collection('users')
-                                      .doc(FirebaseAuth
-                                          .instance.currentUser!.email)
-                                      .update({'status': 'inactive'});
+                            CoolAlert.show(
+                              context: context,
+                              title: "Confirm",
+                              confirmBtnColor: Color.fromARGB(144, 237, 42, 42),
 
-                                  CoolAlert.show(
-                                    context: context,
-                                    title: "your account is inactive now",
-                                    confirmBtnColor:
-                                        Color.fromARGB(144, 64, 7, 87),
-                                    onConfirmBtnTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  UserLogin()));
-                                    },
-                                    type: CoolAlertType.success,
-                                    backgroundColor:
-                                        Color.fromARGB(221, 212, 189, 227),
-                                    text:
-                                        "you can reactivate your account within 1 week when you login",
-                                  );
-                          },
-                          type: CoolAlertType.confirm,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text:
-                              "Are you sure you want to delete your account?",
-                        );
-                        //    showDialogFunc();
+                              //cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 62, 208, 14)),
+                              confirmBtnText: 'Delete ',
+                              onConfirmBtnTap: () {
+                                //inactive
+                                FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(FirebaseAuth
+                                        .instance.currentUser!.email)
+                                    .update({'status': 'inactive'});
+
+                                CoolAlert.show(
+                                  context: context,
+                                  title: "your account is inactive now",
+                                  confirmBtnColor:
+                                      Color.fromARGB(144, 64, 7, 87),
+                                  onConfirmBtnTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => UserLogin()));
+                                  },
+                                  type: CoolAlertType.success,
+                                  backgroundColor:
+                                      Color.fromARGB(221, 212, 189, 227),
+                                  text:
+                                      "you can reactivate your account within 1 week when you login",
+                                );
+                              },
+                              type: CoolAlertType.confirm,
+                              backgroundColor:
+                                  Color.fromARGB(221, 212, 189, 227),
+                              text:
+                                  "Are you sure you want to delete your account?",
+                            );
+                            //    showDialogFunc();
                             // deleteprofile();
                             //   Navigator.push(context,
                             //     MaterialPageRoute(builder: (context) => UserLogin()));
@@ -536,29 +545,24 @@ Future<void> _signOut() async {
 }
 
 showDialogFunc2(context) {
-   CoolAlert.show(
-                          context: context,
-                          title: "",
-                          confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
-                        //  cancelBtnColor: Colors.black,
-                        //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
-                          confirmBtnText: 'log out ',
-                          //cancelBtnText: 'Delete' ,
-                             onConfirmBtnTap: () {
-                 
-                           _signOut();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => UserLogin()));
-                              
-                          },
-                    
-                          type: CoolAlertType.confirm,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text:
-                              "Are you sure you want to log out?",
-                        );
+  CoolAlert.show(
+    context: context,
+    title: "",
+    confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
+    //  cancelBtnColor: Colors.black,
+    //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
+    confirmBtnText: 'log out ',
+    //cancelBtnText: 'Delete' ,
+    onConfirmBtnTap: () {
+      _signOut();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => UserLogin()));
+    },
+
+    type: CoolAlertType.confirm,
+    backgroundColor: Color.fromARGB(221, 212, 189, 227),
+    text: "Are you sure you want to log out?",
+  );
   // return showDialog(
   //     context: context,
   //     builder: (context) {

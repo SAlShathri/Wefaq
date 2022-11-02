@@ -459,7 +459,7 @@ class _PostProjectState extends State<PostProject> {
                           'lat': startPosition?.geometry?.location?.lat,
                           'description': _descriptionEditingController.text,
                           'category': selectedCat,
-                          'lookingFor': _lookingForEditingController.text,
+                          'lookingFor': "," + _lookingForEditingController.text,
                           'created': now,
                           'email': Email.toString(),
                           'fname': fname,

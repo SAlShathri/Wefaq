@@ -77,10 +77,9 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
   bool _isSelected1 = false;
   bool _isSelected2 = false;
   bool _isSelected3 = false;
-  String Role1 = 'Developer';
-  String Role2 = 'Tester';
-  String Role3 = 'Designer';
+
   bool isPressed = false;
+  List<String> splited = [];
 
   var ParticipantNameList = [];
   Status() => ProjectsListViewPage();
@@ -113,6 +112,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
           fName = project['fname'].toString();
           Lname = project['lname'].toString();
           duration = project["duration"].toString();
+          splited = lookingForList.split(",");
         });
       }
   }
@@ -147,6 +147,12 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
     } catch (e) {
       print(e);
     }
+  }
+
+  String getRole(int index) {
+    if (index < splited.length) return splited[index];
+
+    return "";
   }
 
   @override
@@ -325,84 +331,69 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                     children: [
                       Row(
                         children: [
-                          ChoiceChip(
-                            elevation: 8.0,
-                            padding: EdgeInsets.all(2.0),
-                            avatar: CircleAvatar(
-                                backgroundColor:
-                                    Color.fromARGB(143, 252, 252, 252),
-                                child: Text(
-                                  '2',
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                            label: Text(
-                              Role1,
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255)),
+                          if (getRole(1) != "")
+                            ChoiceChip(
+                              elevation: 8.0,
+                              padding: EdgeInsets.all(2.0),
+                              label: Text(
+                                getRole(1),
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255)),
+                              ),
+                              selected: _isSelected1,
+                              selectedColor: Color.fromARGB(133, 177, 227, 232),
+                              onSelected: (bool selected) {
+                                setState(() {
+                                  _isSelected1 = selected;
+                                });
+                              },
+                              backgroundColor:
+                                  Color.fromARGB(170, 123, 62, 185),
                             ),
-                            selected: _isSelected1,
-                            selectedColor: Color.fromARGB(133, 177, 227, 232),
-                            onSelected: (bool selected) {
-                              setState(() {
-                                _isSelected1 = selected;
-                              });
-                            },
-                            backgroundColor: Color.fromARGB(170, 123, 62, 185),
-                          ),
                           SizedBox(
                             width: 6,
                           ),
-                          ChoiceChip(
-                            elevation: 8.0,
-                            padding: EdgeInsets.all(2.0),
-                            avatar: CircleAvatar(
-                                backgroundColor:
-                                    Color.fromARGB(143, 252, 252, 252),
-                                child: Text(
-                                  '3',
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                            label: Text(
-                              Role2,
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255)),
+                          if (getRole(2) != "")
+                            ChoiceChip(
+                              elevation: 8.0,
+                              padding: EdgeInsets.all(2.0),
+                              label: Text(
+                                getRole(2),
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255)),
+                              ),
+                              selected: _isSelected2,
+                              selectedColor: Color.fromARGB(133, 177, 227, 232),
+                              onSelected: (bool selected) {
+                                setState(() {
+                                  _isSelected2 = selected;
+                                });
+                              },
+                              backgroundColor:
+                                  Color.fromARGB(170, 123, 62, 185),
                             ),
-                            selected: _isSelected2,
-                            selectedColor: Color.fromARGB(133, 177, 227, 232),
-                            onSelected: (bool selected) {
-                              setState(() {
-                                _isSelected2 = selected;
-                              });
-                            },
-                            backgroundColor: Color.fromARGB(170, 123, 62, 185),
-                          ),
                           SizedBox(
                             width: 6,
                           ),
-                          ChoiceChip(
-                            elevation: 8.0,
-                            padding: EdgeInsets.all(2.0),
-                            avatar: CircleAvatar(
-                                backgroundColor:
-                                    Color.fromARGB(143, 252, 252, 252),
-                                child: Text(
-                                  '1',
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                            label: Text(
-                              Role3,
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255)),
+                          if (getRole(3) != "")
+                            ChoiceChip(
+                              elevation: 8.0,
+                              padding: EdgeInsets.all(2.0),
+                              label: Text(
+                                getRole(3),
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255)),
+                              ),
+                              selected: _isSelected3,
+                              selectedColor: Color.fromARGB(133, 177, 227, 232),
+                              onSelected: (bool selected) {
+                                setState(() {
+                                  _isSelected3 = selected;
+                                });
+                              },
+                              backgroundColor:
+                                  Color.fromARGB(170, 123, 62, 185),
                             ),
-                            selected: _isSelected3,
-                            selectedColor: Color.fromARGB(133, 177, 227, 232),
-                            onSelected: (bool selected) {
-                              setState(() {
-                                _isSelected3 = selected;
-                              });
-                            },
-                            backgroundColor: Color.fromARGB(170, 123, 62, 185),
-                          ),
                         ],
                       ),
                     ],
@@ -624,31 +615,31 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
     String JoiningAs;
 
     if (_isSelected1 == true && _isSelected2 == false && _isSelected3 == false)
-      JoiningAs = Role1;
+      JoiningAs = getRole(1);
     else if (_isSelected1 == false &&
         _isSelected2 == true &&
         _isSelected3 == false)
-      JoiningAs = Role2;
+      JoiningAs = getRole(2);
     else if (_isSelected1 == false &&
         _isSelected2 == false &&
         _isSelected3 == true)
-      JoiningAs = Role3;
+      JoiningAs = getRole(3);
     else if (_isSelected1 == true &&
         _isSelected2 == true &&
         _isSelected3 == false)
-      JoiningAs = Role1 + " - " + Role2;
+      JoiningAs = getRole(1) + " - " + getRole(2);
     else if (_isSelected1 == true &&
         _isSelected2 == false &&
         _isSelected3 == true)
-      JoiningAs = Role1 + " - " + Role3;
+      JoiningAs = getRole(1) + " - " + getRole(3);
     else if (_isSelected1 == false &&
         _isSelected2 == true &&
         _isSelected3 == true)
-      JoiningAs = Role2 + " - " + Role3;
+      JoiningAs = getRole(2) + " - " + getRole(3);
     else if (_isSelected1 == true &&
         _isSelected2 == true &&
         _isSelected3 == true)
-      JoiningAs = Role1 + " - " + Role2 + " - " + Role3;
+      JoiningAs = getRole(1) + " - " + getRole(2) + " - " + getRole(3);
     else
       JoiningAs = 'No Role';
 
