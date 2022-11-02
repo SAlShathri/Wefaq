@@ -591,46 +591,39 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                       ],
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            Container(
-                              height: 32.0,
-                              width: 32.0,
-                              alignment: Alignment.center,
-                              margin: const EdgeInsets.only(right: 8.0),
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(Icons.location_pin,
-                                  color: Color.fromARGB(172, 136, 98, 146)),
-                            ),
-                            Text(
-                              locList,
-                              style: Theme.of(context).textTheme.titleSmall,
-                            ),
-                            Container(
-                              width: 63,
-                              height: 28,
-                              margin: EdgeInsets.only(left: 220),
-                              child: Link(
-                                  target: LinkTarget.blank,
-                                  uri: Uri.parse(urlList),
-                                  builder: (context, followLink) => Expanded(
-                                        child: ElevatedButton(
-                                          onPressed: followLink,
-                                          child: Icon(
-                                            Icons.link,
-                                            size: 30,
-                                            color: Color.fromARGB(
-                                                255, 111, 111, 111),
-                                          ),
-                                        ),
-                                      )),
-                            ),
-                          ],
+                        Container(
+                          height: 32.0,
+                          width: 32.0,
+                          alignment: Alignment.center,
+                          margin: const EdgeInsets.only(right: 8.0),
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.location_pin,
+                              color: Color.fromARGB(172, 136, 98, 146)),
                         ),
+                        Text(
+                          locList,
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                        Expanded(
+                            child: SizedBox(
+                          width: 20,
+                        )),
+                        Link(
+                            target: LinkTarget.blank,
+                            uri: Uri.parse(urlList),
+                            builder: (context, followLink) => Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: followLink,
+                                    child: Icon(
+                                      Icons.link,
+                                      size: 30,
+                                      color: Color.fromARGB(255, 111, 111, 111),
+                                    ),
+                                  ),
+                                )),
                       ],
                     ),
                     const SizedBox(height: 16.0),
