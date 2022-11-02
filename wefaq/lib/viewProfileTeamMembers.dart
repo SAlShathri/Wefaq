@@ -134,272 +134,269 @@ class _viewprofileState extends State<viewProfileTeamMembers> {
                 fit: BoxFit.cover,
               ),
             ),
-            Container(
-              margin: EdgeInsets.fromLTRB(15, 200, 15, 15),
-              child: Column(
-                children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.all(15),
-                        margin: EdgeInsets.only(top: 0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(left: 5),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(children: <Widget>[
-                                    SizedBox(
-                                      width: 60,
+            Column(
+              children: <Widget>[
+                Stack(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.all(15),
+                      margin: EdgeInsets.only(top: 0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(left: 5),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Row(children: <Widget>[
+                                  SizedBox(
+                                    width: 60,
+                                  ),
+                                  Text("      " + "$fname" + " $lname",
+                                      style: TextStyle(fontSize: 18)),
+                                  Expanded(
+                                    child: SizedBox(
+                                      width: 20,
                                     ),
-                                    Text("      " + "$fname" + " $lname",
-                                        style: TextStyle(fontSize: 18)),
-                                    Expanded(
-                                      child: SizedBox(
-                                        width: 20,
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(right: 0),
-                                      height: 56.0,
-                                      width: 56.0,
-                                      child: IconButton(
-                                          icon: Icon(
-                                            Icons.error_outline,
-                                            color: Color.fromARGB(
-                                                255, 186, 48, 48),
-                                            size: 30,
-                                          ),
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        reportUser(
-                                                          userEmail: userEmail,
-                                                          userName: fname,
-                                                        )));
-                                          }),
-                                    ),
-                                  ]),
-                                  Row(children: <Widget>[
-                                    Expanded(
-                                        child: Column(children: <Widget>[
-                                      ListTile(
-                                        contentPadding: EdgeInsets.all(0),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(right: 0),
+                                    height: 56.0,
+                                    width: 56.0,
+                                    child: IconButton(
+                                        icon: Icon(
+                                          Icons.error_outline,
+                                          color:
+                                              Color.fromARGB(255, 186, 48, 48),
+                                          size: 30,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      reportUser(
+                                                        userEmail: userEmail,
+                                                        userName: fname,
+                                                      )));
+                                        }),
+                                  ),
+                                ]),
+                                Row(children: <Widget>[
+                                  Expanded(
+                                      child: Column(children: <Widget>[
+                                    ListTile(
+                                      contentPadding: EdgeInsets.all(0),
 
-                                        //You can add Subtitle here
-                                      ),
-                                    ])),
-                                    Column(
-                                      children: <Widget>[
-                                        GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        userProjectsTabs(
-                                                            userEmail:
-                                                                userEmail)),
-                                              );
-                                            },
-                                            child: Container(
-                                              alignment: Alignment.center,
-                                              height: 30,
-                                              width: 120,
-                                              decoration: BoxDecoration(
-                                                color: Color.fromARGB(
-                                                    201, 231, 229, 229),
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              child: Text(
-                                                "View projects",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color.fromARGB(
-                                                      255, 96, 51, 104),
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                            ))
-                                      ],
+                                      //You can add Subtitle here
                                     ),
-                                  ])
-                                ],
-                              ),
+                                  ])),
+                                  Column(
+                                    children: <Widget>[
+                                      GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      userProjectsTabs(
+                                                          userEmail:
+                                                              userEmail)),
+                                            );
+                                          },
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            height: 30,
+                                            width: 120,
+                                            decoration: BoxDecoration(
+                                              color: Color.fromARGB(
+                                                  201, 231, 229, 229),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Text(
+                                              "View projects",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Color.fromARGB(
+                                                    255, 96, 51, 104),
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ))
+                                    ],
+                                  ),
+                                ])
+                              ],
                             ),
-                          ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 80,
+                      height: 80,
+                      margin: EdgeInsets.only(left: 15, top: 140),
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(0, 0),
+                            blurRadius: 10,
+                            color: Colors.black.withOpacity(0.15),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          image: NetworkImage(
+                              "https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images%2Fdata%2Fuser%2F0%2Fcom.swe444.wefaq%2Fcache%2Fimage_picker2743050244236619318.jpg?alt=media&token=037de374-37b0-4d0f-ae46-95f89c79b225"),
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      Container(
-                        width: 80,
-                        height: 80,
-                        margin: EdgeInsets.only(left: 15, top: 10),
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              offset: Offset(0, 0),
-                              blurRadius: 10,
-                              color: Colors.black.withOpacity(0.15),
-                            ),
-                          ],
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                "https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images%2Fdata%2Fuser%2F0%2Fcom.swe444.wefaq%2Fcache%2Fimage_picker2743050244236619318.jpg?alt=media&token=037de374-37b0-4d0f-ae46-95f89c79b225"),
-                            fit: BoxFit.cover,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      //add to userWhoRated
+                      if (!userWhoRated.contains(getUserRating() +
+                          "-$currentUserEmail-$projectName-$userEmail"))
+                        ListTile(
+                          title: Text(
+                            "     Rate your work experience with $fname ! ",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 144, 120, 155)),
                           ),
                         ),
+                      //add to userWhoRated
+                      if (userWhoRated.contains(getUserRating() +
+                          "-$currentUserEmail-$projectName-$userEmail"))
+                        ListTile(
+                          title: Text(
+                            "     You already rated $fname " +
+                                getUserRating() +
+                                " out of 5",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 144, 120, 155)),
+                          ),
+                        ),
+
+                      if (!userWhoRated.contains(getUserRating() +
+                          "-$currentUserEmail-$projectName-$userEmail"))
+                        RatingBar.builder(
+                          initialRating: 0,
+                          minRating: 1,
+                          direction: Axis.horizontal,
+                          allowHalfRating: false,
+                          itemCount: 5,
+                          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                          itemBuilder: (context, _) => Icon(
+                            Icons.star,
+                            color: Color.fromARGB(255, 144, 120, 155),
+                          ),
+                          onRatingUpdate: (newRating) {
+                            setState(() {
+                              FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(userEmail)
+                                  .update({
+                                'rating': (((rating * userWhoRated.length +
+                                            newRating)) /
+                                        (userWhoRated.length + 1))
+                                    .roundToDouble()
+                              });
+
+                              Timer(Duration(seconds: 3), () {
+                                Fluttertoast.showToast(
+                                  msg:
+                                      "Thank you! your rating has been submitted successfully",
+                                  fontSize: 18,
+                                  gravity: ToastGravity.CENTER,
+                                  toastLength: Toast.LENGTH_LONG,
+                                  backgroundColor:
+                                      Color.fromARGB(172, 136, 98, 146),
+                                );
+                                if (!userWhoRated.contains(getUserRating() +
+                                    "-$currentUserEmail-$projectName-$userEmail")) {
+                                  userWhoRated.add(
+                                      "$newRating-$currentUserEmail-$projectName-$userEmail");
+                                  //update on the db
+
+                                  FirebaseFirestore.instance
+                                      .collection('users')
+                                      .doc(userEmail)
+                                      .update({'userWhoRated': userWhoRated});
+                                }
+                              });
+
+                              //add to userWhoRated
+                            });
+                          },
+                        ),
+                      //add to userWhoRated
+                      if (!userWhoRated.contains(getUserRating() +
+                          "-$currentUserEmail-$projectName-$userEmail"))
+                        Divider(),
+                      ListTile(
+                        title: Text("About"),
+                        subtitle: Text("$about"),
+                        leading: Icon(Icons.format_align_center),
                       ),
+                      ListTile(
+                        title: Text("GitHub"),
+                        onTap: () => launch("$gitHub"),
+                        leading: Icon(
+                          LineIcons.github,
+                          size: 35,
+                          color: Color.fromARGB(255, 93, 18, 107),
+                        ),
+                      ),
+                      ListTile(
+                        title: Text("Experience"),
+                        subtitle: Text("$experince"),
+                        leading: Icon(Icons.calendar_view_day),
+                      ),
+                      ListTile(
+                        title: Text("Skills"),
+                        subtitle: Text(selectedOptionList.join(",")),
+                        leading: Icon(Icons.schema_rounded),
+                      ),
+                      ListTile(
+                        title: Text("Licenses & certifications"),
+                        subtitle: Text("$cerifi"),
+                        leading: Icon(
+                          Icons.workspace_premium,
+                          size: 33,
+                        ),
+                      ),
+                      ListTile(
+                          title: Text("Rating"),
+                          subtitle: Text("$rating/5.0"),
+                          leading: Icon(
+                            Icons.star,
+                            size: 33,
+                          )),
                     ],
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        //add to userWhoRated
-                        if (!userWhoRated.contains(getUserRating() +
-                            "-$currentUserEmail-$projectName-$userEmail"))
-                          ListTile(
-                            title: Text(
-                              "     Rate your work experience with $fname ! ",
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 144, 120, 155)),
-                            ),
-                          ),
-                        //add to userWhoRated
-                        if (userWhoRated.contains(getUserRating() +
-                            "-$currentUserEmail-$projectName-$userEmail"))
-                          ListTile(
-                            title: Text(
-                              "     You already rated $fname " +
-                                  getUserRating() +
-                                  " out of 5",
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 144, 120, 155)),
-                            ),
-                          ),
-
-                        if (!userWhoRated.contains(getUserRating() +
-                            "-$currentUserEmail-$projectName-$userEmail"))
-                          RatingBar.builder(
-                            initialRating: 0,
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: false,
-                            itemCount: 5,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => Icon(
-                              Icons.star,
-                              color: Color.fromARGB(255, 144, 120, 155),
-                            ),
-                            onRatingUpdate: (newRating) {
-                              setState(() {
-                                FirebaseFirestore.instance
-                                    .collection('users')
-                                    .doc(userEmail)
-                                    .update({
-                                  'rating': (((rating * userWhoRated.length +
-                                              newRating)) /
-                                          (userWhoRated.length + 1))
-                                      .roundToDouble()
-                                });
-
-                                Timer(Duration(seconds: 3), () {
-                                  Fluttertoast.showToast(
-                                    msg:
-                                        "Thank you! your rating has been submitted successfully",
-                                    fontSize: 18,
-                                    gravity: ToastGravity.CENTER,
-                                    toastLength: Toast.LENGTH_LONG,
-                                    backgroundColor:
-                                        Color.fromARGB(172, 136, 98, 146),
-                                  );
-                                  if (!userWhoRated.contains(getUserRating() +
-                                      "-$currentUserEmail-$projectName-$userEmail")) {
-                                    userWhoRated.add(
-                                        "$newRating-$currentUserEmail-$projectName-$userEmail");
-                                    //update on the db
-
-                                    FirebaseFirestore.instance
-                                        .collection('users')
-                                        .doc(userEmail)
-                                        .update({'userWhoRated': userWhoRated});
-                                  }
-                                });
-
-                                //add to userWhoRated
-                              });
-                            },
-                          ),
-                        //add to userWhoRated
-                        if (!userWhoRated.contains(getUserRating() +
-                            "-$currentUserEmail-$projectName-$userEmail"))
-                          Divider(),
-                        ListTile(
-                          title: Text("About"),
-                          subtitle: Text("$about"),
-                          leading: Icon(Icons.format_align_center),
-                        ),
-                        ListTile(
-                          title: Text("GitHub"),
-                          onTap: () => launch("$gitHub"),
-                          leading: Icon(
-                            LineIcons.github,
-                            size: 35,
-                            color: Color.fromARGB(255, 93, 18, 107),
-                          ),
-                        ),
-                        ListTile(
-                          title: Text("Experience"),
-                          subtitle: Text("$experince"),
-                          leading: Icon(Icons.calendar_view_day),
-                        ),
-                        ListTile(
-                          title: Text("Skills"),
-                          subtitle: Text(selectedOptionList.join(",")),
-                          leading: Icon(Icons.schema_rounded),
-                        ),
-                        ListTile(
-                          title: Text("Licenses & certifications"),
-                          subtitle: Text("$cerifi"),
-                          leading: Icon(
-                            Icons.workspace_premium,
-                            size: 33,
-                          ),
-                        ),
-                        ListTile(
-                            title: Text("Rating"),
-                            subtitle: Text("$rating/5.0"),
-                            leading: Icon(
-                              Icons.star,
-                              size: 33,
-                            )),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                    width: 80,
-                  ),
-                ],
-              ),
-            )
+                ),
+                const SizedBox(
+                  height: 30,
+                  width: 80,
+                ),
+              ],
+            ),
           ],
         ),
       ),

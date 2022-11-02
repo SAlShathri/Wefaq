@@ -7,7 +7,6 @@ import 'package:wefaq/AdminNavBar.dart';
 import 'package:wefaq/AdminProjectDetailsAppBar.dart';
 import 'package:wefaq/AdminProjectList.dart';
 import 'package:wefaq/ProjectsTapScreen.dart';
-import 'package:wefaq/adminViewOtherProfile.dart';
 import 'package:wefaq/config/colors.dart';
 import 'package:wefaq/profileuser.dart';
 import 'package:wefaq/screens/detail_screens/widgets/project_detail_appbar.dart';
@@ -20,6 +19,7 @@ import 'package:wefaq/service/local_push_notification.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../viewOtherProfile.dart';
+import 'adminViewOtherProfile.dart';
 
 final _formKey = GlobalKey<FormState>();
 

@@ -8,8 +8,8 @@ import 'package:wefaq/AdminNavBar.dart';
 import 'package:wefaq/AdminuserProject.dart';
 import 'package:wefaq/ReportedAcc.dart';
 import 'package:wefaq/UserLogin.dart';
-import 'package:wefaq/userProjects.dart';
 import 'package:wefaq/userReport.dart';
+import 'adminUserProjectsTap.dart';
 import 'bottom_bar_custom.dart';
 
 class adminviewotherprofile extends StatefulWidget {
@@ -283,7 +283,7 @@ class _viewprofileState extends State<adminviewotherprofile> {
                   children: <Widget>[
                     Container(
                       padding: EdgeInsets.all(15),
-                      margin: EdgeInsets.only(top: 0),
+                      margin: EdgeInsets.only(top: 120),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5.0),
@@ -325,7 +325,7 @@ class _viewprofileState extends State<adminviewotherprofile> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      userProjects(
+                                                      adminuserProjectsTabs(
                                                           userEmail:
                                                               userEmail)),
                                             );

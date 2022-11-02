@@ -6,7 +6,10 @@ import 'package:wefaq/AdminHomePage.dart';
 import 'package:wefaq/AdminNavBar.dart';
 import 'dart:async';
 import 'package:wefaq/UserLogin.dart';
-import 'package:wefaq/adminViewOtherProfile.dart';
+
+import 'adminViewOtherProfile.dart';
+
+//import 'package:wefaq/adminViewOtherProfile.dart';
 
 class ReportedAccList extends StatefulWidget {
   @override
@@ -79,7 +82,7 @@ class ReportedAccState extends State<ReportedAccList> {
           updatePage: () {},
         ),
         appBar: AppBar(
-         automaticallyImplyLeading: false,
+          automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(255, 145, 124, 178),
           title: Text('Reported Accounts',
               style: TextStyle(
