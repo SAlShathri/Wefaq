@@ -6,16 +6,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:wefaq/AdminNavBar.dart';
-import 'package:wefaq/AdminOtherusersProjects.dart';
 import 'package:wefaq/ProjectsTapScreen.dart';
-import 'package:wefaq/screens/detail_screens/projectDetail.dart';
-import 'package:wefaq/screens/detail_screens/project_detail_screen.dart';
 import 'package:wefaq/service/local_push_notification.dart';
 import 'package:http/http.dart' as http;
 
+import 'AdminProjectDetails.dart';
 import 'UserLogin.dart';
-import 'bottom_bar_custom.dart';
 
 // Main Stateful Widget Start
 class adminuserProjects extends StatefulWidget {
@@ -86,28 +82,6 @@ class ListViewPageState extends State<adminuserProjects> {
       children: [
         Expanded(
           child: Scaffold(
-            bottomNavigationBar: AdminCustomNavigationBar(
-              currentHomeScreen: 0,
-              updatePage: () {},
-            ),
-            appBar: AppBar(
-              title: Text(' Projects', style: TextStyle(color: Colors.white)),
-              actions: <Widget>[
-                IconButton(
-                    icon: Icon(
-                      Icons.logout,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                    onPressed: () {
-                      showDialogFunc(context);
-                    }),
-              ],
-              backgroundColor: Color.fromARGB(255, 162, 148, 183),
-            ),
-            // bottomNavigationBar: CustomNavigationBar(
-            //   currentHomeScreen: 0,
-            //   updatePage: () {},
-            // ),
             // Main List View With Builder
             body: Scrollbar(
               thumbVisibility: true,
@@ -181,10 +155,10 @@ class ListViewPageState extends State<adminuserProjects> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        adminprojectDetail(
+                                                        adminprojectDetailScreen(
                                                             projecName:
-                                                                nameList[index],
-                                                            email: userEmail)));
+                                                                nameList[
+                                                                    index])));
                                           }),
                                     ],
                                   ),
@@ -197,9 +171,9 @@ class ListViewPageState extends State<adminuserProjects> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => projectDetail(
-                                      projecName: nameList[index],
-                                      email: userEmail)));
+                                  builder: (context) =>
+                                      adminprojectDetailScreen(
+                                          projecName: nameList[index])));
                         }),
                   );
                 },

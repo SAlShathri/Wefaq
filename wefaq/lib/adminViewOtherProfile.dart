@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wefaq/AdminNavBar.dart';
-import 'package:wefaq/AdminuserProject.dart';
 import 'package:wefaq/ReportedAcc.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/userReport.dart';

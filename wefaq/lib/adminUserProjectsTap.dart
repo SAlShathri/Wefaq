@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wefaq/HomePage.dart';
-import 'package:wefaq/bottom_bar_custom.dart';
 import 'package:wefaq/chatRoom.dart';
 import 'package:wefaq/mapView.dart';
 import 'package:wefaq/userProjects.dart';
@@ -9,7 +8,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'AdminNavBar.dart';
 import 'adminViewOtherProfile.dart';
-import 'ownerProjects.dart';
+import 'adminowneruserProjects.dart';
+import 'adminuserProjects.dart';
 
 // Main Stateful Widget Start
 class adminuserProjectsTabs extends StatefulWidget {
@@ -70,7 +70,7 @@ class _ListViewTabsState extends State<adminuserProjectsTabs> {
               indicatorColor: Color.fromARGB(255, 84, 53, 134),
               indicatorWeight: 6,
               labelStyle: TextStyle(
-                  fontSize: 17.0, fontFamily: 'Family Name'), //For Selected tab
+                  fontSize: 15.0, fontFamily: 'Family Name'), //For Selected tab
               unselectedLabelStyle: TextStyle(
                   fontSize: 15.0,
                   fontFamily: 'Family Name'), //For Un-selected Tabs
@@ -83,10 +83,10 @@ class _ListViewTabsState extends State<adminuserProjectsTabs> {
             ),
           ),
           body: TabBarView(children: [
-            userProjects(
+            adminuserProjects(
               userEmail: userEmail,
             ),
-            owneruserProjects(
+            adminowneruserProjects(
               userEmail: userEmail,
             )
           ]),

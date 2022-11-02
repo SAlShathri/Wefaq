@@ -215,7 +215,7 @@ class ReportedAccState extends State<ReportedAccList> {
                                                 255, 156, 185, 182),
                                           ),
                                           SizedBox(
-                                            width: 10,
+                                            width: 20,
                                           ),
                                           Text(
                                             "Report Note: ",
