@@ -31,7 +31,7 @@ class _ListViewTabsState extends State<AdminTabs> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            title: Text('Upcoming Events',
+            title: Text('Reported Events',
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   color: Colors.white,

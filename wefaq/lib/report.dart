@@ -291,6 +291,7 @@ else{
                           'cdate': formatter.format(now),
                           'reported event name': eventName,
                           "event owner": eventOwner,
+                              "status": 'new'
                         });
                         var fillterd = _firestore
                         .collection('AllEvent')

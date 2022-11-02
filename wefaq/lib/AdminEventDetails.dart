@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/link.dart';
 import 'package:wefaq/AdminEventList.dart';
+import 'package:wefaq/AdminTabScreen.dart';
 import 'package:wefaq/Adminreportedevent.dart';
 import 'package:wefaq/config/colors.dart';
 import 'package:cool_alert/cool_alert.dart';
@@ -42,7 +43,7 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
     getProjects();
     getFav();
     isLiked();
-
+getReports();
     super.initState();
   }
 
@@ -56,6 +57,28 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
       }
     } catch (e) {
       print(e);
+    }
+  }
+var Reporter = [];
+
+  Future getReports() async {
+    setState(() {
+      reasons = [];
+      notes = [];
+      Reporter = [];
+    });
+
+    await for (var snapshot in _firestore
+        .collection('reportedevents')
+        .where('reported event name', isEqualTo: eventName)
+        .snapshots()) {
+      for (var report in snapshot.docs) {
+        setState(() {
+          reasons.add(report['reason']);
+          notes.add(report['note']);
+          Reporter.add(report['user who reported']);
+        });
+      }
     }
   }
 
@@ -217,24 +240,6 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
       }
   }
 
-  Future getReports() async {
-    setState(() {
-      reasons = [];
-      notes = [];
-    });
-
-    await for (var snapshot in _firestore
-        .collection('reportedevents')
-        .where('reported event name', isEqualTo: eventName)
-        .snapshots()) {
-      for (var report in snapshot.docs) {
-        setState(() {
-          reasons.add(report['reason']);
-          notes.add(report['note']);
-        });
-      }
-    }
-  }
 
 /*
   final auth = FirebaseAuth.instance;
@@ -349,6 +354,11 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                                         .collection('AllEvent')
                                         .doc(eventName)
                                         .delete();
+ for (var i = 0; i < Reporter.length; i++)
+                                      FirebaseFirestore.instance
+                                          .collection('reportedevents')
+                                          .doc(EventName + '-' + Reporter[i]!)
+                                          .update({'status': 'resolved'});
 
                                     CoolAlert.show(
                                       context: context,
@@ -361,7 +371,7 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    adminEventsListViewPage()));
+                                                    AdminTabs()));
                                       },
                                       type: CoolAlertType.success,
                                       backgroundColor:

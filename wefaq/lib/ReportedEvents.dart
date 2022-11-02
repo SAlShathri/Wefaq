@@ -65,7 +65,7 @@ class ReportedEventsState extends State<ReportedEventsList> {
     await for (var snapshot in _firestore
         .collection('reportedevents')
         .orderBy('reported event name')
-        // .where('status', isEqualTo: "new")
+        .where('status', isEqualTo: "new")
         .snapshots()) {
       for (var report in snapshot.docs) {
         setState(() {
