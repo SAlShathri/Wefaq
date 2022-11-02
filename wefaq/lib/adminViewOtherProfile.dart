@@ -431,8 +431,7 @@ class _viewprofileState extends State<adminviewotherprofile> {
                         ],
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
-                          image: NetworkImage(
-                              "https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images%2Fdata%2Fuser%2F0%2Fcom.swe444.wefaq%2Fcache%2Fimage_picker2743050244236619318.jpg?alt=media&token=037de374-37b0-4d0f-ae46-95f89c79b225"),
+                          image: NetworkImage(photo),
                           fit: BoxFit.cover,
                         ),
                       ),
