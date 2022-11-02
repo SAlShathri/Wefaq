@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wefaq/HomePage.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'package:wefaq/chatRoom.dart';
 import 'package:wefaq/mapView.dart';
@@ -47,6 +48,16 @@ class _ListViewTabsState extends State<userProjectsTabs> {
                   ),
                   onPressed: () {
                     showDialogFunc2(context);
+                  }),
+              IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: Color.fromARGB(255, 112, 71, 168),
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()));
                   }),
             ],
             automaticallyImplyLeading: false,

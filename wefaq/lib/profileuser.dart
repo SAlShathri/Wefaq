@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/background.dart';
 import 'package:wefaq/editProfile.dart';
+import 'package:wefaq/userPeojectsTap.dart';
 import 'package:wefaq/userProjects.dart';
 import 'bottom_bar_custom.dart';
 import 'package:wefaq/myProjects.dart';
@@ -150,7 +151,7 @@ class _viewprofileState extends State<viewprofile> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    userProjects(
+                                                    userProjectsTabs(
                                                         userEmail: userEmail)),
                                           );
                                         },
