@@ -127,6 +127,7 @@ class ReportedAccState extends State<ReportedAccList> {
                                       ),
                                       Row(
                                         children: [
+                                          SizedBox(width: 10),
                                           Container(
                                             alignment: Alignment.center,
                                             child: Text(name[index],
@@ -166,59 +167,21 @@ class ReportedAccState extends State<ReportedAccList> {
                                               255, 156, 185, 182),
                                           height: 1.0),
                                       const SizedBox(height: 16.0),
-                                      Row(children: <Widget>[
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Icon(
-                                          Icons.report_gmailerrorred,
-                                          color:
-                                              Color.fromARGB(255, 202, 51, 41),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          "Report Reason: ",
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            color: Color.fromARGB(
-                                                212, 82, 10, 111),
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            Reason[index],
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                              color: Color.fromARGB(
-                                                  212, 82, 10, 111),
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                          ),
-                                        )
-                                      ]),
-                                      const SizedBox(height: 16.0),
-                                      const Divider(
-                                          color: Color.fromARGB(
-                                              255, 156, 185, 182),
-                                          height: 1.0),
                                       Expanded(
                                         child: Row(children: <Widget>[
                                           SizedBox(
                                             width: 10,
                                           ),
                                           Icon(
-                                            Icons.event_note_outlined,
+                                            Icons.report_gmailerrorred,
                                             color: Color.fromARGB(
-                                                255, 156, 185, 182),
+                                                255, 202, 51, 41),
                                           ),
                                           SizedBox(
-                                            width: 20,
+                                            width: 10,
                                           ),
                                           Text(
-                                            "Report Note: ",
+                                            "Report Reason: ",
                                             style: const TextStyle(
                                               fontSize: 16,
                                               color: Color.fromARGB(
@@ -228,9 +191,7 @@ class ReportedAccState extends State<ReportedAccList> {
                                           ),
                                           Expanded(
                                             child: Text(
-                                              Note[index] == ''
-                                                  ? "No note"
-                                                  : Note[index],
+                                              Reason[index],
                                               style: const TextStyle(
                                                 fontSize: 16,
                                                 color: Color.fromARGB(
@@ -241,6 +202,48 @@ class ReportedAccState extends State<ReportedAccList> {
                                           )
                                         ]),
                                       ),
+                                      const SizedBox(height: 16.0),
+                                      const Divider(
+                                          color: Color.fromARGB(
+                                              255, 156, 185, 182),
+                                          height: 1.0),
+                                      Row(children: <Widget>[
+                                        SizedBox(
+                                          width: 10,
+                                          height: 40,
+                                        ),
+                                        Icon(
+                                          Icons.event_note_outlined,
+                                          color: Color.fromARGB(
+                                              255, 156, 185, 182),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                          height: 40,
+                                        ),
+                                        Text(
+                                          "Report Note: ",
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            color: Color.fromARGB(
+                                                212, 82, 10, 111),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            Note[index] == ''
+                                                ? "No note"
+                                                : Note[index],
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Color.fromARGB(
+                                                  212, 82, 10, 111),
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                        )
+                                      ]),
                                     ]))),
                         onTap: () {
                           Navigator.push(
