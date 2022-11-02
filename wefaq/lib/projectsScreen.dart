@@ -318,7 +318,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
               tooltip: "Filter by",
               icon: CircleAvatar(
                 radius: 27,
-                backgroundColor: Color.fromARGB(255, 72, 115, 134),
+                backgroundColor: Color.fromARGB(255, 97, 144, 164),
                 child: Icon(
                   Icons.filter_list,
                   color: Color.fromARGB(255, 255, 255, 255),
