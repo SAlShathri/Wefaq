@@ -86,6 +86,19 @@ class _viewprofileState extends State<viewProfileTeamMembers> {
       }
   }
 
+  String getUserRating() {
+    List<String> splited = [];
+    for (var i = 0; i < userWhoRated.length; i++) {
+      splited = userWhoRated[i].toString().split("-");
+
+      if (splited[1].toString() == currentUserEmail &&
+          splited[2].toString() == projectName &&
+          splited[3].toString() == userEmail) return splited[0].toString();
+    }
+
+    return "";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -260,8 +273,8 @@ class _viewprofileState extends State<viewProfileTeamMembers> {
                     child: Column(
                       children: <Widget>[
                         //add to userWhoRated
-                        if (!userWhoRated.contains(
-                            "$currentUserEmail-$projectName-$userEmail"))
+                        if (!userWhoRated.contains(getUserRating() +
+                            "-$currentUserEmail-$projectName-$userEmail"))
                           ListTile(
                             title: Text(
                               "     Rate your work experience with $fname ! ",
@@ -270,8 +283,20 @@ class _viewprofileState extends State<viewProfileTeamMembers> {
                             ),
                           ),
                         //add to userWhoRated
-                        if (!userWhoRated.contains(
-                            "$currentUserEmail-$projectName-$userEmail"))
+                        if (userWhoRated.contains(getUserRating() +
+                            "-$currentUserEmail-$projectName-$userEmail"))
+                          ListTile(
+                            title: Text(
+                              "     You already rated $fname " +
+                                  getUserRating() +
+                                  " out of 5",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 144, 120, 155)),
+                            ),
+                          ),
+
+                        if (!userWhoRated.contains(getUserRating() +
+                            "-$currentUserEmail-$projectName-$userEmail"))
                           RatingBar.builder(
                             initialRating: 0,
                             minRating: 1,
@@ -305,10 +330,10 @@ class _viewprofileState extends State<viewProfileTeamMembers> {
                                     backgroundColor:
                                         Color.fromARGB(172, 136, 98, 146),
                                   );
-                                  if (!userWhoRated.contains(
-                                      "$currentUserEmail-$projectName-$userEmail")) {
+                                  if (!userWhoRated.contains(getUserRating() +
+                                      "-$currentUserEmail-$projectName-$userEmail")) {
                                     userWhoRated.add(
-                                        "$currentUserEmail-$projectName-$userEmail");
+                                        "$newRating-$currentUserEmail-$projectName-$userEmail");
                                     //update on the db
 
                                     FirebaseFirestore.instance
@@ -323,8 +348,8 @@ class _viewprofileState extends State<viewProfileTeamMembers> {
                             },
                           ),
                         //add to userWhoRated
-                        if (!userWhoRated.contains(
-                            "$currentUserEmail-$projectName-$userEmail"))
+                        if (!userWhoRated.contains(getUserRating() +
+                            "-$currentUserEmail-$projectName-$userEmail"))
                           Divider(),
                         ListTile(
                           title: Text("About"),
