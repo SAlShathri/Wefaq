@@ -31,6 +31,8 @@ class _PostProjectState extends State<PostProject> {
   static final TextEditingController _durationEditingControlle =
       TextEditingController();
 
+  final String status = "active";
+
   DetailsResult? startPosition;
 
   late GooglePlace googlePlace;
@@ -464,7 +466,8 @@ class _PostProjectState extends State<PostProject> {
                           'lname': lname,
                           'token': token,
                           "duration": _durationEditingControlle.text,
-                          'cdate': formatter.format(now)
+                          'cdate': formatter.format(now),
+                          'status': status,
                         });
                         //Clear
 
@@ -472,6 +475,7 @@ class _PostProjectState extends State<PostProject> {
                         _startSearchFieldController.clear();
                         _descriptionEditingController.clear();
                         _lookingForEditingController.clear();
+                        _durationEditingControlle.clear();
                         selectedCat = "";
 
                         //sucess message
