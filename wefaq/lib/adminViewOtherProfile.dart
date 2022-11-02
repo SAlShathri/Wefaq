@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wefaq/AdminNavBar.dart';
 import 'package:wefaq/ReportedAcc.dart';
 import 'package:wefaq/UserLogin.dart';
+import 'package:wefaq/adminAccountTap.dart';
 import 'package:wefaq/userReport.dart';
 import 'adminUserProjectsTap.dart';
 import 'bottom_bar_custom.dart';
@@ -42,6 +43,7 @@ class _viewprofileState extends State<adminviewotherprofile> {
   @override
   void initState() {
     getUser();
+    getReportedEvents();
     super.initState();
   }
 
@@ -113,7 +115,8 @@ class _viewprofileState extends State<adminviewotherprofile> {
           title: "the account was deleted successfully ",
           confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
           onConfirmBtnTap: () {
-            Navigator.pop(context);
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AdminAccountTabs()));
           },
           type: CoolAlertType.success,
           backgroundColor: Color.fromARGB(221, 212, 189, 227),
