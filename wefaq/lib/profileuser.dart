@@ -166,7 +166,7 @@ class _viewprofileState extends State<viewprofile> {
                                                 BorderRadius.circular(10),
                                           ),
                                           child: Text(
-                                            "My projects",
+                                            "View projects",
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               color: Color.fromARGB(

@@ -7,6 +7,7 @@ import 'package:wefaq/AdminNavBar.dart';
 import 'package:wefaq/AdminProjectDetailsAppBar.dart';
 import 'package:wefaq/AdminProjectList.dart';
 import 'package:wefaq/ProjectsTapScreen.dart';
+import 'package:wefaq/adminViewOtherProfile.dart';
 import 'package:wefaq/config/colors.dart';
 import 'package:wefaq/profileuser.dart';
 import 'package:wefaq/screens/detail_screens/widgets/project_detail_appbar.dart';
@@ -381,7 +382,7 @@ class _projectDetailScreenState extends State<adminprojectDetailScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                viewotherprofile(
+                                                adminviewotherprofile(
                                                   userEmail: ownerEmail,
                                                 )));
                                   }

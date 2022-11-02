@@ -20,6 +20,7 @@ class MapSampleState extends State<MapSample> {
 
   @override
   void initState() {
+    _goToCurrentLocation();
     getMarkers();
     String apiKey = 'AIzaSyCkRaPfvVejBlQIAWEjc9klnkqk6olnhuc';
     googlePlace = GooglePlace(apiKey);

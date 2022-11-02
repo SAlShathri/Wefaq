@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wefaq/AdminEventDetails.dart';
 import 'package:wefaq/AdminHomePage.dart';
 import 'package:wefaq/AdminNavBar.dart';
 import 'dart:async';
@@ -120,15 +121,40 @@ class ReportedAccState extends State<ReportedAccList> {
                                       SizedBox(
                                         height: 10,
                                       ),
-                                      Container(
-                                        alignment: Alignment.center,
-                                        child: Text(name[index],
-                                            style: const TextStyle(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color.fromARGB(
-                                                  212, 82, 10, 111),
-                                            )),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            alignment: Alignment.center,
+                                            child: Text(name[index],
+                                                style: const TextStyle(
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color.fromARGB(
+                                                      212, 82, 10, 111),
+                                                )),
+                                          ),
+                                          Expanded(
+                                              child: SizedBox(
+                                            width: 100,
+                                          )),
+                                          IconButton(
+                                              icon: Icon(
+                                                Icons.arrow_forward_ios,
+                                                color: Color.fromARGB(
+                                                    255, 170, 169, 179),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            adminviewotherprofile(
+                                                              userEmail:
+                                                                  user_who_reporting_List[
+                                                                      index],
+                                                            )));
+                                              }),
+                                        ],
                                       ),
                                       const SizedBox(height: 16.0),
                                       const Divider(
