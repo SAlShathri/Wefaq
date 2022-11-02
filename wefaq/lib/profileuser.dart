@@ -279,7 +279,46 @@ class _viewprofileState extends State<viewprofile> {
                       Container(
                         child: ElevatedButton(
                           onPressed: () async {
-                            showDialogFunc();
+                             CoolAlert.show(
+                          context: context,
+                          title: "Confirm",
+                          confirmBtnColor: Color.fromARGB(144, 237, 42, 42),
+                          
+                          //cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 62, 208, 14)),
+                          confirmBtnText: 'Delete ',
+                          onConfirmBtnTap: () {
+                            //inactive
+                                   FirebaseFirestore.instance
+                                      .collection('users')
+                                      .doc(FirebaseAuth
+                                          .instance.currentUser!.email)
+                                      .update({'status': 'inactive'});
+
+                                  CoolAlert.show(
+                                    context: context,
+                                    title: "your account is inactive now",
+                                    confirmBtnColor:
+                                        Color.fromARGB(144, 64, 7, 87),
+                                    onConfirmBtnTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  UserLogin()));
+                                    },
+                                    type: CoolAlertType.success,
+                                    backgroundColor:
+                                        Color.fromARGB(221, 212, 189, 227),
+                                    text:
+                                        "you can reactivate your account within 1 week when you login",
+                                  );
+                          },
+                          type: CoolAlertType.confirm,
+                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                          text:
+                              "Are you sure you want to delete your account?",
+                        );
+                        //    showDialogFunc();
                             // deleteprofile();
                             //   Navigator.push(context,
                             //     MaterialPageRoute(builder: (context) => UserLogin()));
