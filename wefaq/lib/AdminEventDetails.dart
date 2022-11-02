@@ -43,7 +43,7 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
     getProjects();
     getFav();
     isLiked();
-getReports();
+    getReports();
     super.initState();
   }
 
@@ -59,7 +59,8 @@ getReports();
       print(e);
     }
   }
-var Reporter = [];
+
+  var Reporter = [];
 
   Future getReports() async {
     setState(() {
@@ -240,7 +241,6 @@ var Reporter = [];
       }
   }
 
-
 /*
   final auth = FirebaseAuth.instance;
   String? Email;
@@ -257,55 +257,45 @@ var Reporter = [];
     }
   } */
   showDialogFunc(context) {
-     CoolAlert.show(
-                          context: context,
-                          title: "",
-                          confirmBtnColor: Color.fromARGB(255, 181, 47, 47),
-                        //  cancelBtnColor: Colors.black,
-                        //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
-                          confirmBtnText: 'Delete ',
-                          //cancelBtnText: 'Delete' ,
-                             onConfirmBtnTap: () {
-                            if (count >= 1) {
-                                    for (var i = 0; i < userEmail.length; i++)
-                                      FirebaseFirestore.instance
-                                          .collection('FavoriteEvents')
-                                          .doc(userEmail[i]! +
-                                              '-' +
-                                              EventName +
-                                              '-' +
-                                              ownerEmail)
-                                          .update({'status': 'inactive'});
-                                    FirebaseFirestore.instance
-                                        .collection('AllEvent')
-                                        .doc(eventName)
-                                        .delete();
- for (var i = 0; i < Reporter.length; i++)
-                                      FirebaseFirestore.instance
-                                          .collection('reportedevents')
-                                          .doc(EventName + '-' + Reporter[i]!)
-                                          .update({'status': 'resolved'});
+    CoolAlert.show(
+      context: context,
+      title: "",
+      confirmBtnColor: Color.fromARGB(255, 181, 47, 47),
+      //  cancelBtnColor: Colors.black,
+      //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
+      confirmBtnText: 'Delete ',
+      //cancelBtnText: 'Delete' ,
+      onConfirmBtnTap: () {
+        if (count >= 1) {
+          for (var i = 0; i < userEmail.length; i++)
+            FirebaseFirestore.instance
+                .collection('FavoriteEvents')
+                .doc(userEmail[i]! + '-' + EventName + '-' + ownerEmail)
+                .update({'status': 'inactive'});
+          FirebaseFirestore.instance
+              .collection('AllEvent')
+              .doc(eventName)
+              .delete();
+          for (var i = 0; i < Reporter.length; i++)
+            FirebaseFirestore.instance
+                .collection('reportedevents')
+                .doc(EventName + '-' + Reporter[i]!)
+                .update({'status': 'resolved'});
 
-                                    CoolAlert.show(
-                                      context: context,
-                                      title:
-                                          "the event was deleted successfully ",
-                                      confirmBtnColor:
-                                          Color.fromARGB(144, 64, 7, 87),
-                                      onConfirmBtnTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    AdminTabs()));
-                                      },
-                                      type: CoolAlertType.success,
-                                      backgroundColor:
-                                          Color.fromARGB(221, 212, 189, 227),
-                                    );
-                                  }
+          CoolAlert.show(
+            context: context,
+            title: "the event was deleted successfully ",
+            confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+            onConfirmBtnTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AdminTabs()));
+            },
+            type: CoolAlertType.success,
+            backgroundColor: Color.fromARGB(221, 212, 189, 227),
+          );
+        }
 
-                                  /*FirebaseFirestore.instance
+        /*FirebaseFirestore.instance
                                       .collection('FavoriteEvents')
                                       .doc(favoriteEmail +
                                           "-" +
@@ -313,32 +303,28 @@ var Reporter = [];
                                           "-" +
                                           ownerEmail)
                                       .delete();*/
-                                  else
-                                    CoolAlert.show(
-                                      context: context,
-                                      title:
-                                          "You cannot delete the event because the number of reports is less than 3",
-                                      confirmBtnColor:
-                                          Color.fromARGB(144, 64, 7, 87),
-                                      onConfirmBtnTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    adminEventsListViewPage()));
-                                      },
-                                      type: CoolAlertType.error,
-                                      backgroundColor:
-                                          Color.fromARGB(221, 212, 189, 227),
-                                    );
-                          },
-                    
-                          type: CoolAlertType.confirm,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text:
-                              "Are you sure you want to delete event?",
-                        );
-   
+        else
+          CoolAlert.show(
+            context: context,
+            title:
+                "You cannot delete the event because the number of reports is less than 3",
+            confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+            onConfirmBtnTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => adminEventsListViewPage()));
+            },
+            type: CoolAlertType.error,
+            backgroundColor: Color.fromARGB(221, 212, 189, 227),
+          );
+      },
+
+      type: CoolAlertType.confirm,
+      backgroundColor: Color.fromARGB(221, 212, 189, 227),
+      text: "Are you sure you want to delete event?",
+    );
+
 //     return showDialog(
 //         context: context,
 //         builder: (context) {
@@ -624,6 +610,25 @@ var Reporter = [];
                               locList,
                               style: Theme.of(context).textTheme.titleSmall,
                             ),
+                            Container(
+                              width: 63,
+                              height: 28,
+                              margin: EdgeInsets.only(left: 220),
+                              child: Link(
+                                  target: LinkTarget.blank,
+                                  uri: Uri.parse(urlList),
+                                  builder: (context, followLink) => Expanded(
+                                        child: ElevatedButton(
+                                          onPressed: followLink,
+                                          child: Icon(
+                                            Icons.link,
+                                            size: 30,
+                                            color: Color.fromARGB(
+                                                255, 111, 111, 111),
+                                          ),
+                                        ),
+                                      )),
+                            ),
                           ],
                         ),
                       ],
@@ -692,33 +697,6 @@ var Reporter = [];
                     const SizedBox(height: 16.0),
                     const Divider(color: kOutlineColor, height: 1.0),
                     const SizedBox(height: 16.0),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 56,
-                      margin: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).padding.bottom,
-                        left: 24,
-                        right: 24,
-                      ),
-                      child: Link(
-                          target: LinkTarget.blank,
-                          uri: Uri.parse(urlList),
-                          builder: (context, followLink) => ElevatedButton(
-                                onPressed: followLink,
-                                child: Text(
-                                  'Registration link',
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                      fontSize: 17),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        Color.fromARGB(204, 109, 46, 154),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                    )),
-                              )),
-                    ),
                     SizedBox(height: 20),
                     Container(
                       alignment: Alignment.center,

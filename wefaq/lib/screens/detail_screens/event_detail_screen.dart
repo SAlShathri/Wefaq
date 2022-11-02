@@ -221,7 +221,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                                           builder: (context) => reportEvent(
                                               eventName: nameList,
                                               eventOwner: ownerEmail)));
-//showDialogFunc(context);
+                                  //showDialogFunc(context);
                                 }),
                           ),
                           Container(
@@ -307,6 +307,25 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                             locList,
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
+                          Container(
+                            width: 63,
+                            height: 28,
+                            margin: EdgeInsets.only(left: 220),
+                            child: Link(
+                                target: LinkTarget.blank,
+                                uri: Uri.parse(urlList),
+                                builder: (context, followLink) => Expanded(
+                                      child: ElevatedButton(
+                                        onPressed: followLink,
+                                        child: Icon(
+                                          Icons.link,
+                                          size: 30,
+                                          color: Color.fromARGB(
+                                              255, 111, 111, 111),
+                                        ),
+                                      ),
+                                    )),
+                          ),
                         ],
                       ),
                     ],
@@ -375,33 +394,6 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
                   const SizedBox(height: 16.0),
                   const Divider(color: kOutlineColor, height: 1.0),
                   const SizedBox(height: 16.0),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 56,
-                    margin: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).padding.bottom,
-                      left: 24,
-                      right: 24,
-                    ),
-                    child: Link(
-                        target: LinkTarget.blank,
-                        uri: Uri.parse(urlList),
-                        builder: (context, followLink) => ElevatedButton(
-                              onPressed: followLink,
-                              child: Text(
-                                'Registration link',
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                    fontSize: 17),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      Color.fromARGB(204, 109, 46, 154),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  )),
-                            )),
-                  ),
                 ],
               ),
             ),
