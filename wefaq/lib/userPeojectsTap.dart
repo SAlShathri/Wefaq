@@ -49,16 +49,6 @@ class _ListViewTabsState extends State<userProjectsTabs> {
                   onPressed: () {
                     showDialogFunc2(context);
                   }),
-              IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_ios,
-                    color: Color.fromARGB(255, 112, 71, 168),
-                    size: 30,
-                  ),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
-                  }),
             ],
             automaticallyImplyLeading: false,
             backgroundColor: Color.fromARGB(255, 145, 124, 178),
@@ -66,12 +56,12 @@ class _ListViewTabsState extends State<userProjectsTabs> {
               indicatorColor: Color.fromARGB(255, 84, 53, 134),
               indicatorWeight: 6,
               labelStyle: TextStyle(
-                  fontSize: 18.0, fontFamily: 'Family Name'), //For Selected tab
+                  fontSize: 17.0, fontFamily: 'Family Name'), //For Selected tab
               unselectedLabelStyle: TextStyle(
                   fontSize: 15.0,
                   fontFamily: 'Family Name'), //For Un-selected Tabs
               tabs: [
-                Tab(text: 'Projects I participated'),
+                Tab(text: 'participated Projects'),
                 Tab(
                   text: 'My projects',
                 ),
