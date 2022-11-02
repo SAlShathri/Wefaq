@@ -13,6 +13,7 @@ import 'package:wefaq/report.dart';
 import 'package:wefaq/reportedeventsScreeen.dart';
 
 import 'ProjectsTapScreen.dart';
+import 'adminAccountTap.dart';
 import 'chats.dart';
 
 class AdminCustomNavigationBar extends StatefulWidget {
@@ -92,7 +93,7 @@ class BottomBarButton extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ReportedAccList()))
+                            builder: (context) => AdminAccountTabs()))
                   }
               },
           child: AnimatedContainer(

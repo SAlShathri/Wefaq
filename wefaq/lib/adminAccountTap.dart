@@ -3,9 +3,9 @@ import 'package:wefaq/AcceptedSentJoinRequest.dart';
 import 'package:wefaq/AdminNavBar.dart';
 import 'package:wefaq/DeclinedSentJoinRequest.dart';
 import 'package:wefaq/PendingSentJoinRequest.dart';
-import 'package:wefaq/ReportedEvents.dart';
-import 'package:wefaq/ResolvedEvents.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
+import 'package:wefaq/newReporteAccountsList.dart';
+import 'package:wefaq/resolvedAcc.dart';
 import 'package:wefaq/userLogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'HomePage.dart';
@@ -31,7 +31,7 @@ class _ListViewTabsState extends State<AdminAccountTabs> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            title: Text('Reported Events',
+            title: Text('Reported Accounts',
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   color: Colors.white,
@@ -58,18 +58,18 @@ class _ListViewTabsState extends State<AdminAccountTabs> {
                   fontFamily: 'Family Name'), //For Un-selected Tabs
               tabs: [
                 Tab(
-                  text: 'New Reports',
+                  text: 'New Accounts',
                 ),
-                Tab(text: 'Resolved Reports'),
+                Tab(text: 'Resolved Accounts'),
               ],
             ),
           ),
           body: TabBarView(physics: NeverScrollableScrollPhysics(), children: [
-            ReportedEventsList(),
-            ResolvedEventsList(),
+            newReportedAccList(),
+            resolvedAccount(),
           ]),
           bottomNavigationBar: AdminCustomNavigationBar(
-            currentHomeScreen: 1,
+            currentHomeScreen: 2,
             updatePage: () {},
           ),
         ));

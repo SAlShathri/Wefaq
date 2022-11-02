@@ -37,11 +37,32 @@ class _viewprofileState extends State<adminviewotherprofile> {
   String photo = '';
   double rating = 0.0;
   List<String> selectedOptionList = [];
-
+  List<String> user_who_reporting_List = [];
+  List<String> Reporter = [];
   @override
   void initState() {
     getUser();
     super.initState();
+  }
+
+  Future getReportedEvents() async {
+    //clear first
+    setState(() {
+      user_who_reporting_List = [];
+      Reporter = [];
+    });
+
+    await for (var snapshot in _firestore
+        .collection('reportedUsers')
+        .orderBy('created', descending: true)
+        .snapshots()) {
+      for (var report in snapshot.docs) {
+        setState(() {
+          user_who_reporting_List.add(report['user_who_reported']);
+          Reporter.add(report['user_who_reporting']);
+        });
+      }
+    }
   }
 
   Future getUser() async {
@@ -68,47 +89,41 @@ class _viewprofileState extends State<adminviewotherprofile> {
   }
 
   showDialogFunc2(context) {
-      CoolAlert.show(
-                          context: context,
-                          title: "",
-                          confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
-                        //  cancelBtnColor: Colors.black,
-                        //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
-                          confirmBtnText: 'Delete ',
-                          //cancelBtnText: 'Delete' ,
-                             onConfirmBtnTap: () {
-                        FirebaseFirestore.instance
-                                      .collection('users')
-                                      .doc(userEmail)
-                                      .update({'status': 'deletedByAdmin'});
+    CoolAlert.show(
+      context: context,
+      title: "",
+      confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
+      //  cancelBtnColor: Colors.black,
+      //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
+      confirmBtnText: 'Delete ',
+      //cancelBtnText: 'Delete' ,
+      onConfirmBtnTap: () {
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(userEmail)
+            .update({'status': 'deletedByAdmin'});
+        for (var i = 0; i < Reporter.length; i++)
+          FirebaseFirestore.instance
+              .collection('reportedUsers')
+              .doc(userEmail + '-' + Reporter[i]!)
+              .update({'status': 'resolved'});
 
-                                  CoolAlert.show(
-                                    context: context,
-                                    title:
-                                        "the account was deleted successfully ",
-                                    confirmBtnColor:
-                                        Color.fromARGB(144, 64, 7, 87),
-                                    onConfirmBtnTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ReportedAccList()));
-                                    },
-                                    type: CoolAlertType.success,
-                                    backgroundColor:
-                                        Color.fromARGB(221, 212, 189, 227),
-                                  );
-                             
-                          
-                              
-                          },
-                    
-                          type: CoolAlertType.confirm,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text:
-                              "Are you sure you want to delete account?",
-                        );
+        CoolAlert.show(
+          context: context,
+          title: "the account was deleted successfully ",
+          confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+          onConfirmBtnTap: () {
+            Navigator.pop(context);
+          },
+          type: CoolAlertType.success,
+          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+        );
+      },
+
+      type: CoolAlertType.confirm,
+      backgroundColor: Color.fromARGB(221, 212, 189, 227),
+      text: "Are you sure you want to delete account?",
+    );
     // return showDialog(
     //     context: context,
     //     builder: (context) {
