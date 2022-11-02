@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wefaq/HomePage.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'bottom_bar_custom.dart';
+import 'package:cool_alert/cool_alert.dart';
 
 class myProjects extends StatefulWidget {
   @override
@@ -252,7 +253,7 @@ showDialogFunc(
               color: const Color.fromARGB(255, 255, 255, 255),
             ),
             padding: const EdgeInsets.all(15),
-            height: 500,
+            height: 550,
             width: MediaQuery.of(context).size.width * 0.9,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -396,6 +397,37 @@ showDialogFunc(
                     ),
                   ),
                 ),
+                SizedBox(height: 25),
+                SizedBox(
+                  width: 150,
+                  height: 50.0,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(144, 64, 7, 87),
+                      ),
+                      child: Text('End post',
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 16.0)),
+                      onPressed: () async {
+                        CoolAlert.show(
+                          context: context,
+                          title: "Confirm",
+                          confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+                          confirmBtnText: 'End post',
+                          onConfirmBtnTap: () {
+                            //inactive
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => myProjects()));
+                          },
+                          type: CoolAlertType.confirm,
+                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                          text:
+                              "After ending the post You will not receive any new join requests",
+                        );
+                      }),
+                )
               ],
             ),
           ),
