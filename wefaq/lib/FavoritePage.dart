@@ -160,7 +160,7 @@ class _favoritePageState extends State<favoritePage> {
                     //  elevation: 7,
                     color: status[index] == "Active"
                         ? const Color.fromARGB(255, 255, 255, 255)
-                        : Color.fromARGB(228, 120, 124, 128),
+                        : Color.fromARGB(227, 134, 135, 137),
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       child: Column(
@@ -184,14 +184,15 @@ class _favoritePageState extends State<favoritePage> {
                                     child: SizedBox(
                                   width: 100,
                                 )),
-                                Text(
-                                  status[index],
-                                  style: const TextStyle(
-                                    fontSize: 19,
-                                    color: Color.fromARGB(212, 82, 10, 111),
-                                    fontWeight: FontWeight.w700,
+                                if (status[index] == "inactive")
+                                  Text(
+                                    "Deleted",
+                                    style: const TextStyle(
+                                      fontSize: 19,
+                                      color: Color.fromARGB(212, 82, 10, 111),
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
-                                ),
 
                                 /* Text(
                                           creatDate[index],
@@ -220,22 +221,24 @@ class _favoritePageState extends State<favoritePage> {
                                     child: SizedBox(
                                   width: 100,
                                 )),
-                                IconButton(
-                                    icon: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Color.fromARGB(255, 170, 169, 179),
-                                    ),
-                                    onPressed: () {
-                                      if (status[index] == "Active")
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    eventDetailScreen(
-                                                      eventName:
-                                                          nameList[index],
-                                                    )));
-                                    }),
+                                if (status[index] == "Active")
+                                  IconButton(
+                                      icon: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color:
+                                            Color.fromARGB(255, 170, 169, 179),
+                                      ),
+                                      onPressed: () {
+                                        if (status[index] == "Active")
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      eventDetailScreen(
+                                                        eventName:
+                                                            nameList[index],
+                                                      )));
+                                      }),
                               ],
                             ),
                           ),

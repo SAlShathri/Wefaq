@@ -43,11 +43,7 @@ class _ListViewTabsState extends State<adminuserProjectsTabs> {
                   color: Color.fromARGB(255, 255, 255, 255),
                 ),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              adminviewotherprofile(userEmail: userEmail)));
+                  Navigator.pop(context);
                 }),
             title: Text('Projects',
                 style: TextStyle(
@@ -77,7 +73,7 @@ class _ListViewTabsState extends State<adminuserProjectsTabs> {
               tabs: [
                 Tab(text: 'participated Projects'),
                 Tab(
-                  text: 'My projects',
+                  text: 'Owned projects',
                 ),
               ],
             ),

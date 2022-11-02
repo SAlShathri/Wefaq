@@ -35,6 +35,14 @@ class _ListViewTabsState extends State<userProjectsTabs> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
             title: Text('Projects',
                 style: TextStyle(
                   fontWeight: FontWeight.normal,

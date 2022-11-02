@@ -140,7 +140,7 @@ class _viewprofileState extends State<viewProfileTeamMembers> {
                   children: <Widget>[
                     Container(
                       padding: EdgeInsets.all(15),
-                      margin: EdgeInsets.only(top: 0),
+                      margin: EdgeInsets.only(top: 120),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5.0),
