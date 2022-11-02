@@ -4,6 +4,7 @@ import 'package:full_screen_menu/full_screen_menu.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:wefaq/AdminEventList.dart';
 import 'package:wefaq/AdminHomePage.dart';
+import 'package:wefaq/AdminTabScreen.dart';
 import 'package:wefaq/HomePage.dart';
 import 'package:wefaq/ReportedAcc.dart';
 import 'package:wefaq/ReportedEvents.dart';
@@ -83,10 +84,8 @@ class BottomBarButton extends StatelessWidget {
                   }
                 else if (index == 1)
                   {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ReportedEventsList()))
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AdminTabs()))
                   }
                 else if (index == 2)
                   {

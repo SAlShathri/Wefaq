@@ -18,12 +18,12 @@ import 'package:wefaq/service/local_push_notification.dart';
 import 'package:http/http.dart' as http;
 
 // Main Stateful Widget Start
-class ReportedEventsList extends StatefulWidget {
+class ResolvedEventsList extends StatefulWidget {
   @override
-  ReportedEventsState createState() => ReportedEventsState();
+  ResolvedEventsState createState() => ResolvedEventsState();
 }
 
-class ReportedEventsState extends State<ReportedEventsList> {
+class ResolvedEventsState extends State<ResolvedEventsList> {
   @override
   void initState() {
     getCurrentUser();
@@ -65,7 +65,7 @@ class ReportedEventsState extends State<ReportedEventsList> {
     await for (var snapshot in _firestore
         .collection('reportedevents')
         .orderBy('reported event name')
-        // .where('status', isEqualTo: "new")
+        .where('status', isEqualTo: "resolved")
         .snapshots()) {
       for (var report in snapshot.docs) {
         setState(() {
