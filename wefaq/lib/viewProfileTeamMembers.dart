@@ -252,8 +252,7 @@ class _viewprofileState extends State<viewProfileTeamMembers> {
                         ],
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
-                          image: NetworkImage(
-                              "https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images%2Fdata%2Fuser%2F0%2Fcom.swe444.wefaq%2Fcache%2Fimage_picker2743050244236619318.jpg?alt=media&token=037de374-37b0-4d0f-ae46-95f89c79b225"),
+                          image: NetworkImage("$photo"),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -409,29 +408,24 @@ Future<void> _signOut() async {
 }
 
 showDialogFunc(context) {
-   CoolAlert.show(
-                          context: context,
-                          title: "",
-                          confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
-                        //  cancelBtnColor: Colors.black,
-                        //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
-                          confirmBtnText: 'log out ',
-                          //cancelBtnText: 'Delete' ,
-                             onConfirmBtnTap: () {
-                 
-                           _signOut();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => UserLogin()));
-                              
-                          },
-                    
-                          type: CoolAlertType.confirm,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text:
-                              "Are you sure you want to log out?",
-                        );
+  CoolAlert.show(
+    context: context,
+    title: "",
+    confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
+    //  cancelBtnColor: Colors.black,
+    //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
+    confirmBtnText: 'log out ',
+    //cancelBtnText: 'Delete' ,
+    onConfirmBtnTap: () {
+      _signOut();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => UserLogin()));
+    },
+
+    type: CoolAlertType.confirm,
+    backgroundColor: Color.fromARGB(221, 212, 189, 227),
+    text: "Are you sure you want to log out?",
+  );
   // return showDialog(
   //     context: context,
   //     builder: (context) {
