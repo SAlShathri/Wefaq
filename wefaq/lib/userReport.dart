@@ -262,7 +262,8 @@ class _reportEventState extends State<reportUser> {
                             'user_who_reported': userEmail,
                             'user_who_reporting': Email.toString(),
                             'created': now,
-                            'name': userName
+                            'name': userName,
+                            'status': 'new'
                           });
                           var fillterd = _firestore
                               .collection('users')
