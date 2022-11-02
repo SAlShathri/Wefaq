@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wefaq/HomePage.dart';
 import 'package:wefaq/UserLogin.dart';
@@ -145,6 +146,7 @@ class _favoritePageState extends State<favoritePage> {
         currentHomeScreen: 0,
         updatePage: () {},
       ),
+      //backgroundColor: Color.fromARGB(255, 228, 221, 232),
       body: Scrollbar(
         thumbVisibility: true,
         child: ListView.builder(
@@ -159,8 +161,8 @@ class _favoritePageState extends State<favoritePage> {
                     //shadowColor: Color.fromARGB(255, 255, 255, 255),
                     //  elevation: 7,
                     color: status[index] == "Active"
-                        ? const Color.fromARGB(255, 255, 255, 255)
-                        : Color.fromARGB(227, 134, 135, 137),
+                        ? Color.fromARGB(255, 255, 255, 255)
+                        : Color.fromARGB(225, 188, 189, 190),
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       child: Column(
@@ -176,7 +178,7 @@ class _favoritePageState extends State<favoritePage> {
                                   "      " + nameList[index] + " ",
                                   style: const TextStyle(
                                     fontSize: 19,
-                                    color: Color.fromARGB(212, 82, 10, 111),
+                                    color: Color.fromARGB(211, 90, 12, 121),
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
@@ -186,10 +188,10 @@ class _favoritePageState extends State<favoritePage> {
                                 )),
                                 if (status[index] == "inactive")
                                   Text(
-                                    "Deleted",
+                                    "Deleted  ",
                                     style: const TextStyle(
-                                      fontSize: 19,
-                                      color: Color.fromARGB(212, 82, 10, 111),
+                                      fontSize: 16,
+                                      color: Color.fromARGB(210, 193, 23, 23),
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
