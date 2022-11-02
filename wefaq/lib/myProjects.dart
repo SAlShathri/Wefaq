@@ -31,6 +31,8 @@ class _myProjectState extends State<myProjects> {
   //category list
   var categoryList = [];
 
+  var statusList = [];
+
   String? Email;
   @override
   void initState() {
@@ -73,6 +75,7 @@ class _myProjectState extends State<myProjects> {
             locList.add(project['location']);
             lookingForList.add(project['lookingFor']);
             categoryList.add(project['category']);
+            statusList.add(project['status']);
           });
         }
     }
@@ -204,11 +207,13 @@ class _myProjectState extends State<myProjects> {
                             onPressed: () {
                               showDialogFunc(
                                   context,
+                                  Email,
                                   nameList[index],
                                   descList[index],
                                   categoryList[index],
                                   locList[index],
-                                  lookingForList[index]);
+                                  lookingForList[index],
+                                  statusList[index]);
                             },
                           ))
                         ],
@@ -218,11 +223,13 @@ class _myProjectState extends State<myProjects> {
                   onTap: () {
                     showDialogFunc(
                         context,
+                        Email,
                         nameList[index],
                         descList[index],
                         categoryList[index],
                         locList[index],
-                        lookingForList[index]);
+                        lookingForList[index],
+                        statusList[index]);
                   },
                 ));
           },
@@ -235,11 +242,13 @@ class _myProjectState extends State<myProjects> {
 // This is a block of Model Dialog
 showDialogFunc(
   context,
+  email,
   title,
   desc,
   category,
   loc,
   lookingFor,
+  status,
 ) {
   return showDialog(
     context: context,
@@ -398,36 +407,61 @@ showDialogFunc(
                   ),
                 ),
                 SizedBox(height: 25),
-                SizedBox(
-                  width: 150,
-                  height: 50.0,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(144, 64, 7, 87),
+                if (status == "active")
+                  SizedBox(
+                    width: 150,
+                    height: 50.0,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(144, 64, 7, 87),
+                        ),
+                        child: Text('End post',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16.0)),
+                        onPressed: () async {
+                          CoolAlert.show(
+                            context: context,
+                            title: "Confirm",
+                            confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+                            confirmBtnText: 'End post',
+                            onConfirmBtnTap: () {
+                              //status = 'inactive';
+                              //inactive
+
+                              FirebaseFirestore.instance
+                                  .collection('AllProjects')
+                                  .doc(title + '-' + email)
+                                  .update({
+                                'status': "inactive",
+                              });
+                              //_endPost('status': status);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => myProjects()));
+                            },
+                            type: CoolAlertType.confirm,
+                            backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                            text:
+                                "After ending the post You will not receive any new join requests",
+                          );
+                        }),
+                  )
+                else
+                  Container(
+                    // width: 200,
+                    child: const Align(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        "Post Ended",
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Color.fromARGB(230, 64, 7, 87),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      child: Text('End post',
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 16.0)),
-                      onPressed: () async {
-                        CoolAlert.show(
-                          context: context,
-                          title: "Confirm",
-                          confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
-                          confirmBtnText: 'End post',
-                          onConfirmBtnTap: () {
-                            //inactive
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => myProjects()));
-                          },
-                          type: CoolAlertType.confirm,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text:
-                              "After ending the post You will not receive any new join requests",
-                        );
-                      }),
-                )
+                    ),
+                  ),
               ],
             ),
           ),
