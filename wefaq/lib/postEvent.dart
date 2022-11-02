@@ -343,10 +343,10 @@ class _PostEventState extends State<PostEvent> {
                         if (newDate == null) return;
 
                         TimeOfDay? newTime = await showTimePicker(
+                          initialTime: TimeOfDay.now(),
                           context: context,
-                          initialTime: TimeOfDay(
-                              hour: dateTime.hour, minute: dateTime.minute),
                         );
+
                         if (newTime == null) return;
 
                         final newDateTime = DateTime(
