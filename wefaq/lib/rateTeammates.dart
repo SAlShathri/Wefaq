@@ -74,7 +74,9 @@ class _rateTeammates extends State<rateTeammates> {
         for (var project in snapshot.docs) {
           setState(() {
             if (project['email'].toString() != Email) {
-              usersNames.add(project['fname'].toString());
+              usersNames.add(project['fname'].toString() +
+                  " " +
+                  project['lname'].toString());
               usersEmails.add(project['email'].toString());
             }
           });
@@ -112,10 +114,10 @@ class _rateTeammates extends State<rateTeammates> {
         backgroundColor: Color.fromARGB(255, 182, 168, 203),
         title: Row(
           children: [
-            Image.network('assets/images/logo.png', height: 70),
-            SizedBox(width: 10),
+            //Image.network('assets/images/logo.png', height: 70),
+            SizedBox(width: 5),
             Text(
-              "Rate Teammeate",
+              "Rate Teammeates",
               style: TextStyle(color: Colors.grey[800]),
             ),
           ],
@@ -165,25 +167,29 @@ class _rateTeammates extends State<rateTeammates> {
                                                     projectName: projectName)));
                                   }),
                               SizedBox(
-                                width: 120,
+                                width: 170,
                               ),
                               Expanded(
-                                child: IconButton(
-                                    icon: Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      color: Color.fromARGB(255, 85, 85, 85),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  viewProfileTeamMembers(
-                                                      userEmail:
-                                                          usersEmails[index],
-                                                      projectName:
-                                                          projectName)));
-                                    }),
+                                flex: 10,
+                                child: Container(
+                                  margin: EdgeInsets.only(left: 0),
+                                  child: IconButton(
+                                      icon: Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        color: Color.fromARGB(255, 85, 85, 85),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    viewProfileTeamMembers(
+                                                        userEmail:
+                                                            usersEmails[index],
+                                                        projectName:
+                                                            projectName)));
+                                      }),
+                                ),
                               ),
                             ]),
                           ],
