@@ -36,6 +36,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
     getCurrentUser();
     getProjects();
     getRequests();
+    //getProfilePhoto();
     super.initState();
   }
 
@@ -69,6 +70,7 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
   String duration = "";
   String fName = "";
   String Lname = "";
+  String profile = "";
   List<String> participantNames = [];
 
   var ProjectTitleList = [];
@@ -113,10 +115,25 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
           Lname = project['lname'].toString();
           duration = project["duration"].toString();
           splited = lookingForList.split(",");
+          profile = project["Profile"].toString();
         });
       }
   }
 
+/*
+  Future getProfilePhoto() async {
+    var fillterd = _firestore
+        .collection('users')
+        .where("Email", isEqualTo: ownerEmail)
+        .snapshots();
+    await for (var snapshot in fillterd)
+      for (var user in snapshot.docs) {
+        setState(() {
+          profile = user["Profile"].toString();
+        });
+      }
+  }
+*/
   Future getRequests() async {
     if (signedInUser.email != null) {
       var fillterd = _firestore
@@ -239,9 +256,8 @@ class _projectDetailScreenState extends State<projectDetailScreen> {
                               margin: const EdgeInsets.only(right: 8.0),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                image: const DecorationImage(
-                                  image: AssetImage(
-                                      'assets/images/PlaceHolder.png'),
+                                image: DecorationImage(
+                                  image: NetworkImage(profile),
                                   fit: BoxFit.cover,
                                 ),
                                 boxShadow: [

@@ -50,9 +50,11 @@ class _PostProjectState extends State<PostProject> {
   get fname => name.first;
   get lname => name.last;
   var Email = FirebaseAuth.instance.currentUser!.email;
+  String profile = "";
 
   void initState() {
     // call the methods to fetch the data from the DB
+    getProfilePhoto();
     getCategoryList();
 
     super.initState();
@@ -63,6 +65,19 @@ class _PostProjectState extends State<PostProject> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  Future getProfilePhoto() async {
+    var fillterd = _firestore
+        .collection('users')
+        .where("Email", isEqualTo: Email)
+        .snapshots();
+    await for (var snapshot in fillterd)
+      for (var user in snapshot.docs) {
+        setState(() {
+          profile = user["Profile"].toString();
+        });
+      }
   }
 
   void autoCompleteSearch(String value) async {
@@ -468,6 +483,7 @@ class _PostProjectState extends State<PostProject> {
                           "duration": _durationEditingControlle.text,
                           'cdate': formatter.format(now),
                           'status': status,
+                          'Profile': profile,
                         });
                         //Clear
 
