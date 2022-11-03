@@ -36,6 +36,7 @@ class _viewprofileState extends State<adminviewotherprofile> {
   String role = "";
   String gitHub = "";
   String photo = '';
+  int count = 0;
   double rating = 0.0;
   List<String> selectedOptionList = [];
   List<String> user_who_reporting_List = [];
@@ -84,6 +85,8 @@ class _viewprofileState extends State<adminviewotherprofile> {
           role = user["role"].toString();
           gitHub = user["gitHub"].toString();
           rating = user["rating"];
+          count = user["count"];
+
           for (var skill in user["skills"])
             selectedOptionList.add(skill.toString());
         });
@@ -100,27 +103,41 @@ class _viewprofileState extends State<adminviewotherprofile> {
       confirmBtnText: 'Delete ',
       //cancelBtnText: 'Delete' ,
       onConfirmBtnTap: () {
-        FirebaseFirestore.instance
-            .collection('users')
-            .doc(userEmail)
-            .update({'status': 'deletedByAdmin'});
-        for (var i = 0; i < Reporter.length; i++)
+        if (count > 3) {
           FirebaseFirestore.instance
-              .collection('reportedUsers')
-              .doc(userEmail + '-' + Reporter[i]!)
-              .update({'status': 'resolved'});
+              .collection('users')
+              .doc(userEmail)
+              .update({'status': 'deletedByAdmin'});
+          for (var i = 0; i < Reporter.length; i++)
+            FirebaseFirestore.instance
+                .collection('reportedUsers')
+                .doc(userEmail + '-' + Reporter[i]!)
+                .update({'status': 'resolved'});
 
-        CoolAlert.show(
-          context: context,
-          title: "the account was deleted successfully ",
-          confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
-          onConfirmBtnTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => AdminAccountTabs()));
-          },
-          type: CoolAlertType.success,
-          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-        );
+          CoolAlert.show(
+            context: context,
+            title: "the account was deleted successfully ",
+            confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+            onConfirmBtnTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AdminAccountTabs()));
+            },
+            type: CoolAlertType.success,
+            backgroundColor: Color.fromARGB(221, 212, 189, 227),
+          );
+        } else
+          CoolAlert.show(
+            context: context,
+            title:
+                "You can not  delete the account because the number of reports is less than 3",
+            confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+            onConfirmBtnTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AdminAccountTabs()));
+            },
+            type: CoolAlertType.success,
+            backgroundColor: Color.fromARGB(221, 212, 189, 227),
+          );
       },
 
       type: CoolAlertType.confirm,
