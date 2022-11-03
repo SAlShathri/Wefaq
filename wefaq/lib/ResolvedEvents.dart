@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/route_manager.dart';
-import 'package:wefaq/AdminEventDetails.dart';
 import 'package:wefaq/AdminHomePage.dart';
 import 'package:wefaq/AdminNavBar.dart';
 import 'package:wefaq/AdminProjectDetails.dart';
@@ -97,77 +96,101 @@ class ResolvedEventsState extends State<ResolvedEventsList> {
                         return SizedBox(
                           height: 180,
                           child: GestureDetector(
-                              child: Card(
-                                  color: Color.fromARGB(235, 255, 255, 255),
-                                  //shadowColor: Color.fromARGB(255, 255, 255, 255),
-                                  //  elevation: 7,
+                            child: Card(
+                                color: Color.fromARGB(235, 255, 255, 255),
+                                //shadowColor: Color.fromARGB(255, 255, 255, 255),
+                                //  elevation: 7,
 
-                                  child: Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                      child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
+                                child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 10,
+                                                height: 50,
+                                              ),
+                                              Container(
+                                                alignment: Alignment.center,
+                                                child:
+                                                    Text(EventnameList[index],
+                                                        style: const TextStyle(
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Color.fromARGB(
+                                                              212, 82, 10, 111),
+                                                        )),
+                                              ),
+                                              SizedBox(
+                                                //width: 100,
+                                                height: 30,
+                                              )
+                                            ],
+                                          ),
+                                          const Divider(
+                                              color: Color.fromARGB(
+                                                  255, 156, 185, 182),
+                                              height: 1.0),
+                                          const SizedBox(height: 16.0),
+                                          Row(children: <Widget>[
                                             SizedBox(
-                                              height: 10,
+                                              width: 10,
                                             ),
-                                            Row(
-                                              children: [
-                                                SizedBox(width: 10),
-                                                Container(
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                      EventnameList[index],
-                                                      style: const TextStyle(
-                                                        fontSize: 17,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Color.fromARGB(
-                                                            212, 82, 10, 111),
-                                                      )),
-                                                ),
-                                                Expanded(
-                                                    child: SizedBox(
-                                                  width: 100,
-                                                )),
-                                                IconButton(
-                                                    icon: Icon(
-                                                      Icons.arrow_forward_ios,
-                                                      color: Color.fromARGB(
-                                                          255, 170, 169, 179),
-                                                    ),
-                                                    onPressed: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  AdmineventDetailScreen(
-                                                                      eventName:
-                                                                          EventnameList[
-                                                                              index])));
-                                                    }),
-                                              ],
+                                            Icon(
+                                              Icons.report_gmailerrorred,
+                                              color: Color.fromARGB(
+                                                  255, 202, 51, 41),
                                             ),
-                                            const Divider(
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              "Report Reason: ",
+                                              style: const TextStyle(
+                                                fontSize: 16,
                                                 color: Color.fromARGB(
-                                                    255, 156, 185, 182),
-                                                height: 1.0),
-                                            const SizedBox(height: 16.0),
-                                            Row(children: <Widget>[
+                                                    212, 82, 10, 111),
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Text(
+                                              Reason[index],
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                color: Color.fromARGB(
+                                                    212, 82, 10, 111),
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                            ),
+                                          ]),
+                                          const SizedBox(height: 16.0),
+                                          const Divider(
+                                              color: Color.fromARGB(
+                                                  255, 156, 185, 182),
+                                              height: 1.0),
+                                          Expanded(
+                                            child: Row(children: <Widget>[
                                               SizedBox(
                                                 width: 10,
                                               ),
                                               Icon(
-                                                Icons.report_gmailerrorred,
+                                                Icons.event_note_outlined,
                                                 color: Color.fromARGB(
-                                                    255, 202, 51, 41),
+                                                    255, 156, 185, 182),
                                               ),
                                               SizedBox(
                                                 width: 10,
                                               ),
                                               Text(
-                                                "Report Reason: ",
+                                                "Report Note: ",
                                                 style: const TextStyle(
                                                   fontSize: 16,
                                                   color: Color.fromARGB(
@@ -175,69 +198,24 @@ class ResolvedEventsState extends State<ResolvedEventsList> {
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                              Text(
-                                                Reason[index],
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                  color: Color.fromARGB(
-                                                      212, 82, 10, 111),
-                                                  fontWeight: FontWeight.normal,
-                                                ),
-                                              ),
-                                            ]),
-                                            const SizedBox(height: 16.0),
-                                            const Divider(
-                                                color: Color.fromARGB(
-                                                    255, 156, 185, 182),
-                                                height: 1.0),
-                                            Expanded(
-                                              child: Row(children: <Widget>[
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Icon(
-                                                  Icons.event_note_outlined,
-                                                  color: Color.fromARGB(
-                                                      255, 156, 185, 182),
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text(
-                                                  "Report Note: ",
+                                              Expanded(
+                                                child: Text(
+                                                  Note[index] == ''
+                                                      ? "No note"
+                                                      : Note[index],
                                                   style: const TextStyle(
                                                     fontSize: 16,
                                                     color: Color.fromARGB(
                                                         212, 82, 10, 111),
-                                                    fontWeight: FontWeight.bold,
+                                                    fontWeight:
+                                                        FontWeight.normal,
                                                   ),
                                                 ),
-                                                Expanded(
-                                                  child: Text(
-                                                    Note[index] == ''
-                                                        ? "No note"
-                                                        : Note[index],
-                                                    style: const TextStyle(
-                                                      fontSize: 16,
-                                                      color: Color.fromARGB(
-                                                          212, 82, 10, 111),
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                    ),
-                                                  ),
-                                                )
-                                              ]),
-                                            ),
-                                          ]))),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            AdmineventDetailScreen(
-                                              eventName: EventnameList[index],
-                                            )));
-                              }),
+                                              )
+                                            ]),
+                                          ),
+                                        ]))),
+                          ),
                         );
                       }))))
     ]);

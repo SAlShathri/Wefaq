@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:wefaq/AdminEventDetails.dart';
 import 'package:wefaq/AdminHomePage.dart';
 import 'package:wefaq/AdminNavBar.dart';
 import 'dart:async';
