@@ -103,7 +103,7 @@ class _viewprofileState extends State<adminviewotherprofile> {
       confirmBtnText: 'Delete ',
       //cancelBtnText: 'Delete' ,
       onConfirmBtnTap: () {
-        if (count > 3) {
+        if (count >= 3) {
           FirebaseFirestore.instance
               .collection('users')
               .doc(userEmail)
@@ -135,7 +135,7 @@ class _viewprofileState extends State<adminviewotherprofile> {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => AdminAccountTabs()));
             },
-            type: CoolAlertType.success,
+            type: CoolAlertType.error,
             backgroundColor: Color.fromARGB(221, 212, 189, 227),
           );
       },

@@ -266,7 +266,7 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
       confirmBtnText: 'Delete ',
       //cancelBtnText: 'Delete' ,
       onConfirmBtnTap: () {
-        if (count >= 1) {
+        if (count >= 3) {
           for (var i = 0; i < userEmail.length; i++)
             FirebaseFirestore.instance
                 .collection('FavoriteEvents')
