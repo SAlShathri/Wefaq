@@ -124,7 +124,7 @@ class AdminReportedEventState extends State<AdminReportedEvent> {
                           //cancelBtnText: 'Delete' ,
                              onConfirmBtnTap: () {
                      
-                              if (count >= 3) {
+                              if (count >= 1) {
                                     for (var i = 0; i < userEmail.length; i++)
                                       FirebaseFirestore.instance
                                           .collection('FavoriteEvents')
@@ -170,7 +170,7 @@ class AdminReportedEventState extends State<AdminReportedEvent> {
                                     CoolAlert.show(
                                       context: context,
                                       title:
-                                          "You cannot delete the event because the number of reports is less than 3",
+                                          "You cannot delete the event because there is no reports on it ",
                                       confirmBtnColor:
                                           Color.fromARGB(144, 64, 7, 87),
                                       onConfirmBtnTap: () {
@@ -433,7 +433,7 @@ class AdminReportedEventState extends State<AdminReportedEvent> {
                         showDialogFunc2(context);
                       }),
                 ],
-                title: Text('Reported Event',
+                title: Text('Reports',
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
                       color: Colors.white,

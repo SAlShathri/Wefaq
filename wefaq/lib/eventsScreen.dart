@@ -299,7 +299,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
               leading:
                   Icon(Icons.date_range, color: Color.fromARGB(144, 64, 7, 87)),
               title: Text(
-                'Created date',
+                'Latest',
                 style: TextStyle(
                   color: Color.fromARGB(221, 81, 122, 140),
                 ),

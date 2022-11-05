@@ -103,7 +103,7 @@ class _viewprofileState extends State<adminviewotherprofile> {
       confirmBtnText: 'Delete ',
       //cancelBtnText: 'Delete' ,
       onConfirmBtnTap: () {
-        if (count >= 3) {
+        if (count >= 1) {
           FirebaseFirestore.instance
               .collection('users')
               .doc(userEmail)
@@ -129,7 +129,7 @@ class _viewprofileState extends State<adminviewotherprofile> {
           CoolAlert.show(
             context: context,
             title:
-                "You can not  delete the account because the number of reports is less than 3",
+                "You can not  delete the account because there is no reports on it",
             confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
             onConfirmBtnTap: () {
               Navigator.push(context,
