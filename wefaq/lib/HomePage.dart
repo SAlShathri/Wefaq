@@ -29,9 +29,11 @@ Future<void> _signOut() async {
 class HomeScreenState extends State<HomeScreen> {
   final auth = FirebaseAuth.instance;
   late User signedInUser;
+  String profilepic = "";
   @override
   void initState() {
     getCurrentUser();
+    getPhoto();
     getProjectTitle();
     getProjectTitleOwner();
     super.initState();
@@ -88,6 +90,21 @@ class HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Future getPhoto() async {
+    if (Email != null) {
+      var fillterd = _firestore
+          .collection('users')
+          .where('Email', isEqualTo: Email)
+          .snapshots();
+      await for (var snapshot in fillterd)
+        for (var user in snapshot.docs) {
+          setState(() {
+            profilepic = user["Profile"].toString();
+          });
+        }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,46 +118,36 @@ class HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 33,
               ),
-              Container(
-                  margin: EdgeInsets.only(top: 40),
-                  child: IconButton(
-                      icon: Icon(
-                        CupertinoIcons.profile_circled,
-                        size: 55,
-                        color: Color.fromARGB(255, 255, 255, 255),
+              GestureDetector(
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  margin: EdgeInsets.only(left: 350, top: 60),
+                  decoration: new BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        offset: Offset(0, 0),
+                        blurRadius: 10,
+                        color: Colors.black.withOpacity(0.15),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => viewprofile(
-                                    userEmail: FirebaseAuth
-                                        .instance.currentUser!.email!)));
-                      })),
-              Container(
-                margin: EdgeInsets.only(left: 340, top: 40),
-                child: IconButton(
-                    icon: Icon(
-                      Icons.logout,
-                      size: 30,
-                      color: Color.fromARGB(255, 255, 255, 255),
+                    ],
+                    borderRadius: BorderRadius.circular(30),
+                    image: new DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        profilepic,
+                      ),
                     ),
-                    onPressed: () {
-                      showDialogFunc(context);
-                    }),
-              ),
-              SizedBox(
-                height: 130,
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 10, top: 125),
-                alignment: Alignment.topLeft,
-                child: Text("Hello $FName!",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 32),
-                    textAlign: TextAlign.left),
+                  ),
+                ),
+                onTap: (() {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => viewprofile(
+                              userEmail:
+                                  FirebaseAuth.instance.currentUser!.email!)));
+                }),
               ),
               SizedBox(
                 height: 200,
@@ -156,13 +163,17 @@ class HomeScreenState extends State<HomeScreen> {
                         Expanded(
                           child: GridView.count(
                             crossAxisCount: 2,
-                            childAspectRatio: .85,
+                            childAspectRatio: 1,
                             crossAxisSpacing: 20,
                             mainAxisSpacing: 20,
                             children: <Widget>[
                               CategoryCard(
                                   title: "My Projects",
-                                  imgSrc: "2.png",
+                                  icon: Icon(
+                                    Icons.lightbulb,
+                                    size: 45,
+                                    color: Color.fromARGB(221, 73, 105, 119),
+                                  ),
                                   onTap: () {
                                     Navigator.push(
                                         context,
@@ -172,7 +183,11 @@ class HomeScreenState extends State<HomeScreen> {
                                   }),
                               CategoryCard(
                                   title: "Sent Request",
-                                  imgSrc: "4.png",
+                                  icon: Icon(
+                                    Icons.send_outlined,
+                                    size: 45,
+                                    color: Color.fromARGB(221, 73, 105, 119),
+                                  ),
                                   onTap: () {
                                     Navigator.push(
                                         context,
@@ -181,7 +196,11 @@ class HomeScreenState extends State<HomeScreen> {
                                   }),
                               CategoryCard(
                                   title: "Received Request",
-                                  imgSrc: "1.png",
+                                  icon: Icon(
+                                    Icons.add_to_home_screen,
+                                    size: 45,
+                                    color: Color.fromARGB(221, 73, 105, 119),
+                                  ),
                                   onTap: () {
                                     Navigator.push(
                                         context,
@@ -191,7 +210,11 @@ class HomeScreenState extends State<HomeScreen> {
                                   }),
                               CategoryCard(
                                   title: "My Favorites",
-                                  imgSrc: "3.png",
+                                  icon: Icon(
+                                    Icons.star,
+                                    size: 45,
+                                    color: Color.fromARGB(221, 73, 105, 119),
+                                  ),
                                   onTap: () {
                                     Navigator.push(
                                         context,
@@ -214,12 +237,12 @@ class HomeScreenState extends State<HomeScreen> {
 }
 
 class CategoryCard extends StatelessWidget {
-  final String imgSrc;
   final String title;
+  final Icon icon;
   final Function() onTap;
 
   const CategoryCard({
-    required this.imgSrc,
+    required this.icon,
     required this.title,
     required this.onTap,
   });
@@ -229,7 +252,7 @@ class CategoryCard extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(13),
       child: Container(
-        // padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(13),
@@ -241,27 +264,22 @@ class CategoryCard extends StatelessWidget {
               color: Color.fromARGB(255, 46, 36, 50),
             ),
           ],
-          image: new DecorationImage(
-            image: new AssetImage("assets/images/$imgSrc"),
-          ),
         ),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
             onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: <Widget>[
-                  Spacer(),
-                  Spacer(),
-                  Text("$title",
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Color.fromARGB(221, 73, 105, 119),
-                          fontWeight: FontWeight.normal)),
-                ],
-              ),
+            child: Column(
+              children: <Widget>[
+                Spacer(),
+                icon,
+                Spacer(),
+                Text("$title",
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: Color.fromARGB(221, 73, 105, 119),
+                        fontWeight: FontWeight.bold)),
+              ],
             ),
           ),
         ),
@@ -271,29 +289,24 @@ class CategoryCard extends StatelessWidget {
 }
 
 showDialogFunc(context) {
-   CoolAlert.show(
-                          context: context,
-                          title: "",
-                          confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
-                        //  cancelBtnColor: Colors.black,
-                        //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
-                          confirmBtnText: 'log out ',
-                          //cancelBtnText: 'Delete' ,
-                             onConfirmBtnTap: () {
-                 
-                           _signOut();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => UserLogin()));
-                              
-                          },
-                    
-                          type: CoolAlertType.confirm,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text:
-                              "Are you sure you want to log out?",
-                        );
+  CoolAlert.show(
+    context: context,
+    title: "",
+    confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
+    //  cancelBtnColor: Colors.black,
+    //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
+    confirmBtnText: 'log out ',
+    //cancelBtnText: 'Delete' ,
+    onConfirmBtnTap: () {
+      _signOut();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => UserLogin()));
+    },
+
+    type: CoolAlertType.confirm,
+    backgroundColor: Color.fromARGB(221, 212, 189, 227),
+    text: "Are you sure you want to log out?",
+  );
   // return showDialog(
   //     context: context,
   //     builder: (context) {

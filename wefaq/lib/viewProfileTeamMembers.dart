@@ -115,7 +115,7 @@ class _viewprofileState extends State<viewProfileTeamMembers> {
                 showDialogFunc(context);
               }),
         ],
-        backgroundColor: Color.fromARGB(255, 162, 148, 183),
+        backgroundColor: Color.fromARGB(255, 145, 124, 178),
       ),
       bottomNavigationBar: CustomNavigationBar(
         currentHomeScreen: 0,
@@ -303,7 +303,7 @@ class _viewprofileState extends State<viewProfileTeamMembers> {
                           itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                           itemBuilder: (context, _) => Icon(
                             Icons.star,
-                            color: Color.fromARGB(255, 144, 120, 155),
+                            color: Color.fromARGB(255, 255, 214, 11),
                           ),
                           onRatingUpdate: (newRating) {
                             setState(() {

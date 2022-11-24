@@ -82,7 +82,7 @@ class _viewprofileState extends State<viewotherprofile> {
                 showDialogFunc(context);
               }),
         ],
-        backgroundColor: Color.fromARGB(255, 162, 148, 183),
+        backgroundColor: Color.fromARGB(255, 145, 124, 178),
       ),
       bottomNavigationBar: CustomNavigationBar(
         currentHomeScreen: 0,

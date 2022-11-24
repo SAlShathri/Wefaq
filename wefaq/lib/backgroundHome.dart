@@ -18,9 +18,7 @@ class BackgroundHome extends StatelessWidget {
         alignment: Alignment.topCenter,
         children: <Widget>[
           Positioned(
-            child: Image.asset(
-              "assets/images/bg.jpeg",
-            ),
+            child: Image.asset("assets/images/i.png", width: size.width),
           ),
           child
         ],

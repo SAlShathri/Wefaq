@@ -111,14 +111,14 @@ class _rateTeammates extends State<rateTeammates> {
             onPressed: () {
               Navigator.pop(context);
             }),
-        backgroundColor: Color.fromARGB(255, 182, 168, 203),
+        backgroundColor: Color.fromARGB(255, 145, 124, 178),
         title: Row(
           children: [
             //Image.network('assets/images/logo.png', height: 70),
             SizedBox(width: 5),
             Text(
               "Rate Teammeates",
-              style: TextStyle(color: Colors.grey[800]),
+              style: TextStyle(color: Colors.white),
             ),
           ],
         ),
