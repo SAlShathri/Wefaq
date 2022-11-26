@@ -401,13 +401,15 @@ class ChatScreenState extends State<ChatScreen> {
         backgroundColor: Color.fromARGB(255, 145, 124, 178),
         title: Row(
           children: [
+            Image.asset('assets/images/teams.png', height: 40),
+            SizedBox(width: 10),
             Text(
               projectName,
               style: TextStyle(color: Colors.white),
             ),
             Expanded(
                 child: Container(
-              margin: EdgeInsets.only(left: 220),
+              margin: EdgeInsets.only(left: 190),
               child: IconButton(
                   icon: const Icon(Icons.star_border_purple500_outlined,
                       color: Colors.white),
