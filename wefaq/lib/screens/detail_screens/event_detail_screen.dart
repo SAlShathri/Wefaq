@@ -434,7 +434,7 @@ Future<void> _signOut() async {
 }
 
 void ShowToastRemove() => Fluttertoast.showToast(
-      msg: "Project is removed form favorite",
+      msg: "Event is removed form favorite",
       fontSize: 18,
       gravity: ToastGravity.CENTER,
       toastLength: Toast.LENGTH_SHORT,
@@ -442,7 +442,7 @@ void ShowToastRemove() => Fluttertoast.showToast(
     );
 
 void ShowToastAdd() => Fluttertoast.showToast(
-      msg: "Project is added to favorite",
+      msg: "Event is added to favorite",
       fontSize: 18,
       gravity: ToastGravity.CENTER,
       toastLength: Toast.LENGTH_SHORT,
