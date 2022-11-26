@@ -114,14 +114,11 @@ class _chatScreenState extends State<chatScreen> {
                             height: 50,
                             margin: const EdgeInsets.only(right: 8.0),
                             decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Color.fromARGB(255, 143, 132, 159),
-                                  width: 0),
                               shape: BoxShape.circle,
                               color: Color.fromARGB(255, 255, 255, 255),
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: AssetImage('assets/images/g.png'),
+                                image: AssetImage('assets/images/teamg.png'),
                               ),
                             ),
                           ),
@@ -280,29 +277,24 @@ class _chatScreenState extends State<chatScreen> {
 }
 
 showDialogFunc(context) {
-   CoolAlert.show(
-                          context: context,
-                          title: "",
-                          confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
-                        //  cancelBtnColor: Colors.black,
-                        //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
-                          confirmBtnText: 'log out ',
-                          //cancelBtnText: 'Delete' ,
-                             onConfirmBtnTap: () {
-                 
-                           _signOut();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => UserLogin()));
-                              
-                          },
-                    
-                          type: CoolAlertType.confirm,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text:
-                              "Are you sure you want to log out?",
-                        );
+  CoolAlert.show(
+    context: context,
+    title: "",
+    confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
+    //  cancelBtnColor: Colors.black,
+    //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
+    confirmBtnText: 'log out ',
+    //cancelBtnText: 'Delete' ,
+    onConfirmBtnTap: () {
+      _signOut();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => UserLogin()));
+    },
+
+    type: CoolAlertType.confirm,
+    backgroundColor: Color.fromARGB(221, 212, 189, 227),
+    text: "Are you sure you want to log out?",
+  );
   // return showDialog(
   //     context: context,
   //     builder: (context) {
