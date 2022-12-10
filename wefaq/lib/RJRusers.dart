@@ -121,18 +121,6 @@ class _RequestListState extends State<RequestListViewPage> {
               fontWeight: FontWeight.normal,
               color: Colors.white,
             )),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(
-                Icons.logout,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
-              onPressed: () {
-                _signOut();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => UserLogin()));
-              }),
-        ],
       ),
       bottomNavigationBar: CustomNavigationBar(
         currentHomeScreen: 0,

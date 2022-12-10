@@ -84,14 +84,25 @@ class _PostEventState extends State<PostEvent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
         appBar: AppBar(
+            leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Color.fromARGB(159, 56, 6, 75),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
             automaticallyImplyLeading: false,
-            backgroundColor: Color.fromARGB(255, 182, 168, 203),
-            title: Text('Post Event',
-                style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  color: Colors.white,
-                ))),
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
+            title: Text(
+              'Post Event',
+              style: TextStyle(
+                  color: Color.fromARGB(159, 0, 0, 0),
+                  fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            )),
         bottomNavigationBar: CustomNavigationBar(
           currentHomeScreen: 2,
           updatePage: () {},

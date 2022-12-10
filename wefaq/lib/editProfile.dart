@@ -300,9 +300,23 @@ class _editprofileState extends State<editprofile> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 238, 237, 240),
       appBar: AppBar(
-        title: Text('Edit Profile', style: TextStyle(color: Colors.white)),
-        backgroundColor: Color.fromARGB(255, 162, 148, 183),
-      ),
+          leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Color.fromARGB(159, 56, 6, 75),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
+          automaticallyImplyLeading: false,
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          title: Text(
+            'Edit Profile',
+            style: TextStyle(
+                color: Color.fromARGB(159, 0, 0, 0),
+                fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          )),
       bottomNavigationBar: CustomNavigationBar(
         currentHomeScreen: 0,
         updatePage: () {},

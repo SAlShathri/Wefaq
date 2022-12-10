@@ -108,6 +108,7 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Color.fromARGB(255, 244, 243, 255),
         bottomNavigationBar: CustomNavigationBar(
           currentHomeScreen: 0,
           updatePage: () {},
@@ -170,9 +171,9 @@ class HomeScreenState extends State<HomeScreen> {
                               CategoryCard(
                                   title: "My Projects",
                                   icon: Icon(
-                                    Icons.lightbulb,
+                                    Icons.lightbulb_outlined,
                                     size: 45,
-                                    color: Color.fromARGB(221, 73, 105, 119),
+                                    color: Color.fromARGB(221, 66, 116, 126),
                                   ),
                                   onTap: () {
                                     Navigator.push(
@@ -186,7 +187,7 @@ class HomeScreenState extends State<HomeScreen> {
                                   icon: Icon(
                                     Icons.send_outlined,
                                     size: 45,
-                                    color: Color.fromARGB(221, 73, 105, 119),
+                                    color: Color.fromARGB(221, 66, 116, 126),
                                   ),
                                   onTap: () {
                                     Navigator.push(
@@ -199,7 +200,7 @@ class HomeScreenState extends State<HomeScreen> {
                                   icon: Icon(
                                     Icons.add_to_home_screen,
                                     size: 45,
-                                    color: Color.fromARGB(221, 73, 105, 119),
+                                    color: Color.fromARGB(221, 66, 116, 126),
                                   ),
                                   onTap: () {
                                     Navigator.push(
@@ -211,9 +212,9 @@ class HomeScreenState extends State<HomeScreen> {
                               CategoryCard(
                                   title: "My Favorites",
                                   icon: Icon(
-                                    Icons.star,
+                                    Icons.favorite_border_outlined,
                                     size: 45,
-                                    color: Color.fromARGB(221, 73, 105, 119),
+                                    color: Color.fromARGB(221, 66, 116, 126),
                                   ),
                                   onTap: () {
                                     Navigator.push(
@@ -277,7 +278,7 @@ class CategoryCard extends StatelessWidget {
                 Text("$title",
                     style: TextStyle(
                         fontSize: 15,
-                        color: Color.fromARGB(221, 73, 105, 119),
+                        color: Color.fromARGB(221, 66, 116, 126),
                         fontWeight: FontWeight.bold)),
               ],
             ),

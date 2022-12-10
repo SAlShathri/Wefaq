@@ -116,33 +116,25 @@ class _favoritePageState extends State<favoritePage> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Color.fromARGB(255, 255, 255, 255),
-            ),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()));
-            }),
-        backgroundColor: Color.fromARGB(255, 145, 124, 178),
-        actions: <Widget>[
-          IconButton(
+          leading: IconButton(
               icon: Icon(
-                Icons.logout,
-                color: Color.fromARGB(255, 255, 255, 255),
+                Icons.arrow_back_ios,
+                color: Color.fromARGB(159, 56, 6, 75),
               ),
               onPressed: () {
-                showDialogFunc2(context);
+                Navigator.pop(context);
               }),
-        ],
-        title: Text('Favorite events',
+          automaticallyImplyLeading: false,
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          title: Text(
+            'Favorite Events',
             style: TextStyle(
-              fontWeight: FontWeight.normal,
-              color: Colors.white,
-            )),
-      ),
+                color: Color.fromARGB(159, 0, 0, 0),
+                fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          )),
       bottomNavigationBar: CustomNavigationBar(
         currentHomeScreen: 0,
         updatePage: () {},
@@ -272,30 +264,6 @@ Future<void> _signOut() async {
   await FirebaseAuth.instance.signOut();
 }
 
-showDialogFunc2(context) {
-   CoolAlert.show(
-                          context: context,
-                          title: "",
-                          confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
-                        //  cancelBtnColor: Colors.black,
-                        //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
-                          confirmBtnText: 'log out ',
-                          //cancelBtnText: 'Delete' ,
-                             onConfirmBtnTap: () {
-                 
-                           _signOut();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => UserLogin()));
-                              
-                          },
-                    
-                          type: CoolAlertType.confirm,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text:
-                              "Are you sure you want to log out?",
-                        );
   // return showDialog(
   //     context: context,
   //     builder: (context) {
@@ -439,4 +407,4 @@ showDialogFunc2(context) {
   //                 ),
   //               )));
   //     });
-}
+

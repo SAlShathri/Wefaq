@@ -68,24 +68,27 @@ class _reportEventState extends State<reportUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
           //  automaticallyImplyLeading: false,
           actions: <Widget>[
             IconButton(
                 icon: Icon(
                   Icons.logout,
-                  color: Color.fromARGB(255, 255, 255, 255),
+                  color: Color.fromARGB(159, 56, 6, 75),
                 ),
                 onPressed: () {
                   showDialogFunc(context);
                 }),
           ],
-          backgroundColor: Color.fromARGB(255, 145, 124, 178),
-          title: Text('Report user',
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-                color: Colors.white,
-              ))),
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          title: Text(
+            'Report user',
+            style: TextStyle(
+                color: Color.fromARGB(159, 0, 0, 0),
+                fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          )),
       bottomNavigationBar: CustomNavigationBar(
         currentHomeScreen: 2,
         updatePage: () {},
@@ -102,7 +105,7 @@ class _reportEventState extends State<reportUser> {
                 alignment: Alignment.topLeft,
                 child: Text("Why are you reporting $userName ? ",
                     style: TextStyle(
-                        color: Color.fromARGB(144, 64, 7, 87), fontSize: 19),
+                        color: Color.fromARGB(159, 56, 6, 75), fontSize: 19),
                     textAlign: TextAlign.left),
               ),
               SizedBox(height: 25.0),
@@ -112,7 +115,9 @@ class _reportEventState extends State<reportUser> {
                   text: TextSpan(
                       text: 'Report reason  ',
                       style: const TextStyle(
-                          fontSize: 18, color: Color.fromARGB(144, 64, 7, 87)),
+                        fontSize: 18,
+                        color: Color.fromARGB(159, 56, 6, 75),
+                      ),
                       children: [
                         TextSpan(
                             text: ' *',
@@ -172,8 +177,9 @@ class _reportEventState extends State<reportUser> {
                         text: TextSpan(
                             text: 'note',
                             style: const TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(144, 64, 7, 87)),
+                              fontSize: 18,
+                              color: Color.fromARGB(159, 56, 6, 75),
+                            ),
                             children: [
                               // TextSpan(
                               //     text: ' *',
@@ -313,29 +319,24 @@ Future<void> _signOut() async {
 }
 
 showDialogFunc(context) {
-   CoolAlert.show(
-                          context: context,
-                          title: "",
-                          confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
-                        //  cancelBtnColor: Colors.black,
-                        //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
-                          confirmBtnText: 'log out ',
-                          //cancelBtnText: 'Delete' ,
-                             onConfirmBtnTap: () {
-                 
-                           _signOut();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => UserLogin()));
-                              
-                          },
-                    
-                          type: CoolAlertType.confirm,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text:
-                              "Are you sure you want to log out?",
-                        );
+  CoolAlert.show(
+    context: context,
+    title: "",
+    confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
+    //  cancelBtnColor: Colors.black,
+    //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
+    confirmBtnText: 'log out ',
+    //cancelBtnText: 'Delete' ,
+    onConfirmBtnTap: () {
+      _signOut();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => UserLogin()));
+    },
+
+    type: CoolAlertType.confirm,
+    backgroundColor: Color.fromARGB(221, 212, 189, 227),
+    text: "Are you sure you want to log out?",
+  );
   // return showDialog(
   //     context: context,
   //     builder: (context) {

@@ -398,21 +398,25 @@ class ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 145, 124, 178),
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
         title: Row(
           children: [
             Image.asset('assets/images/teams.png', height: 40),
             SizedBox(width: 10),
             Text(
               projectName,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(
+                color: Color.fromARGB(159, 56, 6, 75),
+              ),
             ),
             Expanded(
                 child: Container(
               margin: EdgeInsets.only(left: 190),
               child: IconButton(
-                  icon: const Icon(Icons.star_border_purple500_outlined,
-                      color: Colors.white),
+                  icon: const Icon(
+                    Icons.star_border_purple500_outlined,
+                    color: Color.fromARGB(159, 56, 6, 75),
+                  ),
                   onPressed: () {
                     Navigator.push(
                         context,

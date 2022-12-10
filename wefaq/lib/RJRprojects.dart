@@ -270,23 +270,24 @@ class _RequestListProject extends State<RequestListViewPageProject> {
         leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
-              color: Color.fromARGB(255, 255, 255, 255),
+              color: Color.fromARGB(159, 56, 6, 75),
             ),
             onPressed: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => HomeScreen()));
             }),
-        backgroundColor: Color.fromARGB(255, 145, 124, 178),
-        title: Text('Received Join Requests',
-            style: TextStyle(
-              fontWeight: FontWeight.normal,
-              color: Colors.white,
-            )),
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        title: Text(
+          'Received Join Requests',
+          style: TextStyle(
+              color: Color.fromARGB(159, 0, 0, 0), fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
         actions: <Widget>[
           IconButton(
               icon: Icon(
                 Icons.logout,
-                color: Color.fromARGB(255, 255, 255, 255),
+                color: Color.fromARGB(159, 56, 6, 75),
               ),
               onPressed: () {
                 showDialogFunc2(context);
@@ -848,29 +849,24 @@ Future<void> _signOut() async {
 }
 
 showDialogFunc2(context) {
-   CoolAlert.show(
-                          context: context,
-                          title: "",
-                          confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
-                        //  cancelBtnColor: Colors.black,
-                        //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
-                          confirmBtnText: 'log out ',
-                          //cancelBtnText: 'Delete' ,
-                             onConfirmBtnTap: () {
-                 
-                           _signOut();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => UserLogin()));
-                              
-                          },
-                    
-                          type: CoolAlertType.confirm,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text:
-                              "Are you sure you want to log out?",
-                        );
+  CoolAlert.show(
+    context: context,
+    title: "",
+    confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
+    //  cancelBtnColor: Colors.black,
+    //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
+    confirmBtnText: 'log out ',
+    //cancelBtnText: 'Delete' ,
+    onConfirmBtnTap: () {
+      _signOut();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => UserLogin()));
+    },
+
+    type: CoolAlertType.confirm,
+    backgroundColor: Color.fromARGB(221, 212, 189, 227),
+    text: "Are you sure you want to log out?",
+  );
   // return showDialog(
   //     context: context,
   //     builder: (context) {

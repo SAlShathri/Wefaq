@@ -29,7 +29,6 @@ class _reportEventState extends State<reportEvent> {
 
   final TextEditingController _noteEditingController = TextEditingController();
 
-  
   List<String> options = [];
 
   String? selectedreason;
@@ -75,22 +74,15 @@ class _reportEventState extends State<reportEvent> {
     return Scaffold(
       appBar: AppBar(
           //  automaticallyImplyLeading: false,
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(
-                  Icons.logout,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
-                onPressed: () {
-                  showDialogFunc(context);
-                }),
-          ],
-          backgroundColor: Color.fromARGB(255, 145, 124, 178),
-          title: Text('Report event',
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-                color: Colors.white,
-              ))),
+
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          title: Text(
+            'Report event',
+            style: TextStyle(
+                color: Color.fromARGB(159, 0, 0, 0),
+                fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          )),
       bottomNavigationBar: CustomNavigationBar(
         currentHomeScreen: 2,
         updatePage: () {},
@@ -155,20 +147,16 @@ class _reportEventState extends State<reportEvent> {
                     ),
                   ),
                 ),
-                
-
-
                 validator: (value) {
                   if (value == null || value == "") {
                     return 'required';
                   }
                 },
-                               
               ),
-              SizedBox(height: 25.0,              
+              SizedBox(
+                height: 25.0,
               ),
 
-             
               //  SizedBox(height: 4.0),
 
               //  SizedBox(height: 33.0),
@@ -248,81 +236,85 @@ class _reportEventState extends State<reportEvent> {
                     ),
                     onPressed: () async {
                       final rec = await FirebaseFirestore.instance
-                        .collection('reportedevents').doc(eventName.toString()+"-"+Email.toString()).get();
-                        //.where(eventName + '-' + Email.toString(), isEqualTo: )
-                        //.where("user who reported" , isEqualTo: Email)
-                       // .where("reported event name", isEqualTo: eventName)
-                        //.get();
-                        if (rec.exists) {
-                          print("hiiiii");
-                       CoolAlert.show(
-                            context: context,
-                            title: "",
-                            confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
-                            //cancelBtnColor: Color.fromARGB(144, 64, 6, 87),
-                            type: CoolAlertType.error,
-                            backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                            text: "you already reported this account, you can't report it again ",
-                            confirmBtnText: 'OK',
-                            onConfirmBtnTap: () {
-                              Navigator.of(context).pop();
-                            },
-                          );
-                       }
-                       
-else{
-                      if (_formKey.currentState!.validate()) {
-                        // If the form is valid, display a snackbar. In the real world,
-                        // you'd often call a server or save the information in a database.
-                        // for sorting purpose
-                        var now = new DateTime.now();
-                        final DateFormat formatter = DateFormat('yyyy-MM-dd');
-                        String? token =
-                            await FirebaseMessaging.instance.getToken();
-                        _firestore
-                            .collection('reportedevents')
-                            .doc(eventName + '-' + Email.toString())
-                            .set({
-                          'reason': selectedreason,
-                          'note': _noteEditingController.text,
-                          'user who reported': Email.toString(),
-                          'token': token,
-                          'created': now,
-                          'cdate': formatter.format(now),
-                          'reported event name': eventName,
-                          "event owner": eventOwner,
-                              "status": 'new'
-                        });
-                        var fillterd = _firestore
-                        .collection('AllEvent')
-                        .doc(eventName)
-                        .get()
-                        .then((snapshot) {
-                      int  Counter = snapshot.data()!['count']; 
-                                                _firestore.collection('AllEvent').doc(eventName).update({"count": Counter + 1});
-});
-
-                        _noteEditingController.clear();
-
-                        selectedreason = "";
-
-                        //sucess message
+                          .collection('reportedevents')
+                          .doc(eventName.toString() + "-" + Email.toString())
+                          .get();
+                      //.where(eventName + '-' + Email.toString(), isEqualTo: )
+                      //.where("user who reported" , isEqualTo: Email)
+                      // .where("reported event name", isEqualTo: eventName)
+                      //.get();
+                      if (rec.exists) {
+                        print("hiiiii");
                         CoolAlert.show(
                           context: context,
-                          title: "Thanks for letting us know!",
-                          confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
-                          onConfirmBtnTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomeScreen()));
-                          },
-                          type: CoolAlertType.success,
+                          title: "",
+                          confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
+                          //cancelBtnColor: Color.fromARGB(144, 64, 6, 87),
+                          type: CoolAlertType.error,
                           backgroundColor: Color.fromARGB(221, 212, 189, 227),
                           text:
-                              "We'll review your report and take action if there is a voilation of our guidelines",
+                              "you already reported this account, you can't report it again ",
+                          confirmBtnText: 'OK',
+                          onConfirmBtnTap: () {
+                            Navigator.of(context).pop();
+                          },
                         );
-                      }
+                      } else {
+                        if (_formKey.currentState!.validate()) {
+                          // If the form is valid, display a snackbar. In the real world,
+                          // you'd often call a server or save the information in a database.
+                          // for sorting purpose
+                          var now = new DateTime.now();
+                          final DateFormat formatter = DateFormat('yyyy-MM-dd');
+                          String? token =
+                              await FirebaseMessaging.instance.getToken();
+                          _firestore
+                              .collection('reportedevents')
+                              .doc(eventName + '-' + Email.toString())
+                              .set({
+                            'reason': selectedreason,
+                            'note': _noteEditingController.text,
+                            'user who reported': Email.toString(),
+                            'token': token,
+                            'created': now,
+                            'cdate': formatter.format(now),
+                            'reported event name': eventName,
+                            "event owner": eventOwner,
+                            "status": 'new'
+                          });
+                          var fillterd = _firestore
+                              .collection('AllEvent')
+                              .doc(eventName)
+                              .get()
+                              .then((snapshot) {
+                            int Counter = snapshot.data()!['count'];
+                            _firestore
+                                .collection('AllEvent')
+                                .doc(eventName)
+                                .update({"count": Counter + 1});
+                          });
+
+                          _noteEditingController.clear();
+
+                          selectedreason = "";
+
+                          //sucess message
+                          CoolAlert.show(
+                            context: context,
+                            title: "Thanks for letting us know!",
+                            confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+                            onConfirmBtnTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeScreen()));
+                            },
+                            type: CoolAlertType.success,
+                            backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                            text:
+                                "We'll review your report and take action if there is a voilation of our guidelines",
+                          );
+                        }
                       }
                     }),
               ),
@@ -336,170 +328,4 @@ else{
 
 Future<void> _signOut() async {
   await FirebaseAuth.instance.signOut();
-}
-
-showDialogFunc(context) {
-   CoolAlert.show(
-                          context: context,
-                          title: "",
-                          confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
-                        //  cancelBtnColor: Colors.black,
-                        //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
-                          confirmBtnText: 'log out ',
-                          //cancelBtnText: 'Delete' ,
-                             onConfirmBtnTap: () {
-                 
-                           _signOut();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => UserLogin()));
-                              
-                          },
-                    
-                          type: CoolAlertType.confirm,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text:
-                              "Are you sure you want to log out?",
-                        );
-  // return showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return Center(
-  //           child: Material(
-  //               type: MaterialType.transparency,
-  //               child: Container(
-  //                 decoration: BoxDecoration(
-  //                   borderRadius: BorderRadius.circular(10),
-  //                   color: const Color.fromARGB(255, 255, 255, 255),
-  //                 ),
-  //                 padding: const EdgeInsets.all(15),
-  //                 height: 150,
-  //                 width: MediaQuery.of(context).size.width * 0.9,
-  //                 child: Column(
-  //                   crossAxisAlignment: CrossAxisAlignment.center,
-  //                   children: <Widget>[
-  //                     // Code for acceptance role
-  //                     Row(children: <Widget>[
-  //                       Expanded(
-  //                         flex: 2,
-  //                         child: GestureDetector(
-  //                           child: Text(
-  //                             " Are you sure you want to log out? ",
-  //                             style: const TextStyle(
-  //                               fontSize: 14,
-  //                               color: Color.fromARGB(159, 64, 7, 87),
-  //                               fontWeight: FontWeight.bold,
-  //                             ),
-  //                           ),
-  //                           onTap: () {
-  //                             // go to participant's profile
-  //                           },
-  //                         ),
-  //                       ),
-  //                       // const SizedBox(
-  //                       //   height: 10,
-  //                       // ),
-  //                     ]),
-  //                     SizedBox(
-  //                       height: 35,
-  //                     ),
-  //                     //----------------------------------------------------------------------------
-  //                     Row(
-  //                       children: <Widget>[
-  //                         Text("   "),
-  //                         Text("     "),
-  //                         ElevatedButton(
-  //                           onPressed: () {
-  //                             Navigator.of(context).pop();
-  //                           },
-  //                           style: ElevatedButton.styleFrom(
-  //                             surfaceTintColor: Colors.white,
-  //                             shape: RoundedRectangleBorder(
-  //                                 borderRadius: BorderRadius.circular(80.0)),
-  //                             padding: const EdgeInsets.all(0),
-  //                           ),
-  //                           child: Container(
-  //                             alignment: Alignment.center,
-  //                             height: 40.0,
-  //                             width: 100,
-  //                             decoration: new BoxDecoration(
-  //                                 borderRadius: BorderRadius.circular(9.0),
-  //                                 gradient: new LinearGradient(colors: [
-  //                                   Color.fromARGB(144, 176, 175, 175),
-  //                                   Color.fromARGB(144, 176, 175, 175),
-  //                                 ])),
-  //                             padding: const EdgeInsets.all(0),
-  //                             child: Text(
-  //                               "Cancel",
-  //                               style: TextStyle(
-  //                                   fontSize: 16,
-  //                                   fontWeight: FontWeight.w600,
-  //                                   color: Color.fromARGB(255, 255, 255, 255)),
-  //                             ),
-  //                           ),
-  //                         ),
-  //                         Container(
-  //                           margin: EdgeInsets.only(left: 40),
-  //                           child: ElevatedButton(
-  //                             onPressed: () {
-  //                               _signOut();
-  //                               Navigator.push(
-  //                                   context,
-  //                                   MaterialPageRoute(
-  //                                       builder: (context) => UserLogin()));
-  //                               // CoolAlert.show(
-  //                               //   context: context,
-  //                               //   title: "Success!",
-  //                               //   confirmBtnColor:
-  //                               //       Color.fromARGB(144, 64, 6, 87),
-  //                               //   type: CoolAlertType.success,
-  //                               //   backgroundColor:
-  //                               //       Color.fromARGB(221, 212, 189, 227),
-  //                               //   text: "You have logged out successfully",
-  //                               //   confirmBtnText: 'Done',
-  //                               //   onConfirmBtnTap: () {
-  //                               //     //send join requist
-  //                               //     _signOut();
-  //                               //     Navigator.push(
-  //                               //         context,
-  //                               //         MaterialPageRoute(
-  //                               //             builder: (context) => UserLogin()));
-  //                               //   },
-  //                               // );
-  //                             },
-  //                             style: ElevatedButton.styleFrom(
-  //                               surfaceTintColor: Colors.white,
-  //                               shape: RoundedRectangleBorder(
-  //                                   borderRadius: BorderRadius.circular(80.0)),
-  //                               padding: const EdgeInsets.all(0),
-  //                             ),
-  //                             child: Container(
-  //                               alignment: Alignment.center,
-  //                               height: 40.0,
-  //                               width: 100,
-  //                               decoration: new BoxDecoration(
-  //                                   borderRadius: BorderRadius.circular(9.0),
-  //                                   gradient: new LinearGradient(colors: [
-  //                                     Color.fromARGB(144, 210, 2, 2),
-  //                                     Color.fromARGB(144, 210, 2, 2)
-  //                                   ])),
-  //                               padding: const EdgeInsets.all(0),
-  //                               child: Text(
-  //                                 "Log out",
-  //                                 style: TextStyle(
-  //                                     fontSize: 16,
-  //                                     fontWeight: FontWeight.w600,
-  //                                     color:
-  //                                         Color.fromARGB(255, 255, 255, 255)),
-  //                               ),
-  //                             ),
-  //                           ),
-  //                         ),
-  //                       ],
-  //                     )
-  //                   ],
-  //                 ),
-  //               )));
-  //     });
 }

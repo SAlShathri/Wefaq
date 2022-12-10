@@ -119,7 +119,7 @@ class HomeScreenState extends State<adminHomeScreen> {
                   icon: Icon(
                     Icons.logout,
                     size: 30,
-                    color: Color.fromARGB(255, 0, 0, 0),
+                    color: Color.fromARGB(144, 64, 7, 87),
                   ),
                   onPressed: () {
                     showDialogFunc(context);
@@ -148,10 +148,10 @@ class HomeScreenState extends State<adminHomeScreen> {
                       ),
                       Expanded(
                         child: GridView.count(
-                          crossAxisCount: 1,
-                          childAspectRatio: 3,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 50,
+                          crossAxisCount: 2,
+                          childAspectRatio: 1,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 20,
                           children: <Widget>[
                             CategoryCard(
                                 title: "Upcoming Projects",
@@ -232,7 +232,7 @@ class CategoryCard extends StatelessWidget {
                   Text("$title",
                       style: TextStyle(
                           fontSize: 16,
-                          color: Color.fromARGB(255, 61, 132, 163),
+                          color: Color.fromARGB(221, 66, 116, 126),
                           fontWeight: FontWeight.w600)),
                 ],
               ),
@@ -246,28 +246,23 @@ class CategoryCard extends StatelessWidget {
 
 showDialogFunc(context) {
   CoolAlert.show(
-                          context: context,
-                          title: "",
-                          confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
-                        //  cancelBtnColor: Colors.black,
-                        //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
-                          confirmBtnText: 'log out ',
-                          //cancelBtnText: 'Delete' ,
-                             onConfirmBtnTap: () {
-                 
-                           _signOut();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => UserLogin()));
-                              
-                          },
-                    
-                          type: CoolAlertType.confirm,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text:
-                              "Are you sure you want to log out?",
-                        );
+    context: context,
+    title: "",
+    confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
+    //  cancelBtnColor: Colors.black,
+    //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
+    confirmBtnText: 'log out ',
+    //cancelBtnText: 'Delete' ,
+    onConfirmBtnTap: () {
+      _signOut();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => UserLogin()));
+    },
+
+    type: CoolAlertType.confirm,
+    backgroundColor: Color.fromARGB(221, 212, 189, 227),
+    text: "Are you sure you want to log out?",
+  );
   // return showDialog(
   //     context: context,
   //     builder: (context) {

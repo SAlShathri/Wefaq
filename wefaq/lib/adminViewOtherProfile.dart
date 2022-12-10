@@ -326,18 +326,21 @@ class _viewprofileState extends State<adminviewotherprofile> {
       ),
       backgroundColor: Color.fromARGB(255, 238, 237, 240),
       appBar: AppBar(
-        title: Text('Profile', style: TextStyle(color: Colors.white)),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(
-                Icons.logout,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
-              onPressed: () {
-                showDialogFunc(context);
-              }),
-        ],
-        backgroundColor: Color.fromARGB(255, 162, 148, 183),
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Color.fromARGB(144, 64, 7, 87),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+        title: Text(
+          'Profile',
+          style: TextStyle(
+              color: Color.fromARGB(159, 0, 0, 0), fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
       ),
       body: SingleChildScrollView(
         child: Stack(

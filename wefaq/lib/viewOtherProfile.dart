@@ -71,18 +71,23 @@ class _viewprofileState extends State<viewotherprofile> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 238, 237, 240),
       appBar: AppBar(
-        title: Text('Profile', style: TextStyle(color: Colors.white)),
+        title: Text(
+          'Profile',
+          style: TextStyle(
+              color: Color.fromARGB(159, 0, 0, 0), fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
         actions: <Widget>[
           IconButton(
               icon: Icon(
                 Icons.logout,
-                color: Color.fromARGB(255, 255, 255, 255),
+                color: Color.fromARGB(159, 56, 6, 75),
               ),
               onPressed: () {
                 showDialogFunc(context);
               }),
         ],
-        backgroundColor: Color.fromARGB(255, 145, 124, 178),
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
       ),
       bottomNavigationBar: CustomNavigationBar(
         currentHomeScreen: 0,

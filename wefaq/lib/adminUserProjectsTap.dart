@@ -40,30 +40,22 @@ class _ListViewTabsState extends State<adminuserProjectsTabs> {
             leading: IconButton(
                 icon: Icon(
                   Icons.arrow_back_ios,
-                  color: Color.fromARGB(255, 255, 255, 255),
+                  color: Color.fromARGB(144, 64, 7, 87),
                 ),
                 onPressed: () {
                   Navigator.pop(context);
                 }),
-            title: Text('Projects',
-                style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  color: Colors.white,
-                )),
-            actions: <Widget>[
-              IconButton(
-                  icon: Icon(
-                    Icons.logout,
-                    color: Color.fromARGB(255, 255, 255, 255),
-                  ),
-                  onPressed: () {
-                    showDialogFunc2(context);
-                  }),
-            ],
+            title: Text(
+              'Projects',
+              style: TextStyle(
+                  color: Color.fromARGB(159, 0, 0, 0),
+                  fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
             automaticallyImplyLeading: false,
-            backgroundColor: Color.fromARGB(255, 145, 124, 178),
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
             bottom: const TabBar(
-              indicatorColor: Color.fromARGB(255, 84, 53, 134),
+              indicatorColor: Color.fromARGB(144, 64, 7, 87),
               indicatorWeight: 6,
               labelStyle: TextStyle(
                   fontSize: 15.0, fontFamily: 'Family Name'), //For Selected tab
@@ -76,6 +68,7 @@ class _ListViewTabsState extends State<adminuserProjectsTabs> {
                   text: 'Owned projects',
                 ),
               ],
+              labelColor: Color.fromARGB(144, 64, 7, 87),
             ),
           ),
           body: TabBarView(children: [

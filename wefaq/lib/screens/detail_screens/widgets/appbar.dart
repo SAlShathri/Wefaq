@@ -83,12 +83,7 @@ class DetailAppBarState extends State<appBar> {
                     size: 30,
                   ),
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => viewprofile(
-                                  userEmail: email,
-                                )));
+                    Navigator.pop(context);
                   }),
             ),
           ),

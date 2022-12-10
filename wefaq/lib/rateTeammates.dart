@@ -106,19 +106,22 @@ class _rateTeammates extends State<rateTeammates> {
         leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios_sharp,
-              color: Color.fromARGB(255, 85, 85, 85),
+              color: Color.fromARGB(159, 56, 6, 75),
             ),
             onPressed: () {
               Navigator.pop(context);
             }),
-        backgroundColor: Color.fromARGB(255, 145, 124, 178),
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
         title: Row(
           children: [
             //Image.network('assets/images/logo.png', height: 70),
             SizedBox(width: 5),
             Text(
               "Rate Teammeates",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(
+                  color: Color.fromARGB(159, 0, 0, 0),
+                  fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
           ],
         ),
