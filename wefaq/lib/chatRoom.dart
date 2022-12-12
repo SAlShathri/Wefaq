@@ -411,7 +411,7 @@ class ChatScreenState extends State<ChatScreen> {
             ),
             Expanded(
                 child: Container(
-              margin: EdgeInsets.only(left: 190),
+              margin: EdgeInsets.only(left: 160),
               child: IconButton(
                   icon: const Icon(
                     Icons.star_border_purple500_outlined,

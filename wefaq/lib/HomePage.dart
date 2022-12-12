@@ -123,7 +123,7 @@ class HomeScreenState extends State<HomeScreen> {
                 child: Container(
                   width: 50,
                   height: 50,
-                  margin: EdgeInsets.only(left: 350, top: 60),
+                  margin: EdgeInsets.only(left: 320, top: 60),
                   decoration: new BoxDecoration(
                     boxShadow: [
                       BoxShadow(

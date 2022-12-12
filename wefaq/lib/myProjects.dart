@@ -268,10 +268,7 @@ showDialogFunc(
                             size: 26,
                           ),
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => myProjects()));
+                            Navigator.pop(context);
                           }))
                 ]),
                 Text(
