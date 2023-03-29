@@ -1,20 +1,12 @@
-import 'dart:convert';
-//import 'dart:js_util';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/link.dart';
 import 'package:wefaq/config/colors.dart';
-import 'package:cool_alert/cool_alert.dart';
-import 'package:wefaq/eventsScreen.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:wefaq/eventsTabs.dart';
 import 'package:wefaq/screens/detail_screens/widgets/event_detail_appbar.dart';
-import 'package:wefaq/service/local_push_notification.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../Report.dart';
@@ -32,7 +24,6 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
   String? Email;
   @override
   void initState() {
-    // TODO: implement initState
     getCurrentUser();
     getProjects();
     isLiked();
@@ -74,16 +65,12 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
   String dateTimeList = "";
 
   String TimeList = "";
-/////////////////////////////////////////////////////////////////////////////////////////
-  //String favoriteEmail = "";
+
 
   String ownerEmail = "";
   String status = "Active";
   String EventName = "";
   int count = 0;
-  bool _isSelected1 = false;
-  bool _isSelected2 = false;
-  bool _isSelected3 = false;
   bool isPressed = false;
 
   Future isLiked() async {
@@ -161,25 +148,9 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
           EventName = events['name'].toString();
           ownerEmail = events['email'].toString();
           count = events['count'];
-          //  dateTimeList.add(project['dateTime ']);
         });
       }
   }
-/*
-  final auth = FirebaseAuth.instance;
-  String? Email;
-  void getCurrentUser() {
-    try {
-      final user = auth.currentUser;
-      if (user != null) {
-        signedInUser = user;
-        Email = signedInUser.email;
-        print(signedInUser.email);
-      }
-    } catch (e) {
-      print(e);
-    }
-  } */
 
   @override
   Widget build(BuildContext context) {
@@ -429,9 +400,7 @@ class _eventDetailScreenState extends State<eventDetailScreen> {
   }
 }
 
-Future<void> _signOut() async {
-  await FirebaseAuth.instance.signOut();
-}
+
 
 void ShowToastRemove() => Fluttertoast.showToast(
       msg: "Event is removed form favorite",

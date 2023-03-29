@@ -2,12 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wefaq/config/colors.dart';
-import 'package:wefaq/eventsTabs.dart';
-import 'package:wefaq/projectsScreen.dart';
-
-import '../../../eventsScreen.dart';
 
 class eventDetailAppBar extends StatelessWidget {
   const eventDetailAppBar({Key? key}) : super(key: key);
@@ -67,7 +62,6 @@ class eventDetailAppBar extends StatelessWidget {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                //   color: Colors.white.withOpacity(0.30),
               ),
               child: IconButton(
                   icon: Icon(
@@ -77,7 +71,6 @@ class eventDetailAppBar extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.pop(context);
-                    //Navigator.push(context,MaterialPageRoute(builder: (context) => EventsTabs()));
                   }),
             ),
           ),

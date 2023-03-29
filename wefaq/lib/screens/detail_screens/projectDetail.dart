@@ -1,19 +1,15 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:wefaq/ProjectsTapScreen.dart';
 import 'package:wefaq/config/colors.dart';
 import 'package:wefaq/screens/detail_screens/widgets/appbar.dart';
-import 'package:wefaq/screens/detail_screens/widgets/project_detail_appbar.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
-import 'package:wefaq/service/local_push_notification.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../viewOtherProfile.dart';
@@ -37,7 +33,6 @@ class projectDetail extends StatefulWidget {
 class projectDetailScreenState extends State<projectDetail> {
   @override
   void initState() {
-    // TODO: implement initState
     getCurrentUser();
     getProjects();
     getRequests();

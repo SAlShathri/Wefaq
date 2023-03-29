@@ -1,11 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:wefaq/ProjectsTapScreen.dart';
 import 'package:wefaq/config/colors.dart';
 import 'package:wefaq/profileuser.dart';
-import 'package:wefaq/projectsScreen.dart';
+
 
 class appBar extends StatefulWidget {
   String email;
@@ -74,7 +72,6 @@ class DetailAppBarState extends State<appBar> {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                //   color: Colors.white.withOpacity(0.30),
               ),
               child: IconButton(
                   icon: Icon(
