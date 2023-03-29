@@ -1,14 +1,9 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wefaq/AdminEventList.dart';
 import 'package:wefaq/config/colors.dart';
-import 'package:wefaq/eventsTabs.dart';
-import 'package:wefaq/projectsScreen.dart';
 
-import '../../../eventsScreen.dart';
 
 class AdmineventDetailAppBar extends StatelessWidget {
   const AdmineventDetailAppBar({Key? key}) : super(key: key);

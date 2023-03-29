@@ -1,20 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:full_screen_menu/full_screen_menu.dart';
-import 'package:velocity_x/velocity_x.dart';
-import 'package:wefaq/AdminEventList.dart';
 import 'package:wefaq/AdminHomePage.dart';
 import 'package:wefaq/AdminTabScreen.dart';
-import 'package:wefaq/HomePage.dart';
-import 'package:wefaq/ReportedAcc.dart';
-import 'package:wefaq/ReportedEvents.dart';
-import 'package:wefaq/eventsTabs.dart';
-import 'package:wefaq/report.dart';
-import 'package:wefaq/reportedeventsScreeen.dart';
-
-import 'ProjectsTapScreen.dart';
 import 'adminAccountTap.dart';
-import 'chats.dart';
+
 
 class AdminCustomNavigationBar extends StatefulWidget {
   const AdminCustomNavigationBar(

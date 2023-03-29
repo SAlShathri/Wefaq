@@ -1,11 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:wefaq/ProjectsTapScreen.dart';
 import 'package:wefaq/config/colors.dart';
-import 'package:wefaq/profileuser.dart';
-import 'package:wefaq/projectsScreen.dart';
+
 
 class adminAppBar extends StatefulWidget {
   String email;
