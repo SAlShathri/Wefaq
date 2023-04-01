@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wefaq/HomePage.dart';
 import 'package:wefaq/chatRoom.dart';
-import 'package:wefaq/mapView.dart';
-import 'package:wefaq/userProjects.dart';
 import 'package:wefaq/userLogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'AdminNavBar.dart';
-import 'adminViewOtherProfile.dart';
 import 'adminowneruserProjects.dart';
 import 'adminuserProjects.dart';
 
@@ -129,19 +124,13 @@ showDialogFunc2(context) {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            onTap: () {
-                              // go to participant's profile
-                            },
+                            onTap: () {},
                           ),
                         ),
-                        // const SizedBox(
-                        //   height: 10,
-                        // ),
                       ]),
                       SizedBox(
                         height: 35,
                       ),
-                      //----------------------------------------------------------------------------
                       Row(
                         children: <Widget>[
                           Text("   "),
@@ -191,25 +180,6 @@ showDialogFunc2(context) {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => UserLogin()));
-                                // CoolAlert.show(
-                                //   context: context,
-                                //   title: "Success!",
-                                //   confirmBtnColor:
-                                //       Color.fromARGB(144, 64, 6, 87),
-                                //   type: CoolAlertType.success,
-                                //   backgroundColor:
-                                //       Color.fromARGB(221, 212, 189, 227),
-                                //   text: "You have logged out successfully",
-                                //   confirmBtnText: 'Done',
-                                //   onConfirmBtnTap: () {
-                                //     //send join requist
-                                //     _signOut();
-                                //     Navigator.push(
-                                //         context,
-                                //         MaterialPageRoute(
-                                //             builder: (context) => UserLogin()));
-                                //   },
-                                // );
                               },
                               style: ElevatedButton.styleFrom(
                                 surfaceTintColor: Colors.white,

@@ -1,15 +1,8 @@
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:wefaq/AcceptedSentJoinRequest.dart';
 import 'package:wefaq/AdminNavBar.dart';
-import 'package:wefaq/DeclinedSentJoinRequest.dart';
-import 'package:wefaq/PendingSentJoinRequest.dart';
 import 'package:wefaq/ReportedEvents.dart';
 import 'package:wefaq/ResolvedEvents.dart';
-import 'package:wefaq/bottom_bar_custom.dart';
-import 'package:wefaq/userLogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'HomePage.dart';
 
 // Main Stateful Widget Start
 class AdminTabs extends StatefulWidget {
@@ -27,7 +20,6 @@ class _ListViewTabsState extends State<AdminTabs> {
   @override
   Widget build(BuildContext context) {
     // MediaQuery to get Device Width
-    double width = MediaQuery.of(context).size.width * 0.6;
     return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -52,11 +44,9 @@ class _ListViewTabsState extends State<AdminTabs> {
             bottom: const TabBar(
               indicatorColor: Color.fromARGB(255, 84, 53, 134),
               indicatorWeight: 6,
-              labelStyle: TextStyle(
-                  fontSize: 18.0, fontFamily: 'Family Name'), //For Selected tab
-              unselectedLabelStyle: TextStyle(
-                  fontSize: 15.0,
-                  fontFamily: 'Family Name'), //For Un-selected Tabs
+              labelStyle: TextStyle(fontSize: 18.0, fontFamily: 'Family Name'),
+              unselectedLabelStyle:
+                  TextStyle(fontSize: 15.0, fontFamily: 'Family Name'),
               tabs: [
                 Tab(
                   text: 'New Reports',

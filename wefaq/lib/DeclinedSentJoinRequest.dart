@@ -27,7 +27,7 @@ class _sentRequestListState extends State<DsentJoinRequestListViewPage> {
     await FirebaseAuth.instance.signOut();
   }
 
-  //get all projects
+  //get all declined user requests
   Future getRequests() async {
     var fillterd = _firestore
         .collection('AllJoinRequests')

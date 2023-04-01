@@ -6,8 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:google_place/google_place.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -19,11 +17,8 @@ import 'package:wefaq/rateTeammates.dart';
 import 'package:wefaq/service/local_push_notification.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-import 'package:wefaq/viewOtherProfile.dart';
 import 'package:wefaq/viewProfileTeamMembers.dart';
 import 'package:voice_message_package/voice_message_package.dart';
-
-// import 'package:open_file/open_file.dart';
 
 String FileText = 'test';
 late User signedInUser;
@@ -85,12 +80,6 @@ class ChatScreenState extends State<ChatScreen> {
       print(e);
     }
   }
-  // void dispose() {
-  //   // TODO: implement dispose
-  //   super.dispose();
-  //   ?.dispose();
-  //   _audioRecorder.dispose();
-  // }
 
   bool startRecord = false;
   final _audioRecorder = Record();
@@ -278,29 +267,6 @@ class ChatScreenState extends State<ChatScreen> {
       Navigator.of(context).pop();
   }
 
-  // Future Camera() async {
-  //   XFile? image = await _picker.pickImage(source: ImageSource.camera);
-  //   setState(() {
-  //     imageFile = File(image!.path);
-  //   });
-  //   fileUrl = uploadImageToFirebase(imageFile!).toString();
-  //   Navigator.of(context).pop();
-  // }
-
-  // Future selectSingleImage() async {
-  //   print("Getting Image from Gallery.");
-  //   XFile? result = await _picker.pickImage(source: ImageSource.gallery);
-  //   if (result != null) {
-  //     print(result);
-  //     setState(() {
-  //       imageFile = File(result!.path);
-  //     });
-  //     Navigator.of(context).pop();
-  //     fileUrl = uploadImageToFirebase(imageFile!).toString();
-  //     Navigator.of(context).pop();
-  //   } else
-  //     Navigator.of(context).pop();
-  // }
   options(BuildContext context) {
     return showDialog(
         context: context,
@@ -530,29 +496,6 @@ class ChatScreenState extends State<ChatScreen> {
                                                       projectName: projectName,
                                                     )));
                                       },
-                                      // child: Container(
-                                      //   height: 22.0,
-                                      //   width: 22.0,
-                                      //   margin:
-                                      //       const EdgeInsets.only(right: 8.0),
-                                      //   decoration: BoxDecoration(
-                                      //     shape: BoxShape.circle,
-                                      //     image: const DecorationImage(
-                                      //       image: AssetImage(
-                                      //           'assets/images/PlaceHolder.png'),
-                                      //       fit: BoxFit.cover,
-                                      //     ),
-                                      //     boxShadow: [
-                                      //       BoxShadow(
-                                      //         offset: const Offset(0, 4),
-                                      //         blurRadius: 4.0,
-                                      //         color: Colors.black
-                                      //             .withOpacity(0.25),
-                                      //       ),
-                                      //     ],
-                                      //   ),
-                                      // ),
-
                                       child: Text(message.sender.toString(),
                                           style: TextStyle(
                                             fontSize: 12,
@@ -613,16 +556,6 @@ class ChatScreenState extends State<ChatScreen> {
                                     Color.fromARGB(255, 255, 255, 255),
                                 meFgColor: Color.fromARGB(255, 255, 255, 255),
                               ),
-                            // VoiceMessage(
-                            //   audioSrc: message.text.toString(),
-                            //   played: played,
-                            //   me: message.isMe ? true : false,
-                            //   onPlay: () {
-                            //     played = true;
-                            //   },
-                            //   meFgColor: Colors.white,
-                            //   meBgColor: Colors.transparent,
-                            // ),
                             if (message.text!.startsWith(
                                 'https://firebasestorage.googleapis.com/v0/b/wefaq-5f47b.appspot.com/o/images'))
                               Material(
@@ -675,29 +608,6 @@ class ChatScreenState extends State<ChatScreen> {
                                         bottomLeft: Radius.zero,
                                         bottomRight: Radius.zero,
                                       ),
-                                // child: TextButton(
-                                //   onPressed: () {
-                                //     Navigator.push(
-                                //         context,
-                                //         MaterialPageRoute(
-                                //             builder: (context) => PhotoDisplay(
-                                //                   photoURL:
-                                //                       message.text.toString(),
-                                //                   date: message.date,
-                                //                   time: message.hour
-                                //                           .toString() +
-                                //                       ":" +
-                                //                       message.minute.toString(),
-                                //                   name:
-                                //                       message.sender.toString(),
-                                //                 )));
-                                //   },
-                                //   child: Image.network(
-                                //     message.text.toString(),
-                                //     height: 280,
-                                //     width: 150,
-                                //   ),
-                                // ),
                                 child: Container(
                                   child: Link(
                                     target: LinkTarget.blank,
@@ -805,7 +715,6 @@ class ChatScreenState extends State<ChatScreen> {
                                   });
                                 },
                                 child: CircleAvatar(
-                                  // backgroundColor: MyTheme.kAccentColor,
                                   child: Icon(
                                     Icons.send,
                                     color: Colors.white,

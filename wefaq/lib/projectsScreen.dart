@@ -339,7 +339,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                     ),
                     onTap: () {
                       setState(() {
-                        //Filter by created date
                         getProjects();
                       });
                     },
@@ -369,8 +368,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
             body: Scrollbar(
               thumbVisibility: true,
               child: ListView.builder(
-                //itemCount: tokens.length,
-
                 itemBuilder: (context, index) {
                   // Card Which Holds Layout Of ListView Item
 
@@ -379,9 +376,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                     child: GestureDetector(
                         child: Card(
                           color: const Color.fromARGB(255, 255, 255, 255),
-                          //shadowColor: Color.fromARGB(255, 255, 255, 255),
-                          //  elevation: 7,
-
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: Column(
@@ -470,7 +464,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                   );
                 },
                 itemCount: nameList.length,
-                // itemCount:_textEditingController!.text.isNotEmpty? nameListsearch.length  : nameListsearch.length,
               ),
             ),
           ),
@@ -479,7 +472,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
     );
   }
 
-  //----
   _searchBar() {
     return Column(
       children: [
@@ -492,7 +484,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
             controller: _searchEditingController,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 15.0),
-
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15.0),
                 borderSide: BorderSide(color: Colors.black87, width: 2.0),
@@ -524,16 +515,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                       },
                     )
                   : null,
-
               hintText: 'Gaming , web  ...',
-              //    suffixIcon :IconButton(
-              //                onPressed: () {
-              //                setState(() {
-              //               // _searchEditingController.clear();
-              //            });
-              //        },
-              //      icon: Icon(Icons.clear_outlined),
-              //  )
             ),
             onChanged: (text) {
               setState(() {
@@ -551,13 +533,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
             return ListTile(
               contentPadding: EdgeInsets.symmetric(horizontal: 40),
               visualDensity: VisualDensity(vertical: -4),
-              //leading: CircleAvatar(
-              //  backgroundColor: Color.fromARGB(221, 137, 171, 187),
-              // child: Icon(
-              //    Icons.category_rounded,
-              //    color: Colors.white,
-              //  ),
-              //  ),
               title: Text(
                 categoryListController[index].toString(),
               ),
@@ -571,7 +546,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
             );
           },
           separatorBuilder: (context, index) {
-            //<-- SEE HERE
             return Divider(
               thickness: 0,
               color: Color.fromARGB(255, 194, 195, 194),
@@ -582,7 +556,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
     );
   }
 
-// This is a block of Model Dialog
   showDialogFunc(context, title, desc, category, loc, lookingFor, token,
       ownerEmail, signedInUser) {
     return showDialog(
@@ -656,7 +629,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                     color: Color.fromARGB(255, 102, 102, 102),
                   ),
                   Container(
-                    // width: 200,
                     child: const Align(
                       alignment: Alignment.topLeft,
                       child: Text(
@@ -670,7 +642,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                     ),
                   ),
                   Container(
-                    // width: 200,
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
@@ -837,8 +808,6 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 255, 255, 255)),
-                        //     textAlign: TextAlign.center,
-                        //     style: TextStyle(fontWeight: FontWeight.bold ),
                       ),
                       onPressed: () async {
                         //send a notification to the one who posted the project

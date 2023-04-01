@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,8 +31,6 @@ class _UserRegistratin extends State<UserRegistratin> {
   String get FirstName => _firstnameController.text.trim();
   String get LastName => _lastnameController.text.trim();
   final _FormKey = GlobalKey<FormState>();
-  final _auth = FirebaseAuth.instance;
-  final _firestore = FirebaseFirestore.instance;
   bool showpass = true;
   bool showpass1 = true;
   bool has8char = false;
@@ -59,7 +56,6 @@ class _UserRegistratin extends State<UserRegistratin> {
       backgroundColor: Color.fromARGB(255, 244, 243, 255),
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
-        // padding: const EdgeInsets.all(8.0),
         child: RBackground(
           child: Form(
             key: _FormKey,
@@ -214,8 +210,6 @@ class _UserRegistratin extends State<UserRegistratin> {
                       } else {
                         has8char = false;
                       }
-
-                      ///  password = value;
                       if (value.contains(ucasereg)) {
                         setState(() {
                           hasuppercase = true;
@@ -267,8 +261,6 @@ class _UserRegistratin extends State<UserRegistratin> {
                               ),
                       ),
                     ),
-
-                    //obscureText: true,
                   ),
                 ),
                 const SizedBox(
@@ -465,52 +457,35 @@ class _UserRegistratin extends State<UserRegistratin> {
                 SizedBox(
                   height: 10,
                 ),
-                 Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Already Have an Account? ",
-                    style: TextStyle(
-                        // decoration: TextDecoration.underline,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(123, 11, 13, 18)),
-                  ),
-                  GestureDetector(
-                    onTap: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UserLogin()))
-                    },
-                    child: Text(
-                      "Log in",
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Already Have an Account? ",
                       style: TextStyle(
-                          decoration: TextDecoration.underline,
+                          // decoration: TextDecoration.underline,
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(199, 66, 23, 139)),
+                          color: Color.fromARGB(123, 11, 13, 18)),
                     ),
-                  ),
-                ],
-              )
-                // Container(
-                //   margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                //   child: GestureDetector(
-                //     onTap: () => {
-                //       Navigator.push(context,
-                //           MaterialPageRoute(builder: (context) => UserLogin()))
-                //     },
-                //     child: Text(
-                //       "Already Have an Account? Log in",
-                //       style: TextStyle(
-                //           decoration: TextDecoration.underline,
-                //           fontSize: 12,
-                //           fontWeight: FontWeight.bold,
-                //           color: Color.fromARGB(123, 11, 13, 18)),
-                //     ),
-                //   ),
-                // )
+                    GestureDetector(
+                      onTap: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => UserLogin()))
+                      },
+                      child: Text(
+                        "Log in",
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(199, 66, 23, 139)),
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ),

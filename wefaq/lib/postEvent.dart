@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:intl/intl.dart';
-import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'dart:async';
 import 'package:cool_alert/cool_alert.dart';
@@ -40,7 +39,6 @@ class _PostEventState extends State<PostEvent> {
   List<AutocompletePrediction> predictions = [];
   Timer? _debounce;
 
-  // Project category list
   List<String> options = [];
 
   String? selectedCat;

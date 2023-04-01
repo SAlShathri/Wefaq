@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:google_place/google_place.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/myProjects.dart';
 import 'bottom_bar_custom.dart';
 
@@ -39,7 +38,6 @@ class _PostProjectState extends State<PostProject> {
   List<AutocompletePrediction> predictions = [];
   Timer? _debounce;
 
-  // Project category list
   List<String> options = [];
 
   String? selectedCat;

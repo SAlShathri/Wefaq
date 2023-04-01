@@ -1,23 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
-import 'package:intl/intl.dart';
 import 'package:wefaq/HomePage.dart';
-import 'package:wefaq/UserLogin.dart';
-import 'package:wefaq/chatDetails.dart';
 import 'package:wefaq/chatRoom.dart';
 import 'bottom_bar_custom.dart';
-import 'package:flutter/cupertino.dart';
 
 class chatScreen extends StatefulWidget {
   @override
   _chatScreenState createState() => _chatScreenState();
-}
-
-Future<void> _signOut() async {
-  await FirebaseAuth.instance.signOut();
 }
 
 class _chatScreenState extends State<chatScreen> {

@@ -11,8 +11,6 @@ class ResetScreen extends StatefulWidget {
 }
 
 class _ResetScreenState extends State<ResetScreen> {
-  // late String _email;
-  // final auth = FirebaseAuth.instance;
   final _emailController = TextEditingController();
 
   @override
@@ -43,7 +41,6 @@ class _ResetScreenState extends State<ResetScreen> {
         context: context,
         title: "Sorry",
         confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
-        //cancelBtnColor: Color.fromARGB(144, 64, 6, 87),
         type: CoolAlertType.error,
         backgroundColor: Color.fromARGB(221, 212, 189, 227),
         text: "There is no user with this email  ",
@@ -65,7 +62,6 @@ class _ResetScreenState extends State<ResetScreen> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-
           leading: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios,
@@ -76,11 +72,6 @@ class _ResetScreenState extends State<ResetScreen> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => UserLogin()));
               }),
-          // title: Text('',
-          //     style: TextStyle(
-          //       fontWeight: FontWeight.normal,
-          //       color: Colors.white,
-          //     )),
         ),
         body: Background(
           child: Column(
@@ -97,7 +88,6 @@ class _ResetScreenState extends State<ResetScreen> {
                   style: TextStyle(fontSize: 17),
                 ),
               ),
-              // textAlign: TextAlign.center,
               SizedBox(
                 height: 30,
               ),
@@ -120,7 +110,6 @@ class _ResetScreenState extends State<ResetScreen> {
               SizedBox(
                 height: 30,
               ),
-
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 child: ElevatedButton(
@@ -154,34 +143,6 @@ class _ResetScreenState extends State<ResetScreen> {
                   ),
                 ),
               ),
-              //     Padding(
-              //       padding: const EdgeInsets.all(8.0),
-              //       child: TextField(
-              //         keyboardType: TextInputType.emailAddress,
-              //         decoration: InputDecoration(
-              //           hintText: 'Email'
-              //         ),
-              //          onChanged: (value) {
-              //           setState(() {
-              //             _email = value.trim();
-              //           });
-              //         },
-              //       ),
-              //     ),
-              //     Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //       children: [
-              //         ElevatedButton(
-              //           child: Text('Send Request'),
-              //           onPressed: () {
-              //             auth.sendPasswordResetEmail(email: _email);
-              //             Navigator.of(context).pop();
-              //           },
-              //           //color: Theme.of(context).accentColor,
-              //         ),
-
-              //       ],
-              //     ),
             ],
           ),
         ));

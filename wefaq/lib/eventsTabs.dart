@@ -1,9 +1,7 @@
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'package:wefaq/eventsMaps.dart';
 import 'package:wefaq/eventsScreen.dart';
-import 'package:wefaq/userLogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 // Main Stateful Widget Start
@@ -46,11 +44,9 @@ class _ListViewTabsState extends State<EventsTabs> {
             bottom: const TabBar(
               indicatorColor: Color.fromARGB(255, 84, 53, 134),
               indicatorWeight: 6,
-              labelStyle: TextStyle(
-                  fontSize: 18.0, fontFamily: 'Family Name'), //For Selected tab
-              unselectedLabelStyle: TextStyle(
-                  fontSize: 15.0,
-                  fontFamily: 'Family Name'), //For Un-selected Tabs
+              labelStyle: TextStyle(fontSize: 18.0, fontFamily: 'Family Name'),
+              unselectedLabelStyle:
+                  TextStyle(fontSize: 15.0, fontFamily: 'Family Name'),
               tabs: [
                 Tab(text: 'List view'),
                 Tab(

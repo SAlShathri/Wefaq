@@ -22,17 +22,6 @@ class Background extends StatelessWidget {
             right: 0,
             child: Image.asset("assets/images/i.png", width: size.width),
           ),
-          // Positioned(
-          //   top: 0,
-          //   right: 0,
-          //   child: Image.asset("assets/images/top2222.png", width: size.width),
-          // ),
-          // Positioned(
-          //   top: 50,
-          //   right: 5,
-          //   child:
-          //       Image.asset("assets/images/logo.png", width: size.width * 0.35),
-          // ),
           child
         ],
       ),

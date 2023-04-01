@@ -6,12 +6,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:wefaq/AdminHomePage.dart';
 import 'package:wefaq/AdminNavBar.dart';
 import 'package:wefaq/AdminProjectDetails.dart';
-import 'package:wefaq/ProjectsTapScreen.dart';
-import 'package:wefaq/UserLogin.dart';
-import 'package:wefaq/screens/detail_screens/project_detail_screen.dart';
 import 'package:wefaq/service/local_push_notification.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,7 +20,6 @@ class adminProjectsListViewPage extends StatefulWidget {
 final TextEditingController _JoiningASController = TextEditingController();
 final TextEditingController _ParticipantNoteController =
     TextEditingController();
-TextEditingController? _searchEditingController = TextEditingController();
 
 class _ListViewPageState extends State<adminProjectsListViewPage> {
   @override
@@ -489,7 +484,6 @@ class _ListViewPageState extends State<adminProjectsListViewPage> {
                   );
                 },
                 itemCount: nameList.length,
-                // itemCount:_textEditingController!.text.isNotEmpty? nameListsearch.length  : nameListsearch.length,
               ),
             ),
           ),
@@ -498,107 +492,6 @@ class _ListViewPageState extends State<adminProjectsListViewPage> {
     );
   }
 
-  // //----
-  // _searchBar() {
-  //   return Column(
-  //     children: [
-  //       Padding(
-  //         padding: const EdgeInsets.all(7.0),
-  //         child: TextFormField(
-  //           controller: _searchEditingController,
-  //           decoration: InputDecoration(
-  //             contentPadding: EdgeInsets.symmetric(vertical: 15.0),
-
-  //             border: OutlineInputBorder(
-  //               borderRadius: BorderRadius.circular(15.0),
-  //               borderSide: BorderSide(color: Colors.black87, width: 2.0),
-  //             ),
-  //             focusedBorder: OutlineInputBorder(
-  //               borderRadius: BorderRadius.circular(15.0),
-  //               borderSide: BorderSide(
-  //                 color: Color.fromARGB(144, 64, 7, 87),
-  //               ),
-  //             ),
-  //             labelText: "search for a specific category",
-  //             prefixIcon: IconButton(
-  //               icon: Icon(Icons.search),
-  //               onPressed: () {
-  //                 setState(() {
-  //                   getCategory(_searchEditingController!.text);
-  //                 });
-  //               },
-  //             ),
-  //             suffixIcon: _searchEditingController!.text.isNotEmpty
-  //                 ? IconButton(
-  //                     icon: Icon(Icons.cancel),
-  //                     onPressed: () {
-  //                       setState(() {
-  //                         getProjects();
-
-  //                         _searchEditingController?.clear();
-  //                       });
-  //                     },
-  //                   )
-  //                 : null,
-
-  //             hintText: 'Gaming , web  ...',
-  //             //    suffixIcon :IconButton(
-  //             //                onPressed: () {
-  //             //                setState(() {
-  //             //               // _searchEditingController.clear();
-  //             //            });
-  //             //        },
-  //             //      icon: Icon(Icons.clear_outlined),
-  //             //  )
-  //           ),
-  //           onChanged: (text) {
-  //             setState(() {
-  //               categoryListController = categoryListDisplay;
-  //             });
-  //           },
-  //         ),
-  //       ),
-  //       ListView.separated(
-  //         shrinkWrap: true,
-  //         itemCount: _searchEditingController!.text.isEmpty
-  //             ? 0
-  //             : categoryListController.length,
-  //         itemBuilder: (context, index) {
-  //           return ListTile(
-  //             contentPadding: EdgeInsets.symmetric(horizontal: 40),
-  //             visualDensity: VisualDensity(vertical: -4),
-  //             //leading: CircleAvatar(
-  //             //  backgroundColor: Color.fromARGB(221, 137, 171, 187),
-  //             // child: Icon(
-  //             //    Icons.category_rounded,
-  //             //    color: Colors.white,
-  //             //  ),
-  //             //  ),
-  //             title: Text(
-  //               categoryListController[index].toString(),
-  //             ),
-  //             onTap: () {
-  //               setState(() {
-  //                 _searchEditingController?.text =
-  //                     categoryListController[index].toString();
-  //                 categoryListController = [];
-  //               });
-  //             },
-  //           );
-  //         },
-  //         separatorBuilder: (context, index) {
-  //           //<-- SEE HERE
-  //           return Divider(
-  //             thickness: 0,
-  //             color: Color.fromARGB(255, 194, 195, 194),
-  //           );
-  //         },
-  //       )
-  //     ],
-  //   );
-  // }
-
-// This is a block of Model Dialog
   showDialogFunc(context, title, desc, category, loc, lookingFor, token,
       ownerEmail, signedInUser) {
     return showDialog(
@@ -719,7 +612,6 @@ class _ListViewPageState extends State<adminProjectsListViewPage> {
                     ),
                   ),
                   Container(
-                    // width: 200,
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
@@ -738,7 +630,6 @@ class _ListViewPageState extends State<adminProjectsListViewPage> {
                     color: Color.fromARGB(255, 102, 102, 102),
                   ),
                   Container(
-                    // width: 200,
                     child: const Align(
                       alignment: Alignment.topLeft,
                       child: Text(
@@ -853,15 +744,11 @@ class _ListViewPageState extends State<adminProjectsListViewPage> {
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 255, 255, 255)),
-                        //     textAlign: TextAlign.center,
-                        //     style: TextStyle(fontWeight: FontWeight.bold ),
                       ),
                       onPressed: () async {
-                        //send a notification to the one who posted the project
                         sendNotification(
                             "You received a join request on your project!",
                             token);
-                        //sucess message
                         CoolAlert.show(
                           context: context,
                           title: "Success!",
@@ -874,7 +761,6 @@ class _ListViewPageState extends State<adminProjectsListViewPage> {
                           text: "Your join request is sent successfuly",
                         );
 
-                        //saving the request in join request collection
                         String? token_Participant =
                             await FirebaseMessaging.instance.getToken();
                         FirebaseFirestore.instance

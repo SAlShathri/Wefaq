@@ -2,16 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:wefaq/AdminHomePage.dart';
 import 'package:wefaq/HomePage.dart';
-
 import 'package:wefaq/UserRegisteration.dart';
 import 'package:wefaq/backgroundLogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:wefaq/resetPassword.dart';
-
-import 'main.dart';
 
 class UserLogin extends StatefulWidget {
   static const String screenRoute = 'UserLogin';
@@ -64,18 +60,6 @@ class _UserLogin extends State<UserLogin> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: size.height * 0.02),
-              //     Container(
-              //   alignment: Alignment.centerLeft,
-              //   padding: EdgeInsets.symmetric(horizontal: 25 , vertical: 5),
-              //   child: Text(
-              //     "Welcome to Wefaq ",
-              //     style: TextStyle(
-              //         fontWeight: FontWeight.bold,
-              //         color: Color.fromARGB(199, 66, 23, 139),
-              //         fontSize: 36),
-              //     textAlign: TextAlign.left,
-              //   ),
-              // ),
               SizedBox(height: size.height * 0.2),
               Container(
                 alignment: Alignment.centerLeft,
@@ -193,7 +177,6 @@ class _UserLogin extends State<UserLogin> {
                         .where("Email", isEqualTo: email)
                         .where("status", isEqualTo: "deletedByAdmin")
                         .get();
-                    //if ( rec.docs.isEmpty)
 
                     if (rec.docs.isNotEmpty) {
                       showDialogFunc();
@@ -202,7 +185,6 @@ class _UserLogin extends State<UserLogin> {
                         context: context,
                         title: "Sorry",
                         confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
-                        //cancelBtnColor: Color.fromARGB(144, 64, 6, 87),
                         type: CoolAlertType.error,
                         backgroundColor: Color.fromARGB(221, 212, 189, 227),
                         text: "Incorrect username or password",
@@ -212,29 +194,20 @@ class _UserLogin extends State<UserLogin> {
                         },
                       );
                     } else if (deltedByAdmin.docs.isNotEmpty) {
-                        CoolAlert.show(
-                            context: context,
-                            title: "Sorry",
-                            confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
-                            //cancelBtnColor: Color.fromARGB(144, 64, 6, 87),
-                            type: CoolAlertType.error,
-                            backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                            text: "your account is deleted by the admin due to voialtion been detected on your account",
-                            confirmBtnText: 'ok',
-                            onConfirmBtnTap: () {
-                              Navigator.of(context).pop();
-                            },
-                          );
-                    }
-
-                    //loding indicator
-                    /*showDialog(
+                      CoolAlert.show(
                         context: context,
-                        barrierDismissible: false,
-                        builder: ((context) =>
-                            Center(child: CircularProgressIndicator())));
-        */
-                    else {
+                        title: "Sorry",
+                        confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
+                        type: CoolAlertType.error,
+                        backgroundColor: Color.fromARGB(221, 212, 189, 227),
+                        text:
+                            "your account is deleted by the admin due to voialtion been detected on your account",
+                        confirmBtnText: 'ok',
+                        onConfirmBtnTap: () {
+                          Navigator.of(context).pop();
+                        },
+                      );
+                    } else {
                       if (_FormKey.currentState!.validate()) {
                         try {
                           final user = await _auth.signInWithEmailAndPassword(
@@ -255,16 +228,11 @@ class _UserLogin extends State<UserLogin> {
                           }
                         } catch (e) {
                           print(e);
-                          /*   validator:
-                      MultiValidator([
-                        RequiredValidator(
-                            errorText: 'Incorrect username or password')
-                      ]);*/
+
                           CoolAlert.show(
                             context: context,
                             title: "Sorry",
                             confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
-                            //cancelBtnColor: Color.fromARGB(144, 64, 6, 87),
                             type: CoolAlertType.error,
                             backgroundColor: Color.fromARGB(221, 212, 189, 227),
                             text: "Incorrect username or password",
@@ -276,8 +244,6 @@ class _UserLogin extends State<UserLogin> {
                         }
                       }
                     }
-                    // hide the loding indicator
-                    // navigatorKey.currentState!.popUntil((route) => route.isFirst);
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -313,7 +279,6 @@ class _UserLogin extends State<UserLogin> {
                   Text(
                     "New User? ",
                     style: TextStyle(
-                        // decoration: TextDecoration.underline,
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: Color.fromARGB(123, 11, 13, 18)),
@@ -369,74 +334,62 @@ class _UserLogin extends State<UserLogin> {
   }
 
   showDialogFunc() {
-               CoolAlert.show(
-                          context: context,
-                          title: "",
-                          confirmBtnColor: Color.fromARGB(144, 74, 234, 90),
-                        //  cancelBtnColor: Colors.black,
-                          cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
-                          confirmBtnText: 'restore ',
-                          cancelBtnText: 'Delete' ,
-                             onConfirmBtnTap: () {
-                            print("restore");
-                                FirebaseFirestore.instance
-                                    .collection('users')
-                                    .doc(FirebaseAuth
-                                        .instance.currentUser!.email)
-                                    .update({'status': 'active'});
+    CoolAlert.show(
+      context: context,
+      title: "",
+      confirmBtnColor: Color.fromARGB(144, 74, 234, 90),
+      cancelBtnTextStyle: TextStyle(
+          color: Color.fromARGB(255, 237, 7, 7),
+          fontWeight: FontWeight.w600,
+          fontSize: 18.0),
+      confirmBtnText: 'restore ',
+      cancelBtnText: 'Delete',
+      onConfirmBtnTap: () {
+        print("restore");
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.email)
+            .update({'status': 'active'});
 
-                                CoolAlert.show(
-                                  context: context,
-                                  title: "your account is active now",
-                                  confirmBtnColor:
-                                      Color.fromARGB(144, 64, 7, 87),
-                                  onConfirmBtnTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                HomeScreen()));
-                                  },
-                                  type: CoolAlertType.success,
-                                  backgroundColor:
-                                      Color.fromARGB(221, 212, 189, 227),
-                                  text: "you will be logged in",
-                                );
-                          },
-                          onCancelBtnTap: (){
-           FirebaseFirestore.instance
-                                      .collection('users')
-                                      .doc(FirebaseAuth
-                                          .instance.currentUser!.email)
-                                      .update({'status': 'deleted'});
-                                  CoolAlert.show(
-                                    context: context,
-                                    title: "your account is deleted now",
-                                    confirmBtnColor:
-                                        Color.fromARGB(144, 64, 7, 87),
-                                    onConfirmBtnTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  UserLogin()));
-                                    },
-                                    type: CoolAlertType.success,
-                                    backgroundColor:
-                                        Color.fromARGB(221, 212, 189, 227),
-                                    text:
-                                        "your account is deleted successfully, you are no longer a user ",
-                                  );
+        CoolAlert.show(
+          context: context,
+          title: "your account is active now",
+          confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+          onConfirmBtnTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          },
+          type: CoolAlertType.success,
+          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+          text: "you will be logged in",
+        );
+      },
+      onCancelBtnTap: () {
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.email)
+            .update({'status': 'deleted'});
+        CoolAlert.show(
+          context: context,
+          title: "your account is deleted now",
+          confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+          onConfirmBtnTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => UserLogin()));
+          },
+          type: CoolAlertType.success,
+          backgroundColor: Color.fromARGB(221, 212, 189, 227),
+          text:
+              "your account is deleted successfully, you are no longer a user ",
+        );
 
-                                  deleteprofile();
-                          },
-                       
-                          type: CoolAlertType.confirm,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text:
-                              "your account is inactive, do you want to restore it or delete it immediately?",
-                        );
-   
+        deleteprofile();
+      },
+      type: CoolAlertType.confirm,
+      backgroundColor: Color.fromARGB(221, 212, 189, 227),
+      text:
+          "your account is inactive, do you want to restore it or delete it immediately?",
+    );
   }
 
   showDialogFunc2() {
@@ -457,8 +410,6 @@ class _UserLogin extends State<UserLogin> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        // Code for acceptance role
-
                         Row(children: <Widget>[
                           Expanded(
                             flex: 2,
@@ -471,19 +422,13 @@ class _UserLogin extends State<UserLogin> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              onTap: () {
-                                // go to participant's profile
-                              },
+                              onTap: () {},
                             ),
                           ),
-                          // const SizedBox(
-                          //   height: 10,
-                          // ),
                         ]),
                         SizedBox(
                           height: 35,
                         ),
-                        //----------------------------------------------------------------------------
                         Row(
                           children: <Widget>[
                             Text(""),

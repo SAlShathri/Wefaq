@@ -30,7 +30,6 @@ class _sentRequestListState extends State<PsentJoinRequestListViewPage> {
     await FirebaseAuth.instance.signOut();
   }
 
-  //get all projects
   Future getRequests() async {
     var fillterd = _firestore
         .collection('AllJoinRequests')
@@ -120,10 +119,7 @@ showDialogFunc(context, ParticipantEmail, ProjectTitle) {
     context: context,
     title: "",
     confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
-    //  cancelBtnColor: Colors.black,
-    //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
     confirmBtnText: 'Delete',
-    //cancelBtnText: 'Delete' ,
     onConfirmBtnTap: () {
       FirebaseFirestore.instance
           .collection('AllJoinRequests')
@@ -143,150 +139,8 @@ showDialogFunc(context, ParticipantEmail, ProjectTitle) {
         backgroundColor: Color.fromARGB(221, 212, 189, 227),
       );
     },
-
     type: CoolAlertType.confirm,
     backgroundColor: Color.fromARGB(221, 212, 189, 227),
     text: " Are you sure you want to Delete Request? ",
   );
-  // return Center(
-  //     child: Material(
-  //         type: MaterialType.transparency,
-  //         child: Container(
-  //           decoration: BoxDecoration(
-  //             borderRadius: BorderRadius.circular(10),
-  //             color: const Color.fromARGB(255, 255, 255, 255),
-  //           ),
-  //           padding: const EdgeInsets.all(15),
-  //           height: 150,
-  //           width: MediaQuery.of(context).size.width * 0.9,
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.center,
-  //             children: <Widget>[
-  //               // Code for acceptance role
-  //               Row(children: <Widget>[
-  //                 Expanded(
-  //                   flex: 2,
-  //                   child: GestureDetector(
-  //                     child: Text(
-  //                       " Are you sure you want to Delete Request? ",
-  //                       style: const TextStyle(
-  //                         fontSize: 14,
-  //                         color: Color.fromARGB(159, 64, 7, 87),
-  //                         fontWeight: FontWeight.bold,
-  //                       ),
-  //                     ),
-  //                     onTap: () {
-  //                       // go to participant's profile
-  //                     },
-  //                   ),
-  //                 ),
-  //                 // const SizedBox(
-  //                 //   height: 10,
-  //                 // ),
-  //               ]),
-  //               SizedBox(
-  //                 height: 35,
-  //               ),
-  //               //----------------------------------------------------------------------------
-  //               Row(
-  //                 children: <Widget>[
-  //                   Text("   "),
-  //                   Text("     "),
-  //                   ElevatedButton(
-  //                     onPressed: () {
-  //                       Navigator.push(
-  //                           context,
-  //                           MaterialPageRoute(
-  //                               builder: (context) => Tabs()));
-  //                     },
-  //                     style: ElevatedButton.styleFrom(
-  //                       surfaceTintColor: Colors.white,
-  //                       shape: RoundedRectangleBorder(
-  //                           borderRadius: BorderRadius.circular(80.0)),
-  //                       padding: const EdgeInsets.all(0),
-  //                     ),
-  //                     child: Container(
-  //                       alignment: Alignment.center,
-  //                       height: 40.0,
-  //                       width: 100,
-  //                       decoration: new BoxDecoration(
-  //                           borderRadius: BorderRadius.circular(9.0),
-  //                           gradient: new LinearGradient(colors: [
-  //                             Color.fromARGB(144, 176, 175, 175),
-  //                             Color.fromARGB(144, 176, 175, 175),
-  //                           ])),
-  //                       padding: const EdgeInsets.all(0),
-  //                       child: Text(
-  //                         "Cancel",
-  //                         style: TextStyle(
-  //                             fontSize: 16,
-  //                             fontWeight: FontWeight.w600,
-  //                             color: Color.fromARGB(255, 255, 255, 255)),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   Container(
-  //                     margin: EdgeInsets.only(left: 40),
-  //                     child: ElevatedButton(
-  //                       onPressed: () {
-  //                         FirebaseFirestore.instance
-  //                             .collection('AllJoinRequests')
-  //                             .doc(ProjectTitle + '-' + ParticipantEmail)
-  //                             .update({
-  //                           'Status': 'Request Deleted',
-  //                         });
-  //                         CoolAlert.show(
-  //                           context: context,
-  //                           title: "Success!",
-  //                           confirmBtnColor:
-  //                               Color.fromARGB(144, 64, 6, 87),
-  //                           type: CoolAlertType.success,
-  //                           backgroundColor:
-  //                               Color.fromARGB(221, 212, 189, 227),
-  //                           text: "Your request for " +
-  //                               ProjectTitle +
-  //                               " has been Deleted.",
-  //                           confirmBtnText: 'Done',
-  //                           onConfirmBtnTap: () {
-  //                             //send join requist
-  //                             Navigator.push(
-  //                                 context,
-  //                                 MaterialPageRoute(
-  //                                     builder: (context) => Tabs()));
-  //                           },
-  //                         );
-  //                       },
-  //                       style: ElevatedButton.styleFrom(
-  //                         surfaceTintColor: Colors.white,
-  //                         shape: RoundedRectangleBorder(
-  //                             borderRadius: BorderRadius.circular(80.0)),
-  //                         padding: const EdgeInsets.all(0),
-  //                       ),
-  //                       child: Container(
-  //                         alignment: Alignment.center,
-  //                         height: 40.0,
-  //                         width: 100,
-  //                         decoration: new BoxDecoration(
-  //                             borderRadius: BorderRadius.circular(9.0),
-  //                             gradient: new LinearGradient(colors: [
-  //                               Color.fromARGB(144, 210, 2, 2),
-  //                               Color.fromARGB(144, 210, 2, 2)
-  //                             ])),
-  //                         padding: const EdgeInsets.all(0),
-  //                         child: Text(
-  //                           "Delete",
-  //                           style: TextStyle(
-  //                               fontSize: 16,
-  //                               fontWeight: FontWeight.w600,
-  //                               color:
-  //                                   Color.fromARGB(255, 255, 255, 255)),
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ],
-  //               )
-  //             ],
-  //           ),
-  //         )));
 }

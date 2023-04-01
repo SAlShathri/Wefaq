@@ -5,7 +5,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:wefaq/HomePage.dart';
 import 'package:wefaq/RJRprojects.dart';
-import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/projectsScreen.dart';
 import 'bottom_bar_custom.dart';
 import 'package:cool_alert/cool_alert.dart';
@@ -73,8 +72,6 @@ class _RequestListState extends State<RequestListViewPage> {
     await FirebaseAuth.instance.signOut();
   }
 
-//          .where('participant_email', isNotEqualTo: Email)
-  //get all projects
   Future getRequests() async {
     if (Email != null) {
       var fillterd = _firestore
@@ -208,132 +205,6 @@ class _RequestListState extends State<RequestListViewPage> {
                               ),
                             )
                           ]),
-
-                          ////////////// accept/decline ------------------------------------------
-                          /* Row(
-                          children: <Widget>[
-                            Text("   "),
-                            Container(
-                              margin: EdgeInsets.only(left: 120),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  FirebaseFirestore.instance
-                                      .collection('joinRequests')
-                                      .doc(ProjectTitleList[index] +
-                                          '-' +
-                                          ParticipantEmailList[index])
-                                      .update({'Status': 'Accepted'});
-              
-                                  CoolAlert.show(
-                                    context: context,
-                                    title: "Success!",
-                                    confirmBtnColor:
-                                        Color.fromARGB(144, 64, 6, 87),
-                                    type: CoolAlertType.success,
-                                    backgroundColor:
-                                        Color.fromARGB(221, 212, 189, 227),
-                                    text: "You have accepted " +
-                                        ParticipantNameList[index] +
-                                        " to be part of your team.",
-                                    confirmBtnText: 'Done',
-                                    onConfirmBtnTap: () {
-                                      //send join requist
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  RequestListViewPage()));
-                                    },
-                                  );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  surfaceTintColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(80.0)),
-                                  padding: const EdgeInsets.all(0),
-                                ),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  height: 40.0,
-                                  width: 100,
-                                  decoration: new BoxDecoration(
-                                      borderRadius: BorderRadius.circular(9.0),
-                                      gradient: new LinearGradient(colors: [
-                                        Color.fromARGB(144, 7, 133, 57),
-                                        Color.fromARGB(144, 7, 133, 57),
-                                      ])),
-                                  padding: const EdgeInsets.all(0),
-                                  child: Text(
-                                    "Accept",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Text("     "),
-                            ElevatedButton(
-                              onPressed: () {
-                                FirebaseFirestore.instance
-                                    .collection('joinRequests')
-                                    .doc(ProjectTitleList[index] +
-                                        '-' +
-                                        ParticipantEmailList[index])
-                                    .update({'Status': 'Declined'});
-                                CoolAlert.show(
-                                  context: context,
-                                  title: "Success!",
-                                  confirmBtnColor: Color.fromARGB(144, 64, 6, 87),
-                                  type: CoolAlertType.success,
-                                  backgroundColor:
-                                      Color.fromARGB(221, 212, 189, 227),
-                                  text: "You have rejected " +
-                                      ParticipantNameList[index] +
-                                      ", hope you find a better match.",
-                                  confirmBtnText: 'Done',
-                                  onConfirmBtnTap: () async {
-                                    //saving the request in join request collection
-              
-                                    //send join requist
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                RequestListViewPage()));
-                                  },
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                surfaceTintColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(80.0)),
-                                padding: const EdgeInsets.all(0),
-                              ),
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 40.0,
-                                width: 100,
-                                decoration: new BoxDecoration(
-                                    borderRadius: BorderRadius.circular(9.0),
-                                    gradient: new LinearGradient(colors: [
-                                      Color.fromARGB(144, 210, 2, 2),
-                                      Color.fromARGB(144, 210, 2, 2)
-                                    ])),
-                                padding: const EdgeInsets.all(0),
-                                child: Text(
-                                  "Decline",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color.fromARGB(255, 255, 255, 255)),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )*/
                         ],
                       ),
                     ),
@@ -394,40 +265,7 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                                         RequestListViewPageProject()));
                           }))
                 ]),
-                // Row(children: <Widget>[
-                //   Container(
-                //     margin: EdgeInsets.only(left: 115),
-                //     child: IconButton(
-                //       icon: const Icon(
-                //         Icons.account_circle,
-                //         color: Color.fromARGB(255, 112, 82, 149),
-                //         size: 52,
-                //       ),
-                //       onPressed: () {
-                //         // go to participant's profile
-                //       },
-                //     ),
-                //   )
-                // ]),
-                // Row(children: <Widget>[
-                //   // flex: 6,
-                //   Container(
-                //     margin: EdgeInsets.only(left: 60),
-                //     child: GestureDetector(
-                //       child: Text(
-                //         " " + ParticipantName + ProjectTitle + " ",
-                //         style: const TextStyle(
-                //           fontSize: 20,
-                //           color: Color.fromARGB(159, 35, 4, 47),
-                //           fontWeight: FontWeight.w600,
-                //         ),
-                //       ),
-                //       onTap: () {
-                //         // go to participant's profile
-                //       },
-                //     ),
-                //   ),
-                // ]),
+
                 Expanded(
                   flex: 3,
                   child: IconButton(
@@ -460,12 +298,6 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                     },
                   ),
                 ),
-                // const SizedBox(
-                //   height: 10,
-                // ),
-                // const Divider(
-                //   color: Color.fromARGB(255, 74, 74, 74),
-                // ),
 
                 Row(
                   children: <Widget>[
@@ -541,7 +373,6 @@ showDialogFunc(context, ParticipantName, ParticipantNote, ParticipantJoiningAs,
                   ),
                 ),
 
-                //----------------------------------------------------------------------------
                 Row(
                   children: <Widget>[
                     Text("   "),

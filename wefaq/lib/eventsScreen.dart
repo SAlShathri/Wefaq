@@ -137,7 +137,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
       }
   }
 
-//get all projects
+//get all events
   Future getProjects() async {
     //clear first
     setState(() {
@@ -170,13 +170,11 @@ class _ListViewPageState extends State<EventsListViewPage> {
           lngList.add(events['lng']);
           creatDate.add(events['cdate']);
           ownerEmail.add(events['email']);
-
-          //  dateTimeList.add(project['dateTime ']);
         });
       }
   }
 
-  //get all projects
+  //get locations
   Future getEventsLoc() async {
     //clear first
     setState(() {
@@ -306,7 +304,6 @@ class _ListViewPageState extends State<EventsListViewPage> {
               ),
               onTap: () {
                 setState(() {
-                  //Filter by created date
                   getProjects();
                 });
               },
@@ -325,7 +322,6 @@ class _ListViewPageState extends State<EventsListViewPage> {
               ),
               onTap: () {
                 setState(() {
-                  //Filter by nearest
                   setDistance();
                   getEventsLoc();
                 });
@@ -334,8 +330,6 @@ class _ListViewPageState extends State<EventsListViewPage> {
           ),
         ],
       ),
-
-      // Main List View With Builder
       body: Column(
         children: [
           _searchBar(),
@@ -361,7 +355,6 @@ class _ListViewPageState extends State<EventsListViewPage> {
                       ),
                       onTap: () {
                         setState(() {
-                          //Filter by created date
                           getProjects();
                         });
                       },
@@ -387,21 +380,15 @@ class _ListViewPageState extends State<EventsListViewPage> {
                   ),
                 ],
               ),
-              // Main List View With Builder
               body: Scrollbar(
                 thumbVisibility: true,
                 child: ListView.builder(
                   itemBuilder: (context, index) {
-                    // Card Which Holds Layout Of ListView Item
-
                     return SizedBox(
                       height: 100,
                       child: GestureDetector(
                           child: Card(
                             color: const Color.fromARGB(255, 255, 255, 255),
-                            //shadowColor: Color.fromARGB(255, 255, 255, 255),
-                            //  elevation: 7,
-
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                               child: Column(
@@ -490,7 +477,6 @@ class _ListViewPageState extends State<EventsListViewPage> {
                     );
                   },
                   itemCount: nameList.length,
-                  // itemCount:_textEditingController!.text.isNotEmpty? nameListsearch.length  : nameListsearch.length,
                 ),
               ),
             ),
@@ -509,7 +495,6 @@ class _ListViewPageState extends State<EventsListViewPage> {
             controller: _searchEditingController,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 15.0),
-
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15.0),
                 borderSide: BorderSide(color: Colors.black87, width: 2.0),
@@ -540,16 +525,7 @@ class _ListViewPageState extends State<EventsListViewPage> {
                       },
                     )
                   : null,
-
               hintText: 'Gaming , web  ...',
-              //    suffixIcon :IconButton(
-              //                onPressed: () {
-              //                setState(() {
-              //               // _searchEditingController.clear();
-              //            });
-              //        },
-              //      icon: Icon(Icons.clear_outlined),
-              //  )
             ),
             onChanged: (text) {
               setState(() {
@@ -567,13 +543,6 @@ class _ListViewPageState extends State<EventsListViewPage> {
             return ListTile(
               contentPadding: EdgeInsets.symmetric(horizontal: 40),
               visualDensity: VisualDensity(vertical: -4),
-              //leading: CircleAvatar(
-              //  backgroundColor: Color.fromARGB(221, 137, 171, 187),
-              // child: Icon(
-              //    Icons.category_rounded,
-              //    color: Colors.white,
-              //  ),
-              //  ),
               title: Text(
                 categoryListController[index].toString(),
               ),
@@ -587,7 +556,6 @@ class _ListViewPageState extends State<EventsListViewPage> {
             );
           },
           separatorBuilder: (context, index) {
-            //<-- SEE HERE
             return Divider(
               thickness: 0,
               color: Color.fromARGB(255, 194, 195, 194),
@@ -599,7 +567,6 @@ class _ListViewPageState extends State<EventsListViewPage> {
   }
 }
 
-// This is a block of Model Dialog
 showDialogFunc(context, title, desc, category, loc, date, time, urlregstrtion) {
   return showDialog(
     context: context,
@@ -688,7 +655,6 @@ showDialogFunc(context, title, desc, category, loc, date, time, urlregstrtion) {
                     ),
                   ),
                   Container(
-                    // width: 200,
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
@@ -707,7 +673,6 @@ showDialogFunc(context, title, desc, category, loc, date, time, urlregstrtion) {
                     color: Color.fromARGB(255, 102, 102, 102),
                   ),
                   Container(
-                    // width: 200,
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
@@ -750,31 +715,6 @@ showDialogFunc(context, title, desc, category, loc, date, time, urlregstrtion) {
                                   const Color.fromARGB(195, 117, 45, 141),
                             ))),
                   ),
-
-                  /* Container(
-                    alignment: Alignment.center,
-                    height: 40.0,
-                    width: 200,
-                    margin: EdgeInsets.only(top: 20),
-          
-                    // width: size.width * 0.5,
-                    decoration: new BoxDecoration(
-                        borderRadius: BorderRadius.circular(80.0),
-                        gradient: new LinearGradient(colors: [
-                          Color.fromARGB(197, 67, 7, 87),
-                          Color.fromARGB(195, 117, 45, 141),
-                        ])),
-                    padding: const EdgeInsets.all(0),
-                    child: Text(
-                      "Regstrition Link",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 255, 255, 255)),
-                      //     textAlign: TextAlign.center,
-                      //     style: TextStyle(fontWeight: FontWeight.bold ),
-                    ),
-                  ),*/
                 ],
               ),
             ),

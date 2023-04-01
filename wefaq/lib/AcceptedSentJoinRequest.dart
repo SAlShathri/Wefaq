@@ -24,11 +24,7 @@ class _sentRequestListState extends State<AsentJoinRequestListViewPage> {
     super.initState();
   }
 
-  Future<void> _signOut() async {
-    await FirebaseAuth.instance.signOut();
-  }
-
-  //get all projects
+  //get all accepted requests
   Future getRequests() async {
     var fillterd = _firestore
         .collection('AllJoinRequests')

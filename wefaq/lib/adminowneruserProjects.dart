@@ -1,14 +1,6 @@
-import 'dart:convert';
-import 'dart:math';
-import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:wefaq/ProjectsTapScreen.dart';
-import 'package:wefaq/service/local_push_notification.dart';
-import 'package:http/http.dart' as http;
 
 import 'AdminProjectDetails.dart';
 import 'UserLogin.dart';
@@ -24,10 +16,6 @@ class adminowneruserProjects extends StatefulWidget {
 class ListViewPageState extends State<adminowneruserProjects> {
   String userEmail;
   ListViewPageState(this.userEmail);
-
-  final TextEditingController _JoiningASController = TextEditingController();
-  final TextEditingController _ParticipantNoteController =
-      TextEditingController();
   @override
   void initState() {
     getCurrentUser();
@@ -112,9 +100,6 @@ class ListViewPageState extends State<adminowneruserProjects> {
                     child: GestureDetector(
                         child: Card(
                           color: const Color.fromARGB(255, 255, 255, 255),
-                          //shadowColor: Color.fromARGB(255, 255, 255, 255),
-                          //  elevation: 7,
-
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: Column(
@@ -194,7 +179,6 @@ class ListViewPageState extends State<adminowneruserProjects> {
                   );
                 },
                 itemCount: nameList.length,
-                // itemCount:_textEditingController!.text.isNotEmpty? nameListsearch.length  : nameListsearch.length,
               ),
             ),
           ),
@@ -239,19 +223,13 @@ showDialogFunc(context) {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            onTap: () {
-                              // go to participant's profile
-                            },
+                            onTap: () {},
                           ),
                         ),
-                        // const SizedBox(
-                        //   height: 10,
-                        // ),
                       ]),
                       SizedBox(
                         height: 35,
                       ),
-                      //----------------------------------------------------------------------------
                       Row(
                         children: <Widget>[
                           Text("   "),
@@ -295,25 +273,6 @@ showDialogFunc(context) {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => UserLogin()));
-                                // CoolAlert.show(
-                                //   context: context,
-                                //   title: "Success!",
-                                //   confirmBtnColor:
-                                //       Color.fromARGB(144, 64, 6, 87),
-                                //   type: CoolAlertType.success,
-                                //   backgroundColor:
-                                //       Color.fromARGB(221, 212, 189, 227),
-                                //   text: "You have logged out successfully",
-                                //   confirmBtnText: 'Done',
-                                //   onConfirmBtnTap: () {
-                                //     //send join requist
-                                //     _signOut();
-                                //     Navigator.push(
-                                //         context,
-                                //         MaterialPageRoute(
-                                //             builder: (context) => UserLogin()));
-                                //   },
-                                // );
                               },
                               style: ElevatedButton.styleFrom(
                                 surfaceTintColor: Colors.white,
