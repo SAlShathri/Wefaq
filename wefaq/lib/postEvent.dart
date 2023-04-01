@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:intl/intl.dart';
 import 'package:wefaq/bottom_bar_custom.dart';
 import 'dart:async';
@@ -47,7 +45,6 @@ class _PostEventState extends State<PostEvent> {
   void initState() {
     // call the methods to fetch the data from the DB
     getCategoryList();
-
     super.initState();
     String apiKey = 'AIzaSyCkRaPfvVejBlQIAWEjc9klnkqk6olnhuc';
     googlePlace = GooglePlace(apiKey);
@@ -469,7 +466,6 @@ class _PostEventState extends State<PostEvent> {
                               // for sorting purpose
                               var now = new DateTime.now();
                               var formatter = new DateFormat('yyyy-MM-dd');
-
                               _firestore
                                   .collection('AllEvent')
                                   .doc(_nameEditingController.text)

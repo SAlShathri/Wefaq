@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors
 import 'dart:async';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -54,7 +53,6 @@ class _PostProjectState extends State<PostProject> {
     // call the methods to fetch the data from the DB
     getProfilePhoto();
     getCategoryList();
-
     super.initState();
     String apiKey = 'AIzaSyCkRaPfvVejBlQIAWEjc9klnkqk6olnhuc';
     googlePlace = GooglePlace(apiKey);
@@ -517,7 +515,5 @@ class _PostProjectState extends State<PostProject> {
     );
   }
 
-  Future<void> _signOut() async {
-    await FirebaseAuth.instance.signOut();
-  }
+ 
 }

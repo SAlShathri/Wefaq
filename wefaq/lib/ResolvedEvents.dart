@@ -1,22 +1,10 @@
-import 'dart:convert';
-import 'dart:math';
-import 'package:cool_alert/cool_alert.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:get/route_manager.dart';
-import 'package:wefaq/AdminHomePage.dart';
-import 'package:wefaq/AdminNavBar.dart';
-import 'package:wefaq/AdminProjectDetails.dart';
-import 'package:wefaq/ProjectsTapScreen.dart';
 import 'package:wefaq/UserLogin.dart';
-import 'package:wefaq/screens/detail_screens/project_detail_screen.dart';
-import 'package:wefaq/service/local_push_notification.dart';
 import 'package:http/http.dart' as http;
 
-// Main Stateful Widget Start
 class ResolvedEventsList extends StatefulWidget {
   @override
   ResolvedEventsState createState() => ResolvedEventsState();
@@ -52,9 +40,8 @@ class ResolvedEventsState extends State<ResolvedEventsList> {
     }
   }
 
-  //get all projects
+  
   Future getReportedEvents() async {
-    //clear first
     setState(() {
       EventnameList = [];
       Reason = [];
@@ -78,7 +65,6 @@ class ResolvedEventsState extends State<ResolvedEventsList> {
 
   @override
   Widget build(BuildContext context) {
-    // MediaQuery to get Device Width
 
     return Column(children: [
       Expanded(
@@ -88,19 +74,13 @@ class ResolvedEventsState extends State<ResolvedEventsList> {
               body: Scrollbar(
                   thumbVisibility: true,
                   child: ListView.builder(
-                      //itemCount: tokens.length,
                       itemCount: EventnameList.length,
                       itemBuilder: (context, index) {
-                        // Card Which Holds Layout Of ListView Item
-
                         return SizedBox(
                           height: 180,
                           child: GestureDetector(
                             child: Card(
-                                color: Color.fromARGB(235, 255, 255, 255),
-                                //shadowColor: Color.fromARGB(255, 255, 255, 255),
-                                //  elevation: 7,
-
+                                color: Color.fromARGB(235, 255, 255, 255),                           
                                 child: Padding(
                                     padding:
                                         const EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -260,18 +240,15 @@ showDialogFunc2(context) {
                               ),
                             ),
                             onTap: () {
-                              // go to participant's profile
+                            
                             },
                           ),
-                        ),
-                        // const SizedBox(
-                        //   height: 10,
-                        // ),
+                        ),                    
                       ]),
                       SizedBox(
                         height: 35,
                       ),
-                      //----------------------------------------------------------------------------
+                      
                       Row(
                         children: <Widget>[
                           Text("   "),
@@ -314,26 +291,7 @@ showDialogFunc2(context) {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => UserLogin()));
-                                // CoolAlert.show(
-                                //   context: context,
-                                //   title: "Success!",
-                                //   confirmBtnColor:
-                                //       Color.fromARGB(144, 64, 6, 87),
-                                //   type: CoolAlertType.success,
-                                //   backgroundColor:
-                                //       Color.fromARGB(221, 212, 189, 227),
-                                //   text: "You have logged out successfully",
-                                //   confirmBtnText: 'Done',
-                                //   onConfirmBtnTap: () {
-                                //     //send join requist
-                                //     _signOut();
-                                //     Navigator.push(
-                                //         context,
-                                //         MaterialPageRoute(
-                                //             builder: (context) => UserLogin()));
-                                //   },
-                                // );
+                                        builder: (context) => UserLogin()));                          
                               },
                               style: ElevatedButton.styleFrom(
                                 surfaceTintColor: Colors.white,

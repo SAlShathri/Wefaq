@@ -1,15 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:wefaq/AdminEventDetails.dart';
-import 'package:wefaq/AdminHomePage.dart';
-import 'package:wefaq/AdminNavBar.dart';
 import 'dart:async';
 import 'package:wefaq/UserLogin.dart';
-
 import 'adminViewOtherProfile.dart';
-
-//import 'package:wefaq/adminViewOtherProfile.dart';
 
 class newReportedAccList extends StatefulWidget {
   @override
@@ -93,9 +87,6 @@ class ReportedAccState extends State<newReportedAccList> {
                     child: GestureDetector(
                         child: Card(
                             color: Color.fromARGB(235, 255, 255, 255),
-                            //shadowColor: Color.fromARGB(255, 255, 255, 255),
-                            //  elevation: 7,
-
                             child: Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 child: Column(
@@ -270,14 +261,8 @@ showDialogFunc2(context) {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            onTap: () {
-                              // go to participant's profile
-                            },
                           ),
                         ),
-                        // const SizedBox(
-                        //   height: 10,
-                        // ),
                       ]),
                       SizedBox(
                         height: 35,
@@ -326,25 +311,6 @@ showDialogFunc2(context) {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => UserLogin()));
-                                // CoolAlert.show(
-                                //   context: context,
-                                //   title: "Success!",
-                                //   confirmBtnColor:
-                                //       Color.fromARGB(144, 64, 6, 87),
-                                //   type: CoolAlertType.success,
-                                //   backgroundColor:
-                                //       Color.fromARGB(221, 212, 189, 227),
-                                //   text: "You have logged out successfully",
-                                //   confirmBtnText: 'Done',
-                                //   onConfirmBtnTap: () {
-                                //     //send join requist
-                                //     _signOut();
-                                //     Navigator.push(
-                                //         context,
-                                //         MaterialPageRoute(
-                                //             builder: (context) => UserLogin()));
-                                //   },
-                                // );
                               },
                               style: ElevatedButton.styleFrom(
                                 surfaceTintColor: Colors.white,

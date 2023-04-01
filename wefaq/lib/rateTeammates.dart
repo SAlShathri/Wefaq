@@ -1,14 +1,7 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:wefaq/HomePage.dart';
-import 'package:wefaq/UserLogin.dart';
-import 'package:wefaq/chatDetails.dart';
-import 'package:wefaq/chatRoom.dart';
 import 'package:wefaq/viewProfileTeamMembers.dart';
 
 class rateTeammates extends StatefulWidget {
@@ -26,16 +19,14 @@ class _rateTeammates extends State<rateTeammates> {
   final auth = FirebaseAuth.instance;
   late User signedInUser;
   final _firestore = FirebaseFirestore.instance;
-  final _auth = FirebaseAuth.instance;
   var Email = FirebaseAuth.instance.currentUser!.email;
-
   var usersNames = [];
   var usersEmails = [];
-
   var userWhoRated = [];
   var ratings = [];
   var photos = [];
   var currentUserEmail = FirebaseAuth.instance.currentUser!.email;
+
   @override
   void initState() {
     getUsersNames();
@@ -114,7 +105,6 @@ class _rateTeammates extends State<rateTeammates> {
         backgroundColor: Color.fromARGB(255, 145, 124, 178),
         title: Row(
           children: [
-            //Image.network('assets/images/logo.png', height: 70),
             SizedBox(width: 5),
             Text(
               "Rate Teammeates",

@@ -898,7 +898,3 @@ void sendNotification(String title, String token) async {
     }
   } catch (e) {}
 }
-
-Future<void> _signOut() async {
-  await FirebaseAuth.instance.signOut();
-}
