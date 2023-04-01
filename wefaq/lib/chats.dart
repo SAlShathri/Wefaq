@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wefaq/HomePage.dart';
 import 'package:wefaq/chatRoom.dart';
+import 'UserLogin.dart';
 import 'bottom_bar_custom.dart';
 
 class chatScreen extends StatefulWidget {
@@ -264,6 +266,10 @@ class _chatScreenState extends State<chatScreen> {
       ),
     );
   }
+}
+
+Future<void> _signOut() async {
+  await FirebaseAuth.instance.signOut();
 }
 
 showDialogFunc(context) {

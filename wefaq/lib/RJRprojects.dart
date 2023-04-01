@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:google_place/google_place.dart';
 import 'package:wefaq/HomePage.dart';
 import 'package:wefaq/UserLogin.dart';
 import 'package:wefaq/config/colors.dart';
@@ -65,7 +64,6 @@ class _RequestListProject extends State<RequestListViewPageProject> {
       }
     }
   }
-  //----
 
   void getCurrentUser() {
     try {
@@ -84,8 +82,6 @@ class _RequestListProject extends State<RequestListViewPageProject> {
     await FirebaseAuth.instance.signOut();
   }
 
-//          .where('participant_email', isNotEqualTo: Email)
-  //get all requests
   Future getRequests() async {
     setState(() {
       ProjectTitleList = [];
@@ -170,7 +166,6 @@ class _RequestListProject extends State<RequestListViewPageProject> {
             controller: _searchEditingController,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 15.0),
-
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15.0),
                 borderSide: BorderSide(color: Colors.black87, width: 2.0),
@@ -202,15 +197,6 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                       },
                     )
                   : null,
-
-              //    suffixIcon :IconButton(
-              //                onPressed: () {
-              //                setState(() {
-              //               // _searchEditingController.clear();
-              //            });
-              //        },
-              //      icon: Icon(Icons.clear_outlined),
-              //  )
             ),
             onChanged: (text) {
               setState(() {});
@@ -227,13 +213,6 @@ class _RequestListProject extends State<RequestListViewPageProject> {
             return ListTile(
               contentPadding: EdgeInsets.symmetric(horizontal: 40),
               visualDensity: VisualDensity(vertical: -4),
-              //leading: CircleAvatar(
-              //  backgroundColor: Color.fromARGB(221, 137, 171, 187),
-              // child: Icon(
-              //    Icons.category_rounded,
-              //    color: Colors.white,
-              //  ),
-              //  ),
               title: Text(
                 ProjectTitleList[index].toString(),
               ),
@@ -247,7 +226,6 @@ class _RequestListProject extends State<RequestListViewPageProject> {
             );
           },
           separatorBuilder: (context, index) {
-            //<-- SEE HERE
             return Divider(
               thickness: 0,
               color: Color.fromARGB(255, 194, 195, 194),
@@ -329,18 +307,6 @@ class _RequestListProject extends State<RequestListViewPageProject> {
                                 Row(children: <Widget>[
                                   TextButton(
                                     onPressed: () async {
-                                      // var fillterd = _firestore
-                                      //     .collection('users')
-                                      //     .where("Email",
-                                      //         isEqualTo:
-                                      //             ParticipantEmailList[index])
-                                      //     .snapshots();
-                                      // await for (var snapshot in fillterd)
-                                      //   for (var user in snapshot.docs) {
-                                      //     setState(() {
-                                      //       Photo = user["Profile"].toString();
-                                      //     });
-                                      //   }
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -421,17 +387,6 @@ class _RequestListProject extends State<RequestListViewPageProject> {
   }
 }
 
-// getImage(email) async {
-//   FirebaseFirestore.instance
-//       .collection('users')
-//       .doc(email)
-//       .get()
-//       .then((snapshot) {
-//     P = snapshot.data()!['Profile'].toString();
-//   });
-// }
-
-// This is a block of Model Dialog
 showDialogFunc(
     context,
     index,
@@ -528,11 +483,9 @@ showDialogFunc(
                 const SizedBox(height: 10.0),
                 const Divider(color: kOutlineColor, height: 1.0),
                 const SizedBox(height: 10.0),
-                //TEXTFIELD
                 Container(
                   alignment: Alignment.center,
                   child: Form(
-                    // key: _formKey,
                     child: TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       maxLength: 60,
@@ -568,87 +521,19 @@ showDialogFunc(
                     ),
                   ),
                 ),
-
-                //   //DROPDOWN LIST
-                //       Form(child:
-                // DropdownButtonFormField(
-                //   hint: RichText(
-                //     text: TextSpan(
-                //         text: 'Accepting As',
-                //         style: const TextStyle(
-                //             fontSize: 18, color: Color.fromARGB(144, 64, 7, 87)),
-                //         children: [
-                //           TextSpan(
-                //               text: ' *',
-                //               style: TextStyle(
-                //                 color: Colors.red,
-                //               ))
-                //         ]),
-                //   ),
-                //   items: options
-                //       .map((e) => DropdownMenuItem(
-                //             value: e,
-                //             child: Text(e),
-                //           ))
-                //       .toList(),
-                //   onChanged: (value) {
-                //     setState(() {
-                //       selectedOp = value as String?;
-                //     });
-                //   },
-                //   icon: Icon(
-                //     Icons.arrow_drop_down_circle,
-                //     color: Color.fromARGB(221, 137, 171, 187),
-                //   ),
-                //   decoration: InputDecoration(
-                //     border: OutlineInputBorder(
-                //       borderSide: BorderSide(width: 2.0),
-                //     ),
-                //     focusedBorder: OutlineInputBorder(
-                //       borderSide: BorderSide(
-                //         color: Color.fromARGB(144, 64, 7, 87),
-                //         width: 2.0,
-                //       ),
-                //     ),
-                //   ),
-                //   validator: (value) {
-                //     if (value == null || value == "") {
-                //       return 'required';
-                //     }
-                //   },
-                // ),),
                 Row(
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.only(left: 50),
                       child: ElevatedButton(
                         onPressed: () {
-                          // this will changw to new roles once editted
                           List<String> Roles = JoinAs.split(" - ");
                           if (_AcceptingAsASController.text != "" &&
-                                  Roles.contains(
-                                      _AcceptingAsASController.text.toString())
-
-                              //     _AcceptingAsASController.text == "Tester" ||
-                              // _AcceptingAsASController.text == "Designer" ||
-                              // _AcceptingAsASController.text == "Developer"
-
-                              ) {
+                              Roles.contains(
+                                  _AcceptingAsASController.text.toString())) {
                             sendNotification(
                                 "Your Join request has been accepted ", token);
-                            // // ACCEPT ONE Reject ALL
-                            // for (var i = 0;
-                            //     i < ParticipantEmailList.length;
-                            //     i++) {
-                            //   if (i != index &&
-                            //       ParticipantjoiningAsList[i] ==
-                            //           _AcceptingAsASController) {
-                            //     FirebaseFirestore.instance
-                            //         .collection('AllJoinRequests')
-                            //         .doc(title + "-" + ParticipantEmailList[i])
-                            //         .update({'Status': 'Rejected'});
-                            //   }
-                            // }
+
                             FirebaseFirestore.instance
                                 .collection('AllJoinRequests')
                                 .doc(ProjectTitleList[index] +
@@ -758,16 +643,6 @@ showDialogFunc(
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           RequestListViewPageProject()));
-                              // } else {
-                              //   Navigator.push(
-                              //       context,
-                              //       MaterialPageRoute(
-                              //           builder: (context) =>
-                              //               RequestListViewPage(
-                              //                 projectName:
-                              //                     projectName,
-                              //               )));
-                              // }
                             });
                       },
                       style: ElevatedButton.styleFrom(
@@ -848,171 +723,18 @@ Future<void> _signOut() async {
 }
 
 showDialogFunc2(context) {
-   CoolAlert.show(
-                          context: context,
-                          title: "",
-                          confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
-                        //  cancelBtnColor: Colors.black,
-                        //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
-                          confirmBtnText: 'log out ',
-                          //cancelBtnText: 'Delete' ,
-                             onConfirmBtnTap: () {
-                 
-                           _signOut();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => UserLogin()));
-                              
-                          },
-                    
-                          type: CoolAlertType.confirm,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text:
-                              "Are you sure you want to log out?",
-                        );
-  // return showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return Center(
-  //           child: Material(
-  //               type: MaterialType.transparency,
-  //               child: Container(
-  //                 decoration: BoxDecoration(
-  //                   borderRadius: BorderRadius.circular(10),
-  //                   color: const Color.fromARGB(255, 255, 255, 255),
-  //                 ),
-  //                 padding: const EdgeInsets.all(15),
-  //                 height: 150,
-  //                 width: MediaQuery.of(context).size.width * 0.9,
-  //                 child: Column(
-  //                   crossAxisAlignment: CrossAxisAlignment.center,
-  //                   children: <Widget>[
-  //                     // Code for acceptance role
-  //                     Row(children: <Widget>[
-  //                       Expanded(
-  //                         flex: 2,
-  //                         child: GestureDetector(
-  //                           child: Text(
-  //                             " Are you sure you want to log out? ",
-  //                             style: const TextStyle(
-  //                               fontSize: 14,
-  //                               color: Color.fromARGB(159, 64, 7, 87),
-  //                               fontWeight: FontWeight.bold,
-  //                             ),
-  //                           ),
-  //                           onTap: () {
-  //                             // go to participant's profile
-  //                           },
-  //                         ),
-  //                       ),
-  //                       // const SizedBox(
-  //                       //   height: 10,
-  //                       // ),
-  //                     ]),
-  //                     SizedBox(
-  //                       height: 35,
-  //                     ),
-  //                     //----------------------------------------------------------------------------
-  //                     Row(
-  //                       children: <Widget>[
-  //                         Text("   "),
-  //                         Text("     "),
-  //                         ElevatedButton(
-  //                           onPressed: () {
-  //                             Navigator.push(
-  //                                 context,
-  //                                 MaterialPageRoute(
-  //                                     builder: (context) =>
-  //                                         RequestListViewPageProject()));
-  //                           },
-  //                           style: ElevatedButton.styleFrom(
-  //                             surfaceTintColor: Colors.white,
-  //                             shape: RoundedRectangleBorder(
-  //                                 borderRadius: BorderRadius.circular(80.0)),
-  //                             padding: const EdgeInsets.all(0),
-  //                           ),
-  //                           child: Container(
-  //                             alignment: Alignment.center,
-  //                             height: 40.0,
-  //                             width: 100,
-  //                             decoration: new BoxDecoration(
-  //                                 borderRadius: BorderRadius.circular(9.0),
-  //                                 gradient: new LinearGradient(colors: [
-  //                                   Color.fromARGB(144, 176, 175, 175),
-  //                                   Color.fromARGB(144, 176, 175, 175),
-  //                                 ])),
-  //                             padding: const EdgeInsets.all(0),
-  //                             child: Text(
-  //                               "Cancel",
-  //                               style: TextStyle(
-  //                                   fontSize: 16,
-  //                                   fontWeight: FontWeight.w600,
-  //                                   color: Color.fromARGB(255, 255, 255, 255)),
-  //                             ),
-  //                           ),
-  //                         ),
-  //                         Container(
-  //                           margin: EdgeInsets.only(left: 40),
-  //                           child: ElevatedButton(
-  //                             onPressed: () {
-  //                               _signOut();
-  //                               Navigator.push(
-  //                                   context,
-  //                                   MaterialPageRoute(
-  //                                       builder: (context) => UserLogin()));
-  //                               // CoolAlert.show(
-  //                               //   context: context,
-  //                               //   title: "Success!",
-  //                               //   confirmBtnColor:
-  //                               //       Color.fromARGB(144, 64, 6, 87),
-  //                               //   type: CoolAlertType.success,
-  //                               //   backgroundColor:
-  //                               //       Color.fromARGB(221, 212, 189, 227),
-  //                               //   text: "You have logged out successfully",
-  //                               //   confirmBtnText: 'Done',
-  //                               //   onConfirmBtnTap: () {
-  //                               //     //send join requist
-  //                               //     _signOut();
-  //                               //     Navigator.push(
-  //                               //         context,
-  //                               //         MaterialPageRoute(
-  //                               //             builder: (context) => UserLogin()));
-  //                               //   },
-  //                               // );
-  //                             },
-  //                             style: ElevatedButton.styleFrom(
-  //                               surfaceTintColor: Colors.white,
-  //                               shape: RoundedRectangleBorder(
-  //                                   borderRadius: BorderRadius.circular(80.0)),
-  //                               padding: const EdgeInsets.all(0),
-  //                             ),
-  //                             child: Container(
-  //                               alignment: Alignment.center,
-  //                               height: 40.0,
-  //                               width: 100,
-  //                               decoration: new BoxDecoration(
-  //                                   borderRadius: BorderRadius.circular(9.0),
-  //                                   gradient: new LinearGradient(colors: [
-  //                                     Color.fromARGB(144, 210, 2, 2),
-  //                                     Color.fromARGB(144, 210, 2, 2)
-  //                                   ])),
-  //                               padding: const EdgeInsets.all(0),
-  //                               child: Text(
-  //                                 "Log out",
-  //                                 style: TextStyle(
-  //                                     fontSize: 16,
-  //                                     fontWeight: FontWeight.w600,
-  //                                     color:
-  //                                         Color.fromARGB(255, 255, 255, 255)),
-  //                               ),
-  //                             ),
-  //                           ),
-  //                         ),
-  //                       ],
-  //                     )
-  //                   ],
-  //                 ),
-  //               )));
-  //     });
+  CoolAlert.show(
+    context: context,
+    title: "",
+    confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
+    confirmBtnText: 'log out ',
+    onConfirmBtnTap: () {
+      _signOut();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => UserLogin()));
+    },
+    type: CoolAlertType.confirm,
+    backgroundColor: Color.fromARGB(221, 212, 189, 227),
+    text: "Are you sure you want to log out?",
+  );
 }
