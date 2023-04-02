@@ -2,33 +2,14 @@ import 'dart:io';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:multiselect/multiselect.dart';
-import 'package:wefaq/profile.dart';
 import 'package:wefaq/profileuser.dart';
-import 'package:flutter/material.dart';
-import 'package:wefaq/UserLogin.dart';
-import 'package:wefaq/background.dart';
-import 'package:wefaq/editProfile.dart';
-import 'package:wefaq/select_photo_options_screen.dart';
 import 'bottom_bar_custom.dart';
-import 'package:wefaq/myProjects.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:wefaq/eventsTabs.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:wefaq/userProjects.dart';
-import 'select_photo_options_screen.dart';
 
 class editprofile extends StatefulWidget {
   const editprofile({super.key});
@@ -52,16 +33,7 @@ class _editprofileState extends State<editprofile> {
   List<String> options = [];
   List<String> selectedOptionList = [];
   var selectedOption;
-  /*late File image;
-  final imagepicker = ImagePicker();
-  uploadImage() async {
-    var pickedimage = await imagepicker.getImage(source: ImageSource.gallery);
-    if(pickedimage != null){ image =File(pickedimage.path);}
-    else
-   ;
-  }*/
 
-  File? _image;
   final auth = FirebaseAuth.instance;
   late User signedInUser;
   String userEmail = "";
@@ -81,23 +53,6 @@ class _editprofileState extends State<editprofile> {
     getUser();
     super.initState();
   }
-
-  // Future _pickImage(ImageSource source) async {
-  //   try {
-  //     final image = await ImagePicker().pickImage(source: source);
-  //     if (image == null) return;
-  //     File? img = File(image.path);
-  //     img = await _cropImage(imageFile: img);
-  //     setState(() {
-  //       _image = img;
-  //       Navigator.of(context).pop();
-  //     });
-  //   } on PlatformException catch (e) {
-  //     print(e);
-  //     Navigator.of(context).pop();
-  //   }
-  // }
-
   File? imageFile;
   ImagePicker _picker = ImagePicker();
 
@@ -162,31 +117,6 @@ class _editprofileState extends State<editprofile> {
     if (croppedImage == null) return null;
     return File(croppedImage.path);
   }
-
-  // void _showSelectPhotoOptions(BuildContext context) {
-  //   showModalBottomSheet(
-  //     context: context,
-  //     isScrollControlled: true,
-  //     shape: const RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.vertical(
-  //         top: Radius.circular(25.0),
-  //       ),
-  //     ),
-  //     builder: (context) => DraggableScrollableSheet(
-  //         initialChildSize: 0.28,
-  //         maxChildSize: 0.4,
-  //         minChildSize: 0.28,
-  //         expand: false,
-  //         builder: (context, scrollController) {
-  //           return SingleChildScrollView(
-  //             controller: scrollController,
-  //             child: SelectPhotoOptionsScreen(
-  //               onTap: _pickImage,
-  //             ),
-  //           );
-  //         }),
-  //   );
-  // }
 
   void getCurrentUser() {
     try {
@@ -386,9 +316,6 @@ class _editprofileState extends State<editprofile> {
                         child: Center(
                           child: GestureDetector(
                             behavior: HitTestBehavior.translucent,
-                            // onTap: () {
-                            //   imageOptions(context);
-                            // },
                             child: Column(
                               children: [
                                 SizedBox(
@@ -416,15 +343,6 @@ class _editprofileState extends State<editprofile> {
                                           color: Color.fromARGB(
                                               255, 141, 168, 170),
                                         )
-                                        // child: Center(
-                                        //     child: CircleAvatar(
-                                        //   child: Image.network(
-                                        //     profilepic,
-                                        //     width: 70,
-                                        //     height: 70,
-                                        //   ),
-                                        //   radius: 100.0,
-                                        // ))
                                         ),
                                   ],
                                 ),
@@ -485,7 +403,6 @@ class _editprofileState extends State<editprofile> {
                                   AutovalidateMode.onUserInteraction,
                               decoration: const InputDecoration(
                                 border: UnderlineInputBorder(),
-                                //  labelText: 'About',
                               ),
                               controller: _gitHubEditingController,
                               validator: (value) {
@@ -510,7 +427,6 @@ class _editprofileState extends State<editprofile> {
                                   AutovalidateMode.onUserInteraction,
                               decoration: const InputDecoration(
                                 border: UnderlineInputBorder(),
-                                //  labelText: 'About',
                               ),
                               controller: _experienceEditingController,
                               validator: (value) {

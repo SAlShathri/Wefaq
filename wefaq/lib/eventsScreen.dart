@@ -137,7 +137,6 @@ class _ListViewPageState extends State<EventsListViewPage> {
       }
   }
 
-//get all events
   Future getProjects() async {
     //clear first
     setState(() {
@@ -725,6 +724,3 @@ showDialogFunc(context, title, desc, category, loc, date, time, urlregstrtion) {
   );
 }
 
-Future<void> _signOut() async {
-  await FirebaseAuth.instance.signOut();
-}

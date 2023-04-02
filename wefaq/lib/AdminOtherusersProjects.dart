@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:wefaq/AdminAppBar.dart';
@@ -11,7 +10,6 @@ import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../viewOtherProfile.dart';
 
-final _formKey = GlobalKey<FormState>();
 
 class adminprojectDetail extends StatefulWidget {
   String projecName;
@@ -30,7 +28,6 @@ class adminprojectDetail extends StatefulWidget {
 class projectDetailScreenState extends State<adminprojectDetail> {
   @override
   void initState() {
-    // TODO: implement initState
     getCurrentUser();
     getProjects();
     getRequests();
@@ -68,13 +65,8 @@ class projectDetailScreenState extends State<adminprojectDetail> {
   String Photo = " ";
 
   List<String> participantNames = [];
-
   var ProjectTitleList = [];
-
   var ParticipantEmailList = [];
-  bool _isSelected1 = false;
-  bool _isSelected2 = false;
-  bool _isSelected3 = false;
   String Role1 = 'Developer';
   String Role2 = 'Tester';
   String Role3 = 'Designer';

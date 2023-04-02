@@ -1,27 +1,13 @@
-import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:wefaq/AdminNavBar.dart';
 import 'package:wefaq/AdminProjectDetailsAppBar.dart';
-import 'package:wefaq/AdminProjectList.dart';
-import 'package:wefaq/ProjectsTapScreen.dart';
 import 'package:wefaq/config/colors.dart';
 import 'package:wefaq/profileuser.dart';
-import 'package:wefaq/screens/detail_screens/widgets/project_detail_appbar.dart';
-import 'package:cool_alert/cool_alert.dart';
 import 'package:wefaq/projectsScreen.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
-import 'package:wefaq/service/local_push_notification.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
-import '../../viewOtherProfile.dart';
 import 'adminViewOtherProfile.dart';
-
-final _formKey = GlobalKey<FormState>();
 
 class adminprojectDetailScreen extends StatefulWidget {
   String projecName;
@@ -194,24 +180,7 @@ class _projectDetailScreenState extends State<adminprojectDetailScreen> {
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                 ),
-                                /* child: IconButton(
-                              icon: (isPressed)
-                                  ? const Icon(Icons.favorite,
-                                      color: Color.fromARGB(172, 136, 98, 146))
-                                  : const Icon(Icons.favorite_border,
-                                      color: Color.fromARGB(172, 136, 98, 146)),
-                              onPressed: () {
-                                setState(() {
-                                  if (isPressed) {
-                                    isPressed = false;
-                                    ShowToastRemove();
-                                  } else {
-                                    isPressed = true;
-                                    ShowToastAdd();
-                                  }
-                                });
-                              },
-                            ),*/
+                                
                               ),
                             ],
                           ),
@@ -437,31 +406,4 @@ class _projectDetailScreenState extends State<adminprojectDetailScreen> {
   }
 }
 
-Future<void> _signOut() async {
-  await FirebaseAuth.instance.signOut();
-}
 
-// void CantJoin() => Fluttertoast.showToast(
-//       msg: "You can't join your own project",
-//       fontSize: 18,
-//       gravity: ToastGravity.CENTER,
-//       toastLength: Toast.LENGTH_SHORT,
-//       backgroundColor: Color.fromARGB(172, 136, 98, 146),
-//     );
-/*
-void ShowToastRemove() => Fluttertoast.showToast(
-      msg: "Project is removed form favorite",
-      fontSize: 18,
-      gravity: ToastGravity.CENTER,
-      toastLength: Toast.LENGTH_SHORT,
-      backgroundColor: Color.fromARGB(172, 136, 98, 146),
-    );
-
-void ShowToastAdd() => Fluttertoast.showToast(
-      msg: "Project is added to favorite",
-      fontSize: 18,
-      gravity: ToastGravity.CENTER,
-      toastLength: Toast.LENGTH_SHORT,
-      backgroundColor: Color.fromARGB(172, 136, 98, 146),
-    );
-*/

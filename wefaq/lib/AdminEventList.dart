@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:math';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,9 +8,7 @@ import 'package:wefaq/AdminEventDetails.dart';
 import 'package:wefaq/AdminHomePage.dart';
 import 'package:wefaq/AdminNavBar.dart';
 import 'package:wefaq/UserLogin.dart';
-import 'package:wefaq/eventsTabs.dart';
 import 'package:url_launcher/link.dart';
-import 'package:wefaq/screens/detail_screens/event_detail_screen.dart';
 
 // Main Stateful Widget Start
 class adminEventsListViewPage extends StatefulWidget {
@@ -29,7 +26,6 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
     super.initState();
   }
 
-  TextEditingController? _searchEditingController = TextEditingController();
   final _firestore = FirebaseFirestore.instance;
   var categoryListDisplay = [];
   var categoryListController = [];
@@ -75,75 +71,7 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
     }
   }
 
-  // Future getCategory(String category) async {
-  //   if (category == "") return;
-  //   if (categoryListDisplay.where((element) => element == (category)).isEmpty) {
-  //     CoolAlert.show(
-  //       context: context,
-  //       title: "No such category!",
-  //       confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
-  //       onConfirmBtnTap: () {
-  //         Navigator.push(
-  //             context, MaterialPageRoute(builder: (context) => EventsTabs()));
-  //       },
-  //       type: CoolAlertType.error,
-  //       backgroundColor: Color.fromARGB(221, 212, 189, 227),
-  //       text:
-  //           "Please search for a valid category, valid categories are specified in the drop-down menu below",
-  //     );
-  //     return;
-  //   }
-  //   if (categoryList.where((element) => element == (category)).isEmpty) {
-  //     CoolAlert.show(
-  //       context: context,
-  //       title: "Sorry!",
-  //       confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
-  //       onConfirmBtnTap: () {
-  //         Navigator.push(
-  //             context, MaterialPageRoute(builder: (context) => EventsTabs()));
-  //       },
-  //       type: CoolAlertType.error,
-  //       backgroundColor: Color.fromARGB(221, 212, 189, 227),
-  //       text: "No events are under this category yet ",
-  //     );
-  //     return;
-  //   }
-  //   //clear first
-  //   setState(() {
-  //     nameList = [];
-  //     descList = [];
-  //     locList = [];
-  //     urlList = [];
-  //     categoryList = [];
-  //     dateTimeList = [];
-  //     TimeList = [];
-  //     latList = [];
-  //     lngList = [];
-  //     creatDate = [];
-  //     ownerEmail = [];
-  //   });
-
-  //   await for (var snapshot in _firestore
-  //       .collection('AllEvent')
-  //       .where('category', isEqualTo: category)
-  //       .snapshots())
-  //     for (var events in snapshot.docs) {
-  //       setState(() {
-  //         nameList.add(events['name']);
-  //         descList.add(events['description']);
-  //         locList.add(events['location']);
-  //         urlList.add(events['regstretion url ']);
-  //         categoryList.add(events['category']);
-  //         dateTimeList.add(events['date']);
-  //         TimeList.add(events['time']);
-  //         ownerEmail.add(events['email']);
-  //         latList.add(events['lat']);
-  //         lngList.add(events['lng']);
-  //         creatDate.add(events['cdate']);
-  //       });
-  //     }
-  // }
-
+ 
 //get all projects
   Future getProjectsHi() async {
     //clear first
@@ -180,7 +108,6 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
           ownerEmail.add(events['email']);
           countlist.add(events['count']);
 
-          //  dateTimeList.add(project['dateTime ']);
         });
       }
   }
@@ -421,56 +348,8 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
       // Main List View With Builder
       body: Column(
         children: [
-          // _searchBar(),
           Expanded(
             child: Scaffold(
-              // floatingActionButton: PopupMenuButton(
-              //   tooltip: "Filter by",
-              //   icon: Icon(
-              //     Icons.filter_list,
-              //     color: Color.fromARGB(221, 81, 122, 140),
-              //     size: 40,
-              //   ),
-              //   itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-              //     PopupMenuItem(
-              //       child: ListTile(
-              //         leading: Icon(Icons.date_range,
-              //             color: Color.fromARGB(144, 64, 7, 87)),
-              //         title: Text(
-              //           'Created date',
-              //           style: TextStyle(
-              //             color: Color.fromARGB(221, 81, 122, 140),
-              //           ),
-              //         ),
-              //         onTap: () {
-              //           setState(() {
-              //             //Filter by created date
-              //             getProjects();
-              //           });
-              //         },
-              //         selectedTileColor: Color.fromARGB(255, 252, 243, 243),
-              //       ),
-              //     ),
-              //     PopupMenuItem(
-              //       child: ListTile(
-              //         leading: Icon(Icons.location_on,
-              //             color: Color.fromARGB(144, 64, 7, 87)),
-              //         title: Text(
-              //           'Nearest',
-              //           style: TextStyle(
-              //             color: Color.fromARGB(221, 81, 122, 140),
-              //           ),
-              //         ),
-              //         onTap: () {
-              //           //Filter by nearest
-              //           setDistance();
-              //           getEventsLoc();
-              //         },
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              // Main List View With Builder
               body: Scrollbar(
                 thumbVisibility: true,
                 child: ListView.builder(
@@ -482,9 +361,6 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
                       child: GestureDetector(
                           child: Card(
                             color: const Color.fromARGB(255, 255, 255, 255),
-                            //shadowColor: Color.fromARGB(255, 255, 255, 255),
-                            //  elevation: 7,
-
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                               child: Column(
@@ -583,7 +459,6 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
                     );
                   },
                   itemCount: nameList.length,
-                  // itemCount:_textEditingController!.text.isNotEmpty? nameListsearch.length  : nameListsearch.length,
                 ),
               ),
             ),
@@ -593,103 +468,6 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
     );
   }
 
-  // _searchBar() {
-  //   return Column(
-  //     children: [
-  //       Padding(
-  //         padding: const EdgeInsets.all(7.0),
-  //         child: TextFormField(
-  //           controller: _searchEditingController,
-  //           decoration: InputDecoration(
-  //             contentPadding: EdgeInsets.symmetric(vertical: 15.0),
-
-  //             border: OutlineInputBorder(
-  //               borderRadius: BorderRadius.circular(15.0),
-  //               borderSide: BorderSide(color: Colors.black87, width: 2.0),
-  //             ),
-  //             focusedBorder: OutlineInputBorder(
-  //               borderRadius: BorderRadius.circular(15.0),
-  //               borderSide: BorderSide(
-  //                 color: Color.fromARGB(144, 64, 7, 87),
-  //               ),
-  //             ),
-  //             labelText: "search for a specific category",
-  //             prefixIcon: IconButton(
-  //               icon: Icon(Icons.search),
-  //               onPressed: () {
-  //                 setState(() {
-  //                   getCategory(_searchEditingController!.text);
-  //                 });
-  //               },
-  //             ),
-  //             suffixIcon: _searchEditingController!.text.isNotEmpty
-  //                 ? IconButton(
-  //                     icon: Icon(Icons.cancel),
-  //                     onPressed: () {
-  //                       setState(() {
-  //                         getProjects();
-  //                         _searchEditingController?.clear();
-  //                       });
-  //                     },
-  //                   )
-  //                 : null,
-
-  //             hintText: 'Gaming , web  ...',
-  //             //    suffixIcon :IconButton(
-  //             //                onPressed: () {
-  //             //                setState(() {
-  //             //               // _searchEditingController.clear();
-  //             //            });
-  //             //        },
-  //             //      icon: Icon(Icons.clear_outlined),
-  //             //  )
-  //           ),
-  //           onChanged: (text) {
-  //             setState(() {
-  //               categoryListController = categoryListDisplay;
-  //             });
-  //           },
-  //         ),
-  //       ),
-  //       ListView.separated(
-  //         shrinkWrap: true,
-  //         itemCount: _searchEditingController!.text.isEmpty
-  //             ? 0
-  //             : categoryListController.length,
-  //         itemBuilder: (context, index) {
-  //           return ListTile(
-  //             contentPadding: EdgeInsets.symmetric(horizontal: 40),
-  //             visualDensity: VisualDensity(vertical: -4),
-  //             //leading: CircleAvatar(
-  //             //  backgroundColor: Color.fromARGB(221, 137, 171, 187),
-  //             // child: Icon(
-  //             //    Icons.category_rounded,
-  //             //    color: Colors.white,
-  //             //  ),
-  //             //  ),
-  //             title: Text(
-  //               categoryListController[index].toString(),
-  //             ),
-  //             onTap: () {
-  //               setState(() {
-  //                 _searchEditingController?.text =
-  //                     categoryListController[index].toString();
-  //                 categoryListController = [];
-  //               });
-  //             },
-  //           );
-  //         },
-  //         separatorBuilder: (context, index) {
-  //           //<-- SEE HERE
-  //           return Divider(
-  //             thickness: 0,
-  //             color: Color.fromARGB(255, 194, 195, 194),
-  //           );
-  //         },
-  //       )
-  //     ],
-  //   );
-  // }
 
 }
 
@@ -845,30 +623,7 @@ showDialogFunc(context, title, desc, category, loc, date, time, urlregstrtion) {
                             ))),
                   ),
 
-                  /* Container(
-                    alignment: Alignment.center,
-                    height: 40.0,
-                    width: 200,
-                    margin: EdgeInsets.only(top: 20),
-          
-                    // width: size.width * 0.5,
-                    decoration: new BoxDecoration(
-                        borderRadius: BorderRadius.circular(80.0),
-                        gradient: new LinearGradient(colors: [
-                          Color.fromARGB(197, 67, 7, 87),
-                          Color.fromARGB(195, 117, 45, 141),
-                        ])),
-                    padding: const EdgeInsets.all(0),
-                    child: Text(
-                      "Regstrition Link",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 255, 255, 255)),
-                      //     textAlign: TextAlign.center,
-                      //     style: TextStyle(fontWeight: FontWeight.bold ),
-                    ),
-                  ),*/
+                 
                 ],
               ),
             ),
@@ -888,158 +643,15 @@ showDialogFunc2(context) {
     context: context,
     title: "",
     confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
-    //  cancelBtnColor: Colors.black,
-    //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
     confirmBtnText: 'log out ',
-    //cancelBtnText: 'Delete' ,
     onConfirmBtnTap: () {
       _signOut();
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => UserLogin()));
     },
-
     type: CoolAlertType.confirm,
     backgroundColor: Color.fromARGB(221, 212, 189, 227),
     text: "Are you sure you want to log out?",
   );
-  // return showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return Center(
-  //           child: Material(
-  //               type: MaterialType.transparency,
-  //               child: Container(
-  //                 decoration: BoxDecoration(
-  //                   borderRadius: BorderRadius.circular(10),
-  //                   color: const Color.fromARGB(255, 255, 255, 255),
-  //                 ),
-  //                 padding: const EdgeInsets.all(15),
-  //                 height: 150,
-  //                 width: MediaQuery.of(context).size.width * 0.9,
-  //                 child: Column(
-  //                   crossAxisAlignment: CrossAxisAlignment.center,
-  //                   children: <Widget>[
-  //                     // Code for acceptance role
-  //                     Row(children: <Widget>[
-  //                       Expanded(
-  //                         flex: 2,
-  //                         child: GestureDetector(
-  //                           child: Text(
-  //                             " Are you sure you want to log out? ",
-  //                             style: const TextStyle(
-  //                               fontSize: 14,
-  //                               color: Color.fromARGB(159, 64, 7, 87),
-  //                               fontWeight: FontWeight.bold,
-  //                             ),
-  //                           ),
-  //                           onTap: () {
-  //                             // go to participant's profile
-  //                           },
-  //                         ),
-  //                       ),
-  //                       // const SizedBox(
-  //                       //   height: 10,
-  //                       // ),
-  //                     ]),
-  //                     SizedBox(
-  //                       height: 35,
-  //                     ),
-  //                     //----------------------------------------------------------------------------
-  //                     Row(
-  //                       children: <Widget>[
-  //                         Text("   "),
-  //                         Text("     "),
-  //                         ElevatedButton(
-  //                           onPressed: () {
-  //                             Navigator.pop(context);
-  //                           },
-  //                           style: ElevatedButton.styleFrom(
-  //                             surfaceTintColor: Colors.white,
-  //                             shape: RoundedRectangleBorder(
-  //                                 borderRadius: BorderRadius.circular(80.0)),
-  //                             padding: const EdgeInsets.all(0),
-  //                           ),
-  //                           child: Container(
-  //                             alignment: Alignment.center,
-  //                             height: 40.0,
-  //                             width: 100,
-  //                             decoration: new BoxDecoration(
-  //                                 borderRadius: BorderRadius.circular(9.0),
-  //                                 gradient: new LinearGradient(colors: [
-  //                                   Color.fromARGB(144, 176, 175, 175),
-  //                                   Color.fromARGB(144, 176, 175, 175),
-  //                                 ])),
-  //                             padding: const EdgeInsets.all(0),
-  //                             child: Text(
-  //                               "Cancel",
-  //                               style: TextStyle(
-  //                                   fontSize: 16,
-  //                                   fontWeight: FontWeight.w600,
-  //                                   color: Color.fromARGB(255, 255, 255, 255)),
-  //                             ),
-  //                           ),
-  //                         ),
-  //                         Container(
-  //                           margin: EdgeInsets.only(left: 40),
-  //                           child: ElevatedButton(
-  //                             onPressed: () {
-  //                               _signOut();
-  //                               Navigator.push(
-  //                                   context,
-  //                                   MaterialPageRoute(
-  //                                       builder: (context) => UserLogin()));
-  //                               // CoolAlert.show(
-  //                               //   context: context,
-  //                               //   title: "Success!",
-  //                               //   confirmBtnColor:
-  //                               //       Color.fromARGB(144, 64, 6, 87),
-  //                               //   type: CoolAlertType.success,
-  //                               //   backgroundColor:
-  //                               //       Color.fromARGB(221, 212, 189, 227),
-  //                               //   text: "You have logged out successfully",
-  //                               //   confirmBtnText: 'Done',
-  //                               //   onConfirmBtnTap: () {
-  //                               //     //send join requist
-  //                               //     _signOut();
-  //                               //     Navigator.push(
-  //                               //         context,
-  //                               //         MaterialPageRoute(
-  //                               //             builder: (context) => UserLogin()));
-  //                               //   },
-  //                               // );
-  //                             },
-  //                             style: ElevatedButton.styleFrom(
-  //                               surfaceTintColor: Colors.white,
-  //                               shape: RoundedRectangleBorder(
-  //                                   borderRadius: BorderRadius.circular(80.0)),
-  //                               padding: const EdgeInsets.all(0),
-  //                             ),
-  //                             child: Container(
-  //                               alignment: Alignment.center,
-  //                               height: 40.0,
-  //                               width: 100,
-  //                               decoration: new BoxDecoration(
-  //                                   borderRadius: BorderRadius.circular(9.0),
-  //                                   gradient: new LinearGradient(colors: [
-  //                                     Color.fromARGB(144, 210, 2, 2),
-  //                                     Color.fromARGB(144, 210, 2, 2)
-  //                                   ])),
-  //                               padding: const EdgeInsets.all(0),
-  //                               child: Text(
-  //                                 "Log out",
-  //                                 style: TextStyle(
-  //                                     fontSize: 16,
-  //                                     fontWeight: FontWeight.w600,
-  //                                     color:
-  //                                         Color.fromARGB(255, 255, 255, 255)),
-  //                               ),
-  //                             ),
-  //                           ),
-  //                         ),
-  //                       ],
-  //                     )
-  //                   ],
-  //                 ),
-  //               )));
-  //     });
+  
 }

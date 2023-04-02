@@ -1,28 +1,17 @@
-import 'dart:convert';
-//import 'dart:js_util';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/link.dart';
 import 'package:wefaq/AdminEventList.dart';
 import 'package:wefaq/AdminTabScreen.dart';
 import 'package:wefaq/Adminreportedevent.dart';
 import 'package:wefaq/config/colors.dart';
 import 'package:cool_alert/cool_alert.dart';
-import 'package:wefaq/eventsScreen.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:wefaq/eventsTabs.dart';
-import 'package:wefaq/models/user.dart';
 import 'package:wefaq/screens/detail_screens/widgets/event_detail_appbar.dart';
-import 'package:wefaq/service/local_push_notification.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wefaq/AdminNavBar.dart';
 
-import '../../Report.dart';
 
 class AdmineventDetailScreen extends StatefulWidget {
   String eventName;
@@ -38,7 +27,6 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
   String? Email;
   @override
   void initState() {
-    // TODO: implement initState
     getCurrentUser();
     getProjects();
     getFav();
@@ -124,8 +112,6 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
   String dateTimeList = "";
 
   String TimeList = "";
-/////////////////////////////////////////////////////////////////////////////////////////
-  //String favoriteEmail = "";
 
   String ownerEmail = "";
 
@@ -141,24 +127,10 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
   String fdateTimeList = "";
   String fTimeList = "";
   String status = "";
-  //category list
 
-  // Description list
-
-  //var latList = [];
-
-  //var lngList = [];
-  //List<String> creatDate = [];
-
-  // String reasons = "";
-  // String notes = "";
   List<String> reasons = [];
   List<String> notes = [];
-//List<int> countlist = [];
 
-  bool _isSelected1 = false;
-  bool _isSelected2 = false;
-  bool _isSelected3 = false;
   bool isPressed = false;
 
   Future isLiked() async {
@@ -195,7 +167,6 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
     return removeDuplicates;
   }
 
-  //project lan
   var creatDate = [];
 
   final _firestore = FirebaseFirestore.instance;
@@ -213,7 +184,6 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
       categoryList = "";
       dateTimeList = "";
       TimeList = "";
-      //favoriteEmail = "";
       ownerEmail = "";
       EventName = "";
       count = 0;
@@ -235,36 +205,17 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
           EventName = events['name'].toString();
           ownerEmail = events['email'].toString();
           count = events['count'];
-
-          //  dateTimeList.add(project['dateTime ']);
         });
       }
   }
 
-/*
-  final auth = FirebaseAuth.instance;
-  String? Email;
-  void getCurrentUser() {
-    try {
-      final user = auth.currentUser;
-      if (user != null) {
-        signedInUser = user;
-        Email = signedInUser.email;
-        print(signedInUser.email);
-      }
-    } catch (e) {
-      print(e);
-    }
-  } */
+
   showDialogFunc(context) {
     CoolAlert.show(
       context: context,
       title: "",
       confirmBtnColor: Color.fromARGB(255, 181, 47, 47),
-      //  cancelBtnColor: Colors.black,
-      //  cancelBtnTextStyle: TextStyle(color: Color.fromARGB(255, 237, 7, 7), fontWeight:FontWeight.w600,fontSize: 18.0),
       confirmBtnText: 'Delete ',
-      //cancelBtnText: 'Delete' ,
       onConfirmBtnTap: () {
         if (count >= 3) {
           for (var i = 0; i < userEmail.length; i++)
@@ -294,15 +245,6 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
             backgroundColor: Color.fromARGB(221, 212, 189, 227),
           );
         }
-
-        /*FirebaseFirestore.instance
-                                      .collection('FavoriteEvents')
-                                      .doc(favoriteEmail +
-                                          "-" +
-                                          eventName +
-                                          "-" +
-                                          ownerEmail)
-                                      .delete();*/
         else
           CoolAlert.show(
             context: context,
@@ -325,193 +267,6 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
       text: "Are you sure you want to delete event?",
     );
 
-//     return showDialog(
-//         context: context,
-//         builder: (context) {
-//           return Center(
-//               child: Material(
-//                   type: MaterialType.transparency,
-//                   child: Container(
-//                     decoration: BoxDecoration(
-//                       borderRadius: BorderRadius.circular(10),
-//                       color: const Color.fromARGB(255, 255, 255, 255),
-//                     ),
-//                     padding: const EdgeInsets.all(15),
-//                     height: 190,
-//                     width: MediaQuery.of(context).size.width * 0.85,
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.center,
-//                       children: <Widget>[
-//                         // Code for acceptance role
-
-//                         Row(children: <Widget>[
-//                           Expanded(
-//                             flex: 2,
-//                             child: GestureDetector(
-//                               child: Text(
-//                                 "Are you sure you want to delete event?",
-//                                 style: const TextStyle(
-//                                   fontSize: 18,
-//                                   color: Color.fromARGB(159, 64, 7, 87),
-//                                   fontWeight: FontWeight.bold,
-//                                 ),
-//                               ),
-//                               onTap: () {
-//                                 // go to participant's profile
-//                               },
-//                             ),
-//                           ),
-//                           // const SizedBox(
-//                           //   height: 10,
-//                           // ),
-//                         ]),
-//                         SizedBox(
-//                           height: 35,
-//                         ),
-//                         //----------------------------------------------------------------------------
-//                         Row(
-//                           children: <Widget>[
-//                             Text(""),
-//                             Text("        "),
-//                             ElevatedButton(
-//                               onPressed: () async {
-//                                 Navigator.pop(context);
-//                               },
-//                               style: ElevatedButton.styleFrom(
-//                                 surfaceTintColor: Colors.white,
-//                                 shape: RoundedRectangleBorder(
-//                                     borderRadius: BorderRadius.circular(80.0)),
-//                                 padding: const EdgeInsets.all(0),
-//                               ),
-//                               child: Container(
-//                                 alignment: Alignment.center,
-//                                 height: 40.0,
-//                                 width: 100,
-//                                 decoration: new BoxDecoration(
-//                                     borderRadius: BorderRadius.circular(9.0),
-//                                     gradient: new LinearGradient(colors: [
-//                                       Color.fromARGB(144, 176, 175, 175),
-//                                       Color.fromARGB(144, 176, 175, 175),
-//                                     ])),
-//                                 padding: const EdgeInsets.all(0),
-//                                 child: Text(
-//                                   "Cancel",
-//                                   style: TextStyle(
-//                                       fontSize: 16,
-//                                       fontWeight: FontWeight.w600,
-//                                       color:
-//                                           Color.fromARGB(255, 255, 255, 255)),
-//                                 ),
-//                               ),
-//                             ),
-//                             Container(
-//                               margin: EdgeInsets.only(left: 40),
-//                               child: ElevatedButton(
-//                                 onPressed: () {
-//                                   if (count >= 1) {
-//                                     for (var i = 0; i < userEmail.length; i++)
-//                                       FirebaseFirestore.instance
-//                                           .collection('FavoriteEvents')
-//                                           .doc(userEmail[i]! +
-//                                               '-' +
-//                                               EventName +
-//                                               '-' +
-//                                               ownerEmail)
-//                                           .update({'status': 'inactive'});
-//                                     FirebaseFirestore.instance
-//                                         .collection('AllEvent')
-//                                         .doc(eventName)
-//                                         .delete();
-//  for (var i = 0; i < Reporter.length; i++)
-//                                       FirebaseFirestore.instance
-//                                           .collection('reportedevents')
-//                                           .doc(EventName + '-' + Reporter[i]!)
-//                                           .update({'status': 'resolved'});
-
-//                                     CoolAlert.show(
-//                                       context: context,
-//                                       title:
-//                                           "the event was deleted successfully ",
-//                                       confirmBtnColor:
-//                                           Color.fromARGB(144, 64, 7, 87),
-//                                       onConfirmBtnTap: () {
-//                                         Navigator.push(
-//                                             context,
-//                                             MaterialPageRoute(
-//                                                 builder: (context) =>
-//                                                     AdminTabs()));
-//                                       },
-//                                       type: CoolAlertType.success,
-//                                       backgroundColor:
-//                                           Color.fromARGB(221, 212, 189, 227),
-//                                     );
-//                                   }
-
-//                                   /*FirebaseFirestore.instance
-//                                       .collection('FavoriteEvents')
-//                                       .doc(favoriteEmail +
-//                                           "-" +
-//                                           eventName +
-//                                           "-" +
-//                                           ownerEmail)
-//                                       .delete();*/
-//                                   else
-//                                     CoolAlert.show(
-//                                       context: context,
-//                                       title:
-//                                           "You cannot delete the event because the number of reports is less than 3",
-//                                       confirmBtnColor:
-//                                           Color.fromARGB(144, 64, 7, 87),
-//                                       onConfirmBtnTap: () {
-//                                         Navigator.push(
-//                                             context,
-//                                             MaterialPageRoute(
-//                                                 builder: (context) =>
-//                                                     adminEventsListViewPage()));
-//                                       },
-//                                       type: CoolAlertType.error,
-//                                       backgroundColor:
-//                                           Color.fromARGB(221, 212, 189, 227),
-//                                     );
-//                                   // deleteprofile();
-//                                   // Navigator.push(context,
-//                                   // MaterialPageRoute(builder: (context) => UserLogin()));
-//                                 },
-//                                 style: ElevatedButton.styleFrom(
-//                                   surfaceTintColor: Colors.white,
-//                                   shape: RoundedRectangleBorder(
-//                                       borderRadius:
-//                                           BorderRadius.circular(80.0)),
-//                                   padding: const EdgeInsets.all(0),
-//                                 ),
-//                                 child: Container(
-//                                   alignment: Alignment.center,
-//                                   height: 40.0,
-//                                   width: 100,
-//                                   decoration: new BoxDecoration(
-//                                       borderRadius: BorderRadius.circular(9.0),
-//                                       gradient: new LinearGradient(colors: [
-//                                         Color.fromARGB(144, 210, 2, 2),
-//                                         Color.fromARGB(144, 210, 2, 2)
-//                                       ])),
-//                                   padding: const EdgeInsets.all(0),
-//                                   child: Text(
-//                                     "Delete",
-//                                     style: TextStyle(
-//                                         fontSize: 16,
-//                                         fontWeight: FontWeight.w600,
-//                                         color:
-//                                             Color.fromARGB(255, 255, 255, 255)),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ),
-//                           ],
-//                         )
-//                       ],
-//                     ),
-//                   )));
-//         });
   }
 
   @override
@@ -764,10 +519,6 @@ class _eventDetailScreenState extends State<AdmineventDetailScreen> {
       ),
     );
   }
-}
-
-Future<void> _signOut() async {
-  await FirebaseAuth.instance.signOut();
 }
 
 // void ShowToastRemove() => Fluttertoast.showToast(
