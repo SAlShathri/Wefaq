@@ -320,10 +320,12 @@ class _ListViewPageState extends State<EventsListViewPage> {
                 ),
               ),
               onTap: () {
-                setState(() {
-                  setDistance();
-                  getEventsLoc();
-                });
+                setDistance();
+                 getEventsLoc();
+                // setState(() {
+                //   setDistance();
+                //   getEventsLoc();
+                // });
               },
             ),
           ),
@@ -485,85 +487,6 @@ class _ListViewPageState extends State<EventsListViewPage> {
     );
   }
 
-  _searchBar() {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(7.0),
-          child: TextFormField(
-            controller: _searchEditingController,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 15.0),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15.0),
-                borderSide: BorderSide(color: Colors.black87, width: 2.0),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15.0),
-                borderSide: BorderSide(
-                  color: Color.fromARGB(144, 64, 7, 87),
-                ),
-              ),
-              labelText: "search for a specific category",
-              prefixIcon: IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  setState(() {
-                    getCategory(_searchEditingController!.text);
-                  });
-                },
-              ),
-              suffixIcon: _searchEditingController!.text.isNotEmpty
-                  ? IconButton(
-                      icon: Icon(Icons.cancel),
-                      onPressed: () {
-                        setState(() {
-                          getProjects();
-                          _searchEditingController?.clear();
-                        });
-                      },
-                    )
-                  : null,
-              hintText: 'Gaming , web  ...',
-            ),
-            onChanged: (text) {
-              setState(() {
-                categoryListController = categoryListDisplay;
-              });
-            },
-          ),
-        ),
-        ListView.separated(
-          shrinkWrap: true,
-          itemCount: _searchEditingController!.text.isEmpty
-              ? 0
-              : categoryListController.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 40),
-              visualDensity: VisualDensity(vertical: -4),
-              title: Text(
-                categoryListController[index].toString(),
-              ),
-              onTap: () {
-                setState(() {
-                  _searchEditingController?.text =
-                      categoryListController[index].toString();
-                  categoryListController = [];
-                });
-              },
-            );
-          },
-          separatorBuilder: (context, index) {
-            return Divider(
-              thickness: 0,
-              color: Color.fromARGB(255, 194, 195, 194),
-            );
-          },
-        )
-      ],
-    );
-  }
 }
 
 showDialogFunc(context, title, desc, category, loc, date, time, urlregstrtion) {
