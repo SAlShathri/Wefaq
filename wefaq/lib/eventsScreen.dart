@@ -334,51 +334,51 @@ class _ListViewPageState extends State<EventsListViewPage> {
           _searchBar(),
           Expanded(
             child: Scaffold(
-              floatingActionButton: PopupMenuButton(
-                tooltip: "Filter by",
-                icon: Icon(
-                  Icons.filter_list,
-                  color: Color.fromARGB(221, 81, 122, 140),
-                  size: 40,
-                ),
-                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                  PopupMenuItem(
-                    child: ListTile(
-                      leading: Icon(Icons.date_range,
-                          color: Color.fromARGB(144, 64, 7, 87)),
-                      title: Text(
-                        'Created date',
-                        style: TextStyle(
-                          color: Color.fromARGB(221, 81, 122, 140),
-                        ),
-                      ),
-                      onTap: () {
-                        setState(() {
-                          getProjects();
-                        });
-                      },
-                      selectedTileColor: Color.fromARGB(255, 252, 243, 243),
-                    ),
-                  ),
-                  PopupMenuItem(
-                    child: ListTile(
-                      leading: Icon(Icons.location_on,
-                          color: Color.fromARGB(144, 64, 7, 87)),
-                      title: Text(
-                        'Nearest',
-                        style: TextStyle(
-                          color: Color.fromARGB(221, 81, 122, 140),
-                        ),
-                      ),
-                      onTap: () {
-                        //Filter by nearest
-                        setDistance();
-                        getEventsLoc();
-                      },
-                    ),
-                  ),
-                ],
-              ),
+              // floatingActionButton: PopupMenuButton(
+              //   tooltip: "Filter by",
+              //   icon: Icon(
+              //     Icons.filter_list,
+              //     color: Color.fromARGB(221, 81, 122, 140),
+              //     size: 40,
+              //   ),
+              //   itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+              //     PopupMenuItem(
+              //       child: ListTile(
+              //         leading: Icon(Icons.date_range,
+              //             color: Color.fromARGB(144, 64, 7, 87)),
+              //         title: Text(
+              //           'Created date',
+              //           style: TextStyle(
+              //             color: Color.fromARGB(221, 81, 122, 140),
+              //           ),
+              //         ),
+              //         onTap: () {
+              //           setState(() {
+              //             getProjects();
+              //           });
+              //         },
+              //         selectedTileColor: Color.fromARGB(255, 252, 243, 243),
+              //       ),
+              //     ),
+              //     PopupMenuItem(
+              //       child: ListTile(
+              //         leading: Icon(Icons.location_on,
+              //             color: Color.fromARGB(144, 64, 7, 87)),
+              //         title: Text(
+              //           'Nearest',
+              //           style: TextStyle(
+              //             color: Color.fromARGB(221, 81, 122, 140),
+              //           ),
+              //         ),
+              //         onTap: () {
+              //           //Filter by nearest
+              //           setDistance();
+              //           getEventsLoc();
+              //         },
+              //       ),
+              //     ),
+              //   ],
+              // ),
               body: Scrollbar(
                 thumbVisibility: true,
                 child: ListView.builder(
