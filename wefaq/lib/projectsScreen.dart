@@ -494,7 +494,7 @@ class _ListViewPageState extends State<ProjectsListViewPage> {
                   color: Color.fromARGB(144, 64, 7, 87),
                 ),
               ),
-              labelText: "search for a specific category",
+              labelText: "search for a specific project category",
               prefixIcon: IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () {

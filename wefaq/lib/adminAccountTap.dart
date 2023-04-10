@@ -26,7 +26,7 @@ class _ListViewTabsState extends State<AdminAccountTabs> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            title: Text('Reported Accounts',
+            title: Text('Reported Reports',
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   color: Colors.white,
@@ -53,7 +53,7 @@ class _ListViewTabsState extends State<AdminAccountTabs> {
                   fontFamily: 'Family Name'), //For Un-selected Tabs
               tabs: [
                 Tab(
-                  text: 'New Accounts',
+                  text: 'New Reports',
                 ),
                 Tab(text: 'Resolved Accounts'),
               ],
@@ -76,24 +76,18 @@ Future<void> _signOut() async {
 }
 
 showDialogFunc(context) {
-     CoolAlert.show(
-                          context: context,
-                          title: "",
-                          confirmBtnColor: Color.fromARGB(144, 210, 2, 2),                   
-                          confirmBtnText: 'log out ',
-                             onConfirmBtnTap: () {
-                 
-                           _signOut();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => UserLogin()));                             
-                          },
-                    
-                          type: CoolAlertType.confirm,
-                          backgroundColor: Color.fromARGB(221, 212, 189, 227),
-                          text:
-                              "Are you sure you want to log out?",
-                        );
-  
+  CoolAlert.show(
+    context: context,
+    title: "",
+    confirmBtnColor: Color.fromARGB(144, 210, 2, 2),
+    confirmBtnText: 'log out ',
+    onConfirmBtnTap: () {
+      _signOut();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => UserLogin()));
+    },
+    type: CoolAlertType.confirm,
+    backgroundColor: Color.fromARGB(221, 212, 189, 227),
+    text: "Are you sure you want to log out?",
+  );
 }
