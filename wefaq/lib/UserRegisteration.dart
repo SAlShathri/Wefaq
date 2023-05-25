@@ -40,7 +40,7 @@ class _UserRegistratin extends State<UserRegistratin> {
 
   final arabic = RegExp(r'^[أ-ي]+$');
   final digit = RegExp('[1-9]');
-  
+
   final _confirmpasscontroller = TextEditingController();
 
   @override
@@ -530,4 +530,13 @@ class _UserRegistratin extends State<UserRegistratin> {
       print(e);
     }
   }
+}
+
+validateName(value){
+if (value!.isEmpty) {  
+  return "required";
+ } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
+   !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
+    return "Only English or Arabic letters";
+ }  
 }
