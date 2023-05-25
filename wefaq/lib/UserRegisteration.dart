@@ -84,12 +84,7 @@ class _UserRegistratin extends State<UserRegistratin> {
                     maxLength: 15,
                     controller: _firstnameController,
                     validator: (value) {
-                      if (value!.isEmpty) {
-                        return "required";
-                      } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
-                          !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
-                        return "Only English or Arabic letters";
-                      }
+                     return validateName(value);
                     },
                     decoration: InputDecoration(
                         hintText: "John",
@@ -142,12 +137,7 @@ class _UserRegistratin extends State<UserRegistratin> {
                         )),
                     controller: _lastnameController,
                     validator: (value) {
-                      if (value!.isEmpty) {
-                        return "required";
-                      } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value!) &&
-                          !RegExp(r'^[أ-ي]+$').hasMatch(value!)) {
-                        return "Only English or Arabic letters";
-                      }
+                     return validateName(value);
                     },
                   ),
                 ),
