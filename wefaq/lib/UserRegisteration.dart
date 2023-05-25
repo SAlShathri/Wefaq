@@ -37,9 +37,10 @@ class _UserRegistratin extends State<UserRegistratin> {
   bool hasuppercase = false;
   bool hasdigit = false;
   final ucasereg = RegExp('[A-Z]');
-  final ara = RegExp(r'^[a-zA-Z]+$');
-  final eng = RegExp(r'^[أ-ي]+$');
+
+  final arabic = RegExp(r'^[أ-ي]+$');
   final digit = RegExp('[1-9]');
+  
   final _confirmpasscontroller = TextEditingController();
 
   @override
