@@ -18,6 +18,13 @@ class MapSampleState extends State<MapSample> {
 
   late LatLng currentLatLng = const LatLng(48.8566, 2.3522);
 
+  Future<void> _goToCurrentLocation() async {
+    await _determinePosition();
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: currentLatLng, zoom: 15)));
+  }
+
   @override
   void initState() {
     _goToCurrentLocation();
@@ -73,13 +80,6 @@ class MapSampleState extends State<MapSample> {
       currentLatLng = LatLng(position.latitude, position.longitude);
     });
     return;
-  }
-
-  Future<void> _goToCurrentLocation() async {
-    await _determinePosition();
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: currentLatLng, zoom: 15)));
   }
 
   //get markers
