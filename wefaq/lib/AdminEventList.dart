@@ -71,7 +71,6 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
     }
   }
 
- 
 //get all projects
   Future getProjectsHi() async {
     //clear first
@@ -107,7 +106,6 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
           creatDate.add(events['cdate']);
           ownerEmail.add(events['email']);
           countlist.add(events['count']);
-
         });
       }
   }
@@ -236,11 +234,14 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
   }
 
   double calculateDistance(lat1, lon1, lat2, lon2) {
-    var p = 0.017453292519943295;
-    var a = 0.5 -
-        cos((lat2 - lat1) * p) / 2 +
-        cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2;
-    return 12742 * asin(sqrt(a));
+    var radiansPerDegree = 0.017453292519943295;
+    var distanceTerm = 0.5 -
+        cos((lat2 - lat1) * radiansPerDegree) / 2 +
+        cos(lat1 * radiansPerDegree) *
+            cos(lat2 * radiansPerDegree) *
+            (1 - cos((lon2 - lon1) * radiansPerDegree)) /
+            2;
+    return 12742 * asin(sqrt(distanceTerm));
   }
 
   setDistance() {
@@ -467,8 +468,6 @@ class _ListViewPageState extends State<adminEventsListViewPage> {
       ),
     );
   }
-
-
 }
 
 // This is a block of Model Dialog
@@ -622,8 +621,6 @@ showDialogFunc(context, title, desc, category, loc, date, time, urlregstrtion) {
                                   const Color.fromARGB(195, 117, 45, 141),
                             ))),
                   ),
-
-                 
                 ],
               ),
             ),
@@ -653,5 +650,4 @@ showDialogFunc2(context) {
     backgroundColor: Color.fromARGB(221, 212, 189, 227),
     text: "Are you sure you want to log out?",
   );
-  
 }
