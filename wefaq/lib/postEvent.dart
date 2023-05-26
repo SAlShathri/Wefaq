@@ -464,53 +464,7 @@ class _PostEventState extends State<PostEvent> {
                               // If the form is valid, display a snackbar. In the real world,
                               // you'd often call a server or save the information in a database.
                               // for sorting purpose
-                              var now = new DateTime.now();
-                              var formatter = new DateFormat('yyyy-MM-dd');
-                              _firestore
-                                  .collection('AllEvent')
-                                  .doc(_nameEditingController.text)
-                                  .set({
-                                'name': _nameEditingController.text,
-                                'email': signedInUser?.email,
-                                'location': _startSearchFieldController.text,
-                                'description':
-                                    _descriptionEditingController.text,
-                                'category': selectedCat,
-                                'regstretion url ': _urlEditingController.text,
-                                'date': formatter.format(dateTime),
-                                'time': dateTime.hour.toString() +
-                                    ":" +
-                                    dateTime.minute.toString(),
-                                'created': now,
-                                'lng': startPosition?.geometry?.location?.lng,
-                                'lat': startPosition?.geometry?.location?.lat,
-                                'cdate': formatter.format(now),
-                                'count': 0
-                              });
-                              //Clear
-
-                              _nameEditingController.clear();
-                              _startSearchFieldController.clear();
-                              _descriptionEditingController.clear();
-                              _lookingForEditingController.clear();
-                              selectedCat = "";
-
-                              //sucess message
-                              CoolAlert.show(
-                                context: context,
-                                title: "Success!",
-                                confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
-                                onConfirmBtnTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => EventsTabs()));
-                                },
-                                type: CoolAlertType.success,
-                                backgroundColor:
-                                    Color.fromARGB(221, 212, 189, 227),
-                                text: "Event posted successfuly",
-                              );
+                              post(context);
                             }
                           }),
                     ),
@@ -520,6 +474,50 @@ class _PostEventState extends State<PostEvent> {
             ],
           ),
         ));
+  }
+
+  void post(BuildContext context) {
+    // If the form is valid, display a snackbar. In the real world,
+    // you'd often call a server or save the information in a database.
+    // for sorting purpose
+    var now = new DateTime.now();
+    var formatter = new DateFormat('yyyy-MM-dd');
+    _firestore.collection('AllEvent').doc(_nameEditingController.text).set({
+      'name': _nameEditingController.text,
+      'email': signedInUser?.email,
+      'location': _startSearchFieldController.text,
+      'description': _descriptionEditingController.text,
+      'category': selectedCat,
+      'regstretion url ': _urlEditingController.text,
+      'date': formatter.format(dateTime),
+      'time': dateTime.hour.toString() + ":" + dateTime.minute.toString(),
+      'created': now,
+      'lng': startPosition?.geometry?.location?.lng,
+      'lat': startPosition?.geometry?.location?.lat,
+      'cdate': formatter.format(now),
+      'count': 0
+    });
+    //Clear
+
+    _nameEditingController.clear();
+    _startSearchFieldController.clear();
+    _descriptionEditingController.clear();
+    _lookingForEditingController.clear();
+    selectedCat = "";
+
+    //sucess message
+    CoolAlert.show(
+      context: context,
+      title: "Success!",
+      confirmBtnColor: Color.fromARGB(144, 64, 7, 87),
+      onConfirmBtnTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => EventsTabs()));
+      },
+      type: CoolAlertType.success,
+      backgroundColor: Color.fromARGB(221, 212, 189, 227),
+      text: "Event posted successfuly",
+    );
   }
 
   Future<void> _signOut() async {
