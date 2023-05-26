@@ -30,11 +30,11 @@ class _UserLogin extends State<UserLogin> {
 
   @override
   void initState() {
-    get();
+    getProjectName();
     super.initState();
   }
 
-  Future get() async {
+  Future getProjectName() async {
     var fillterd = FirebaseFirestore.instance
         .collection("AllProjects")
         .where("email", isEqualTo: FirebaseAuth.instance.currentUser!.email)
